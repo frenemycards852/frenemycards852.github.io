@@ -5,20 +5,19 @@ Keep it short: replace old "Next step" text rather than appending forever.
 
 ## Current phase
 
-**Stage 1 · Phase 2 — Project setup & first deployment** (in progress)
+**Stage 1 · Phase 2 — Project setup & first deployment** (done; awaiting real-phone check)
 
 ## Next step
 
-- Local repo created with `.gitignore`, `README.md`, hello `docs/index.html`, `docs/.nojekyll`.
-- Push to `origin main`, then enable GitHub Pages (Settings → Pages → `main` / `/docs`).
-- Confirm `https://frenemycards852.github.io` on desktop and phone.
+- Product creator opens `https://frenemycards852.github.io` on a real phone.
+- Then Phase 3: app shell + localization (router, i18n zh-HK/en, language toggle, home screen, footer).
 
 ## Phase checklist
 
 ### Stage 1 — Make & send cards
 
 - [x] 1. Environment check
-- [ ] 2. Project setup & first deployment
+- [x] 2. Project setup & first deployment
 - [ ] 3. App shell + localization
 - [ ] 4. Card builder (without avatar)
 - [ ] 5. Avatar builder
@@ -52,6 +51,7 @@ Keep it short: replace old "Next step" text rather than appending forever.
 - Penalties: preset list + custom text.
 - Cartoon avatars only (no photos) in the MVP.
 - Environment: Git 2.56, Chrome, Cursor with Live Server (local testing). GitHub account was renamed from `excuseme852` to `frenemycards852` (same account ID); the noreply commit email still links to it. Repo-only commit name: `Frenemycards852`.
+- GitHub Pages: deploy from branch `main`, folder `/docs`. Live since 2026-10-08.
 
 ## Open questions
 
