@@ -5,12 +5,14 @@ Keep it short: replace old "Next step" text rather than appending forever.
 
 ## Current phase
 
-**Stage 1 · Phase 2 — Project setup & first deployment** (done; awaiting real-phone check)
+**Stage 1 · Phase 3 — App shell + localization** (built; awaiting Cantonese review)
 
 ## Next step
 
-- Product creator opens `https://frenemycards852.github.io` on a real phone.
-- Then Phase 3: app shell + localization (router, i18n zh-HK/en, language toggle, home screen, footer).
+- Product creator reviews Cantonese in `docs/locales/zh-HK.json`, tests locally, then push.
+- Then Phase 4: card builder (without avatar).
+
+Phase 3 notes: views are `<template>`s in `index.html` (`#/`, `#/make`, `#/album`); unknown hashes fall back to home. Language saved as `fc.lang` in localStorage. Example card on home waits for Phase 6.
 
 ## Phase checklist
 
@@ -18,7 +20,7 @@ Keep it short: replace old "Next step" text rather than appending forever.
 
 - [x] 1. Environment check
 - [x] 2. Project setup & first deployment
-- [ ] 3. App shell + localization
+- [x] 3. App shell + localization
 - [ ] 4. Card builder (without avatar)
 - [ ] 5. Avatar builder
 - [ ] 6. Card rendering + rarity roll

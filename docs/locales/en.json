@@ -1,0 +1,31 @@
+{
+  "app": {
+    "name": "Frenemy Cards"
+  },
+  "lang": {
+    "switch": "中文",
+    "switchLabel": "切換至中文"
+  },
+  "home": {
+    "tagline": "Turn your friends into collectible cards that roast their worst habits: always late, never replies, \"next time I'll pay.\"",
+    "make": "Make a card for a friend",
+    "album": "My album",
+    "hint": "Send it to them and see how they strike back 😏"
+  },
+  "make": {
+    "title": "Make a card for a friend"
+  },
+  "album": {
+    "title": "My album"
+  },
+  "soon": {
+    "text": "Still building this one. Check back soon 🛠️"
+  },
+  "nav": {
+    "back": "Back to home"
+  },
+  "footer": {
+    "privacy": "Everything lives in the link and on your phone. We have no server and store nothing.",
+    "disclaimer": "Just a friendly roast. Don't take it seriously 😂"
+  }
+}

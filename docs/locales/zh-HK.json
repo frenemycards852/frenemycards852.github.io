@@ -1,0 +1,31 @@
+{
+  "app": {
+    "name": "損友圖鑑"
+  },
+  "lang": {
+    "switch": "English",
+    "switchLabel": "Switch to English"
+  },
+  "home": {
+    "tagline": "將班朋友變成收藏卡，專抽佢哋啲壞習慣：長期遲到、已讀不回、成日話「下次我請」。",
+    "make": "幫朋友整卡",
+    "album": "我的卡冊",
+    "hint": "整好就 send 俾佢，睇佢點反擊 😏"
+  },
+  "make": {
+    "title": "幫朋友整卡"
+  },
+  "album": {
+    "title": "我的卡冊"
+  },
+  "soon": {
+    "text": "呢頁仲整緊，遲啲再嚟睇吓 🛠️"
+  },
+  "nav": {
+    "back": "返回首頁"
+  },
+  "footer": {
+    "privacy": "所有資料只喺連結同你部手機入面，我哋冇伺服器，乜都唔會儲存。",
+    "disclaimer": "純屬抽水，切勿認真 😂"
+  }
+}
