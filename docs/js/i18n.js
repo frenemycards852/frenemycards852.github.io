@@ -58,9 +58,12 @@ export function getLang() {
   return lang;
 }
 
-export function t(key) {
+// t('builder.step', { n: 2 }) fills "{n}" placeholders.
+export function t(key, vars) {
   const value = key.split('.').reduce((obj, part) => obj?.[part], strings);
-  return typeof value === 'string' ? value : key;
+  if (typeof value !== 'string') return key;
+  if (!vars) return value;
+  return value.replace(/\{(\w+)\}/g, (match, name) => (name in vars ? String(vars[name]) : match));
 }
 
 // Fill text and aria-labels for every [data-i18n] element under root.

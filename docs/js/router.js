@@ -1,31 +1,37 @@
-// Hash-based views: "#/" home, "#/make", "#/album".
+// Hash-based views: "#/" home, "#/make/<step>", "#/album".
 // Link payloads (#c=, #x=, #r=) will be routed here in later phases.
 
 import { applyI18n } from './i18n.js';
+import { mountBuilder } from './builder.js';
 
+// A route either clones a static <template> or mounts a view module.
 const ROUTES = {
-  '': 'view-home',
-  make: 'view-make',
-  album: 'view-album',
+  '': { template: 'view-home' },
+  make: { mount: mountBuilder },
+  album: { template: 'view-album' },
 };
 
-function currentRoute() {
-  const hash = location.hash.replace(/^#\/?/, '');
-  const name = hash.split(/[/?]/)[0];
-  return name in ROUTES ? name : null;
+function parseHash() {
+  const [name = '', param] = location.hash.replace(/^#\/?/, '').split(/[/?]/);
+  return { name, param };
 }
 
 export function render() {
   const app = document.getElementById('app');
-  let route = currentRoute();
-  if (route === null) {
+  let { name, param } = parseHash();
+  if (!(name in ROUTES)) {
     // Unknown hash: fall back to home without adding a history entry.
     history.replaceState(null, '', '#/');
-    route = '';
+    name = '';
+    param = undefined;
   }
-  const tpl = document.getElementById(ROUTES[route]);
-  app.replaceChildren(tpl.content.cloneNode(true));
-  applyI18n(app);
+  const route = ROUTES[name];
+  if (route.mount) {
+    route.mount(app, param);
+  } else {
+    app.replaceChildren(document.getElementById(route.template).content.cloneNode(true));
+    applyI18n(app);
+  }
   window.scrollTo(0, 0);
 }
 

@@ -12,8 +12,79 @@
     "album": "My album",
     "hint": "Send it to them and see how they strike back 😏"
   },
-  "make": {
-    "title": "Make a card for a friend"
+  "builder": {
+    "step": "Step {n} of {total}",
+    "back": "Back",
+    "next": "Next",
+    "random": "🎲 Random",
+    "count": "{n}/{max}",
+    "reminder": "Keep the roast friendly so everyone keeps playing 😉",
+    "blocked": "Let's keep it friendly. Try different words 🙏",
+    "name": {
+      "title": "Who is this card for?",
+      "label": "Friend's name or nickname",
+      "placeholder": "e.g. Sam"
+    },
+    "type": {
+      "title": "What type are they?"
+    },
+    "stats": {
+      "title": "Hand out the stats",
+      "hint": "You have {total} points, up to {max} per stat. Zero Punctuality is allowed 😏",
+      "remaining": "{n} points left",
+      "needAll": "Use them all to continue",
+      "less": "Lower {stat}",
+      "more": "Raise {stat}"
+    },
+    "skills": {
+      "title": "Signature move, trait, weakness",
+      "move": "Signature move",
+      "trait": "Trait",
+      "weakness": "Weakness"
+    },
+    "custom": {
+      "option": "✏️ Write my own",
+      "name": "Name",
+      "desc": "Description (optional)"
+    },
+    "desc": {
+      "title": "Sum them up in one line",
+      "label": "Your line"
+    },
+    "summary": {
+      "title": "Check the card",
+      "edit": "Edit",
+      "finish": "Done",
+      "soon": "Rarity roll and card drawing are coming soon 🛠️",
+      "restart": "Start over",
+      "rows": {
+        "name": "Name",
+        "type": "Type",
+        "stats": "Stats",
+        "move": "Signature move",
+        "trait": "Trait",
+        "weakness": "Weakness",
+        "desc": "Description"
+      }
+    }
+  },
+  "types": {
+    "late": { "name": "Late", "idea": "Always \"on the way\"" },
+    "foodie": { "name": "Foodie", "idea": "Lives to eat" },
+    "slacker": { "name": "Slacker", "idea": "Professional couch potato" },
+    "work": { "name": "Workaholic", "idea": "\"Let me just reply to this email\"" },
+    "love": { "name": "Lovestruck", "idea": "\"They're not like that\"" },
+    "savage": { "name": "Savage", "idea": "Roasts everyone" }
+  },
+  "stats": {
+    "hp": "Stamina",
+    "atk": "Roast",
+    "def": "Thick Skin",
+    "spd": "Punctuality",
+    "luk": "Luck"
+  },
+  "error": {
+    "load": "Couldn't load the data. Check your connection and try again 🙏"
   },
   "album": {
     "title": "My album"

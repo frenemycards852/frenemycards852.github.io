@@ -12,8 +12,79 @@
     "album": "我的卡冊",
     "hint": "整好就 send 俾佢，睇佢點反擊 😏"
   },
-  "make": {
-    "title": "幫朋友整卡"
+  "builder": {
+    "step": "第 {n}/{total} 步",
+    "back": "上一步",
+    "next": "下一步",
+    "random": "🎲 隨機",
+    "count": "{n}/{max}",
+    "reminder": "抽水要有分寸，大家先玩得耐 😉",
+    "blocked": "呢啲字唔太好，換過第二啲啦 🙏",
+    "name": {
+      "title": "幫邊個整卡？",
+      "label": "朋友個名或者花名",
+      "placeholder": "例如：阿明"
+    },
+    "type": {
+      "title": "佢屬於咩系？"
+    },
+    "stats": {
+      "title": "分配能力值",
+      "hint": "{total} 點任你分，每項最多 {max} 點。準時度俾 0 都得 😏",
+      "remaining": "仲剩 {n} 點",
+      "needAll": "用晒先可以去下一步",
+      "less": "減少{stat}",
+      "more": "增加{stat}"
+    },
+    "skills": {
+      "title": "必殺技、特性、弱點",
+      "move": "必殺技",
+      "trait": "特性",
+      "weakness": "弱點"
+    },
+    "custom": {
+      "option": "✏️ 自己寫",
+      "name": "名稱",
+      "desc": "描述（可以唔寫）"
+    },
+    "desc": {
+      "title": "用一句講晒佢",
+      "label": "你嘅描述"
+    },
+    "summary": {
+      "title": "檢查吓張卡",
+      "edit": "改",
+      "finish": "完成",
+      "soon": "抽稀有度同畫卡功能整緊，快將推出 🛠️",
+      "restart": "由頭整過",
+      "rows": {
+        "name": "名",
+        "type": "類型",
+        "stats": "能力值",
+        "move": "必殺技",
+        "trait": "特性",
+        "weakness": "弱點",
+        "desc": "描述"
+      }
+    }
+  },
+  "types": {
+    "late": { "name": "遲到系", "idea": "永遠喺「到緊」" },
+    "foodie": { "name": "食貨系", "idea": "為食而生" },
+    "slacker": { "name": "廢青系", "idea": "專業攤梳化" },
+    "work": { "name": "工作狂系", "idea": "「等我覆埋封 email 先」" },
+    "love": { "name": "戀愛腦系", "idea": "「佢唔係咁㗎」" },
+    "savage": { "name": "毒舌系", "idea": "見人就串" }
+  },
+  "stats": {
+    "hp": "體力",
+    "atk": "抽水力",
+    "def": "臉皮",
+    "spd": "準時度",
+    "luk": "運氣"
+  },
+  "error": {
+    "load": "載入唔到資料，檢查吓網絡再試啦 🙏"
   },
   "album": {
     "title": "我的卡冊"

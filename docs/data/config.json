@@ -1,0 +1,18 @@
+{
+  "card": {
+    "nameMax": 12,
+    "descriptionMax": 40
+  },
+  "stats": {
+    "keys": ["hp", "atk", "def", "spd", "luk"],
+    "total": 300,
+    "min": 0,
+    "max": 100,
+    "step": 5,
+    "default": [60, 60, 60, 60, 60]
+  },
+  "skills": {
+    "customNameMax": 16,
+    "customDescMax": 30
+  }
+}

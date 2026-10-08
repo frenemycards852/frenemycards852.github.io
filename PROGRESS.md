@@ -5,14 +5,19 @@ Keep it short: replace old "Next step" text rather than appending forever.
 
 ## Current phase
 
-**Stage 1 · Phase 3 — App shell + localization** (done)
+**Stage 1 · Phase 4 — Card builder (without avatar)** (built; awaiting content review)
 
 ## Next step
 
-- Phase 3 Cantonese approved and deployed.
-- Then Phase 4: card builder (without avatar).
+- Product creator reviews the Cantonese presets (skills, descriptions, type ideas, builder UI), tests locally, then push.
+- Then Phase 5: avatar builder (inserted after the name step).
 
-Phase 3 notes: views are `<template>`s in `index.html` (`#/`, `#/make`, `#/album`); unknown hashes fall back to home. Language saved as `fc.lang` in localStorage. Example card on home waits for Phase 6.
+Notes:
+- Routes: `#/`, `#/make/<step>` (steps: name, type, stats, skills, desc, summary), `#/album`. Unknown hashes → home. Opening a later step with earlier steps invalid redirects to the first invalid step.
+- Draft is kept in memory only (`builder.js`); a page reload starts a new card.
+- Skill/description presets share ids across languages (`m1`, `t1`, `w1`, `d1`); battle effects get mapped to these ids in Phase 8.
+- Custom entries use id `custom`. Builder dice uses `Math.random` (seeded RNG is only for battles).
+- Language saved as `fc.lang` in localStorage. Example card on home waits for Phase 6.
 
 ## Phase checklist
 
@@ -21,7 +26,7 @@ Phase 3 notes: views are `<template>`s in `index.html` (`#/`, `#/make`, `#/album
 - [x] 1. Environment check
 - [x] 2. Project setup & first deployment
 - [x] 3. App shell + localization
-- [ ] 4. Card builder (without avatar)
+- [x] 4. Card builder (without avatar)
 - [ ] 5. Avatar builder
 - [ ] 6. Card rendering + rarity roll
 - [ ] 7. Card links + card view + sharing → **test with real friends**
@@ -54,6 +59,8 @@ Phase 3 notes: views are `<template>`s in `index.html` (`#/`, `#/make`, `#/album
 - Cartoon avatars only (no photos) in the MVP.
 - Environment: Git 2.56, Chrome, Cursor with Live Server (local testing). GitHub account was renamed from `excuseme852` to `frenemycards852` (same account ID); the noreply commit email still links to it. Repo-only commit name: `Frenemycards852`.
 - GitHub Pages: deploy from branch `main`, folder `/docs`. Live since 2026-10-08.
+- Card builder is one step per screen (decided 2026-10-08).
+- Photo heads (real photo head on a cartoon body): approved idea, to build **after Stage 1** is tested. Photo stays local only (preview, shared PNG, own album); links always carry the cartoon head. Needs a consent reminder and no face-altering effects. Phase 5 avatar must keep the head as a swappable layer.
 
 ## Open questions
 

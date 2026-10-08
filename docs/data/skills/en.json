@@ -1,0 +1,23 @@
+{
+  "move": [
+    { "id": "m1", "name": "Five Minutes Away", "desc": "Narrator: it was forty" },
+    { "id": "m2", "name": "Next One's On Me", "desc": "Nobody believes it" },
+    { "id": "m3", "name": "I'll Text You Back", "desc": "Three days and counting" },
+    { "id": "m4", "name": "After I Eat", "desc": "The world can wait for dessert" },
+    { "id": "m5", "name": "Circling Back", "desc": "Still circling, three weeks on" }
+  ],
+  "trait": [
+    { "id": "t1", "name": "Left on Read Lv. MAX", "desc": "Vanishes mid-conversation" },
+    { "id": "t2", "name": "Second Stomach", "desc": "Always room for more" },
+    { "id": "t3", "name": "Excuse Machine", "desc": "Blames traffic while walking" },
+    { "id": "t4", "name": "Human Calculator", "desc": "Splits the bill to the cent" },
+    { "id": "t5", "name": "Offline at Six", "desc": "Unreachable after work hours" }
+  ],
+  "weakness": [
+    { "id": "w1", "name": "Before 9 a.m.", "desc": "Brain still booting" },
+    { "id": "w2", "name": "The Bill Arrives", "desc": "Suddenly needs the bathroom" },
+    { "id": "w3", "name": "1% Battery", "desc": "Instant panic mode" },
+    { "id": "w4", "name": "Queue at the Door", "desc": "Hangry before sitting down" },
+    { "id": "w5", "name": "Boss on WhatsApp", "desc": "Heart rate: maximum" }
+  ]
+}

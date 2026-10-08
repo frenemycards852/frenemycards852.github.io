@@ -1,0 +1,7 @@
+{
+  "note": "Small list of obvious slurs and profanity rejected in custom text. Matched case-insensitively after removing spaces and punctuation.",
+  "terms": [
+    "屌", "撚", "閪", "柒頭", "仆街", "冚家鏟", "戇鳩","死基佬", "黑鬼", "支那", "蝗蟲", "弱智", "低能",
+    "fuck", "fck", "shit", "cunt", "bitch", "whore", "slut", "nigger", "nigga", "faggot", "retard", "chink", "spastic"
+  ]
+}
