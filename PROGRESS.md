@@ -5,11 +5,11 @@ Keep it short: replace old "Next step" text rather than appending forever.
 
 ## Current phase
 
-**Stage 1 · Phase 3 — App shell + localization** (built; awaiting Cantonese review)
+**Stage 1 · Phase 3 — App shell + localization** (done)
 
 ## Next step
 
-- Product creator reviews Cantonese in `docs/locales/zh-HK.json`, tests locally, then push.
+- Phase 3 Cantonese approved and deployed.
 - Then Phase 4: card builder (without avatar).
 
 Phase 3 notes: views are `<template>`s in `index.html` (`#/`, `#/make`, `#/album`); unknown hashes fall back to home. Language saved as `fc.lang` in localStorage. Example card on home waits for Phase 6.
