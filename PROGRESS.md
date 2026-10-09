@@ -5,11 +5,11 @@ Keep it short: replace old "Next step" text rather than appending forever.
 
 ## Current phase
 
-**Stage 1 · Phase 5 — Avatar builder** (built; awaiting review)
+**Stage 1 · Phase 5 — Avatar builder** (done)
 
 ## Next step
 
-- Product creator tests the avatar step locally, then push.
+- Phase 5 avatar builder approved and deployed (style B).
 - Then Phase 6: card rendering (Canvas) + rarity roll.
 
 Notes:
