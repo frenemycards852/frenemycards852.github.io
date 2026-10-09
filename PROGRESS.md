@@ -5,12 +5,14 @@ Keep it short: replace old "Next step" text rather than appending forever.
 
 ## Current phase
 
-**Stage 1 · Phase 5 — Avatar builder** (done)
+**Stage 1 · Phase 6 — Card rendering + rarity roll** (6a card face built; awaiting design review)
 
 ## Next step
 
-- Phase 5 avatar builder approved and deployed (style B).
-- Then Phase 6: card rendering (Canvas) + rarity roll.
+- Product creator reviews the 4 sample cards (`docs/dev/test.html`, `?lang=en` for English).
+- Then 6b: pack-opening animation, reveal, lock card after roll, SSR holo shimmer, home example card.
+
+Phase 6 notes: `render-card.js` draws 1080×1512 (header + type burst art + stat radar (product creator chose radar over bars) + 3 skills + quote + footer with site URL). Rarity odds/frame colours in `config.json` → `rarity`; `rarity.js` rolls. `textlayout.js` wraps/shrinks text. English stat label "Punctuality" shortened to "On Time" to fit the radar.
 
 Notes:
 - Avatar: placeholder SVG parts all in `docs/data/avatar.json` (one file instead of `assets/avatar/*.svg`; approved 2026-10-09). `avatar.js` builds the SVG; head is its own `<g class="head">` for future photo heads.

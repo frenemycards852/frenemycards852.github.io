@@ -14,5 +14,16 @@
   "skills": {
     "customNameMax": 16,
     "customDescMax": 30
+  },
+  "siteUrl": "frenemycards852.github.io",
+  "rarity": {
+    "order": ["N", "R", "SR", "SSR"],
+    "odds": { "N": 50, "R": 30, "SR": 15, "SSR": 5 },
+    "frames": {
+      "N": { "colors": ["#ece2cf", "#cdbb9c"], "badgeText": ["#f4ead8"] },
+      "R": { "colors": ["#f6f8fa", "#aab3be", "#eef1f4", "#8e98a5"], "badgeText": ["#ffffff", "#c9d1da"] },
+      "SR": { "colors": ["#fff3b8", "#e3a92c", "#ffe47e", "#b97c0e"], "badgeText": ["#ffe47e", "#e3a92c"] },
+      "SSR": { "colors": ["#ff6b6b", "#ffb84d", "#ffe94d", "#6bff95", "#4dd2ff", "#8f6bff", "#ff6bd6"], "badgeText": ["#ffe94d", "#6bff95", "#4dd2ff", "#ff6bd6"], "sparkle": true }
+    }
   }
 }

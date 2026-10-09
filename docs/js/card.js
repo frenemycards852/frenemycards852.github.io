@@ -98,6 +98,18 @@ export function isSkillOk(entry, terms) {
   return isTextOk(entry.name, terms) && !isBlocked(entry.desc, terms);
 }
 
+// Display text for a skill entry: preset text in the loaded language, or the custom text.
+export function resolveSkill(entry, list) {
+  if (entry.id === CUSTOM) return { name: entry.name.trim(), desc: entry.desc.trim() };
+  const skill = list.find((x) => x.id === entry.id);
+  return skill ? { name: skill.name, desc: skill.desc } : { name: '', desc: '' };
+}
+
+export function resolveDesc(entry, items) {
+  if (entry.id === CUSTOM) return entry.text.trim();
+  return items.find((x) => x.id === entry.id)?.text ?? '';
+}
+
 export function isDescOk(entry, terms) {
   return entry.id !== CUSTOM || isTextOk(entry.text, terms);
 }

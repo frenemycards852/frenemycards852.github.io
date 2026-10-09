@@ -41,7 +41,7 @@
     },
     "stats": {
       "title": "Hand out the stats",
-      "hint": "You have {total} points, up to {max} per stat. Zero Punctuality is allowed 😏",
+      "hint": "You have {total} points, up to {max} per stat. A zero for On Time? Totally allowed 😏",
       "remaining": "{n} points left",
       "needAll": "Use them all to continue",
       "less": "Lower {stat}",
@@ -113,8 +113,15 @@
     "hp": "Stamina",
     "atk": "Roast",
     "def": "Thick Skin",
-    "spd": "Punctuality",
+    "spd": "On Time",
     "luk": "Luck"
+  },
+  "card": {
+    "move": "Signature move",
+    "trait": "Trait",
+    "weakness": "Weakness",
+    "quoteOpen": "“",
+    "quoteClose": "”"
   },
   "error": {
     "load": "Couldn't load the data. Check your connection and try again 🙏"

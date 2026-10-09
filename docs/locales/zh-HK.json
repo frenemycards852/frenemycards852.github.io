@@ -116,6 +116,13 @@
     "spd": "準時度",
     "luk": "運氣"
   },
+  "card": {
+    "move": "必殺技",
+    "trait": "特性",
+    "weakness": "弱點",
+    "quoteOpen": "「",
+    "quoteClose": "」"
+  },
   "error": {
     "load": "載入唔到資料，檢查吓網絡再試啦 🙏"
   },
