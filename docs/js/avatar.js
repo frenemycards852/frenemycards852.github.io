@@ -54,12 +54,17 @@ export function withPart(def, indices, part, value) {
   return next;
 }
 
-// Mix a hex colour toward black; amount 0..1.
-function shade(hex, amount) {
+// Mix a hex colour toward a target (0 = black, 255 = white); amount 0..1.
+function mix(hex, target, amount) {
   const n = parseInt(hex.slice(1), 16);
-  const ch = (shift) => Math.round(((n >> shift) & 255) * (1 - amount));
+  const ch = (shift) => {
+    const v = (n >> shift) & 255;
+    return Math.round(v + (target - v) * amount);
+  };
   return `#${[16, 8, 0].map((s) => ch(s).toString(16).padStart(2, '0')).join('')}`;
 }
+const shade = (hex, amount) => mix(hex, 0, amount);
+const tint = (hex, amount) => mix(hex, 255, amount);
 
 function slot(option, name) {
   if (option == null) return '';
@@ -76,13 +81,16 @@ export function avatarSvg(def, indices, { label = '', viewBox = def.viewBox } = 
     return i < 0 ? null : def.parts[part].options[indices[i]];
   };
   const skin = pick('skin');
+  const hair = pick('hairColor');
   const shirt = pick('shirt');
   const colors = {
     skin,
-    skinShade: shade(skin, 0.12),
-    hair: pick('hairColor'),
+    skinShade: shade(skin, 0.1),
+    hair,
+    hairLight: tint(hair, 0.3),
     shirt,
     shirtShade: shade(shirt, 0.15),
+    shirtLight: tint(shirt, 0.25),
     line: def.line,
   };
   const fill = (svg) => svg.replace(/\{(\w+)\}/g, (match, key) => colors[key] ?? match);

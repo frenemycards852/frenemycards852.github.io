@@ -17,6 +17,7 @@ Notes:
 - Avatar step starts with 男仔/女仔 (product creator's request). Each style has its own categories (`styles[].partOrder`): boy 11 (incl. beard), girl 13 (incl. make-up, earrings, hair accessory); shared: face, skin, eyes, brows, mouth, hair colour, outfit colour. Choosing loads a basic look (`base`); dice keeps the style.
 - Stored avatar = `[styleIndex, ...indices in that style's partOrder]`, so the style **is** part of the card. **Never reorder/remove styles, parts or options; only append** (links depend on it).
 - Category row scrolls sideways (visible scrollbar, mouse wheel, edge fade).
+- Art style: chibi flat colour (Q 版平塗), warm brown outlines, big eyes with highlights, blush. Chosen 2026-10-09 from the product creator's samples (style direction only; all art original). Detailed anime-illustration samples were ruled out (needs an illustrator; copyright). Option for later: commission an illustrator or use a properly licensed avatar kit in Phase 12.
 - Routes: `#/`, `#/make/<step>` (steps: name, avatar, type, stats, skills, desc, summary), `#/album`. Unknown hashes → home. Opening a later step with earlier steps invalid redirects to the first invalid step.
 - Draft is kept in memory only (`builder.js`); a page reload starts a new card.
 - Skill/description presets share ids across languages (`m1`, `t1`, `w1`, `d1`); battle effects get mapped to these ids in Phase 8.
