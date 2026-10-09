@@ -28,6 +28,12 @@
     "avatar": {
       "title": "Give them a look",
       "preview": "Avatar preview",
+      "styleHint": "Pick a starting look, then change anything you like",
+      "styleLabel": "Starting look",
+      "style": {
+        "boy": "Guy",
+        "girl": "Girl"
+      },
       "option": "{part} {n}"
     },
     "type": {

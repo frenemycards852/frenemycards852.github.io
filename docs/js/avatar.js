@@ -19,8 +19,11 @@ export function isAvatarValid(def, indices) {
 }
 
 // Option 0 of a part listed in randomNoneChance means "none" and gets that chance.
-export function randomAvatar(def, rand = Math.random) {
+// A style may limit some parts to a pool of options (e.g. hair styles).
+export function randomAvatar(def, rand = Math.random, style = null) {
   return def.partOrder.map((part) => {
+    const pool = style?.randomPools?.[part];
+    if (pool) return pool[Math.floor(rand() * pool.length)];
     const count = optionCount(def, part);
     const none = def.randomNoneChance?.[part];
     if (none != null) {

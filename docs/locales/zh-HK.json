@@ -28,6 +28,12 @@
     "avatar": {
       "title": "幫佢整個頭像",
       "preview": "頭像預覽",
+      "styleHint": "先揀一個款，之後可以逐樣改",
+      "styleLabel": "款式",
+      "style": {
+        "boy": "男仔",
+        "girl": "女仔"
+      },
       "option": "{part} {n}"
     },
     "type": {

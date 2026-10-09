@@ -6,6 +6,18 @@
   "partOrder": ["face", "skin", "hair", "hairColor", "eyes", "brows", "mouth", "beard", "accessory", "shirt"],
   "randomNoneChance": { "beard": 0.6, "accessory": 0.5 },
   "thumbHides": { "hair": ["accessory"], "beard": ["accessory"] },
+  "styles": [
+    {
+      "id": "boy",
+      "base": [0, 1, 1, 0, 0, 0, 0, 0, 0, 3],
+      "randomPools": { "hair": [0, 1, 2, 3, 7] }
+    },
+    {
+      "id": "girl",
+      "base": [1, 1, 4, 0, 0, 0, 0, 0, 0, 4],
+      "randomPools": { "hair": [2, 4, 5, 6], "beard": [0] }
+    }
+  ],
   "body": "<rect x='86' y='122' width='28' height='32' fill='{skinShade}' stroke='{line}' stroke-width='3'/><path d='M28 200 C30 158 62 146 100 146 C138 146 170 158 172 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M84 148 Q100 166 116 148' fill='none' stroke='{line}' stroke-width='3'/>",
   "layers": [
     ["hair", "back"],

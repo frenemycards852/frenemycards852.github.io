@@ -481,17 +481,70 @@ h1 {
   height: 100%;
 }
 
+.style-choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.style-choice {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 12px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 0 var(--border);
+}
+
+.style-thumb {
+  width: 100%;
+  max-width: 120px;
+  aspect-ratio: 1;
+}
+
+.style-thumb svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.style-bar {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+/* Sideways-scrolling category row with a visible thin scrollbar */
 .part-tabs {
   display: flex;
   gap: 8px;
-  margin: 0 -16px 12px;
-  padding: 4px 16px 8px;
+  margin: 0 0 12px;
+  padding: 4px 0 10px;
   overflow-x: auto;
-  scrollbar-width: none;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(43, 33, 24, 0.35) transparent;
 }
 
 .part-tabs::-webkit-scrollbar {
-  display: none;
+  height: 6px;
+}
+
+.part-tabs::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background: rgba(43, 33, 24, 0.35);
+}
+
+.part-tabs.more {
+  -webkit-mask-image: linear-gradient(to right, #000 82%, transparent);
+  mask-image: linear-gradient(to right, #000 82%, transparent);
 }
 
 .part-tab {

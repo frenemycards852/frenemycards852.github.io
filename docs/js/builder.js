@@ -49,7 +49,7 @@ const go = (step) => { location.hash = `#/make/${step}`; };
 
 const VALID = {
   name: () => isTextOk(draft.name, terms()),
-  avatar: () => isAvatarValid(data.avatar, draft.avatar),
+  avatar: () => Boolean(draft.avatarStyle) && isAvatarValid(data.avatar, draft.avatar),
   type: () => data.types.types.some((type) => type.id === draft.type),
   stats: () => isStatsValid(draft.stats, data.config.stats),
   skills: () => SKILL_KINDS.every((kind) => isSkillOk(draft[kind], terms())),
@@ -86,7 +86,9 @@ function showStep(container, step) {
     onclick: () => VALID[step]() && go(STEPS[index + 1]),
   });
   const refresh = () => { nextBtn.disabled = !VALID[step](); };
-  const view = VIEWS[step]({ refresh, next: () => nextBtn.click() });
+  const view = VIEWS[step]({
+    refresh, next: () => nextBtn.click(), redraw: () => showStep(container, step),
+  });
 
   const backBtn = h('a', {
     class: 'btn btn-secondary', href: index === 0 ? '#/' : `#/make/${STEPS[index - 1]}`,
@@ -164,8 +166,46 @@ const VIEWS = {
     return { body: h('div', {}, field.el, reminder()), focus: () => field.input.focus() };
   },
 
-  avatar({ refresh }) {
+  avatar({ refresh, redraw }) {
     const def = data.avatar;
+    const pickStyle = (style) => {
+      draft.avatarStyle = style.id;
+      draft.avatar = [...style.base];
+    };
+    // Dice keeps the chosen style; before a choice it picks one at random.
+    const randomStyled = () => {
+      const style = def.styles.find((s) => s.id === draft.avatarStyle)
+        ?? def.styles[Math.floor(Math.random() * def.styles.length)];
+      draft.avatarStyle = style.id;
+      draft.avatar = randomAvatar(def, Math.random, style);
+    };
+    const styleLabel = (style) => t(`builder.avatar.style.${style.id}`);
+
+    // First visit: choose a starting style before editing.
+    if (!draft.avatarStyle) {
+      const choices = def.styles.map((style) => h('button', {
+        type: 'button', class: 'style-choice',
+        onclick: () => { pickStyle(style); redraw(); },
+      }, avatarEl(style.base, 'style-thumb', '', def.headViewBox), h('span', { text: styleLabel(style) })));
+      return {
+        body: h('div', {},
+          h('p', { class: 'hint', text: t('builder.avatar.styleHint') }),
+          h('div', { class: 'style-choices' }, ...choices)),
+        random: randomStyled,
+      };
+    }
+
+    const styleBar = h('div', { class: 'style-bar', role: 'group', 'aria-label': t('builder.avatar.styleLabel') },
+      ...def.styles.map((style) => h('button', {
+        type: 'button', class: 'part-tab', text: styleLabel(style),
+        'aria-pressed': String(style.id === draft.avatarStyle),
+        onclick: () => {
+          if (style.id === draft.avatarStyle) return;
+          pickStyle(style);
+          redraw();
+        },
+      })));
+
     if (!def.partOrder.includes(avatarPart)) avatarPart = def.partOrder[0];
     const preview = h('div', { class: 'avatar-stage' });
     const drawPreview = () => {
@@ -203,6 +243,28 @@ const VIEWS = {
       grid.replaceChildren(...buttons);
     };
 
+    // Keep the selected tab visible inside the sideways-scrolling row.
+    const revealTab = (tab) => {
+      const left = tab.offsetLeft - tabs.offsetLeft;
+      if (left < tabs.scrollLeft || left + tab.offsetWidth > tabs.scrollLeft + tabs.clientWidth) {
+        tabs.scrollLeft = left - (tabs.clientWidth - tab.offsetWidth) / 2;
+      }
+    };
+    // Fade the right edge only while more tabs are hidden there.
+    const updateFade = () => {
+      tabs.classList.toggle('more', tabs.scrollLeft + tabs.clientWidth < tabs.scrollWidth - 2);
+    };
+    tabs.addEventListener('scroll', updateFade, { passive: true });
+    // Desktop mouse wheels scroll vertically; turn that into sideways scrolling here.
+    tabs.addEventListener('wheel', (e) => {
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      const max = tabs.scrollWidth - tabs.clientWidth;
+      const canMove = e.deltaY > 0 ? tabs.scrollLeft < max : tabs.scrollLeft > 0;
+      if (!canMove) return;
+      tabs.scrollLeft += e.deltaY;
+      e.preventDefault();
+    }, { passive: false });
+
     for (const part of def.partOrder) {
       tabs.append(h('button', {
         type: 'button', class: 'part-tab', text: t(`avatar.parts.${part}`),
@@ -210,6 +272,7 @@ const VIEWS = {
         onclick: (e) => {
           avatarPart = part;
           tabs.querySelectorAll('.part-tab').forEach((b) => b.setAttribute('aria-pressed', String(b === e.currentTarget)));
+          revealTab(e.currentTarget);
           drawOptions();
         },
       }));
@@ -217,8 +280,12 @@ const VIEWS = {
     drawPreview();
     drawOptions();
     return {
-      body: h('div', {}, preview, tabs, grid),
-      random: () => { draft.avatar = randomAvatar(def); },
+      body: h('div', {}, styleBar, preview, tabs, grid),
+      random: randomStyled,
+      focus: () => {
+        revealTab(tabs.querySelector('.part-tab[aria-pressed="true"]'));
+        updateFade();
+      },
     };
   },
 

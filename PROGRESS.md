@@ -13,7 +13,8 @@ Keep it short: replace old "Next step" text rather than appending forever.
 - Then Phase 6: card rendering (Canvas) + rarity roll.
 
 Notes:
-- Avatar: placeholder SVG parts all in `docs/data/avatar.json` (one file instead of `assets/avatar/*.svg`; approved 2026-10-09). 10 parts incl. beard (requested by product creator). Stored as 10 indices in `partOrder` order: **never reorder/remove parts or options, only append** (links depend on it). `avatar.js` builds the SVG; head is its own `<g class="head">` for future photo heads. New drafts get a random avatar.
+- Avatar: placeholder SVG parts all in `docs/data/avatar.json` (one file instead of `assets/avatar/*.svg`; approved 2026-10-09). 10 parts incl. beard (requested by product creator). Stored as 10 indices in `partOrder` order: **never reorder/remove parts or options, only append** (links depend on it). `avatar.js` builds the SVG; head is its own `<g class="head">` for future photo heads.
+- Avatar step starts with a 男仔/女仔 choice (product creator's request) that loads a basic base look from `styles` in `avatar.json`; dice keeps the chosen style (style pools limit hair/beard). All parts stay available to both. The style is builder-only, not stored in the card. Category row scrolls sideways (visible scrollbar, mouse wheel, edge fade).
 - Routes: `#/`, `#/make/<step>` (steps: name, avatar, type, stats, skills, desc, summary), `#/album`. Unknown hashes → home. Opening a later step with earlier steps invalid redirects to the first invalid step.
 - Draft is kept in memory only (`builder.js`); a page reload starts a new card.
 - Skill/description presets share ids across languages (`m1`, `t1`, `w1`, `d1`); battle effects get mapped to these ids in Phase 8.
