@@ -5,11 +5,11 @@ Keep it short: replace old "Next step" text rather than appending forever.
 
 ## Current phase
 
-**Stage 1 · Phase 4 — Card builder (without avatar)** (built; awaiting content review)
+**Stage 1 · Phase 4 — Card builder (without avatar)** (done)
 
 ## Next step
 
-- Product creator reviews the Cantonese presets (skills, descriptions, type ideas, builder UI), tests locally, then push.
+- Phase 4 content reviewed (Cantonese revised by product creator) and deployed. Stats can also be typed directly.
 - Then Phase 5: avatar builder (inserted after the name step).
 
 Notes:
