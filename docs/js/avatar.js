@@ -66,6 +66,18 @@ function mix(hex, target, amount) {
 const shade = (hex, amount) => mix(hex, 0, amount);
 const tint = (hex, amount) => mix(hex, 255, amount);
 
+// Mix toward another hex colour (used for warm skin shadows).
+function mixTo(hex, target, amount) {
+  const a = parseInt(hex.slice(1), 16);
+  const b = parseInt(target.slice(1), 16);
+  const ch = (shift) => {
+    const x = (a >> shift) & 255;
+    const y = (b >> shift) & 255;
+    return Math.round(x + (y - x) * amount).toString(16).padStart(2, '0');
+  };
+  return `#${[16, 8, 0].map(ch).join('')}`;
+}
+
 function slot(option, name) {
   if (option == null) return '';
   if (typeof option === 'string') return name === 'main' ? option : '';
@@ -85,18 +97,21 @@ export function avatarSvg(def, indices, { label = '', viewBox = def.viewBox } = 
   const shirt = pick('shirt');
   const colors = {
     skin,
-    skinShade: shade(skin, 0.1),
+    skinShade: mixTo(skin, '#c0603a', 0.18),
+    skinDeep: mixTo(skin, '#8a3b20', 0.35),
     hair,
-    hairLight: tint(hair, 0.3),
+    hairShade: shade(hair, 0.4),
+    hairLight: tint(hair, 0.22),
+    brow: shade(hair, 0.3),
     shirt,
-    shirtShade: shade(shirt, 0.15),
+    shirtShade: shade(shirt, 0.3),
     shirtLight: tint(shirt, 0.25),
     line: def.line,
   };
   const fill = (svg) => svg.replace(/\{(\w+)\}/g, (match, key) => colors[key] ?? match);
   const draw = (layers) => layers.map(([part, name]) => slot(pick(part), name)).join('');
   const aria = label ? `role="img" aria-label="${label.replace(/[&<>"]/g, '')}"` : 'aria-hidden="true"';
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" ${aria}>`
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" stroke-linejoin="round" stroke-linecap="round" ${aria}>`
     + `<g class="body">${fill(def.neck + draw(def.bodyLayers))}</g>`
     + `<g class="head">${fill(draw(def.headLayers))}</g></svg>`;
 }

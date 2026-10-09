@@ -1,25 +1,25 @@
 {
-  "note": "Chibi flat-colour avatar art (original; style direction approved 2026-10-09). A stored avatar is [styleIndex, ...one option index per part in that style's partOrder]. Links depend on this: never reorder or remove styles, parts or options; only append. SVG fragments use {skin} {skinShade} {hair} {hairLight} {shirt} {shirtShade} {shirtLight} {line} colour placeholders; viewBox is 0 0 200 200.",
+  "note": "Cool shonen chibi avatar art (original; style B approved 2026-10-09). A stored avatar is [styleIndex, ...one option index per part in that style's partOrder]. Links depend on this: never reorder or remove styles, parts or options; only append. SVG fragments use {skin} {skinShade} {skinDeep} {hair} {hairShade} {hairLight} {brow} {shirt} {shirtShade} {shirtLight} {line} colour placeholders; viewBox is 0 0 200 200. Hair options may have back / shade (cel shadow on the forehead, drawn under the eyes) / front slots.",
   "viewBox": "0 0 200 200",
   "headViewBox": "30 0 140 140",
-  "line": "#5b3a29",
+  "line": "#1d1412",
   "styles": [
     {
       "id": "boy",
       "partOrder": ["face", "skin", "boyHair", "hairColor", "eyes", "brows", "mouth", "beard", "boyOutfit", "shirt", "boyAccessory"],
-      "base": [0, 1, 1, 0, 0, 0, 0, 0, 0, 6, 0],
+      "base": [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
       "randomNoneChance": { "beard": 0.6, "boyAccessory": 0.5 },
       "thumbHides": { "boyHair": ["boyAccessory"], "beard": ["boyAccessory"] }
     },
     {
       "id": "girl",
       "partOrder": ["face", "skin", "girlHair", "hairColor", "eyes", "brows", "mouth", "makeup", "earrings", "hairAccessory", "girlOutfit", "shirt", "girlAccessory"],
-      "base": [0, 1, 3, 1, 2, 0, 3, 1, 0, 0, 1, 0, 0],
+      "base": [0, 1, 0, 1, 1, 1, 1, 1, 3, 0, 0, 0, 0],
       "randomNoneChance": { "makeup": 0.4, "earrings": 0.5, "hairAccessory": 0.5, "girlAccessory": 0.6 },
       "thumbHides": { "girlHair": ["girlAccessory", "hairAccessory"], "hairAccessory": ["girlAccessory"], "earrings": ["girlAccessory"] }
     }
   ],
-  "neck": "<rect x='90' y='128' width='20' height='24' fill='{skinShade}' stroke='{line}' stroke-width='3'/>",
+  "neck": "<rect x='90' y='128' width='20' height='24' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M91.5 132 L108.5 132 L108.5 146 Q100 151 91.5 146 Z' fill='{skinShade}'/>",
   "bodyLayers": [
     ["boyOutfit", "main"],
     ["girlOutfit", "main"]
@@ -28,6 +28,8 @@
     ["boyHair", "back"],
     ["girlHair", "back"],
     ["face", "main"],
+    ["boyHair", "shade"],
+    ["girlHair", "shade"],
     ["beard", "under"],
     ["brows", "main"],
     ["eyes", "main"],
@@ -45,10 +47,10 @@
     "face": {
       "kind": "shape",
       "options": [
-        "<circle cx='47' cy='94' r='9' fill='{skin}' stroke='{line}' stroke-width='3'/><circle cx='153' cy='94' r='9' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M45 91 q3 3 0 7 M155 91 q-3 3 0 7' fill='none' stroke='{skinShade}' stroke-width='2'/><path d='M48 84 C48 48 70 32 100 32 C130 32 152 48 152 84 C152 116 130 138 100 138 C70 138 48 116 48 84 Z' fill='{skin}' stroke='{line}' stroke-width='3'/><ellipse cx='68' cy='113' rx='9' ry='5' fill='#ff9a8a' opacity='0.35'/><ellipse cx='132' cy='113' rx='9' ry='5' fill='#ff9a8a' opacity='0.35'/><path d='M99 112 q2 1.5 0 3' fill='none' stroke='#d99a80' stroke-width='2' stroke-linecap='round'/>",
-        "<circle cx='51' cy='94' r='9' fill='{skin}' stroke='{line}' stroke-width='3'/><circle cx='149' cy='94' r='9' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M49 91 q3 3 0 7 M151 91 q-3 3 0 7' fill='none' stroke='{skinShade}' stroke-width='2'/><path d='M52 84 C52 46 72 30 100 30 C128 30 148 46 148 84 C148 118 128 142 100 142 C72 142 52 118 52 84 Z' fill='{skin}' stroke='{line}' stroke-width='3'/><ellipse cx='70' cy='114' rx='8' ry='5' fill='#ff9a8a' opacity='0.35'/><ellipse cx='130' cy='114' rx='8' ry='5' fill='#ff9a8a' opacity='0.35'/><path d='M99 112 q2 1.5 0 3' fill='none' stroke='#d99a80' stroke-width='2' stroke-linecap='round'/>",
-        "<circle cx='47' cy='92' r='9' fill='{skin}' stroke='{line}' stroke-width='3'/><circle cx='153' cy='92' r='9' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M45 89 q3 3 0 7 M155 89 q-3 3 0 7' fill='none' stroke='{skinShade}' stroke-width='2'/><path d='M48 80 C48 44 66 32 100 32 C134 32 152 44 152 80 C152 110 146 126 130 134 C120 139 110 140 100 140 C90 140 80 139 70 134 C54 126 48 110 48 80 Z' fill='{skin}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><ellipse cx='68' cy='113' rx='9' ry='5' fill='#ff9a8a' opacity='0.35'/><ellipse cx='132' cy='113' rx='9' ry='5' fill='#ff9a8a' opacity='0.35'/><path d='M99 112 q2 1.5 0 3' fill='none' stroke='#d99a80' stroke-width='2' stroke-linecap='round'/>",
-        "<circle cx='49' cy='92' r='9' fill='{skin}' stroke='{line}' stroke-width='3'/><circle cx='151' cy='92' r='9' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M47 89 q3 3 0 7 M153 89 q-3 3 0 7' fill='none' stroke='{skinShade}' stroke-width='2'/><path d='M52 78 C52 44 74 32 100 32 C126 32 148 44 148 78 C158 104 144 136 100 136 C56 136 42 104 52 78 Z' fill='{skin}' stroke='{line}' stroke-width='3'/><ellipse cx='66' cy='112' rx='10' ry='6' fill='#ff9a8a' opacity='0.4'/><ellipse cx='134' cy='112' rx='10' ry='6' fill='#ff9a8a' opacity='0.4'/><path d='M99 111 q2 1.5 0 3' fill='none' stroke='#d99a80' stroke-width='2' stroke-linecap='round'/>"
+        "<circle cx='49' cy='94' r='8.5' fill='{skin}' stroke='{line}' stroke-width='3'/><circle cx='151' cy='94' r='8.5' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M50 82 C50 48 72 32 100 32 C128 32 150 48 150 82 C150 104 140 122 124 132 C114 138 106 141 100 141 C94 141 86 138 76 132 C60 122 50 104 50 82 Z' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M100 110 L97 116 L101 116' fill='none' stroke='{skinDeep}' stroke-width='2'/>",
+        "<circle cx='52' cy='94' r='8.5' fill='{skin}' stroke='{line}' stroke-width='3'/><circle cx='148' cy='94' r='8.5' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M53 82 C53 46 73 30 100 30 C127 30 147 46 147 82 C147 106 138 124 122 135 C113 141 106 144 100 144 C94 144 87 141 78 135 C62 124 53 106 53 82 Z' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M100 110 L97 117 L101 117' fill='none' stroke='{skinDeep}' stroke-width='2'/>",
+        "<circle cx='49' cy='92' r='8.5' fill='{skin}' stroke='{line}' stroke-width='3'/><circle cx='151' cy='92' r='8.5' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M50 80 C50 46 70 32 100 32 C130 32 150 46 150 80 C150 104 146 120 134 130 C122 139 110 141 100 141 C90 141 78 139 66 130 C54 120 50 104 50 80 Z' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M100 110 L97 116 L101 116' fill='none' stroke='{skinDeep}' stroke-width='2'/>",
+        "<circle cx='48' cy='94' r='8.5' fill='{skin}' stroke='{line}' stroke-width='3'/><circle cx='152' cy='94' r='8.5' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M49 84 C49 48 71 32 100 32 C129 32 151 48 151 84 C151 116 128 138 100 138 C72 138 49 116 49 84 Z' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M100 111 L98 115 L101 115' fill='none' stroke='{skinDeep}' stroke-width='2'/>"
       ]
     },
     "skin": {
@@ -58,32 +60,34 @@
     "boyHair": {
       "kind": "shape",
       "options": [
-        { "front": "<path d='M70 44 C80 38 92 36 104 37' fill='none' stroke='#ffffff' stroke-width='5' stroke-linecap='round' opacity='0.55'/>" },
+        { "front": "<path d='M68 46 C78 38 92 35 106 36' fill='none' stroke='#ffffff' stroke-width='5' opacity='0.55'/>" },
         {
-          "back": "<path d='M40 98 C30 44 64 14 102 14 C142 14 172 44 160 98 C156 82 150 72 144 66 L56 66 C50 72 44 82 40 98 Z' fill='{hair}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/>",
-          "front": "<path d='M46 88 C40 50 64 24 100 24 C138 24 162 50 154 88 C150 76 144 68 138 63 C139 71 136 77 132 81 C128 69 120 61 110 59 C111 67 109 73 105 77 C99 65 89 59 78 61 C80 68 77 74 73 78 C69 69 61 67 55 71 C51 76 48 82 46 88 Z' fill='{hair}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M66 42 C78 34 92 31 104 32' fill='none' stroke='{hairLight}' stroke-width='5' stroke-linecap='round'/>"
+          "shade": "<path d='M52 90 C56 80 64 76 70 84 L76 74 C86 70 94 74 100 84 L106 72 C116 72 124 78 130 88 L138 74 C144 78 148 84 149 92 C120 86 80 86 52 90 Z' fill='{skinShade}'/>",
+          "front": "<path d='M48 98 L38 84 L46 78 L34 62 L50 58 L42 38 L62 42 L62 22 L80 32 L88 12 L102 28 L116 12 L124 32 L142 22 L142 42 L162 38 L154 58 L168 62 L156 78 L164 84 L152 98 L148 80 L142 90 L136 68 L128 86 L120 64 L110 84 L102 62 L94 84 L86 64 L78 86 L70 66 L62 88 L56 76 L52 92 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M70 66 L78 86 L81 70 Z M102 62 L110 84 L113 66 Z M136 68 L142 90 L145 74 Z M56 76 L52 92 L60 84 Z' fill='{hairShade}'/><path d='M66 44 L84 36 L76 50 Z M104 32 L120 28 L112 42 Z' fill='{hairLight}'/>"
         },
         {
-          "back": "<path d='M42 94 C34 46 64 18 100 18 C136 18 166 46 158 94 Z' fill='{hair}' stroke='{line}' stroke-width='3'/>",
-          "front": "<path d='M46 88 C40 50 64 26 100 26 C138 26 162 50 154 88 C150 72 142 62 130 56 C112 58 96 66 86 78 C88 68 92 62 96 58 C80 58 62 66 52 76 C49 80 47 84 46 88 Z' fill='{hair}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M108 36 C120 34 134 38 142 46' fill='none' stroke='{hairLight}' stroke-width='5' stroke-linecap='round'/>"
+          "shade": "<path d='M53 92 C58 82 66 78 72 84 C86 74 114 74 128 84 C134 78 142 82 147 92 C120 86 80 86 53 92 Z' fill='{skinShade}'/>",
+          "front": "<path d='M46 92 C40 50 64 22 100 22 C138 22 162 50 154 92 L150 74 L146 84 L140 62 C128 58 114 60 102 70 L108 56 C92 62 80 76 76 96 L72 78 L66 90 L60 74 L54 86 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M102 70 L108 56 C98 60 90 66 84 74 Z M140 62 L146 84 L148 70 Z' fill='{hairShade}'/><path d='M64 42 C80 31 98 28 116 30 L112 37 C96 35 82 38 68 47 Z' fill='{hairLight}'/>"
         },
         {
-          "front": "<path d='M46 86 L40 58 L54 62 L50 34 L66 44 L70 18 L86 34 L100 12 L114 34 L130 18 L134 44 L150 34 L146 62 L160 58 L154 86 C148 72 140 64 130 62 L124 72 L116 60 L106 70 L100 58 L94 70 L84 60 L76 72 L70 62 C60 64 52 72 46 86 Z' fill='{hair}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M80 38 L92 30' stroke='{hairLight}' stroke-width='4' stroke-linecap='round'/>"
+          "shade": "<path d='M54 82 C70 72 130 72 146 82 C140 76 120 70 100 70 C80 70 60 76 54 82 Z' fill='{skinShade}'/>",
+          "front": "<path d='M48 80 C46 40 70 18 100 18 C130 18 154 40 152 80 C146 60 126 52 100 52 C74 52 54 60 48 80 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M66 52 C72 38 86 28 104 25 M86 52 C92 40 104 32 122 30 M108 52 C116 42 128 38 140 40' fill='none' stroke='{hairShade}' stroke-width='2.5'/><path d='M70 30 C80 24 92 21 104 21' fill='none' stroke='{hairLight}' stroke-width='4'/><path d='M98 52 C92 60 92 70 97 78' fill='none' stroke='{line}' stroke-width='6'/><path d='M98 52 C92 60 92 70 97 78' fill='none' stroke='{hair}' stroke-width='3'/>"
         },
         {
-          "back": "<path d='M42 94 C34 46 64 20 100 20 C136 20 166 46 158 94 Z' fill='{hair}' stroke='{line}' stroke-width='3'/>",
-          "front": "<path d='M46 86 C40 52 54 30 74 24 C72 12 88 2 110 4 C130 6 144 16 140 28 C128 22 112 24 104 34 C126 30 150 40 156 60 C158 70 156 80 154 86 C148 72 138 62 124 60 C110 58 94 60 82 64 L76 72 L72 64 C60 66 52 74 46 86 Z' fill='{hair}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M84 14 C94 8 108 7 120 10' fill='none' stroke='{hairLight}' stroke-width='5' stroke-linecap='round'/>"
+          "shade": "<path d='M53 92 C58 82 66 78 72 84 C86 74 114 74 128 84 C134 78 142 82 147 92 C120 86 80 86 53 92 Z' fill='{skinShade}'/>",
+          "front": "<path d='M46 92 L44 70 C44 48 56 36 70 32 L66 14 L86 24 L92 4 L106 20 L124 8 L124 26 C142 30 156 44 156 70 L154 92 L148 76 L140 84 L134 64 C120 58 104 60 92 66 L86 80 L80 66 L70 84 L64 70 L56 86 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M92 66 L86 80 L84 68 Z M134 64 L140 84 L143 70 Z' fill='{hairShade}'/><path d='M78 22 L90 12 L88 26 Z M108 18 L120 12 L116 24 Z' fill='{hairLight}'/>"
         },
         {
-          "back": "<path d='M42 96 C34 46 64 18 100 18 C136 18 166 46 158 96 Z' fill='{hair}' stroke='{line}' stroke-width='3'/>",
-          "front": "<path d='M46 90 C40 50 64 26 100 26 C136 26 160 50 154 90 C150 74 142 62 128 56 C116 54 106 52 100 42 C94 52 84 54 72 56 C58 62 50 74 46 90 Z' fill='{hair}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M66 44 C74 38 84 34 92 33' fill='none' stroke='{hairLight}' stroke-width='5' stroke-linecap='round'/>"
+          "shade": "<path d='M53 92 C58 82 66 78 72 84 C86 74 114 74 128 84 C134 78 142 82 147 92 C120 86 80 86 53 92 Z' fill='{skinShade}'/>",
+          "front": "<path d='M46 94 C40 50 64 22 100 22 C136 22 160 50 154 94 L148 76 L142 86 L134 60 C122 56 108 52 100 40 C92 52 78 56 66 60 L58 86 L52 76 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M100 40 C108 52 122 56 134 60 L137 70 C122 64 108 58 100 46 Z M100 40 C92 52 78 56 66 60 L63 70 C78 64 92 58 100 46 Z' fill='{hairShade}'/><path d='M66 40 C76 32 88 28 98 27' fill='none' stroke='{hairLight}' stroke-width='5'/>"
         },
         {
-          "back": "<circle cx='52' cy='80' r='14' fill='{hair}' stroke='{line}' stroke-width='3'/><circle cx='148' cy='80' r='14' fill='{hair}' stroke='{line}' stroke-width='3'/>",
-          "front": "<circle cx='56' cy='64' r='14' fill='{hair}' stroke='{line}' stroke-width='3'/><circle cx='144' cy='64' r='14' fill='{hair}' stroke='{line}' stroke-width='3'/><circle cx='70' cy='44' r='17' fill='{hair}' stroke='{line}' stroke-width='3'/><circle cx='130' cy='44' r='17' fill='{hair}' stroke='{line}' stroke-width='3'/><circle cx='100' cy='34' r='20' fill='{hair}' stroke='{line}' stroke-width='3'/><circle cx='84' cy='60' r='12' fill='{hair}' stroke='{line}' stroke-width='3'/><circle cx='116' cy='60' r='12' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M90 26 C96 22 104 22 110 25' fill='none' stroke='{hairLight}' stroke-width='4' stroke-linecap='round'/>"
+          "back": "<path d='M40 104 L32 124 L50 114 L44 132 L62 116 L138 116 L156 132 L150 114 L168 124 L160 104 Z' fill='{hair}' stroke='{line}' stroke-width='3'/>",
+          "shade": "<path d='M52 90 C56 80 64 76 70 84 L76 74 C86 70 94 74 100 84 L106 72 C116 72 124 78 130 88 L138 74 C144 78 148 84 149 92 C120 86 80 86 52 90 Z' fill='{skinShade}'/>",
+          "front": "<path d='M44 96 C38 50 62 20 100 20 C138 20 162 50 156 96 L150 78 L144 90 L138 66 L128 86 L118 62 L108 84 L100 60 L92 84 L82 62 L72 86 L62 66 L56 90 L50 78 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M62 66 L72 86 L74 70 Z M100 60 L108 84 L110 66 Z M138 66 L144 90 L146 74 Z' fill='{hairShade}'/><path d='M64 40 C80 30 98 27 116 29 L112 36 C96 34 82 37 68 45 Z' fill='{hairLight}'/>"
         },
         {
-          "front": "<path d='M50 82 C48 46 70 34 100 34 C130 34 152 46 150 82 C140 66 124 60 100 60 C76 60 60 66 50 82 Z' fill='{hair}' opacity='0.75' stroke='{line}' stroke-width='2'/>"
+          "front": "<path d='M50 82 C48 44 70 32 100 32 C130 32 152 44 150 82 C140 66 124 60 100 60 C76 60 60 66 50 82 Z' fill='{hair}' opacity='0.8' stroke='{line}' stroke-width='2.5'/><path d='M72 44 C82 38 92 36 102 36' fill='none' stroke='{hairLight}' stroke-width='4' opacity='0.8'/>"
         }
       ]
     },
@@ -91,157 +95,165 @@
       "kind": "shape",
       "options": [
         {
-          "back": "<path d='M42 104 C34 46 64 18 100 18 C136 18 166 46 158 104 L160 164 C140 170 60 170 40 164 Z' fill='{hair}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/>",
-          "front": "<path d='M48 88 C44 50 68 26 100 26 C132 26 156 50 152 88 C148 77 142 69 135 65 C135 73 131 79 127 83 C123 71 115 63 105 61 C105 69 101 75 97 79 C93 69 85 63 75 65 C75 73 71 79 67 83 C63 75 59 73 55 75 C52 79 50 84 48 88 Z' fill='{hair}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M64 44 C76 35 92 32 106 33' fill='none' stroke='{hairLight}' stroke-width='5' stroke-linecap='round'/>"
+          "back": "<path d='M42 100 C32 46 64 16 100 16 C136 16 168 46 158 100 L166 168 L148 156 L140 172 L122 160 L78 160 L60 172 L52 156 L34 168 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M150 110 L156 160 L148 156 Z M50 110 L44 160 L52 156 Z' fill='{hairShade}'/>",
+          "shade": "<path d='M54 92 C58 82 64 78 70 84 C80 74 92 70 104 72 L112 66 C124 66 136 74 146 90 C116 86 84 86 54 92 Z' fill='{skinShade}'/>",
+          "front": "<path d='M48 72 L44 132 L52 122 L58 82 Z M152 72 L156 132 L148 122 L142 82 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M46 92 C40 50 64 22 100 22 C138 22 162 50 154 92 L150 74 L144 84 L138 60 C126 56 112 58 98 66 L102 52 C88 58 74 70 66 86 L64 72 L56 82 L52 74 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M98 66 L102 52 C92 56 84 62 78 68 Z M138 60 L144 84 L146 70 Z' fill='{hairShade}'/><path d='M62 42 C78 31 96 28 114 30 L110 37 C94 35 80 38 66 47 Z' fill='{hairLight}'/>"
         },
         {
-          "back": "<path d='M40 112 C32 46 64 18 100 18 C136 18 168 46 160 112 C162 124 156 132 146 132 L54 132 C44 132 38 124 40 112 Z' fill='{hair}' stroke='{line}' stroke-width='3'/>",
-          "front": "<path d='M48 88 C44 50 68 26 100 26 C132 26 156 50 152 88 C148 77 142 69 135 65 C135 73 131 79 127 83 C123 71 115 63 105 61 C105 69 101 75 97 79 C93 69 85 63 75 65 C75 73 71 79 67 83 C63 75 59 73 55 75 C52 79 50 84 48 88 Z' fill='{hair}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M64 44 C76 35 92 32 106 33' fill='none' stroke='{hairLight}' stroke-width='5' stroke-linecap='round'/>"
+          "back": "<path d='M40 116 C32 46 64 18 100 18 C136 18 168 46 160 116 L148 128 L140 116 L130 128 L70 128 L60 116 L52 128 Z' fill='{hair}' stroke='{line}' stroke-width='3'/>",
+          "shade": "<path d='M52 90 C56 80 64 76 70 84 L76 74 C86 70 94 74 100 84 L106 72 C116 72 124 78 130 88 L138 74 C144 78 148 84 149 92 C120 86 80 86 52 90 Z' fill='{skinShade}'/>",
+          "front": "<path d='M46 92 C40 50 64 22 100 22 C138 22 162 50 154 92 L150 76 L144 88 L136 64 L126 86 L118 62 L108 84 L100 62 L92 84 L82 62 L74 86 L64 64 L56 88 L50 76 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M64 64 L74 86 L76 70 Z M100 62 L108 84 L110 68 Z M136 64 L144 88 L146 72 Z' fill='{hairShade}'/><path d='M62 42 C78 31 96 28 114 30 L110 37 C94 35 80 38 66 47 Z' fill='{hairLight}'/>"
         },
         {
-          "back": "<circle cx='100' cy='20' r='20' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M44 96 C36 48 64 22 100 22 C136 22 164 48 156 96 Z' fill='{hair}' stroke='{line}' stroke-width='3'/>",
-          "front": "<path d='M48 88 C42 50 66 24 100 24 C136 24 158 50 152 88 C148 70 136 58 116 56 C100 62 84 72 70 84 C72 74 76 66 80 62 C66 64 54 74 48 88 Z' fill='{hair}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M92 12 C98 8 106 8 112 11' fill='none' stroke='{hairLight}' stroke-width='4' stroke-linecap='round'/><path d='M108 36 C120 34 134 38 142 46' fill='none' stroke='{hairLight}' stroke-width='5' stroke-linecap='round'/>"
+          "back": "<path d='M118 26 C150 10 178 40 170 90 C166 112 172 132 182 146 C160 140 150 116 150 92 C150 64 140 44 120 38 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M44 96 C36 48 64 20 100 20 C136 20 164 48 156 96 Z' fill='{hair}' stroke='{line}' stroke-width='3'/>",
+          "shade": "<path d='M54 92 C58 82 64 78 70 84 C80 74 92 70 104 72 L112 66 C124 66 136 74 146 90 C116 86 84 86 54 92 Z' fill='{skinShade}'/>",
+          "front": "<path d='M46 92 C40 50 64 22 100 22 C138 22 162 50 154 92 L150 74 L144 84 L138 60 C126 56 112 58 98 66 L102 52 C88 58 74 70 66 86 L64 72 L56 82 L52 74 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M98 66 L102 52 C92 56 84 62 78 68 Z M138 60 L144 84 L146 70 Z' fill='{hairShade}'/><path d='M62 42 C78 31 96 28 114 30 L110 37 C94 35 80 38 66 47 Z' fill='{hairLight}'/><circle cx='124' cy='30' r='5' fill='#d23a4a' stroke='{line}' stroke-width='2'/>"
         },
         {
-          "back": "<path d='M42 102 C34 46 64 18 100 18 C136 18 166 46 158 102 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M52 106 C36 122 36 152 50 170 C56 176 64 174 64 166 C56 152 58 128 64 114 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M148 106 C164 122 164 152 150 170 C144 176 136 174 136 166 C144 152 142 128 136 114 Z' fill='{hair}' stroke='{line}' stroke-width='3'/>",
-          "front": "<path d='M50 70 C42 92 44 108 52 118 C56 104 58 90 58 76 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M150 70 C158 92 156 108 148 118 C144 104 142 90 142 76 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M48 88 C44 50 68 26 100 26 C132 26 156 50 152 88 C148 77 142 69 135 65 C135 73 131 79 127 83 C123 71 115 63 105 61 C105 69 101 75 97 79 C93 69 85 63 75 65 C75 73 71 79 67 83 C63 75 59 73 55 75 C52 79 50 84 48 88 Z' fill='{hair}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M64 44 C76 35 92 32 106 33' fill='none' stroke='{hairLight}' stroke-width='5' stroke-linecap='round'/><rect x='44' y='140' width='16' height='7' rx='3.5' fill='#ff7a8a' stroke='{line}' stroke-width='2' transform='rotate(-12 52 143)'/><rect x='140' y='140' width='16' height='7' rx='3.5' fill='#ff7a8a' stroke='{line}' stroke-width='2' transform='rotate(12 148 143)'/>"
+          "back": "<path d='M58 40 C30 50 24 100 30 150 L40 140 L42 168 L54 150 C48 110 50 72 66 52 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M142 40 C170 50 176 100 170 150 L160 140 L158 168 L146 150 C152 110 150 72 134 52 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M44 96 C36 48 64 20 100 20 C136 20 164 48 156 96 Z' fill='{hair}' stroke='{line}' stroke-width='3'/>",
+          "shade": "<path d='M52 90 C56 80 64 76 70 84 L76 74 C86 70 94 74 100 84 L106 72 C116 72 124 78 130 88 L138 74 C144 78 148 84 149 92 C120 86 80 86 52 90 Z' fill='{skinShade}'/>",
+          "front": "<path d='M46 92 C40 50 64 22 100 22 C138 22 162 50 154 92 L150 76 L144 88 L136 64 L126 86 L118 62 L108 84 L100 62 L92 84 L82 62 L74 86 L64 64 L56 88 L50 76 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M64 64 L74 86 L76 70 Z M100 62 L108 84 L110 68 Z M136 64 L144 88 L146 72 Z' fill='{hairShade}'/><path d='M62 42 C78 31 96 28 114 30 L110 37 C94 35 80 38 66 47 Z' fill='{hairLight}'/><circle cx='58' cy='44' r='5' fill='#d23a4a' stroke='{line}' stroke-width='2'/><circle cx='142' cy='44' r='5' fill='#d23a4a' stroke='{line}' stroke-width='2'/>"
         },
         {
-          "back": "<path d='M146 46 C182 50 190 102 168 140 C164 114 156 94 146 82 Z' fill='{hair}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M42 96 C34 46 64 20 100 20 C136 20 166 46 158 96 Z' fill='{hair}' stroke='{line}' stroke-width='3'/>",
-          "front": "<path d='M48 88 C42 50 66 24 100 24 C136 24 158 50 152 88 C148 70 136 58 116 56 C100 62 84 72 70 84 C72 74 76 66 80 62 C66 64 54 74 48 88 Z' fill='{hair}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M108 36 C120 34 134 38 142 46' fill='none' stroke='{hairLight}' stroke-width='5' stroke-linecap='round'/><circle cx='154' cy='56' r='6' fill='#ff7a8a' stroke='{line}' stroke-width='2'/>"
+          "back": "<path d='M44 96 C36 48 64 20 100 20 C136 20 164 48 156 96 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M142 90 C160 110 160 140 146 168 L138 158 L134 176 L126 160 C138 136 136 112 128 96 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M140 112 C146 128 146 146 140 160 L136 156 C140 142 140 128 136 116 Z' fill='{hairShade}'/>",
+          "shade": "<path d='M54 92 C58 82 64 78 70 84 C80 74 92 70 104 72 L112 66 C124 66 136 74 146 90 C116 86 84 86 54 92 Z' fill='{skinShade}'/>",
+          "front": "<path d='M46 92 C40 50 64 22 100 22 C138 22 162 50 154 92 L150 74 L144 84 L138 60 C126 56 112 58 98 66 L102 52 C88 58 74 70 66 86 L64 72 L56 82 L52 74 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M98 66 L102 52 C92 56 84 62 78 68 Z M138 60 L144 84 L146 70 Z' fill='{hairShade}'/><path d='M62 42 C78 31 96 28 114 30 L110 37 C94 35 80 38 66 47 Z' fill='{hairLight}'/><circle cx='147' cy='118' r='5' fill='#d23a4a' stroke='{line}' stroke-width='2'/>"
         },
         {
-          "back": "<path d='M44 100 C36 46 64 20 100 20 C136 20 164 46 156 100 Z' fill='{hair}' stroke='{line}' stroke-width='3'/>",
-          "front": "<path d='M50 74 C44 92 46 104 52 110 C56 98 58 88 58 78 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M150 74 C156 92 154 104 148 110 C144 98 142 88 142 78 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M48 88 C44 50 68 26 100 26 C132 26 156 50 152 88 C148 77 142 69 135 65 C135 73 131 79 127 83 C123 71 115 63 105 61 C105 69 101 75 97 79 C93 69 85 63 75 65 C75 73 71 79 67 83 C63 75 59 73 55 75 C52 79 50 84 48 88 Z' fill='{hair}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M64 44 C76 35 92 32 106 33' fill='none' stroke='{hairLight}' stroke-width='5' stroke-linecap='round'/>"
+          "back": "<path d='M48 100 L42 116 L58 106 Z M152 100 L158 116 L142 106 Z' fill='{hair}' stroke='{line}' stroke-width='3'/>",
+          "shade": "<path d='M54 92 C58 82 64 78 70 84 C80 74 92 70 104 72 L112 66 C124 66 136 74 146 90 C116 86 84 86 54 92 Z' fill='{skinShade}'/>",
+          "front": "<path d='M46 92 C40 50 64 22 100 22 C138 22 162 50 154 92 L150 74 L144 84 L138 60 C126 56 112 58 98 66 L102 52 C88 58 74 70 66 86 L64 72 L56 82 L52 74 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M98 66 L102 52 C92 56 84 62 78 68 Z M138 60 L144 84 L146 70 Z' fill='{hairShade}'/><path d='M62 42 C78 31 96 28 114 30 L110 37 C94 35 80 38 66 47 Z' fill='{hairLight}'/>"
         },
         {
-          "back": "<path d='M42 100 C32 44 64 18 100 18 C136 18 168 44 158 100 C170 116 158 128 166 142 C172 156 160 170 146 166 L54 166 C40 170 28 156 34 142 C42 128 30 116 42 100 Z' fill='{hair}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/>",
-          "front": "<path d='M46 90 C40 50 64 26 100 26 C136 26 160 50 154 90 C150 74 142 62 128 56 C116 54 106 52 100 42 C94 52 84 54 72 56 C58 62 50 74 46 90 Z' fill='{hair}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M66 44 C74 38 84 34 92 33' fill='none' stroke='{hairLight}' stroke-width='5' stroke-linecap='round'/>"
+          "back": "<path d='M40 100 C30 44 64 16 100 16 C136 16 170 44 160 100 L172 150 L156 140 L160 172 L140 156 L132 176 L118 160 L82 160 L68 176 L60 156 L40 172 L44 140 L28 150 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M156 140 L160 172 L150 150 Z M44 140 L40 172 L50 150 Z' fill='{hairShade}'/>",
+          "shade": "<path d='M52 90 C56 80 64 76 70 84 L76 74 C86 70 94 74 100 84 L106 72 C116 72 124 78 130 88 L138 74 C144 78 148 84 149 92 C120 86 80 86 52 90 Z' fill='{skinShade}'/>",
+          "front": "<path d='M48 72 L44 132 L52 122 L58 82 Z M152 72 L156 132 L148 122 L142 82 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M46 92 C40 50 64 22 100 22 C138 22 162 50 154 92 L150 76 L144 88 L136 64 L126 86 L118 62 L108 84 L100 62 L92 84 L82 62 L74 86 L64 64 L56 88 L50 76 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M64 64 L74 86 L76 70 Z M100 62 L108 84 L110 68 Z M136 64 L144 88 L146 72 Z' fill='{hairShade}'/><path d='M62 42 C78 31 96 28 114 30 L110 37 C94 35 80 38 66 47 Z' fill='{hairLight}'/>"
         },
         {
-          "back": "<path d='M42 104 C34 46 64 18 100 18 C136 18 166 46 158 104 L160 166 L40 166 Z' fill='{hair}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/>",
-          "front": "<path d='M48 66 L46 132 L58 132 L58 76 Z' fill='{hair}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M152 66 L154 132 L142 132 L142 76 Z' fill='{hair}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M48 82 C44 46 68 24 100 24 C132 24 156 46 152 82 Z' fill='{hair}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M64 42 C76 33 92 30 106 31' fill='none' stroke='{hairLight}' stroke-width='5' stroke-linecap='round'/>"
+          "back": "<path d='M42 100 C34 46 64 18 100 18 C136 18 166 46 158 100 L160 170 L40 170 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M148 110 L150 170 L140 170 Z M52 110 L50 170 L60 170 Z' fill='{hairShade}'/>",
+          "shade": "<path d='M54 88 C70 82 130 82 146 88 C146 84 144 80 142 78 C120 74 80 74 58 78 C56 80 54 84 54 88 Z' fill='{skinShade}'/>",
+          "front": "<path d='M48 70 L46 134 L58 134 L58 82 Z M152 70 L154 134 L142 134 L142 82 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M48 84 C44 46 68 22 100 22 C132 22 156 46 152 84 L144 76 L138 84 L130 76 L122 84 L114 76 L106 84 L100 76 L94 84 L86 76 L78 84 L70 76 L62 84 L56 76 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M62 40 C78 30 96 27 114 29 L110 36 C94 34 80 37 66 45 Z' fill='{hairLight}'/>"
         }
       ]
     },
     "hairColor": {
       "kind": "color",
-      "options": ["#3a2a24", "#7a5442", "#a0663e", "#e2b25a", "#d8d4d0", "#f39ab5", "#6f8fe8", "#7cc28a"]
+      "options": ["#23263a", "#2b2236", "#5a3a2a", "#a8642f", "#e6c26a", "#d9d9e3", "#c43a4a", "#3f7fd6"]
     },
     "eyes": {
       "kind": "shape",
       "options": [
-        "<ellipse cx='78' cy='101' rx='6.5' ry='9' fill='#2e211c'/><ellipse cx='122' cy='101' rx='6.5' ry='9' fill='#2e211c'/><circle cx='75.5' cy='97' r='2.6' fill='#ffffff'/><circle cx='119.5' cy='97' r='2.6' fill='#ffffff'/>",
-        "<path d='M70 103 Q78 93 86 103 M114 103 Q122 93 130 103' fill='none' stroke='#2e211c' stroke-width='3.5' stroke-linecap='round'/>",
-        "<ellipse cx='78' cy='101' rx='9' ry='11.5' fill='#2e211c'/><ellipse cx='122' cy='101' rx='9' ry='11.5' fill='#2e211c'/><ellipse cx='78' cy='105.5' rx='6' ry='6' fill='#8a5a44'/><ellipse cx='122' cy='105.5' rx='6' ry='6' fill='#8a5a44'/><circle cx='74.5' cy='95.5' r='3.4' fill='#ffffff'/><circle cx='118.5' cy='95.5' r='3.4' fill='#ffffff'/><circle cx='81.5' cy='107' r='1.7' fill='#ffffff'/><circle cx='125.5' cy='107' r='1.7' fill='#ffffff'/><path d='M67 96 Q78 86 90 94 M133 96 Q122 86 110 94' fill='none' stroke='#2e211c' stroke-width='3.5' stroke-linecap='round'/>",
-        "<ellipse cx='78' cy='102' rx='9' ry='8' fill='#ffffff' stroke='{line}' stroke-width='2.5'/><ellipse cx='122' cy='102' rx='9' ry='8' fill='#ffffff' stroke='{line}' stroke-width='2.5'/><circle cx='78' cy='105' r='3.5' fill='#2e211c'/><circle cx='122' cy='105' r='3.5' fill='#2e211c'/><path d='M68 99 H88 M112 99 H132' stroke='{line}' stroke-width='4' stroke-linecap='round'/>",
-        "<ellipse cx='78' cy='101' rx='6.5' ry='9' fill='#2e211c'/><circle cx='75.5' cy='97' r='2.6' fill='#ffffff'/><path d='M114 103 Q122 93 130 103' fill='none' stroke='#2e211c' stroke-width='3.5' stroke-linecap='round'/>",
-        "<path d='M71 95 L85 101 L71 107 M129 95 L115 101 L129 107' fill='none' stroke='#2e211c' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'/>"
+        "<path d='M66 99 Q77 91 90 97 Q88 106 80 108 Q70 107 66 99 Z M134 99 Q123 91 110 97 Q112 106 120 108 Q130 107 134 99 Z' fill='#ffffff'/><ellipse cx='80' cy='101' rx='6' ry='7.5' fill='#262a45'/><ellipse cx='120' cy='101' rx='6' ry='7.5' fill='#262a45'/><ellipse cx='80' cy='104' rx='4.3' ry='3.8' fill='#5a73c4'/><ellipse cx='120' cy='104' rx='4.3' ry='3.8' fill='#5a73c4'/><circle cx='77.5' cy='97.8' r='2.2' fill='#ffffff'/><circle cx='117.5' cy='97.8' r='2.2' fill='#ffffff'/><path d='M63 98 Q76 87 92 95 M63 98 L59 100 M137 98 Q124 87 108 95 M137 98 L141 100' fill='none' stroke='{line}' stroke-width='4.5'/>",
+        "<path d='M64 99 Q76 86 92 95 Q90 108 80 110 Q68 109 64 99 Z M136 99 Q124 86 108 95 Q110 108 120 110 Q132 109 136 99 Z' fill='#ffffff'/><ellipse cx='80' cy='101' rx='7' ry='9' fill='#3a2846'/><ellipse cx='120' cy='101' rx='7' ry='9' fill='#3a2846'/><ellipse cx='80' cy='105' rx='5' ry='4.6' fill='#b0568a'/><ellipse cx='120' cy='105' rx='5' ry='4.6' fill='#b0568a'/><circle cx='77' cy='96.5' r='2.8' fill='#ffffff'/><circle cx='117' cy='96.5' r='2.8' fill='#ffffff'/><circle cx='83' cy='106' r='1.4' fill='#ffffff'/><circle cx='123' cy='106' r='1.4' fill='#ffffff'/><path d='M61 99 Q75 84 94 94 M61 99 L56 98 M63 95 L58 91 M139 99 Q125 84 106 94 M139 99 L144 98 M137 95 L142 91' fill='none' stroke='{line}' stroke-width='4'/>",
+        "<path d='M66 101 Q78 98 90 99 Q88 106 80 108 Q70 107 66 101 Z M134 101 Q122 98 110 99 Q112 106 120 108 Q130 107 134 101 Z' fill='#ffffff'/><ellipse cx='80' cy='104' rx='5.5' ry='5' fill='#262a45'/><ellipse cx='120' cy='104' rx='5.5' ry='5' fill='#262a45'/><circle cx='78' cy='102.5' r='1.8' fill='#ffffff'/><circle cx='118' cy='102.5' r='1.8' fill='#ffffff'/><path d='M62 100 Q78 94 93 98 M62 100 L58 102 M138 100 Q122 94 107 98 M138 100 L142 102' fill='none' stroke='{line}' stroke-width='4.5'/>",
+        "<path d='M64 101 Q78 95 92 100 M64 101 L60 103 M136 101 Q122 95 108 100 M136 101 L140 103' fill='none' stroke='{line}' stroke-width='4'/>",
+        "<path d='M66 99 Q78 93 90 97 Q88 105 80 107 Q70 106 66 99 Z M134 99 Q122 93 110 97 Q112 105 120 107 Q130 106 134 99 Z' fill='#ffffff'/><circle cx='80' cy='101' r='6' fill='#ff4d5e' opacity='0.35'/><circle cx='120' cy='101' r='6' fill='#ff4d5e' opacity='0.35'/><circle cx='80' cy='101' r='2.8' fill='#c0182b'/><circle cx='120' cy='101' r='2.8' fill='#c0182b'/><path d='M62 94 L93 99 M138 94 L107 99' fill='none' stroke='{line}' stroke-width='4.5'/>",
+        "<path d='M70 94 L86 101 L70 108 M130 94 L114 101 L130 108' fill='none' stroke='{line}' stroke-width='4'/>"
       ]
     },
     "brows": {
       "kind": "shape",
       "options": [
-        "<path d='M69 86 Q77 83 86 86 M114 86 Q123 83 131 86' fill='none' stroke='#4a332a' stroke-width='3.5' stroke-linecap='round'/>",
-        "<path d='M68 82 L86 89 M132 82 L114 89' fill='none' stroke='#4a332a' stroke-width='3.5' stroke-linecap='round'/>",
-        "<path d='M69 82 Q77 75 86 81 M114 81 Q123 75 131 82' fill='none' stroke='#4a332a' stroke-width='3.5' stroke-linecap='round'/>",
-        "<path d='M69 87 L86 87 M114 84 Q123 77 131 82' fill='none' stroke='#4a332a' stroke-width='3.5' stroke-linecap='round'/>",
-        "<path d='M68 88 L86 83 M114 83 L132 88' fill='none' stroke='#4a332a' stroke-width='3.5' stroke-linecap='round'/>"
+        "<path d='M64 85 L88 89 L87 93 L66 90 Z M136 85 L112 89 L113 93 L134 90 Z' fill='{brow}' stroke='{brow}' stroke-width='1'/>",
+        "<path d='M66 86 L88 88 M134 86 L112 88' fill='none' stroke='{brow}' stroke-width='2.5'/>",
+        "<path d='M64 80 L90 90 L88 94 L64 85 Z M136 80 L110 90 L112 94 L136 85 Z' fill='{brow}' stroke='{brow}' stroke-width='1'/>",
+        "<path d='M64 86 L88 89 L87 93 L65 91 Z M112 87 Q124 76 137 81 L136 85 Q124 81 113 91 Z' fill='{brow}' stroke='{brow}' stroke-width='1'/>",
+        "<path d='M66 88 L88 82 L88 86 L67 92 Z M134 88 L112 82 L112 86 L133 92 Z' fill='{brow}' stroke='{brow}' stroke-width='1'/>"
       ]
     },
     "mouth": {
       "kind": "shape",
       "options": [
-        "<path d='M92 123 Q100 129 108 123' fill='none' stroke='{line}' stroke-width='3' stroke-linecap='round'/>",
-        "<path d='M93 127 Q100 121 107 127' fill='none' stroke='{line}' stroke-width='3' stroke-linecap='round'/>",
-        "<ellipse cx='100' cy='125' rx='5' ry='5.5' fill='#b5413b' stroke='{line}' stroke-width='2.5'/>",
-        "<path d='M91 121 Q100 134 109 121 Z' fill='#b5413b' stroke='{line}' stroke-width='2.5' stroke-linejoin='round'/><ellipse cx='100' cy='127' rx='4.5' ry='2.6' fill='#ff8a8a'/>",
-        "<path d='M94 125 H106' stroke='{line}' stroke-width='3' stroke-linecap='round'/>",
-        "<path d='M92 125 Q102 127 109 120' fill='none' stroke='{line}' stroke-width='3' stroke-linecap='round'/>"
+        "<path d='M91 125 Q101 128 110 120' fill='none' stroke='{line}' stroke-width='3'/>",
+        "<path d='M93 124 Q101 129 108 122' fill='none' stroke='{line}' stroke-width='2.6'/>",
+        "<path d='M89 119 L111 119 L109 128 L91 128 Z' fill='#ffffff' stroke='{line}' stroke-width='2.5'/><path d='M89.5 123.5 H110.5 M96 119 V128 M104 119 V128' stroke='{line}' stroke-width='1.5'/>",
+        "<path d='M89 117 Q100 140 111 117 Z' fill='#7a1f2b' stroke='{line}' stroke-width='2.5'/><path d='M91 118 L109 118 L108 121.5 L92 121.5 Z' fill='#ffffff'/><ellipse cx='100' cy='130' rx='5' ry='3' fill='#e86a7a'/>",
+        "<path d='M94 125 L106 124' stroke='{line}' stroke-width='3'/>",
+        "<path d='M93 127 Q100 122 107 127' fill='none' stroke='{line}' stroke-width='2.6'/>"
       ]
     },
     "beard": {
       "kind": "shape",
       "options": [
         "",
-        { "under": "<path d='M60 108 C64 134 82 140 100 140 C118 140 136 134 140 108 C132 128 118 132 100 132 C82 132 68 128 60 108 Z' fill='{hair}' opacity='0.3'/>" },
-        { "over": "<path d='M86 118 C90 113 96 113 100 116 C104 113 110 113 114 118 C108 121 104 120 100 118 C96 120 92 121 86 118 Z' fill='{hair}' stroke='{line}' stroke-width='2' stroke-linejoin='round'/>" },
-        { "over": "<path d='M93 131 C95 141 105 141 107 131 C103 133 97 133 93 131 Z' fill='{hair}' stroke='{line}' stroke-width='2' stroke-linejoin='round'/>" },
-        { "under": "<path d='M54 100 C54 130 74 144 100 144 C126 144 146 130 146 100 C140 118 128 126 116 124 C108 120 92 120 84 124 C72 126 60 118 54 100 Z' fill='{hair}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/>" },
-        { "over": "<path d='M100 117 C95 112 86 112 83 117 C81 121 76 120 77 115 M100 117 C105 112 114 112 117 117 C119 121 124 120 123 115' fill='none' stroke='{hair}' stroke-width='4' stroke-linecap='round'/>" }
+        { "under": "<path d='M62 112 C66 128 82 138 100 139 C118 138 134 128 138 112 C130 126 116 132 100 132 C84 132 70 126 62 112 Z' fill='{hairShade}' opacity='0.3'/>" },
+        { "over": "<path d='M84 119 L100 113 L116 119 L106 118.5 L100 117 L94 118.5 Z' fill='{hair}' stroke='{line}' stroke-width='2'/>" },
+        { "over": "<path d='M94 131 L100 145 L106 131 Q100 133.5 94 131 Z' fill='{hair}' stroke='{line}' stroke-width='2'/>" },
+        { "under": "<path d='M54 98 L56 116 C62 132 80 146 100 148 C120 146 138 132 144 116 L146 98 C140 116 130 124 118 122 C110 119 90 119 82 122 C70 124 60 116 54 98 Z' fill='{hair}' stroke='{line}' stroke-width='3'/><path d='M60 116 C68 132 84 142 100 144 L100 140 C86 138 72 130 64 118 Z' fill='{hairShade}'/>" },
+        { "over": "<path d='M100 117 C95 112 86 112 83 117 C81 121 76 120 77 115 M100 117 C105 112 114 112 117 117 C119 121 124 120 123 115' fill='none' stroke='{hair}' stroke-width='4'/>" }
       ]
     },
     "makeup": {
       "kind": "shape",
       "options": [
         "",
-        "<ellipse cx='67' cy='114' rx='10' ry='5.5' fill='#ff8f8f' opacity='0.5'/><ellipse cx='133' cy='114' rx='10' ry='5.5' fill='#ff8f8f' opacity='0.5'/><path d='M62 112 l-2 4 M67 112 l-2 4 M72 112 l-2 4 M128 112 l-2 4 M133 112 l-2 4 M138 112 l-2 4' stroke='#ff7070' stroke-width='1.3' stroke-linecap='round' opacity='0.7'/>",
-        "<path d='M69 95 L64 91 M69 99 L63 98 M131 95 L136 91 M131 99 L137 98' stroke='#2e211c' stroke-width='2.5' stroke-linecap='round'/>",
-        "<ellipse cx='67' cy='114' rx='10' ry='5.5' fill='#ff8f8f' opacity='0.5'/><ellipse cx='133' cy='114' rx='10' ry='5.5' fill='#ff8f8f' opacity='0.5'/><path d='M62 112 l-2 4 M67 112 l-2 4 M72 112 l-2 4 M128 112 l-2 4 M133 112 l-2 4 M138 112 l-2 4' stroke='#ff7070' stroke-width='1.3' stroke-linecap='round' opacity='0.7'/><path d='M69 95 L64 91 M69 99 L63 98 M131 95 L136 91 M131 99 L137 98' stroke='#2e211c' stroke-width='2.5' stroke-linecap='round'/>"
+        "<ellipse cx='68' cy='115' rx='9' ry='4.5' fill='#ff9a9a' opacity='0.3'/><ellipse cx='132' cy='115' rx='9' ry='4.5' fill='#ff9a9a' opacity='0.3'/><path d='M63 116 l6 -3 M69 117 l6 -3 M125 116 l6 -3 M131 117 l6 -3' stroke='#e98a8a' stroke-width='1.6'/>",
+        "<path d='M61 99 L52 94 M139 99 L148 94' stroke='{line}' stroke-width='3.5'/><path d='M70 111 L69 113 M76 112 L76 114 M124 112 L124 114 M130 111 L131 113' stroke='{line}' stroke-width='1.5'/>",
+        "<ellipse cx='68' cy='115' rx='9' ry='4.5' fill='#ff9a9a' opacity='0.3'/><ellipse cx='132' cy='115' rx='9' ry='4.5' fill='#ff9a9a' opacity='0.3'/><path d='M63 116 l6 -3 M69 117 l6 -3 M125 116 l6 -3 M131 117 l6 -3' stroke='#e98a8a' stroke-width='1.6'/><path d='M61 99 L52 94 M139 99 L148 94' stroke='{line}' stroke-width='3.5'/>"
       ]
     },
     "earrings": {
       "kind": "shape",
       "options": [
         "",
-        "<circle cx='47' cy='106' r='3.5' fill='#ffd84d' stroke='{line}' stroke-width='1.5'/><circle cx='153' cy='106' r='3.5' fill='#ffd84d' stroke='{line}' stroke-width='1.5'/>",
-        "<circle cx='47' cy='112' r='6.5' fill='none' stroke='#f4a83a' stroke-width='3'/><circle cx='153' cy='112' r='6.5' fill='none' stroke='#f4a83a' stroke-width='3'/>",
-        "<circle cx='47' cy='109' r='4.5' fill='#ffffff' stroke='{line}' stroke-width='2'/><circle cx='153' cy='109' r='4.5' fill='#ffffff' stroke='{line}' stroke-width='2'/><circle cx='45.5' cy='107.5' r='1.3' fill='#e0e8ff'/><circle cx='151.5' cy='107.5' r='1.3' fill='#e0e8ff'/>"
+        "<path d='M50 102 L53 106 L50 110 L47 106 Z M150 102 L153 106 L150 110 L147 106 Z' fill='#e9c66a' stroke='{line}' stroke-width='1.5'/>",
+        "<circle cx='50' cy='110' r='6' fill='none' stroke='{line}' stroke-width='4.5'/><circle cx='150' cy='110' r='6' fill='none' stroke='{line}' stroke-width='4.5'/><circle cx='50' cy='110' r='6' fill='none' stroke='#e9c66a' stroke-width='2.2'/><circle cx='150' cy='110' r='6' fill='none' stroke='#e9c66a' stroke-width='2.2'/>",
+        "<path d='M50 102 L50 110 M150 102 L150 110' stroke='#c9a24a' stroke-width='2'/><path d='M50 110 L46 116 L50 122 L54 116 Z M150 110 L146 116 L150 122 L154 116 Z' fill='#e9c66a' stroke='{line}' stroke-width='1.5'/>"
       ]
     },
     "hairAccessory": {
       "kind": "shape",
       "options": [
         "",
-        "<path d='M128 42 C118 30 106 34 110 46 C112 52 122 50 128 42 Z M128 42 C138 30 150 34 146 46 C144 52 134 50 128 42 Z' fill='#ff8fa8' stroke='{line}' stroke-width='2.5' stroke-linejoin='round'/><circle cx='128' cy='42' r='4.5' fill='#ff8fa8' stroke='{line}' stroke-width='2.5'/>",
-        "<rect x='60' y='52' width='24' height='8' rx='4' fill='#ffd84d' stroke='{line}' stroke-width='2' transform='rotate(-24 72 56)'/>",
-        "<path d='M50 76 C48 36 72 22 100 22 C128 22 152 36 150 76' fill='none' stroke='{line}' stroke-width='11' stroke-linecap='round'/><path d='M50 76 C48 36 72 22 100 22 C128 22 152 36 150 76' fill='none' stroke='#ff8fa8' stroke-width='6' stroke-linecap='round'/>",
-        "<circle cx='134' cy='36' r='6' fill='#ffb3c7' stroke='{line}' stroke-width='1.5'/><circle cx='144' cy='43' r='6' fill='#ffb3c7' stroke='{line}' stroke-width='1.5'/><circle cx='140' cy='54' r='6' fill='#ffb3c7' stroke='{line}' stroke-width='1.5'/><circle cx='128' cy='54' r='6' fill='#ffb3c7' stroke='{line}' stroke-width='1.5'/><circle cx='124' cy='43' r='6' fill='#ffb3c7' stroke='{line}' stroke-width='1.5'/><circle cx='134' cy='46' r='5' fill='#ffd84d' stroke='{line}' stroke-width='1.5'/>"
+        "<path d='M128 36 L112 26 L114 46 Z M128 36 L144 26 L142 46 Z' fill='#d23a4a' stroke='{line}' stroke-width='2.5'/><path d='M128 36 L118 52 L124 50 Z M128 36 L136 54 L132 50 Z' fill='#a8202f' stroke='{line}' stroke-width='2'/><circle cx='128' cy='36' r='4.5' fill='#d23a4a' stroke='{line}' stroke-width='2.5'/>",
+        "<path d='M60 56 L82 46 M62 46 L80 58' stroke='{line}' stroke-width='6'/><path d='M60 56 L82 46 M62 46 L80 58' stroke='#e9c66a' stroke-width='3'/>",
+        "<path d='M50 76 C48 36 72 22 100 22 C128 22 152 36 150 76' fill='none' stroke='{line}' stroke-width='10'/><path d='M50 76 C48 36 72 22 100 22 C128 22 152 36 150 76' fill='none' stroke='#2d3142' stroke-width='6'/>",
+        "<path d='M136 32 L139 41 L148 44 L139 47 L136 56 L133 47 L124 44 L133 41 Z' fill='#e9c66a' stroke='{line}' stroke-width='2'/>"
       ]
     },
     "boyOutfit": {
       "kind": "shape",
       "options": [
-        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M86 150 Q100 162 114 150' fill='none' stroke='{line}' stroke-width='3' stroke-linecap='round'/>",
-        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M84 148 L100 162 L91 169 L79 155 Z M116 148 L100 162 L109 169 L121 155 Z' fill='#ffffff' stroke='{line}' stroke-width='2.5' stroke-linejoin='round'/><circle cx='100' cy='174' r='2.4' fill='#ffffff' stroke='{line}' stroke-width='1.2'/><circle cx='100' cy='186' r='2.4' fill='#ffffff' stroke='{line}' stroke-width='1.2'/>",
-        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M64 156 C70 140 86 136 100 140 C114 136 130 140 136 156 C124 166 112 168 100 166 C88 168 76 166 64 156 Z' fill='{shirtShade}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M92 166 L91 184 M108 166 L109 184' stroke='{line}' stroke-width='2.5' stroke-linecap='round'/><circle cx='91' cy='186' r='2.5' fill='{shirtLight}' stroke='{line}' stroke-width='1.2'/><circle cx='109' cy='186' r='2.5' fill='{shirtLight}' stroke='{line}' stroke-width='1.2'/>",
-        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{skinShade}' stroke='{line}' stroke-width='3'/><path d='M62 200 L66 162 L80 150 C88 162 112 162 120 150 L134 162 L138 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/>"
+        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M84 150 L100 182 L116 150 Z' fill='#f4f4f6' stroke='{line}' stroke-width='2.5'/><path d='M84 150 L76 166 L92 176 M116 150 L124 166 L108 176' fill='none' stroke='{line}' stroke-width='2.5'/><path d='M130 160 C140 168 148 182 150 200 L138 200 C136 186 132 174 124 166 Z' fill='{shirtShade}'/>",
+        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M84 148 L100 162 L91 170 L78 156 Z M116 148 L100 162 L109 170 L122 156 Z' fill='#f4f4f6' stroke='{line}' stroke-width='2.5'/><path d='M97 162 L103 162 L106 188 L100 196 L94 188 Z' fill='#23263a' stroke='{line}' stroke-width='2'/><path d='M130 160 C140 168 148 182 150 200 L138 200 C136 186 132 174 124 166 Z' fill='{shirtShade}'/>",
+        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M64 156 C70 140 86 136 100 140 C114 136 130 140 136 156 C124 166 112 168 100 166 C88 168 76 166 64 156 Z' fill='{shirtShade}' stroke='{line}' stroke-width='3'/><path d='M92 166 L91 184 M108 166 L109 184' stroke='{line}' stroke-width='2.5'/><circle cx='91' cy='186' r='2.5' fill='{shirtLight}' stroke='{line}' stroke-width='1.2'/><circle cx='109' cy='186' r='2.5' fill='{shirtLight}' stroke='{line}' stroke-width='1.2'/><path d='M132 166 C142 174 148 186 150 200 L140 200 C138 188 134 178 128 172 Z' fill='{shirtShade}'/>",
+        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M62 200 L66 162 L80 150 C88 162 112 162 120 150 L134 162 L138 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M124 168 C130 176 134 188 135 200 L127 200 C126 190 124 180 120 174 Z' fill='{shirtShade}'/><path d='M140 170 C146 178 150 188 152 200 L146 200 C144 190 142 182 138 176 Z' fill='{skinShade}'/>"
       ]
     },
     "girlOutfit": {
       "kind": "shape",
       "options": [
-        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M86 150 Q100 162 114 150' fill='none' stroke='{line}' stroke-width='3' stroke-linecap='round'/>",
-        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M84 148 L100 162 L91 169 L79 155 Z M116 148 L100 162 L109 169 L121 155 Z' fill='{shirtLight}' stroke='{line}' stroke-width='2.5' stroke-linejoin='round'/><circle cx='100' cy='174' r='2.4' fill='#ffffff' stroke='{line}' stroke-width='1.2'/><circle cx='100' cy='186' r='2.4' fill='#ffffff' stroke='{line}' stroke-width='1.2'/>",
-        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M64 156 C70 140 86 136 100 140 C114 136 130 140 136 156 C124 166 112 168 100 166 C88 168 76 166 64 156 Z' fill='{shirtShade}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M92 166 L91 184 M108 166 L109 184' stroke='{line}' stroke-width='2.5' stroke-linecap='round'/><circle cx='91' cy='186' r='2.5' fill='{shirtLight}' stroke='{line}' stroke-width='1.2'/><circle cx='109' cy='186' r='2.5' fill='{shirtLight}' stroke='{line}' stroke-width='1.2'/>",
-        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{skinShade}' stroke='{line}' stroke-width='3'/><path d='M78 166 L84 148 M122 166 L116 148' stroke='{line}' stroke-width='6' stroke-linecap='round'/><path d='M78 166 L84 148 M122 166 L116 148' stroke='{shirt}' stroke-width='3' stroke-linecap='round'/><path d='M58 200 L68 166 C88 172 112 172 132 166 L142 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3' stroke-linejoin='round'/>"
+        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M84 150 L100 184 L116 150 Z' fill='#f4f4f6' stroke='{line}' stroke-width='2.5'/><path d='M100 160 L88 154 L88 168 Z M100 160 L112 154 L112 168 Z' fill='#d23a4a' stroke='{line}' stroke-width='2'/><circle cx='100' cy='161' r='3.5' fill='#d23a4a' stroke='{line}' stroke-width='2'/><path d='M130 160 C140 168 148 182 150 200 L138 200 C136 186 132 174 124 166 Z' fill='{shirtShade}'/>",
+        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='#f4f4f6' stroke='{line}' stroke-width='3'/><path d='M82 150 L64 172 L100 188 L136 172 L118 150 L100 176 Z' fill='{shirt}' stroke='{line}' stroke-width='2.5'/><path d='M72 170 L100 182 L128 170' fill='none' stroke='#f4f4f6' stroke-width='2'/><path d='M100 176 L92 190 L100 186 L108 190 Z' fill='#d23a4a' stroke='{line}' stroke-width='2'/><path d='M138 176 C144 182 148 190 150 200 L142 200 C141 192 138 186 134 182 Z' fill='#d8d8e0'/>",
+        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M64 156 C70 140 86 136 100 140 C114 136 130 140 136 156 C124 166 112 168 100 166 C88 168 76 166 64 156 Z' fill='{shirtShade}' stroke='{line}' stroke-width='3'/><path d='M92 166 L91 184 M108 166 L109 184' stroke='{line}' stroke-width='2.5'/><circle cx='91' cy='186' r='2.5' fill='{shirtLight}' stroke='{line}' stroke-width='1.2'/><circle cx='109' cy='186' r='2.5' fill='{shirtLight}' stroke='{line}' stroke-width='1.2'/><path d='M132 166 C142 174 148 186 150 200 L140 200 C138 188 134 178 128 172 Z' fill='{shirtShade}'/>",
+        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M78 166 L84 148 M122 166 L116 148' stroke='{line}' stroke-width='6'/><path d='M78 166 L84 148 M122 166 L116 148' stroke='{shirt}' stroke-width='3'/><path d='M58 200 L68 166 C88 172 112 172 132 166 L142 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M124 172 C130 180 134 190 135 200 L127 200 C126 192 124 184 120 176 Z' fill='{shirtShade}'/>"
       ]
     },
     "shirt": {
       "kind": "color",
-      "options": ["#d0503e", "#f4a83a", "#6cbf6a", "#5b8def", "#9a7bdc", "#f38bb0", "#3b3b45", "#ffffff"]
+      "options": ["#2d3142", "#d23a4a", "#3f7fd6", "#2f8f5b", "#6b4bb8", "#e8a33a", "#f4f4f6", "#1d1412"]
     },
     "boyAccessory": {
       "kind": "shape",
       "options": [
         "",
-        "<circle cx='78' cy='101' r='12' fill='none' stroke='{line}' stroke-width='3.5'/><circle cx='122' cy='101' r='12' fill='none' stroke='{line}' stroke-width='3.5'/><path d='M90 100 Q100 96 110 100 M66 99 L50 94 M134 99 L150 94' fill='none' stroke='{line}' stroke-width='3.5' stroke-linecap='round'/>",
-        "<rect x='64' y='92' width='29' height='18' rx='8' fill='#2e2a33' stroke='{line}' stroke-width='3'/><rect x='107' y='92' width='29' height='18' rx='8' fill='#2e2a33' stroke='{line}' stroke-width='3'/><path d='M93 99 Q100 96 107 99 M64 98 L50 94 M136 98 L150 94' fill='none' stroke='{line}' stroke-width='3.5' stroke-linecap='round'/><path d='M70 97 L78 97 M113 97 L121 97' stroke='#ffffff' stroke-width='2.5' stroke-linecap='round' opacity='0.7'/>",
-        "<path d='M46 70 C46 34 70 20 100 20 C130 20 154 34 154 70 Z' fill='#d0503e' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M100 66 C120 62 150 62 170 68 C172 76 160 78 146 76 L100 72 Z' fill='#d0503e' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><circle cx='100' cy='21' r='4' fill='#d0503e' stroke='{line}' stroke-width='2'/><path d='M70 36 C80 30 90 28 100 28' fill='none' stroke='#ffffff' stroke-width='4' stroke-linecap='round' opacity='0.4'/>",
-        "<path d='M44 98 C40 30 70 14 100 14 C130 14 160 30 156 98' fill='none' stroke='{line}' stroke-width='10' stroke-linecap='round'/><path d='M44 98 C40 30 70 14 100 14 C130 14 160 30 156 98' fill='none' stroke='#3b3b45' stroke-width='5' stroke-linecap='round'/><rect x='34' y='82' width='18' height='28' rx='8' fill='#3b3b45' stroke='{line}' stroke-width='2.5'/><rect x='148' y='82' width='18' height='28' rx='8' fill='#3b3b45' stroke='{line}' stroke-width='2.5'/>",
-        "<path d='M64 112 C80 106 120 106 136 112 L132 134 C120 144 80 144 68 134 Z' fill='#eef4ff' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M72 120 H128 M74 128 H126' stroke='#c9d6ee' stroke-width='2' stroke-linecap='round'/><path d='M64 114 L50 100 M136 114 L150 100' stroke='{line}' stroke-width='2' stroke-linecap='round'/>",
-        "<path d='M48 60 C70 52 130 52 152 60 L152 71 C130 63 70 63 48 71 Z' fill='#5b8def' stroke='{line}' stroke-width='2.5' stroke-linejoin='round'/>"
+        "<rect x='64' y='93' width='28' height='15' rx='3' fill='#ffffff' fill-opacity='0.15' stroke='{line}' stroke-width='3'/><rect x='108' y='93' width='28' height='15' rx='3' fill='#ffffff' fill-opacity='0.15' stroke='{line}' stroke-width='3'/><path d='M92 99 L108 99 M64 98 L51 94 M136 98 L149 94' fill='none' stroke='{line}' stroke-width='3'/>",
+        "<path d='M60 94 L95 94 L93 105 Q80 113 66 106 Z M140 94 L105 94 L107 105 Q120 113 134 106 Z' fill='#15131c' stroke='{line}' stroke-width='2.5'/><path d='M95 96 L105 96 M60 95 L50 92 M140 95 L150 92' fill='none' stroke='{line}' stroke-width='3'/><path d='M68 97 L80 97 M110 97 L122 97' stroke='#ffffff' stroke-width='2' opacity='0.6'/>",
+        "<path d='M46 70 C46 32 70 18 100 18 C130 18 154 32 154 70 Z' fill='#d23a4a' stroke='{line}' stroke-width='3'/><path d='M100 64 C124 60 154 60 174 68 C172 76 156 77 140 76 L100 72 Z' fill='#a8202f' stroke='{line}' stroke-width='3'/><circle cx='100' cy='19' r='4' fill='#d23a4a' stroke='{line}' stroke-width='2'/><path d='M100 20 L100 66' stroke='#a8202f' stroke-width='2'/><path d='M66 40 C76 30 88 26 98 25' fill='none' stroke='#ffffff' stroke-width='4' opacity='0.35'/>",
+        "<path d='M44 98 C40 30 70 14 100 14 C130 14 160 30 156 98' fill='none' stroke='{line}' stroke-width='10'/><path d='M44 98 C40 30 70 14 100 14 C130 14 160 30 156 98' fill='none' stroke='#2d3142' stroke-width='5'/><rect x='34' y='82' width='18' height='28' rx='8' fill='#2d3142' stroke='{line}' stroke-width='2.5'/><rect x='148' y='82' width='18' height='28' rx='8' fill='#2d3142' stroke='{line}' stroke-width='2.5'/><path d='M40 88 L40 104 M160 88 L160 104' stroke='#d23a4a' stroke-width='2'/>",
+        "<path d='M64 112 C80 106 120 106 136 112 L132 134 C120 144 80 144 68 134 Z' fill='#23232b' stroke='{line}' stroke-width='3'/><path d='M72 120 H128 M74 128 H126' stroke='#3c3c48' stroke-width='2'/><path d='M64 114 L50 100 M136 114 L150 100' stroke='{line}' stroke-width='2'/>",
+        "<path d='M152 66 L178 56 L172 70 L182 82 L156 72 Z' fill='#f4f4f6' stroke='{line}' stroke-width='2.5'/><path d='M48 62 C70 54 130 54 152 62 L152 72 C130 64 70 64 48 72 Z' fill='#f4f4f6' stroke='{line}' stroke-width='2.5'/><path d='M60 66 C80 61 120 61 140 66' fill='none' stroke='#d23a4a' stroke-width='2'/>"
       ]
     },
     "girlAccessory": {
       "kind": "shape",
       "options": [
         "",
-        "<circle cx='78' cy='101' r='12' fill='none' stroke='{line}' stroke-width='3.5'/><circle cx='122' cy='101' r='12' fill='none' stroke='{line}' stroke-width='3.5'/><path d='M90 100 Q100 96 110 100 M66 99 L50 94 M134 99 L150 94' fill='none' stroke='{line}' stroke-width='3.5' stroke-linecap='round'/>",
-        "<rect x='64' y='92' width='29' height='18' rx='8' fill='#2e2a33' stroke='{line}' stroke-width='3'/><rect x='107' y='92' width='29' height='18' rx='8' fill='#2e2a33' stroke='{line}' stroke-width='3'/><path d='M93 99 Q100 96 107 99 M64 98 L50 94 M136 98 L150 94' fill='none' stroke='{line}' stroke-width='3.5' stroke-linecap='round'/><path d='M70 97 L78 97 M113 97 L121 97' stroke='#ffffff' stroke-width='2.5' stroke-linecap='round' opacity='0.7'/>",
-        "<path d='M46 70 C46 34 70 20 100 20 C130 20 154 34 154 70 Z' fill='#f38bb0' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M100 66 C120 62 150 62 170 68 C172 76 160 78 146 76 L100 72 Z' fill='#f38bb0' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><circle cx='100' cy='21' r='4' fill='#f38bb0' stroke='{line}' stroke-width='2'/><path d='M70 36 C80 30 90 28 100 28' fill='none' stroke='#ffffff' stroke-width='4' stroke-linecap='round' opacity='0.4'/>",
-        "<path d='M44 98 C40 30 70 14 100 14 C130 14 160 30 156 98' fill='none' stroke='{line}' stroke-width='10' stroke-linecap='round'/><path d='M44 98 C40 30 70 14 100 14 C130 14 160 30 156 98' fill='none' stroke='#f3f0f5' stroke-width='5' stroke-linecap='round'/><rect x='34' y='82' width='18' height='28' rx='8' fill='#f3f0f5' stroke='{line}' stroke-width='2.5'/><rect x='148' y='82' width='18' height='28' rx='8' fill='#f3f0f5' stroke='{line}' stroke-width='2.5'/>",
-        "<path d='M64 112 C80 106 120 106 136 112 L132 134 C120 144 80 144 68 134 Z' fill='#eef4ff' stroke='{line}' stroke-width='3' stroke-linejoin='round'/><path d='M72 120 H128 M74 128 H126' stroke='#c9d6ee' stroke-width='2' stroke-linecap='round'/><path d='M64 114 L50 100 M136 114 L150 100' stroke='{line}' stroke-width='2' stroke-linecap='round'/>"
+        "<rect x='64' y='93' width='28' height='15' rx='3' fill='#ffffff' fill-opacity='0.15' stroke='{line}' stroke-width='3'/><rect x='108' y='93' width='28' height='15' rx='3' fill='#ffffff' fill-opacity='0.15' stroke='{line}' stroke-width='3'/><path d='M92 99 L108 99 M64 98 L51 94 M136 98 L149 94' fill='none' stroke='{line}' stroke-width='3'/>",
+        "<path d='M60 94 L95 94 L93 105 Q80 113 66 106 Z M140 94 L105 94 L107 105 Q120 113 134 106 Z' fill='#15131c' stroke='{line}' stroke-width='2.5'/><path d='M95 96 L105 96 M60 95 L50 92 M140 95 L150 92' fill='none' stroke='{line}' stroke-width='3'/><path d='M68 97 L80 97 M110 97 L122 97' stroke='#ffffff' stroke-width='2' opacity='0.6'/>",
+        "<path d='M46 70 C46 32 70 18 100 18 C130 18 154 32 154 70 Z' fill='#1d1412' stroke='{line}' stroke-width='3'/><path d='M100 64 C124 60 154 60 174 68 C172 76 156 77 140 76 L100 72 Z' fill='#2d3142' stroke='{line}' stroke-width='3'/><circle cx='100' cy='19' r='4' fill='#1d1412' stroke='{line}' stroke-width='2'/><path d='M66 40 C76 30 88 26 98 25' fill='none' stroke='#ffffff' stroke-width='4' opacity='0.3'/>",
+        "<path d='M44 98 C40 30 70 14 100 14 C130 14 160 30 156 98' fill='none' stroke='{line}' stroke-width='10'/><path d='M44 98 C40 30 70 14 100 14 C130 14 160 30 156 98' fill='none' stroke='#f3f0f5' stroke-width='5'/><rect x='34' y='82' width='18' height='28' rx='8' fill='#f3f0f5' stroke='{line}' stroke-width='2.5'/><rect x='148' y='82' width='18' height='28' rx='8' fill='#f3f0f5' stroke='{line}' stroke-width='2.5'/><path d='M40 88 L40 104 M160 88 L160 104' stroke='#b0568a' stroke-width='2'/>",
+        "<path d='M64 112 C80 106 120 106 136 112 L132 134 C120 144 80 144 68 134 Z' fill='#23232b' stroke='{line}' stroke-width='3'/><path d='M72 120 H128 M74 128 H126' stroke='#3c3c48' stroke-width='2'/><path d='M64 114 L50 100 M136 114 L150 100' stroke='{line}' stroke-width='2'/>"
       ]
     }
   }
