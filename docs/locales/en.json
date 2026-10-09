@@ -31,7 +31,7 @@
       "styleHint": "Pick a starting look, then change anything you like",
       "styleLabel": "Starting look",
       "style": {
-        "boy": "Guy",
+        "boy": "Boy",
         "girl": "Girl"
       },
       "option": "{part} {n}"
@@ -92,14 +92,21 @@
     "parts": {
       "face": "Face",
       "skin": "Skin",
-      "hair": "Hair",
+      "boyHair": "Hair",
+      "girlHair": "Hair",
       "hairColor": "Hair colour",
       "eyes": "Eyes",
       "brows": "Brows",
       "mouth": "Mouth",
       "beard": "Beard",
-      "accessory": "Extras",
-      "shirt": "Shirt"
+      "makeup": "Make-up",
+      "earrings": "Earrings",
+      "hairAccessory": "Hair accessory",
+      "boyOutfit": "Outfit",
+      "girlOutfit": "Outfit",
+      "shirt": "Outfit colour",
+      "boyAccessory": "Extras",
+      "girlAccessory": "Extras"
     }
   },
   "stats": {

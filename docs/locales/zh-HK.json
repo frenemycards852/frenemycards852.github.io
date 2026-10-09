@@ -92,14 +92,21 @@
     "parts": {
       "face": "面形",
       "skin": "膚色",
-      "hair": "髮型",
+      "boyHair": "髮型",
+      "girlHair": "髮型",
       "hairColor": "髮色",
       "eyes": "眼",
       "brows": "眉",
       "mouth": "口",
       "beard": "鬍鬚",
-      "accessory": "配件",
-      "shirt": "衫"
+      "makeup": "妝容",
+      "earrings": "耳環",
+      "hairAccessory": "髮飾",
+      "boyOutfit": "衫款",
+      "girlOutfit": "衫款",
+      "shirt": "衫色",
+      "boyAccessory": "配件",
+      "girlAccessory": "配件"
     }
   },
   "stats": {

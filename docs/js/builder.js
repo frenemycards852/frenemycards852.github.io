@@ -6,7 +6,9 @@ import {
   SKILL_KINDS, CUSTOM, createDraft, textLength, clipText, isBlocked, isTextOk,
   statTotal, isStatsValid, setStat, randomStats, pickOther, isSkillOk, isDescOk,
 } from './card.js';
-import { avatarSvg, isAvatarValid, randomAvatar, optionCount, partIndex, withPart } from './avatar.js';
+import {
+  avatarSvg, avatarStyle, baseAvatar, isAvatarValid, randomAvatar, optionCount, partIndex, withPart,
+} from './avatar.js';
 
 const STEPS = ['name', 'avatar', 'type', 'stats', 'skills', 'desc', 'summary'];
 
@@ -49,7 +51,7 @@ const go = (step) => { location.hash = `#/make/${step}`; };
 
 const VALID = {
   name: () => isTextOk(draft.name, terms()),
-  avatar: () => Boolean(draft.avatarStyle) && isAvatarValid(data.avatar, draft.avatar),
+  avatar: () => isAvatarValid(data.avatar, draft.avatar),
   type: () => data.types.types.some((type) => type.id === draft.type),
   stats: () => isStatsValid(draft.stats, data.config.stats),
   skills: () => SKILL_KINDS.every((kind) => isSkillOk(draft[kind], terms())),
@@ -168,25 +170,19 @@ const VIEWS = {
 
   avatar({ refresh, redraw }) {
     const def = data.avatar;
-    const pickStyle = (style) => {
-      draft.avatarStyle = style.id;
-      draft.avatar = [...style.base];
-    };
     // Dice keeps the chosen style; before a choice it picks one at random.
     const randomStyled = () => {
-      const style = def.styles.find((s) => s.id === draft.avatarStyle)
-        ?? def.styles[Math.floor(Math.random() * def.styles.length)];
-      draft.avatarStyle = style.id;
-      draft.avatar = randomAvatar(def, Math.random, style);
+      const styleIndex = draft.avatar ? draft.avatar[0] : Math.floor(Math.random() * def.styles.length);
+      draft.avatar = randomAvatar(def, styleIndex);
     };
     const styleLabel = (style) => t(`builder.avatar.style.${style.id}`);
 
-    // First visit: choose a starting style before editing.
-    if (!draft.avatarStyle) {
-      const choices = def.styles.map((style) => h('button', {
+    // First visit: choose boy or girl. Each style has its own categories.
+    if (!draft.avatar) {
+      const choices = def.styles.map((style, i) => h('button', {
         type: 'button', class: 'style-choice',
-        onclick: () => { pickStyle(style); redraw(); },
-      }, avatarEl(style.base, 'style-thumb', '', def.headViewBox), h('span', { text: styleLabel(style) })));
+        onclick: () => { draft.avatar = baseAvatar(def, i); redraw(); },
+      }, avatarEl(baseAvatar(def, i), 'style-thumb', '', def.headViewBox), h('span', { text: styleLabel(style) })));
       return {
         body: h('div', {},
           h('p', { class: 'hint', text: t('builder.avatar.styleHint') }),
@@ -196,17 +192,22 @@ const VIEWS = {
     }
 
     const styleBar = h('div', { class: 'style-bar', role: 'group', 'aria-label': t('builder.avatar.styleLabel') },
-      ...def.styles.map((style) => h('button', {
+      ...def.styles.map((style, i) => h('button', {
         type: 'button', class: 'part-tab', text: styleLabel(style),
-        'aria-pressed': String(style.id === draft.avatarStyle),
+        'aria-pressed': String(i === draft.avatar[0]),
         onclick: () => {
-          if (style.id === draft.avatarStyle) return;
-          pickStyle(style);
+          if (i === draft.avatar[0]) return;
+          draft.avatar = baseAvatar(def, i);
           redraw();
         },
       })));
 
-    if (!def.partOrder.includes(avatarPart)) avatarPart = def.partOrder[0];
+    const style = avatarStyle(def, draft.avatar);
+    if (!style.partOrder.includes(avatarPart)) {
+      // After switching boy/girl, stay on the matching tab (e.g. boyHair → girlHair).
+      const label = avatarPart && t(`avatar.parts.${avatarPart}`);
+      avatarPart = style.partOrder.find((p) => t(`avatar.parts.${p}`) === label) ?? style.partOrder[0];
+    }
     const preview = h('div', { class: 'avatar-stage' });
     const drawPreview = () => {
       preview.replaceChildren(avatarEl(draft.avatar, 'avatar-preview', t('builder.avatar.preview')));
@@ -217,7 +218,7 @@ const VIEWS = {
     const drawOptions = () => {
       const part = avatarPart;
       const kind = def.parts[part].kind;
-      const current = draft.avatar[partIndex(def, part)];
+      const current = draft.avatar[partIndex(style, part)];
       const buttons = [];
       for (let i = 0; i < optionCount(def, part); i++) {
         const label = t('builder.avatar.option', { part: t(`avatar.parts.${part}`), n: i + 1 });
@@ -235,7 +236,7 @@ const VIEWS = {
         if (kind === 'shape') {
           // Hide parts that would cover this one (e.g. a cap over hair) in the thumbnail.
           let thumb = withPart(def, draft.avatar, part, i);
-          for (const hidden of def.thumbHides?.[part] ?? []) thumb = withPart(def, thumb, hidden, 0);
+          for (const hidden of style.thumbHides?.[part] ?? []) thumb = withPart(def, thumb, hidden, 0);
           btn.append(avatarEl(thumb, 'part-thumb', '', def.headViewBox));
         }
         buttons.push(btn);
@@ -265,7 +266,7 @@ const VIEWS = {
       e.preventDefault();
     }, { passive: false });
 
-    for (const part of def.partOrder) {
+    for (const part of style.partOrder) {
       tabs.append(h('button', {
         type: 'button', class: 'part-tab', text: t(`avatar.parts.${part}`),
         'aria-pressed': String(part === avatarPart),

@@ -3,12 +3,10 @@
 export const SKILL_KINDS = ['move', 'trait', 'weakness'];
 export const CUSTOM = 'custom';
 
-// A fresh draft: avatar waits for a style choice; first preset of each kind.
-// avatarStyle only picks the builder's starting look; it is not part of the card.
+// A fresh draft: avatar waits for a boy/girl choice; first preset of each kind.
 export function createDraft({ config, types, skills, descriptions }) {
   const draft = {
     name: '',
-    avatarStyle: null,
     avatar: null,
     type: types.types[0].id,
     stats: [...config.stats.default],
