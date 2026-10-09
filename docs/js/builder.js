@@ -171,7 +171,18 @@ const VIEWS = {
     const remaining = h('p', { class: 'stat-remaining', 'aria-live': 'polite' });
     const rows = rules.keys.map((key, i) => {
       const label = t(`stats.${key}`);
-      const value = h('output', { class: 'stat-value' });
+      // Typed number: digits only; an empty box keeps the old value until it loses focus.
+      const value = h('input', {
+        class: 'stat-value', type: 'text', id: `f-stat-${key}`, inputmode: 'numeric',
+        pattern: '[0-9]*', maxlength: 3, autocomplete: 'off', enterkeyhint: 'done',
+        onfocus: () => value.select(),
+        oninput: () => {
+          value.value = value.value.replace(/\D/g, '');
+          if (value.value !== '') change(i, Number(value.value));
+        },
+        onchange: () => sync(),
+        onkeydown: (e) => { if (e.key === 'Enter') value.blur(); },
+      });
       const range = h('input', {
         type: 'range', min: rules.min, max: rules.max, step: 1, 'aria-label': label,
         oninput: () => change(i, Number(range.value)),
@@ -185,7 +196,7 @@ const VIEWS = {
         onclick: () => change(i, draft.stats[i] + rules.step),
       });
       const row = h('div', { class: 'stat-row' },
-        h('div', { class: 'stat-head' }, h('span', { text: label }), value),
+        h('div', { class: 'stat-head' }, h('label', { for: `f-stat-${key}`, text: label }), value),
         h('div', { class: 'stat-controls' }, less, range, more));
       return { row, value, range, less, more };
     });
@@ -194,7 +205,9 @@ const VIEWS = {
       const left = rules.total - statTotal(draft.stats);
       rows.forEach((r, i) => {
         const v = draft.stats[i];
-        r.value.textContent = v;
+        // Leave an empty box alone while it is being typed in.
+        const typingEmpty = r.value === document.activeElement && r.value.value === '';
+        if (!typingEmpty && r.value.value !== String(v)) r.value.value = v;
         r.range.value = v;
         r.less.disabled = v <= rules.min;
         r.more.disabled = v >= rules.max || left <= 0;

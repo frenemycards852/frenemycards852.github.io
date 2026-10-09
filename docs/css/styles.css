@@ -348,11 +348,24 @@ h1 {
 .stat-head {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
   font-weight: 600;
 }
 
 .stat-value {
+  width: 64px;
+  min-height: var(--tap);
+  padding: 6px 8px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 18px;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
+  text-align: center;
 }
 
 .stat-controls {
