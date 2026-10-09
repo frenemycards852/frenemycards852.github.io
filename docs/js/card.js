@@ -1,12 +1,15 @@
 // Card model: defaults, stat rules, text checks, random picks. No DOM access.
 
+import { randomAvatar } from './avatar.js';
+
 export const SKILL_KINDS = ['move', 'trait', 'weakness'];
 export const CUSTOM = 'custom';
 
-// A fresh draft using the first preset of each kind.
-export function createDraft({ config, types, skills, descriptions }) {
+// A fresh draft: random avatar, first preset of each kind.
+export function createDraft({ config, types, skills, descriptions, avatar }) {
   const draft = {
     name: '',
+    avatar: randomAvatar(avatar),
     type: types.types[0].id,
     stats: [...config.stats.default],
     desc: { id: descriptions.items[0].id, text: '' },

@@ -25,6 +25,11 @@
       "label": "Friend's name or nickname",
       "placeholder": "e.g. Sam"
     },
+    "avatar": {
+      "title": "Give them a look",
+      "preview": "Avatar preview",
+      "option": "{part} {n}"
+    },
     "type": {
       "title": "What type are they?"
     },
@@ -59,6 +64,7 @@
       "restart": "Start over",
       "rows": {
         "name": "Name",
+        "avatar": "Avatar",
         "type": "Type",
         "stats": "Stats",
         "move": "Signature move",
@@ -75,6 +81,20 @@
     "work": { "name": "Workaholic", "idea": "\"Let me just reply to this email\"" },
     "love": { "name": "Lovestruck", "idea": "\"They're not like that\"" },
     "savage": { "name": "Savage", "idea": "Roasts everyone" }
+  },
+  "avatar": {
+    "parts": {
+      "face": "Face",
+      "skin": "Skin",
+      "hair": "Hair",
+      "hairColor": "Hair colour",
+      "eyes": "Eyes",
+      "brows": "Brows",
+      "mouth": "Mouth",
+      "beard": "Beard",
+      "accessory": "Extras",
+      "shirt": "Shirt"
+    }
   },
   "stats": {
     "hp": "Stamina",

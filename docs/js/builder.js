@@ -6,24 +6,27 @@ import {
   SKILL_KINDS, CUSTOM, createDraft, textLength, clipText, isBlocked, isTextOk,
   statTotal, isStatsValid, setStat, randomStats, pickOther, isSkillOk, isDescOk,
 } from './card.js';
+import { avatarSvg, isAvatarValid, randomAvatar, optionCount, partIndex, withPart } from './avatar.js';
 
-const STEPS = ['name', 'type', 'stats', 'skills', 'desc', 'summary'];
+const STEPS = ['name', 'avatar', 'type', 'stats', 'skills', 'desc', 'summary'];
 
 let draft = null; // kept in memory while the page is open
 let data = null;
 let mountToken = 0;
+let avatarPart = null; // avatar category tab currently open
 
 async function loadData() {
   const lang = getLang();
   if (data && data.lang === lang) return data;
-  const [config, types, blocklist, skills, descriptions] = await Promise.all([
+  const [config, types, blocklist, avatar, skills, descriptions] = await Promise.all([
     loadJSON('data/config.json'),
     loadJSON('data/types.json'),
     loadJSON('data/blocklist.json'),
+    loadJSON('data/avatar.json'),
     loadJSON(`data/skills/${lang}.json`),
     loadJSON(`data/descriptions/${lang}.json`),
   ]);
-  data = { lang, config, types, blocklist, skills, descriptions };
+  data = { lang, config, types, blocklist, avatar, skills, descriptions };
   return data;
 }
 
@@ -46,6 +49,7 @@ const go = (step) => { location.hash = `#/make/${step}`; };
 
 const VALID = {
   name: () => isTextOk(draft.name, terms()),
+  avatar: () => isAvatarValid(data.avatar, draft.avatar),
   type: () => data.types.types.some((type) => type.id === draft.type),
   stats: () => isStatsValid(draft.stats, data.config.stats),
   skills: () => SKILL_KINDS.every((kind) => isSkillOk(draft[kind], terms())),
@@ -143,6 +147,13 @@ function option({ name, value, checked, title, desc, color, onPick }) {
 
 const reminder = () => h('p', { class: 'reminder', text: t('builder.reminder') });
 
+// Wrapper element holding an avatar SVG built from our own data.
+function avatarEl(indices, className, label, viewBox) {
+  const el = h('div', { class: className });
+  el.innerHTML = avatarSvg(data.avatar, indices, { label, viewBox });
+  return el;
+}
+
 const VIEWS = {
   name({ refresh, next }) {
     const field = textField({
@@ -151,6 +162,64 @@ const VIEWS = {
       onInput: (v) => { draft.name = v; refresh(); }, onEnter: next,
     });
     return { body: h('div', {}, field.el, reminder()), focus: () => field.input.focus() };
+  },
+
+  avatar({ refresh }) {
+    const def = data.avatar;
+    if (!def.partOrder.includes(avatarPart)) avatarPart = def.partOrder[0];
+    const preview = h('div', { class: 'avatar-stage' });
+    const drawPreview = () => {
+      preview.replaceChildren(avatarEl(draft.avatar, 'avatar-preview', t('builder.avatar.preview')));
+    };
+    const tabs = h('div', { class: 'part-tabs' });
+    const grid = h('div', { class: 'part-options' });
+
+    const drawOptions = () => {
+      const part = avatarPart;
+      const kind = def.parts[part].kind;
+      const current = draft.avatar[partIndex(def, part)];
+      const buttons = [];
+      for (let i = 0; i < optionCount(def, part); i++) {
+        const label = t('builder.avatar.option', { part: t(`avatar.parts.${part}`), n: i + 1 });
+        const btn = h('button', {
+          type: 'button', 'aria-label': label, 'aria-pressed': String(i === current),
+          class: kind === 'color' ? 'swatch' : 'part-option',
+          style: kind === 'color' ? `background: ${def.parts[part].options[i]}` : null,
+          onclick: () => {
+            draft.avatar = withPart(def, draft.avatar, part, i);
+            buttons.forEach((b, j) => b.setAttribute('aria-pressed', String(j === i)));
+            drawPreview();
+            refresh();
+          },
+        });
+        if (kind === 'shape') {
+          // Hide parts that would cover this one (e.g. a cap over hair) in the thumbnail.
+          let thumb = withPart(def, draft.avatar, part, i);
+          for (const hidden of def.thumbHides?.[part] ?? []) thumb = withPart(def, thumb, hidden, 0);
+          btn.append(avatarEl(thumb, 'part-thumb', '', def.headViewBox));
+        }
+        buttons.push(btn);
+      }
+      grid.replaceChildren(...buttons);
+    };
+
+    for (const part of def.partOrder) {
+      tabs.append(h('button', {
+        type: 'button', class: 'part-tab', text: t(`avatar.parts.${part}`),
+        'aria-pressed': String(part === avatarPart),
+        onclick: (e) => {
+          avatarPart = part;
+          tabs.querySelectorAll('.part-tab').forEach((b) => b.setAttribute('aria-pressed', String(b === e.currentTarget)));
+          drawOptions();
+        },
+      }));
+    }
+    drawPreview();
+    drawOptions();
+    return {
+      body: h('div', {}, preview, tabs, grid),
+      random: () => { draft.avatar = randomAvatar(def); },
+    };
   },
 
   type({ refresh }) {
@@ -320,6 +389,7 @@ const VIEWS = {
 
     const rows = [
       ['name', draft.name.trim(), 'name'],
+      ['avatar', avatarEl(draft.avatar, 'summary-avatar', t('builder.summary.rows.avatar')), 'avatar'],
       ['type', `${type.emoji} ${t(`types.${type.id}.name`)}`, 'type'],
       ['stats', statsText, 'stats'],
       ...SKILL_KINDS.map((kind) => [kind, skillText(kind), 'skills']),
@@ -328,7 +398,7 @@ const VIEWS = {
     const list = h('dl', { class: 'summary' }, ...rows.map(([key, value, step]) =>
       h('div', { class: 'summary-row' },
         h('dt', { text: t(`builder.summary.rows.${key}`) }),
-        h('dd', { text: value }),
+        typeof value === 'string' ? h('dd', { text: value }) : h('dd', {}, value),
         h('a', {
           class: 'summary-edit', href: `#/make/${step}`, text: t('builder.summary.edit'),
           'aria-label': `${t('builder.summary.edit')} ${t(`builder.summary.rows.${key}`)}`,

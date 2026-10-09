@@ -25,6 +25,11 @@
       "label": "朋友個名或者花名",
       "placeholder": "例如：阿明"
     },
+    "avatar": {
+      "title": "幫佢整個頭像",
+      "preview": "頭像預覽",
+      "option": "{part} {n}"
+    },
     "type": {
       "title": "佢屬於咩系？"
     },
@@ -59,6 +64,7 @@
       "restart": "由頭整過",
       "rows": {
         "name": "名",
+        "avatar": "頭像",
         "type": "類型",
         "stats": "能力值",
         "move": "必殺技",
@@ -75,6 +81,20 @@
     "work": { "name": "工作狂系", "idea": "「等我覆埋封 email 先」" },
     "love": { "name": "戀愛腦系", "idea": "「佢唔係咁㗎」" },
     "savage": { "name": "毒舌系", "idea": "食玻璃大" }
+  },
+  "avatar": {
+    "parts": {
+      "face": "面形",
+      "skin": "膚色",
+      "hair": "髮型",
+      "hairColor": "髮色",
+      "eyes": "眼",
+      "brows": "眉",
+      "mouth": "口",
+      "beard": "鬍鬚",
+      "accessory": "配件",
+      "shirt": "衫"
+    }
   },
   "stats": {
     "hp": "體力",

@@ -411,7 +411,9 @@ h1 {
 
 .step-nav .btn {
   flex: 1;
-  padding: 12px 8px;
+  min-width: 0;
+  padding: 12px 4px;
+  white-space: nowrap;
 }
 
 .btn-block {
@@ -453,6 +455,108 @@ h1 {
   padding: 0 8px;
   color: var(--primary);
   font-weight: 700;
+}
+
+/* Avatar builder */
+.avatar-stage {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.avatar-preview {
+  width: 168px;
+  height: 168px;
+  border: 3px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.avatar-preview svg,
+.part-thumb svg,
+.summary-avatar svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.part-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 0 -16px 12px;
+  padding: 4px 16px 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.part-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.part-tab {
+  flex: none;
+  min-height: var(--tap);
+  padding: 0 16px;
+  border: 2px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.part-tab[aria-pressed="true"] {
+  background: var(--text);
+  color: var(--surface);
+}
+
+.part-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(68px, 1fr));
+  gap: 10px;
+}
+
+.part-option,
+.swatch {
+  aspect-ratio: 1;
+  min-height: var(--tap);
+  padding: 0;
+  border: 2px solid rgba(43, 33, 24, 0.25);
+  border-radius: var(--radius);
+  background: var(--surface);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.swatch {
+  width: 100%;
+  max-width: 60px;
+  justify-self: center;
+  border-radius: 50%;
+}
+
+.part-option[aria-pressed="true"],
+.swatch[aria-pressed="true"] {
+  border: 4px solid var(--primary);
+  box-shadow: 0 3px 0 var(--border);
+}
+
+.part-thumb {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.summary-avatar {
+  width: 72px;
+  height: 72px;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+  overflow: hidden;
 }
 
 .load-error {

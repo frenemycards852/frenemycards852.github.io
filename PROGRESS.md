@@ -5,15 +5,16 @@ Keep it short: replace old "Next step" text rather than appending forever.
 
 ## Current phase
 
-**Stage 1 · Phase 4 — Card builder (without avatar)** (done)
+**Stage 1 · Phase 5 — Avatar builder** (built; awaiting review)
 
 ## Next step
 
-- Phase 4 content reviewed (Cantonese revised by product creator) and deployed. Stats can also be typed directly.
-- Then Phase 5: avatar builder (inserted after the name step).
+- Product creator tests the avatar step locally, then push.
+- Then Phase 6: card rendering (Canvas) + rarity roll.
 
 Notes:
-- Routes: `#/`, `#/make/<step>` (steps: name, type, stats, skills, desc, summary), `#/album`. Unknown hashes → home. Opening a later step with earlier steps invalid redirects to the first invalid step.
+- Avatar: placeholder SVG parts all in `docs/data/avatar.json` (one file instead of `assets/avatar/*.svg`; approved 2026-10-09). 10 parts incl. beard (requested by product creator). Stored as 10 indices in `partOrder` order: **never reorder/remove parts or options, only append** (links depend on it). `avatar.js` builds the SVG; head is its own `<g class="head">` for future photo heads. New drafts get a random avatar.
+- Routes: `#/`, `#/make/<step>` (steps: name, avatar, type, stats, skills, desc, summary), `#/album`. Unknown hashes → home. Opening a later step with earlier steps invalid redirects to the first invalid step.
 - Draft is kept in memory only (`builder.js`); a page reload starts a new card.
 - Skill/description presets share ids across languages (`m1`, `t1`, `w1`, `d1`); battle effects get mapped to these ids in Phase 8.
 - Custom entries use id `custom`. Builder dice uses `Math.random` (seeded RNG is only for battles).
@@ -27,7 +28,7 @@ Notes:
 - [x] 2. Project setup & first deployment
 - [x] 3. App shell + localization
 - [x] 4. Card builder (without avatar)
-- [ ] 5. Avatar builder
+- [x] 5. Avatar builder
 - [ ] 6. Card rendering + rarity roll
 - [ ] 7. Card links + card view + sharing → **test with real friends**
 
