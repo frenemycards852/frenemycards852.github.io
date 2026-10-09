@@ -69,12 +69,12 @@
     }
   },
   "types": {
-    "late": { "name": "遲到系", "idea": "永遠喺「到緊」" },
+    "late": { "name": "遲到系", "idea": "永遠喺「嚟緊」" },
     "foodie": { "name": "食貨系", "idea": "為食而生" },
-    "slacker": { "name": "廢青系", "idea": "專業攤梳化" },
+    "slacker": { "name": "廢青系", "idea": "專業躺平" },
     "work": { "name": "工作狂系", "idea": "「等我覆埋封 email 先」" },
     "love": { "name": "戀愛腦系", "idea": "「佢唔係咁㗎」" },
-    "savage": { "name": "毒舌系", "idea": "見人就串" }
+    "savage": { "name": "毒舌系", "idea": "食玻璃大" }
   },
   "stats": {
     "hp": "體力",
