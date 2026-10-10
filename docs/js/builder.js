@@ -237,7 +237,8 @@ const VIEWS = {
           // Hide parts that would cover this one (e.g. a cap over hair) in the thumbnail.
           let thumb = withPart(def, draft.avatar, part, i);
           for (const hidden of style.thumbHides?.[part] ?? []) thumb = withPart(def, thumb, hidden, 0);
-          btn.append(avatarEl(thumb, 'part-thumb', '', def.headViewBox));
+          const full = def.fullThumbParts?.includes(part);
+          btn.append(avatarEl(thumb, full ? 'part-thumb full' : 'part-thumb', '', full ? def.viewBox : def.headViewBox));
         }
         buttons.push(btn);
       }
@@ -457,7 +458,7 @@ const VIEWS = {
 
     const rows = [
       ['name', draft.name.trim(), 'name'],
-      ['avatar', avatarEl(draft.avatar, 'summary-avatar', t('builder.summary.rows.avatar')), 'avatar'],
+      ['avatar', avatarEl(draft.avatar, 'summary-avatar', t('builder.summary.rows.avatar'), data.avatar.headViewBox), 'avatar'],
       ['type', `${type.emoji} ${t(`types.${type.id}.name`)}`, 'type'],
       ['stats', statsText, 'stats'],
       ...SKILL_KINDS.map((kind) => [kind, skillText(kind), 'skills']),

@@ -1,5 +1,6 @@
-// Avatar: compose an SVG string from part indices (data/avatar.json). No DOM access.
+// Avatar: compose a full-body SVG string from part indices (data/avatar.json). No DOM access.
 // A stored avatar is [styleIndex, ...one option index per part in that style's partOrder].
+// Layers: body (legs, bottoms, shoes, top) → head → arms (pose, prop in hand).
 // The head is its own <g class="head"> so it can be swapped later (e.g. for a local
 // photo) without touching the body.
 
@@ -84,14 +85,58 @@ function slot(option, name) {
   return option[name] || '';
 }
 
+const pt = ([x, y]) => `${x} ${y}`;
+
+// Legs, bottoms, shoes, neck and top: everything below the head except the arms.
+function bodySvg(def, pick, pose) {
+  const body = def.body;
+  const stance = pose?.stance ?? 'stand';
+  const top = def.topParts.map(pick).find(Boolean);
+  const bottom = def.bottomParts.map(pick).find(Boolean);
+  const shoe = pick('shoes') ?? '';
+  const [lx, rx] = body.feet[stance];
+  return body.legs[stance]
+    + (bottom?.[stance] ?? '')
+    + `<g transform="translate(${lx} 0) scale(-1 1)">${shoe}</g>`
+    + `<g transform="translate(${rx} 0)">${shoe}</g>`
+    + body.neck
+    + slot(top, 'main');
+}
+
+// Arms follow the pose; sleeves follow the top. The type prop sits in the gripping hand.
+function armsSvg(def, pick, pose, propId) {
+  if (!pose) return '';
+  const top = def.topParts.map(pick).find(Boolean);
+  const sleeve = top?.sleeve ?? 'long';
+  const cloth = top?.sleeveColor ?? '{shirt}';
+  const upper = sleeve === 'none' ? '{skin}' : cloth;
+  const lower = sleeve === 'long' ? cloth : '{skin}';
+  const prop = propId ? def.props?.[propId] : null;
+  return pose.arms.map((arm, i) => {
+    const s = def.body.shoulders[i];
+    const { e, h } = arm;
+    const angle = arm.hand === 'point' ? (Math.atan2(h[1] - e[1], h[0] - e[0]) * 180) / Math.PI : 0;
+    const held = prop && pose.prop?.arm === i
+      ? `<g transform="translate(${pt(h)}) rotate(${pose.prop.angle ?? 0})">${prop}</g>`
+      : '';
+    return `<path d="M${pt(s)} L${pt(e)} L${pt(h)}" fill="none" stroke="{line}" stroke-width="22"/>`
+      + `<path d="M${pt(s)} L${pt(e)}" stroke="${upper}" stroke-width="16"/>`
+      + `<path d="M${pt(e)} L${pt(h)}" stroke="${lower}" stroke-width="16"/>`
+      + held
+      + `<g transform="translate(${pt(h)}) rotate(${angle})">${def.body.hands[arm.hand] ?? def.body.hands.open}</g>`;
+  }).join('');
+}
+
 // Returns a standalone SVG string. Fragments come only from our own data file.
-// Pass viewBox (e.g. def.headViewBox) to zoom in on part of the avatar.
-export function avatarSvg(def, indices, { label = '', viewBox = def.viewBox } = {}) {
+// Pass viewBox (e.g. def.headViewBox) to zoom in on part of the avatar,
+// and prop (a type id) to put that type's prop in the avatar's hand.
+export function avatarSvg(def, indices, { label = '', viewBox = def.viewBox, prop = null } = {}) {
   const style = avatarStyle(def, indices);
   const pick = (part) => {
     const i = partIndex(style, part);
     return i < 0 ? null : def.parts[part].options[indices[i]];
   };
+  const pose = pick('pose');
   const skin = pick('skin');
   const hair = pick('hairColor');
   const shirt = pick('shirt');
@@ -112,6 +157,7 @@ export function avatarSvg(def, indices, { label = '', viewBox = def.viewBox } = 
   const draw = (layers) => layers.map(([part, name]) => slot(pick(part), name)).join('');
   const aria = label ? `role="img" aria-label="${label.replace(/[&<>"]/g, '')}"` : 'aria-hidden="true"';
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" stroke-linejoin="round" stroke-linecap="round" ${aria}>`
-    + `<g class="body">${fill(def.neck + draw(def.bodyLayers))}</g>`
-    + `<g class="head">${fill(draw(def.headLayers))}</g></svg>`;
+    + `<g class="body">${fill(bodySvg(def, pick, pose))}</g>`
+    + `<g class="head">${fill(draw(def.headLayers))}</g>`
+    + `<g class="arms">${fill(armsSvg(def, pick, pose, prop))}</g></svg>`;
 }

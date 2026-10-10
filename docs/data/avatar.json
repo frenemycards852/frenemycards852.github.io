@@ -1,29 +1,51 @@
 {
-  "note": "Cool shonen chibi avatar art (original; style B approved 2026-10-09). A stored avatar is [styleIndex, ...one option index per part in that style's partOrder]. Links depend on this: never reorder or remove styles, parts or options; only append. SVG fragments use {skin} {skinShade} {skinDeep} {hair} {hairShade} {hairLight} {brow} {shirt} {shirtShade} {shirtLight} {line} colour placeholders; viewBox is 0 0 200 200. Hair options may have back / shade (cel shadow on the forehead, drawn under the eyes) / front slots.",
-  "viewBox": "0 0 200 200",
+  "note": "Cool shonen chibi avatar art, full body (original; style B approved 2026-10-09, full body + poses + props 2026-10-10). A stored avatar is [styleIndex, ...one option index per part in that style's partOrder]. Links depend on this: never reorder or remove styles, parts or options; only append. SVG fragments use {skin} {skinShade} {skinDeep} {hair} {hairShade} {hairLight} {brow} {shirt} {shirtShade} {shirtLight} {line} colour placeholders; viewBox is 0 0 200 320 (head in the top 0-145). Hair options may have back / shade / front slots. Tops have main + sleeve (long/short/none) and optional sleeveColor. Bottoms have stand + wide (for the wide pose stance). Shoes are one shoe centred on x=0 (toe to the right); the left foot is mirrored. Poses give elbow/hand points per arm, a hand shape, a stance and which hand holds the type prop.",
+  "viewBox": "0 0 200 320",
   "headViewBox": "30 0 140 140",
   "line": "#1d1412",
+  "fullThumbParts": ["boyOutfit", "girlOutfit", "boyBottom", "girlBottom", "shoes", "pose"],
+  "topParts": ["boyOutfit", "girlOutfit"],
+  "bottomParts": ["boyBottom", "girlBottom"],
   "styles": [
     {
       "id": "boy",
-      "partOrder": ["face", "skin", "boyHair", "hairColor", "eyes", "brows", "mouth", "beard", "boyOutfit", "shirt", "boyAccessory"],
-      "base": [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+      "partOrder": ["face", "skin", "boyHair", "hairColor", "eyes", "brows", "mouth", "beard", "boyOutfit", "shirt", "boyBottom", "shoes", "boyAccessory", "pose"],
+      "base": [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
       "randomNoneChance": { "beard": 0.6, "boyAccessory": 0.5 },
       "thumbHides": { "boyHair": ["boyAccessory"], "beard": ["boyAccessory"] }
     },
     {
       "id": "girl",
-      "partOrder": ["face", "skin", "girlHair", "hairColor", "eyes", "brows", "mouth", "makeup", "earrings", "hairAccessory", "girlOutfit", "shirt", "girlAccessory"],
-      "base": [0, 1, 0, 1, 1, 1, 1, 1, 3, 0, 0, 0, 0],
+      "partOrder": ["face", "skin", "girlHair", "hairColor", "eyes", "brows", "mouth", "makeup", "earrings", "hairAccessory", "girlOutfit", "shirt", "girlBottom", "shoes", "girlAccessory", "pose"],
+      "base": [0, 1, 0, 1, 1, 1, 1, 1, 3, 0, 0, 0, 0, 2, 0, 1],
       "randomNoneChance": { "makeup": 0.4, "earrings": 0.5, "hairAccessory": 0.5, "girlAccessory": 0.6 },
       "thumbHides": { "girlHair": ["girlAccessory", "hairAccessory"], "hairAccessory": ["girlAccessory"], "earrings": ["girlAccessory"] }
     }
   ],
-  "neck": "<rect x='90' y='128' width='20' height='24' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M91.5 132 L108.5 132 L108.5 146 Q100 151 91.5 146 Z' fill='{skinShade}'/>",
-  "bodyLayers": [
-    ["boyOutfit", "main"],
-    ["girlOutfit", "main"]
-  ],
+  "body": {
+    "neck": "<rect x='92' y='128' width='16' height='26' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M93.5 132 L106.5 132 L106.5 146 Q100 150 93.5 146 Z' fill='{skinShade}'/>",
+    "shoulders": [[74, 160], [126, 160]],
+    "legs": {
+      "stand": "<path d='M77 226 L97 226 L96 294 L78 294 Z M103 226 L123 226 L122 294 L104 294 Z' fill='{skin}' stroke='{line}' stroke-width='3'/>",
+      "wide": "<path d='M78 226 L98 226 L80 294 L60 294 Z M102 226 L122 226 L140 294 L120 294 Z' fill='{skin}' stroke='{line}' stroke-width='3'/>"
+    },
+    "feet": { "stand": [85, 115], "wide": [70, 130] },
+    "hands": {
+      "open": "<circle r='9' fill='{skin}' stroke='{line}' stroke-width='3'/>",
+      "grip": "<circle r='9' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M-5 -1 L5 -1' stroke='{skinDeep}' stroke-width='2'/>",
+      "fist": "<rect x='-10' y='-9' width='20' height='18' rx='6' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M-3 -9 V-2 M3 -9 V-2' stroke='{skinDeep}' stroke-width='1.6'/>",
+      "point": "<path d='M4 -2 L21 -2' stroke='{line}' stroke-width='9'/><path d='M4 -2 L21 -2' stroke='{skin}' stroke-width='4'/><circle r='9' fill='{skin}' stroke='{line}' stroke-width='3'/>",
+      "peace": "<path d='M-3 -5 L-8 -22 M3 -5 L8 -22' stroke='{line}' stroke-width='9'/><path d='M-3 -5 L-8 -22 M3 -5 L8 -22' stroke='{skin}' stroke-width='4'/><circle r='9' fill='{skin}' stroke='{line}' stroke-width='3'/>"
+    }
+  },
+  "props": {
+    "late": "<circle cx='-14' cy='-44' r='7' fill='#e9c66a' stroke='{line}' stroke-width='2.5'/><circle cx='14' cy='-44' r='7' fill='#e9c66a' stroke='{line}' stroke-width='2.5'/><circle cx='0' cy='-26' r='20' fill='#ffffff' stroke='{line}' stroke-width='3'/><circle cx='0' cy='-26' r='15' fill='none' stroke='#d23a4a' stroke-width='3'/><path d='M0 -26 V-37 M0 -26 L8 -21' stroke='{line}' stroke-width='3'/>",
+    "foodie": "<path d='M4 -54 L11 -74' stroke='{line}' stroke-width='8'/><path d='M4 -54 L11 -74' stroke='#ff7aa8' stroke-width='4'/><path d='M-14 -50 L14 -50 L10 2 L-10 2 Z' fill='#e8c9a0' stroke='{line}' stroke-width='3'/><path d='M-17 -55 L17 -55 L15 -48 L-15 -48 Z' fill='#ffffff' stroke='{line}' stroke-width='2.5'/><circle cx='-5' cy='-8' r='3.5' fill='#3a2418'/><circle cx='4' cy='-6' r='3.5' fill='#3a2418'/><circle cx='-1' cy='-14' r='3.5' fill='#3a2418'/><circle cx='6' cy='-15' r='3.5' fill='#3a2418'/>",
+    "slacker": "<rect x='-28' y='-48' width='56' height='40' rx='14' fill='#bfe0ff' stroke='{line}' stroke-width='3'/><path d='M-7 -35 L7 -35 L-7 -21 L7 -21' fill='none' stroke='{line}' stroke-width='3'/>",
+    "work": "<path d='M-22 -46 L22 -46 L22 -8 L-22 -8 Z' fill='#2d3142' stroke='{line}' stroke-width='3'/><path d='M-17 -41 L17 -41 L17 -13 L-17 -13 Z' fill='#4dd2ff'/><path d='M-12 -34 H10 M-12 -27 H4 M-12 -20 H8' stroke='#ffffff' stroke-width='2'/><path d='M-28 -6 L28 -6 L32 1 L-32 1 Z' fill='#b9c2cc' stroke='{line}' stroke-width='3'/>",
+    "love": "<path d='M0 2 L0 -36' stroke='{line}' stroke-width='8'/><path d='M0 2 L0 -36' stroke='#2f8f5b' stroke-width='4'/><path d='M0 -20 Q12 -28 14 -18 Q6 -14 0 -20 Z' fill='#2f8f5b' stroke='{line}' stroke-width='2'/><circle cx='0' cy='-46' r='13' fill='#d23a4a' stroke='{line}' stroke-width='2.5'/><path d='M-7 -48 Q0 -38 7 -48 M-4 -54 Q2 -50 5 -55' fill='none' stroke='#8a1020' stroke-width='2'/>",
+    "savage": "<path d='M-5 -26 L5 -26 L4 6 L-4 6 Z' fill='#1d1412' stroke='{line}' stroke-width='2'/><circle cx='0' cy='-37' r='13' fill='#b9c2cc' stroke='{line}' stroke-width='3'/><path d='M-9 -41 H9 M-11 -35 H11 M-8 -29 H8' stroke='#7a8494' stroke-width='2'/>"
+  },
   "headLayers": [
     ["boyHair", "back"],
     ["girlHair", "back"],
@@ -214,24 +236,62 @@
     "boyOutfit": {
       "kind": "shape",
       "options": [
-        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M84 150 L100 182 L116 150 Z' fill='#f4f4f6' stroke='{line}' stroke-width='2.5'/><path d='M84 150 L76 166 L92 176 M116 150 L124 166 L108 176' fill='none' stroke='{line}' stroke-width='2.5'/><path d='M130 160 C140 168 148 182 150 200 L138 200 C136 186 132 174 124 166 Z' fill='{shirtShade}'/>",
-        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M84 148 L100 162 L91 170 L78 156 Z M116 148 L100 162 L109 170 L122 156 Z' fill='#f4f4f6' stroke='{line}' stroke-width='2.5'/><path d='M97 162 L103 162 L106 188 L100 196 L94 188 Z' fill='#23263a' stroke='{line}' stroke-width='2'/><path d='M130 160 C140 168 148 182 150 200 L138 200 C136 186 132 174 124 166 Z' fill='{shirtShade}'/>",
-        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M64 156 C70 140 86 136 100 140 C114 136 130 140 136 156 C124 166 112 168 100 166 C88 168 76 166 64 156 Z' fill='{shirtShade}' stroke='{line}' stroke-width='3'/><path d='M92 166 L91 184 M108 166 L109 184' stroke='{line}' stroke-width='2.5'/><circle cx='91' cy='186' r='2.5' fill='{shirtLight}' stroke='{line}' stroke-width='1.2'/><circle cx='109' cy='186' r='2.5' fill='{shirtLight}' stroke='{line}' stroke-width='1.2'/><path d='M132 166 C142 174 148 186 150 200 L140 200 C138 188 134 178 128 172 Z' fill='{shirtShade}'/>",
-        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M62 200 L66 162 L80 150 C88 162 112 162 120 150 L134 162 L138 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M124 168 C130 176 134 188 135 200 L127 200 C126 190 124 180 120 174 Z' fill='{shirtShade}'/><path d='M140 170 C146 178 150 188 152 200 L146 200 C144 190 142 182 138 176 Z' fill='{skinShade}'/>"
+        { "sleeve": "long", "main": "<path d='M72 150 Q100 142 128 150 L132 230 L68 230 Z' fill='#f4f4f6' stroke='{line}' stroke-width='3'/><path d='M70 150 Q84 145 92 148 L98 230 L66 230 L64 166 Q63 154 70 150 Z M130 150 Q116 145 108 148 L102 230 L134 230 L136 166 Q137 154 130 150 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M92 148 L84 170 L96 182 M108 148 L116 170 L104 182' fill='none' stroke='{line}' stroke-width='2.5'/><path d='M124 172 L134 230 L126 230 Z' fill='{shirtShade}'/>" },
+        { "sleeve": "long", "main": "<path d='M70 150 Q100 141 130 150 Q137 154 136 166 L134 230 L66 230 L64 166 Q63 154 70 150 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M84 148 L100 162 L91 170 L78 156 Z M116 148 L100 162 L109 170 L122 156 Z' fill='#f4f4f6' stroke='{line}' stroke-width='2.5'/><path d='M97 162 L103 162 L106 200 L100 208 L94 200 Z' fill='#23263a' stroke='{line}' stroke-width='2'/><path d='M124 172 L134 230 L126 230 Z' fill='{shirtShade}'/>" },
+        { "sleeve": "long", "main": "<path d='M70 150 Q100 141 130 150 Q137 154 136 166 L134 230 L66 230 L64 166 Q63 154 70 150 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M74 156 C80 140 92 138 100 142 C108 138 120 140 126 156 C116 166 108 168 100 166 C92 168 84 166 74 156 Z' fill='{shirtShade}' stroke='{line}' stroke-width='3'/><path d='M94 166 L93 182 M106 166 L107 182' stroke='{line}' stroke-width='2.5'/><path d='M78 196 L122 196 L126 224 L74 224 Z' fill='{shirtShade}' stroke='{line}' stroke-width='2.5'/><path d='M124 172 L134 230 L128 230 Z' fill='{shirtShade}'/>" },
+        { "sleeve": "none", "main": "<path d='M70 150 Q100 141 130 150 Q137 154 136 166 L134 230 L66 230 L64 166 Q63 154 70 150 Z' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M76 160 L84 150 Q100 166 116 150 L124 160 L132 230 L68 230 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M120 176 L130 230 L124 230 Z' fill='{shirtShade}'/>" }
       ]
     },
     "girlOutfit": {
       "kind": "shape",
       "options": [
-        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M84 150 L100 184 L116 150 Z' fill='#f4f4f6' stroke='{line}' stroke-width='2.5'/><path d='M100 160 L88 154 L88 168 Z M100 160 L112 154 L112 168 Z' fill='#d23a4a' stroke='{line}' stroke-width='2'/><circle cx='100' cy='161' r='3.5' fill='#d23a4a' stroke='{line}' stroke-width='2'/><path d='M130 160 C140 168 148 182 150 200 L138 200 C136 186 132 174 124 166 Z' fill='{shirtShade}'/>",
-        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='#f4f4f6' stroke='{line}' stroke-width='3'/><path d='M82 150 L64 172 L100 188 L136 172 L118 150 L100 176 Z' fill='{shirt}' stroke='{line}' stroke-width='2.5'/><path d='M72 170 L100 182 L128 170' fill='none' stroke='#f4f4f6' stroke-width='2'/><path d='M100 176 L92 190 L100 186 L108 190 Z' fill='#d23a4a' stroke='{line}' stroke-width='2'/><path d='M138 176 C144 182 148 190 150 200 L142 200 C141 192 138 186 134 182 Z' fill='#d8d8e0'/>",
-        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M64 156 C70 140 86 136 100 140 C114 136 130 140 136 156 C124 166 112 168 100 166 C88 168 76 166 64 156 Z' fill='{shirtShade}' stroke='{line}' stroke-width='3'/><path d='M92 166 L91 184 M108 166 L109 184' stroke='{line}' stroke-width='2.5'/><circle cx='91' cy='186' r='2.5' fill='{shirtLight}' stroke='{line}' stroke-width='1.2'/><circle cx='109' cy='186' r='2.5' fill='{shirtLight}' stroke='{line}' stroke-width='1.2'/><path d='M132 166 C142 174 148 186 150 200 L140 200 C138 188 134 178 128 172 Z' fill='{shirtShade}'/>",
-        "<path d='M44 200 C46 166 70 148 100 148 C130 148 154 166 156 200 Z' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M78 166 L84 148 M122 166 L116 148' stroke='{line}' stroke-width='6'/><path d='M78 166 L84 148 M122 166 L116 148' stroke='{shirt}' stroke-width='3'/><path d='M58 200 L68 166 C88 172 112 172 132 166 L142 200 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M124 172 C130 180 134 190 135 200 L127 200 C126 192 124 184 120 176 Z' fill='{shirtShade}'/>"
+        { "sleeve": "long", "main": "<path d='M72 150 Q100 142 128 150 L132 226 L68 226 Z' fill='#f4f4f6' stroke='{line}' stroke-width='3'/><path d='M70 150 Q84 145 92 148 L98 226 L66 226 L64 166 Q63 154 70 150 Z M130 150 Q116 145 108 148 L102 226 L134 226 L136 166 Q137 154 130 150 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M100 160 L88 154 L88 168 Z M100 160 L112 154 L112 168 Z' fill='#d23a4a' stroke='{line}' stroke-width='2'/><circle cx='100' cy='161' r='3.5' fill='#d23a4a' stroke='{line}' stroke-width='2'/><path d='M124 172 L134 226 L126 226 Z' fill='{shirtShade}'/>" },
+        { "sleeve": "short", "sleeveColor": "#f4f4f6", "main": "<path d='M70 150 Q100 141 130 150 Q137 154 136 166 L134 228 L66 228 L64 166 Q63 154 70 150 Z' fill='#f4f4f6' stroke='{line}' stroke-width='3'/><path d='M82 150 L66 172 L100 188 L134 172 L118 150 L100 176 Z' fill='{shirt}' stroke='{line}' stroke-width='2.5'/><path d='M72 170 L100 182 L128 170' fill='none' stroke='#f4f4f6' stroke-width='2'/><path d='M100 176 L92 192 L100 188 L108 192 Z' fill='#d23a4a' stroke='{line}' stroke-width='2'/><path d='M126 186 L134 228 L128 228 Z' fill='#d8d8e0'/>" },
+        { "sleeve": "long", "main": "<path d='M70 150 Q100 141 130 150 Q137 154 136 166 L134 228 L66 228 L64 166 Q63 154 70 150 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M74 156 C80 140 92 138 100 142 C108 138 120 140 126 156 C116 166 108 168 100 166 C92 168 84 166 74 156 Z' fill='{shirtShade}' stroke='{line}' stroke-width='3'/><path d='M94 166 L93 182 M106 166 L107 182' stroke='{line}' stroke-width='2.5'/><path d='M78 194 L122 194 L126 222 L74 222 Z' fill='{shirtShade}' stroke='{line}' stroke-width='2.5'/><path d='M124 172 L134 228 L128 228 Z' fill='{shirtShade}'/>" },
+        { "sleeve": "none", "main": "<path d='M70 150 Q100 141 130 150 Q137 154 136 166 L134 228 L66 228 L64 166 Q63 154 70 150 Z' fill='{skin}' stroke='{line}' stroke-width='3'/><path d='M80 166 L84 150 M120 166 L116 150' stroke='{line}' stroke-width='6'/><path d='M80 166 L84 150 M120 166 L116 150' stroke='{shirt}' stroke-width='3'/><path d='M74 166 Q100 174 126 166 L132 228 L68 228 Z' fill='{shirt}' stroke='{line}' stroke-width='3'/><path d='M120 180 L130 228 L124 228 Z' fill='{shirtShade}'/>" }
       ]
     },
     "shirt": {
       "kind": "color",
       "options": ["#2d3142", "#d23a4a", "#3f7fd6", "#2f8f5b", "#6b4bb8", "#e8a33a", "#f4f4f6", "#1d1412"]
+    },
+    "boyBottom": {
+      "kind": "shape",
+      "options": [
+        { "stand": "<path d='M68 222 L132 222 L130 292 L104 292 L100 246 L96 292 L70 292 Z' fill='#2b3040' stroke='{line}' stroke-width='3'/><path d='M84 236 L84 288 M116 236 L116 288' stroke='#1d2130' stroke-width='2'/>", "wide": "<path d='M68 222 L132 222 L144 292 L118 292 L100 248 L82 292 L56 292 Z' fill='#2b3040' stroke='{line}' stroke-width='3'/>" },
+        { "stand": "<path d='M68 222 L132 222 L131 256 L104 256 L100 244 L96 256 L69 256 Z' fill='#c9a46a' stroke='{line}' stroke-width='3'/><path d='M68 230 L132 230' stroke='#a8854c' stroke-width='2'/>", "wide": "<path d='M68 222 L132 222 L137 256 L110 256 L100 246 L90 256 L63 256 Z' fill='#c9a46a' stroke='{line}' stroke-width='3'/><path d='M68 230 L132 230' stroke='#a8854c' stroke-width='2'/>" },
+        { "stand": "<path d='M68 222 L132 222 L130 292 L104 292 L100 246 L96 292 L70 292 Z' fill='#3f6fb5' stroke='{line}' stroke-width='3'/><path d='M68 230 L132 230 M80 240 L80 288 M120 240 L120 288' stroke='#8fb4e8' stroke-width='2' stroke-dasharray='4 3'/>", "wide": "<path d='M68 222 L132 222 L144 292 L118 292 L100 248 L82 292 L56 292 Z' fill='#3f6fb5' stroke='{line}' stroke-width='3'/><path d='M68 230 L132 230' stroke='#8fb4e8' stroke-width='2' stroke-dasharray='4 3'/>" },
+        { "stand": "<path d='M68 222 L132 222 L130 292 L104 292 L100 246 L96 292 L70 292 Z' fill='#1f1f26' stroke='{line}' stroke-width='3'/><path d='M71 228 L72 290 M129 228 L128 290' stroke='#f4f4f6' stroke-width='3'/>", "wide": "<path d='M68 222 L132 222 L144 292 L118 292 L100 248 L82 292 L56 292 Z' fill='#1f1f26' stroke='{line}' stroke-width='3'/><path d='M71 228 L59 290 M129 228 L141 290' stroke='#f4f4f6' stroke-width='3'/>" }
+      ]
+    },
+    "girlBottom": {
+      "kind": "shape",
+      "options": [
+        { "stand": "<path d='M64 220 L136 220 L150 266 L50 266 Z' fill='#3a4256' stroke='{line}' stroke-width='3'/><path d='M82 222 L72 264 M100 222 L100 264 M118 222 L128 264' stroke='#262c3c' stroke-width='2.5'/>", "wide": "<path d='M64 220 L136 220 L150 266 L50 266 Z' fill='#3a4256' stroke='{line}' stroke-width='3'/><path d='M82 222 L72 264 M100 222 L100 264 M118 222 L128 264' stroke='#262c3c' stroke-width='2.5'/>" },
+        { "stand": "<path d='M68 220 L132 220 L130 292 L104 292 L100 246 L96 292 L70 292 Z' fill='#3f6fb5' stroke='{line}' stroke-width='3'/><path d='M68 228 L132 228 M80 240 L80 288 M120 240 L120 288' stroke='#8fb4e8' stroke-width='2' stroke-dasharray='4 3'/>", "wide": "<path d='M68 220 L132 220 L144 292 L118 292 L100 248 L82 292 L56 292 Z' fill='#3f6fb5' stroke='{line}' stroke-width='3'/><path d='M68 228 L132 228' stroke='#8fb4e8' stroke-width='2' stroke-dasharray='4 3'/>" },
+        { "stand": "<path d='M68 220 L132 220 L131 250 L104 250 L100 240 L96 250 L69 250 Z' fill='#5a86c8' stroke='{line}' stroke-width='3'/><path d='M70 246 L96 246 M104 246 L130 246' stroke='#8fb4e8' stroke-width='2'/>", "wide": "<path d='M68 220 L132 220 L137 250 L110 250 L100 242 L90 250 L63 250 Z' fill='#5a86c8' stroke='{line}' stroke-width='3'/>" },
+        { "stand": "<path d='M64 220 L136 220 L146 288 L54 288 Z' fill='#e8d6b0' stroke='{line}' stroke-width='3'/><path d='M80 224 L72 286 M120 224 L128 286' stroke='#cdb88e' stroke-width='2'/>", "wide": "<path d='M64 220 L136 220 L146 288 L54 288 Z' fill='#e8d6b0' stroke='{line}' stroke-width='3'/><path d='M80 224 L72 286 M120 224 L128 286' stroke='#cdb88e' stroke-width='2'/>" }
+      ]
+    },
+    "shoes": {
+      "kind": "shape",
+      "options": [
+        "<path d='M-14 290 L12 290 Q18 297 17 306 L-16 306 Q-18 296 -14 290 Z' fill='#f4f4f6' stroke='{line}' stroke-width='3'/><path d='M-16 302 L17 302' stroke='#d23a4a' stroke-width='3'/><path d='M-6 293 L6 293' stroke='#c9c9d4' stroke-width='2'/>",
+        "<path d='M-12 272 L10 272 L11 290 Q18 297 17 306 L-16 306 Q-18 294 -13 288 Z' fill='#7a4a2a' stroke='{line}' stroke-width='3'/><path d='M-12 279 L10 279' stroke='#5a341c' stroke-width='3'/><path d='M-16 302 L17 302' stroke='#3a2414' stroke-width='3'/>",
+        "<path d='M-14 292 L12 292 Q18 298 17 306 L-16 306 Q-18 297 -14 292 Z' fill='#2b2236' stroke='{line}' stroke-width='3'/><path d='M-4 295 L8 295' stroke='#6b5d7a' stroke-width='2'/>",
+        "<path d='M-13 280 L9 280 L11 292 Q18 297 17 306 L-16 306 Q-18 294 -13 288 Z' fill='#d23a4a' stroke='{line}' stroke-width='3'/><path d='M9 296 Q16 298 17 306 L6 306 Z' fill='#f4f4f6'/><path d='M-16 302 L17 302' stroke='#f4f4f6' stroke-width='3'/><circle cx='-6' cy='287' r='3' fill='#f4f4f6' stroke='{line}' stroke-width='1.5'/>"
+      ]
+    },
+    "pose": {
+      "kind": "shape",
+      "options": [
+        { "stance": "stand", "arms": [{ "e": [62, 194], "h": [58, 226], "hand": "open" }, { "e": [138, 194], "h": [142, 226], "hand": "grip" }], "prop": { "arm": 1, "angle": 0 } },
+        { "stance": "stand", "arms": [{ "e": [48, 192], "h": [68, 222], "hand": "fist" }, { "e": [150, 166], "h": [156, 130], "hand": "grip" }], "prop": { "arm": 1, "angle": -10 } },
+        { "stance": "stand", "arms": [{ "e": [60, 194], "h": [54, 226], "hand": "grip" }, { "e": [150, 170], "h": [176, 152], "hand": "point" }], "prop": { "arm": 0, "angle": 0 } },
+        { "stance": "wide", "arms": [{ "e": [46, 170], "h": [36, 138], "hand": "grip" }, { "e": [150, 184], "h": [176, 196], "hand": "fist" }], "prop": { "arm": 0, "angle": 15 } },
+        { "stance": "stand", "arms": [{ "e": [60, 194], "h": [56, 226], "hand": "grip" }, { "e": [150, 150], "h": [160, 114], "hand": "fist" }], "prop": { "arm": 0, "angle": 0 } },
+        { "stance": "stand", "arms": [{ "e": [60, 194], "h": [56, 226], "hand": "grip" }, { "e": [154, 176], "h": [150, 140], "hand": "peace" }], "prop": { "arm": 0, "angle": 0 } }
+      ]
     },
     "boyAccessory": {
       "kind": "shape",

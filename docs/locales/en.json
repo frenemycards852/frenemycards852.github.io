@@ -105,6 +105,10 @@
       "boyOutfit": "Outfit",
       "girlOutfit": "Outfit",
       "shirt": "Outfit colour",
+      "boyBottom": "Bottoms",
+      "girlBottom": "Bottoms",
+      "shoes": "Shoes",
+      "pose": "Pose",
       "boyAccessory": "Extras",
       "girlAccessory": "Extras"
     }

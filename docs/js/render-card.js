@@ -287,13 +287,13 @@ const EFFECTS = {
 
 async function drawArt(ctx, card, data, type) {
   ctx.save();
-  chamfer(ctx, 40, 40, 1000, 900, 52);
+  chamfer(ctx, 40, 40, 1000, 1432, 52); // art fills the whole card; lower panels are see-through
   ctx.clip();
   // Burst lines in the type colour
   const cx = 540;
   const cy = 520;
   ctx.fillStyle = type.color;
-  ctx.fillRect(40, 40, 1000, 900);
+  ctx.fillRect(40, 40, 1000, 1432);
   ctx.fillStyle = mix(type.color, '#ffffff', 0.35);
   for (let i = 0; i < 40; i += 2) {
     const a0 = (i / 40) * Math.PI * 2;
@@ -309,7 +309,7 @@ async function drawArt(ctx, card, data, type) {
   glow.addColorStop(0, 'rgba(255, 255, 255, 0.85)');
   glow.addColorStop(1, 'rgba(255, 255, 255, 0)');
   ctx.fillStyle = glow;
-  ctx.fillRect(40, 40, 1000, 900);
+  ctx.fillRect(40, 40, 1000, 1432);
   EFFECTS[type.id]?.(ctx, seededRandom(`${card.name}${card.type}`), type);
   // Fit the avatar by its shape: a tall (full-body) figure stands above the name plate,
   // a square (head and shoulders) one sits on the bottom edge.
@@ -318,7 +318,7 @@ async function drawArt(ctx, card, data, type) {
     ? { h: 812, bottom: 876 }
     : { h: 640, bottom: 940 };
   const w = Math.round((box.h * vbW) / vbH);
-  const svg = avatarSvg(data.avatar, card.avatar).replace('<svg ', `<svg width="${w}" height="${box.h}" `);
+  const svg = avatarSvg(data.avatar, card.avatar, { prop: card.type }).replace('<svg ', `<svg width="${w}" height="${box.h}" `);
   const img = await loadImage(`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`);
   ctx.drawImage(img, 540 - w / 2, box.bottom - box.h, w, box.h);
   ctx.restore();
@@ -397,7 +397,7 @@ function drawNamePlate(ctx, card, type, trim) {
 
 function drawPanel(ctx) {
   chamfer(ctx, 66, 996, 948, 344, 30);
-  ctx.fillStyle = 'rgba(16, 20, 44, 0.96)';
+  ctx.fillStyle = 'rgba(16, 20, 44, 0.74)';
   ctx.fill();
   ctx.save();
   ctx.shadowColor = '#4dd2ff';
@@ -507,7 +507,7 @@ function drawSkills(ctx, card, data) {
 
 function drawQuote(ctx, card, data, trim) {
   chamfer(ctx, 66, 1352, 948, 80, 24);
-  ctx.fillStyle = PLATE[0];
+  ctx.fillStyle = 'rgba(26, 31, 61, 0.8)';
   ctx.fill();
   ctx.lineWidth = 4;
   ctx.strokeStyle = gradient(ctx, trim, 66, 1352, 1014, 1432);

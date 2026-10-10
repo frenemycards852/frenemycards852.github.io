@@ -105,6 +105,10 @@
       "boyOutfit": "衫款",
       "girlOutfit": "衫款",
       "shirt": "衫色",
+      "boyBottom": "褲",
+      "girlBottom": "褲／裙",
+      "shoes": "鞋",
+      "pose": "姿勢",
       "boyAccessory": "配件",
       "girlAccessory": "配件"
     }
