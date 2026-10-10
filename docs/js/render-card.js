@@ -206,18 +206,26 @@ const EFFECTS = {
     }
     ctx.restore();
   },
-  foodie(ctx, rand) {
+  foodie(ctx, rand, type) {
+    // Different foods floating around, slightly tilted, with a soft white halo.
+    const items = type.effectItems ?? ['🍔'];
     ctx.save();
-    ctx.lineCap = 'round';
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
-    for (const [x, y] of SPOTS) {
-      ctx.lineWidth = 10 + rand() * 6;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    SPOTS.forEach(([x, y], i) => {
+      const s = 84 + rand() * 30;
       ctx.beginPath();
-      ctx.moveTo(x, y + 60);
-      ctx.bezierCurveTo(x - 30, y + 30, x + 30, y + 10, x, y - 20);
-      ctx.bezierCurveTo(x - 30, y - 50, x + 20, y - 70, x + 4, y - 90);
-      ctx.stroke();
-    }
+      ctx.arc(x, y, s * 0.62, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+      ctx.fill();
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate((rand() - 0.5) * 0.7);
+      setFont(ctx, s, 400);
+      ctx.fillStyle = '#000000'; // opaque, so colour emoji are not faded
+      ctx.fillText(items[i % items.length], 0, 4);
+      ctx.restore();
+    });
     ctx.restore();
   },
   slacker(ctx, rand) {
@@ -259,17 +267,18 @@ const EFFECTS = {
     }
     ctx.restore();
   },
-  love(ctx, rand) {
+  love(ctx, rand, type) {
+    const colors = type.effectColors ?? ['#ff8fb8'];
     ctx.save();
-    for (const [x, y] of SPOTS) {
+    SPOTS.forEach(([x, y], i) => {
       const s = 60 + rand() * 40;
       heart(ctx, x, y - s / 2, s);
-      ctx.fillStyle = rand() > 0.5 ? '#ffffff' : '#ff8fb8';
+      ctx.fillStyle = colors[i % colors.length];
       ctx.fill();
       ctx.lineWidth = 6;
       ctx.strokeStyle = '#1d1412';
       ctx.stroke();
-    }
+    });
     ctx.restore();
   },
 };
@@ -301,32 +310,35 @@ async function drawArt(ctx, card, data, type) {
   glow.addColorStop(1, 'rgba(255, 255, 255, 0)');
   ctx.fillStyle = glow;
   ctx.fillRect(40, 40, 1000, 900);
-  EFFECTS[type.id]?.(ctx, seededRandom(`${card.name}${card.type}`));
-  const svg = avatarSvg(data.avatar, card.avatar).replace('<svg ', '<svg width="640" height="640" ');
+  EFFECTS[type.id]?.(ctx, seededRandom(`${card.name}${card.type}`), type);
+  // Fit the avatar by its shape: a tall (full-body) figure stands above the name plate,
+  // a square (head and shoulders) one sits on the bottom edge.
+  const [, , vbW, vbH] = data.avatar.viewBox.split(' ').map(Number);
+  const box = vbH / vbW > 1.2
+    ? { h: 812, bottom: 876 }
+    : { h: 640, bottom: 940 };
+  const w = Math.round((box.h * vbW) / vbH);
+  const svg = avatarSvg(data.avatar, card.avatar).replace('<svg ', `<svg width="${w}" height="${box.h}" `);
   const img = await loadImage(`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`);
-  ctx.drawImage(img, 220, 300, 640, 640);
+  ctx.drawImage(img, 540 - w / 2, box.bottom - box.h, w, box.h);
   ctx.restore();
 }
 
-function drawFrame(ctx, frame, trim) {
-  // Rarity-coloured band with gold trim on both edges
+function drawFrame(ctx, trim) {
+  // Gold chamfered band with dark edges and a thin highlight
   chamfer(ctx, 20, 20, CARD_W - 40, CARD_H - 40, 60);
   ctx.lineWidth = 40;
-  ctx.strokeStyle = gradient(ctx, frame.colors, 0, 0, CARD_W, CARD_H);
+  ctx.strokeStyle = gradient(ctx, trim, 0, 0, CARD_W, CARD_H);
   ctx.stroke();
-  const gold = gradient(ctx, trim, 0, 0, CARD_W, CARD_H);
-  chamfer(ctx, 4, 4, CARD_W - 8, CARD_H - 8, 68);
-  ctx.lineWidth = 8;
-  ctx.strokeStyle = gold;
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = '#05060c';
+  chamfer(ctx, 2, 2, CARD_W - 4, CARD_H - 4, 70);
   ctx.stroke();
   chamfer(ctx, 40, 40, CARD_W - 80, CARD_H - 80, 52);
-  ctx.lineWidth = 8;
   ctx.stroke();
+  chamfer(ctx, 12, 12, CARD_W - 24, CARD_H - 24, 64);
   ctx.lineWidth = 2;
-  ctx.strokeStyle = NIGHT;
-  chamfer(ctx, 1, 1, CARD_W - 2, CARD_H - 2, 70);
-  ctx.stroke();
-  chamfer(ctx, 44, 44, CARD_W - 88, CARD_H - 88, 50);
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
   ctx.stroke();
 }
 
@@ -383,13 +395,17 @@ function drawNamePlate(ctx, card, type, trim) {
   ctx.fillText(name.text, 126, 926);
 }
 
-function drawPanel(ctx, trim) {
+function drawPanel(ctx) {
   chamfer(ctx, 66, 996, 948, 344, 30);
   ctx.fillStyle = 'rgba(16, 20, 44, 0.96)';
   ctx.fill();
-  ctx.lineWidth = 5;
-  ctx.strokeStyle = gradient(ctx, trim, 66, 996, 1014, 1340);
+  ctx.save();
+  ctx.shadowColor = '#4dd2ff';
+  ctx.shadowBlur = 16;
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = '#4dd2ff';
   ctx.stroke();
+  ctx.restore();
 }
 
 function drawRadar(ctx, card, data, type) {
@@ -532,13 +548,12 @@ export async function renderCard(canvas, card, data) {
   ctx.fillStyle = NIGHT;
   ctx.fill();
   await drawArt(ctx, card, data, type);
-  drawFrame(ctx, frame, trim);
+  drawFrame(ctx, trim);
   gem(ctx, 540, 40, 40, frame.gem, trim);
   drawMedallion(ctx, type, trim);
   drawRarityPlate(ctx, card, frame, trim);
   drawNamePlate(ctx, card, type, trim);
-  drawPanel(ctx, trim);
-  gem(ctx, 540, 986, 20, frame.gem, trim);
+  drawPanel(ctx);
   drawRadar(ctx, card, data, type);
   drawSkills(ctx, card, data);
   drawQuote(ctx, card, data, trim);
