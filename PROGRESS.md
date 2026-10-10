@@ -5,12 +5,12 @@ Keep it short: replace old "Next step" text rather than appending forever.
 
 ## Current phase
 
-**Stage 1 · Phase 6 — Card rendering + rarity roll** (6b built; awaiting review)
+**Stage 1 · Phase 6 — Card rendering + rarity roll** (done)
 
 ## Next step
 
-- All 12 illustrations done (2026-10-10). Product creator reviews 6b (pack opening, reveal, lock, home example card).
-- Before pushing: product creator confirms the illustrations may be published (made with Google Gemini).
+- Phase 6 approved 2026-10-10 (6b reviewed OK); all 12 illustrations in.
+- Product creator confirmed Google Gemini terms allow publishing the illustrations (2026-10-10).
 - Then Phase 7: card links + card view + sharing.
 
 Notes (current state):
@@ -31,7 +31,7 @@ Notes (current state):
 - [x] 3. App shell + localization
 - [x] 4. Card builder (without avatar)
 - [x] 5. Avatar builder (later replaced by illustrations)
-- [x] 6. Card rendering + rarity roll (awaiting review)
+- [x] 6. Card rendering + rarity roll
 - [ ] 7. Card links + card view + sharing → **test with real friends**
 
 ### Stage 2 — Battles
@@ -64,7 +64,7 @@ Notes (current state):
 - GitHub Pages: deploy from branch `main`, folder `/docs`. Live since 2026-10-08.
 - Card builder is one step per screen (decided 2026-10-08).
 - 2026-10-10: card art switches to **illustrations** (product creator's choice "A"): one illustration per type × boy/girl (12), chosen automatically by type + gender. Done 2026-10-10: builder steps are now name → type → look (boy/girl, previews the type's illustration) → stats → skills → desc → summary; card stores `gender` instead of `avatar`. Illustration paths live in `types.json` → `art`; missing ones show a "插畫準備中" placeholder (type burst + effect). `avatar.js` / `avatar.json` are no longer loaded (kept for now in case of future use). Illustrations in: late-boy, late-girl, foodie-boy, foodie-girl, slacker-boy, slacker-girl, work-boy, work-girl, love-boy, love-girl, savage-boy, savage-girl — all 12 (made with Google Gemini; love-boy has generic anime posters in the background, love-girl a stray extra hand near the scarf (mostly hidden by the name plate), savage-boy cartoon bullets and a little garbled text — kept by the product creator's choice; any may be regenerated). Brief: `spec/ILLUSTRATIONS.md`. Card frame back to style "A" (rarity-coloured chamfered metal frame, no gems). Product creator supplies the images; rights to publish must be confirmed for each (repo is public).
-- Photo heads (real photo head on a cartoon body): approved idea, to build **after Stage 1** is tested. Photo stays local only (preview, shared PNG, own album); links always carry the cartoon head. Needs a consent reminder and no face-altering effects. Phase 5 avatar must keep the head as a swappable layer.
+- Photo heads: approved idea, to build **after Stage 1** is tested. With illustrations (2026-10-10) this becomes a "sticker head": each illustration gets face data in `types.json` (centre, size, angle, and whether it suits a photo — e.g. slacker-girl in the blanket does not); the user crops a photo to a circle on the phone and it is pasted over the drawn head. Photo stays local only (preview, shared PNG, own album); links always show the plain illustration. Needs a consent reminder and no face-altering effects. Zero cost (all on the phone).
 
 ## Open questions
 
