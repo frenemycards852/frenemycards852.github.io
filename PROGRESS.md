@@ -9,7 +9,7 @@ Keep it short: replace old "Next step" text rather than appending forever.
 
 ## Next step
 
-- Product creator reviews 6b (pack opening, reveal, lock, home example card) and keeps making illustrations (`spec/ILLUSTRATIONS.md`; done: late-boy, late-girl, foodie-boy, foodie-girl, slacker-boy, slacker-girl, work-boy, work-girl).
+- Product creator reviews 6b (pack opening, reveal, lock, home example card) and keeps making illustrations (`spec/ILLUSTRATIONS.md`; done: late-boy, late-girl, foodie-boy, foodie-girl, slacker-boy, slacker-girl, work-boy, work-girl, love-boy).
 - Before pushing: product creator confirms the illustrations may be published (made with Google Gemini).
 - Then Phase 7: card links + card view + sharing.
 
@@ -63,7 +63,7 @@ Notes (current state):
 - Environment: Git 2.56, Chrome, Cursor with Live Server (local testing). GitHub account was renamed from `excuseme852` to `frenemycards852` (same account ID); the noreply commit email still links to it. Repo-only commit name: `Frenemycards852`.
 - GitHub Pages: deploy from branch `main`, folder `/docs`. Live since 2026-10-08.
 - Card builder is one step per screen (decided 2026-10-08).
-- 2026-10-10: card art switches to **illustrations** (product creator's choice "A"): one illustration per type × boy/girl (12), chosen automatically by type + gender. Done 2026-10-10: builder steps are now name → type → look (boy/girl, previews the type's illustration) → stats → skills → desc → summary; card stores `gender` instead of `avatar`. Illustration paths live in `types.json` → `art`; missing ones show a "插畫準備中" placeholder (type burst + effect). `avatar.js` / `avatar.json` are no longer loaded (kept for now in case of future use). Illustrations in: late-boy, late-girl, foodie-boy, foodie-girl, slacker-boy, slacker-girl, work-boy, work-girl (made with Google Gemini). Brief: `spec/ILLUSTRATIONS.md`. Card frame back to style "A" (rarity-coloured chamfered metal frame, no gems). Product creator supplies the images; rights to publish must be confirmed for each (repo is public).
+- 2026-10-10: card art switches to **illustrations** (product creator's choice "A"): one illustration per type × boy/girl (12), chosen automatically by type + gender. Done 2026-10-10: builder steps are now name → type → look (boy/girl, previews the type's illustration) → stats → skills → desc → summary; card stores `gender` instead of `avatar`. Illustration paths live in `types.json` → `art`; missing ones show a "插畫準備中" placeholder (type burst + effect). `avatar.js` / `avatar.json` are no longer loaded (kept for now in case of future use). Illustrations in: late-boy, late-girl, foodie-boy, foodie-girl, slacker-boy, slacker-girl, work-boy, work-girl, love-boy (made with Google Gemini; love-boy has generic anime posters in the background, may be regenerated without them). Brief: `spec/ILLUSTRATIONS.md`. Card frame back to style "A" (rarity-coloured chamfered metal frame, no gems). Product creator supplies the images; rights to publish must be confirmed for each (repo is public).
 - Photo heads (real photo head on a cartoon body): approved idea, to build **after Stage 1** is tested. Photo stays local only (preview, shared PNG, own album); links always carry the cartoon head. Needs a consent reminder and no face-altering effects. Phase 5 avatar must keep the head as a swappable layer.
 
 ## Open questions
