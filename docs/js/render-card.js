@@ -365,7 +365,7 @@ function drawNamePlate(ctx, card, type, trim) {
 }
 
 function drawPanel(ctx) {
-  chamfer(ctx, 66, 996, 948, 344, 30);
+  chamfer(ctx, 66, 996, 948, 354, 30);
   ctx.fillStyle = 'rgba(16, 20, 44, 0.82)';
   ctx.fill();
   ctx.save();
@@ -381,8 +381,8 @@ function drawRadar(ctx, card, data, type) {
   const keys = data.config.stats.keys;
   const max = data.config.stats.max;
   const cx = 276;
-  const cy = 1190;
-  const R = 100;
+  const cy = 1164;
+  const R = 88;
   const point = (i, r) => {
     const a = -Math.PI / 2 + (i * Math.PI * 2) / keys.length;
     return [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
@@ -428,24 +428,24 @@ function drawRadar(ctx, card, data, type) {
   ctx.stroke();
 
   keys.forEach((key, i) => {
-    const [px, py] = point(i, R + 30);
+    const [px, py] = point(i, R + 26);
     const dx = px - cx;
     ctx.textAlign = Math.abs(dx) < 10 ? 'center' : dx > 0 ? 'left' : 'right';
     ctx.textBaseline = 'alphabetic';
     const top = i === 0;
     const label = fitSingle(ctx, t(`stats.${key}`), { maxWidth: 112, size: 28, minSize: 20, weight: 700 });
     ctx.fillStyle = SOFT_TEXT;
-    ctx.fillText(label.text, px, top ? py - 32 : py + 2);
+    ctx.fillText(label.text, px, top ? py - 28 : py + 2);
     setFont(ctx, 40, 900);
     ctx.fillStyle = LIGHT_TEXT;
-    ctx.fillText(String(card.stats[i]), px, top ? py + 2 : py + 38);
+    ctx.fillText(String(card.stats[i]), px, top ? py + 4 : py + 38);
   });
 }
 
 function drawSkills(ctx, card, data) {
   const x = 522;
   const w = 470;
-  let y = 1012;
+  let y = 1008;
   for (const kind of SKILL_KINDS) {
     const skill = resolveSkill(card[kind], data.skills[kind]);
     const chip = fitSingle(ctx, t(`card.${kind}`), { maxWidth: 220, size: 26, minSize: 18, weight: 800 });
@@ -468,40 +468,73 @@ function drawSkills(ctx, card, data) {
         ? fitLines(ctx, skill.desc, { maxWidth: w, maxLines: 2, size: 24, minSize: 19, weight: 500 })
         : one;
       ctx.fillStyle = SOFT_TEXT;
-      desc.lines.forEach((line, i) => ctx.fillText(line, x, y + (desc.lines.length > 1 ? 70 : 82) + i * (desc.size + 2)));
+      desc.lines.forEach((line, i) => ctx.fillText(line, x, y + (desc.lines.length > 1 ? 64 : 78) + i * (desc.size + 2)));
     }
-    y += 110;
+    y += 96;
   }
 }
 
 function drawQuote(ctx, card, data, trim) {
-  chamfer(ctx, 66, 1352, 948, 80, 24);
+  chamfer(ctx, 66, 1358, 948, 72, 24);
   ctx.fillStyle = 'rgba(26, 31, 61, 0.8)';
   ctx.fill();
   ctx.lineWidth = 4;
-  ctx.strokeStyle = gradient(ctx, trim, 66, 1352, 1014, 1432);
+  ctx.strokeStyle = gradient(ctx, trim, 66, 1358, 1014, 1430);
   ctx.stroke();
   // Wrap in quote marks unless the line already has its own quotes.
   const desc = resolveDesc(card.desc, data.descriptions.items);
   const text = /["“”「」『』]/.test(desc) ? desc : `${t('card.quoteOpen')}${desc}${t('card.quoteClose')}`;
-  const fit = fitLines(ctx, text, { maxWidth: 900, maxLines: 2, size: 38, minSize: 24, weight: 800 });
+  const fit = fitLines(ctx, text, { maxWidth: 900, maxLines: 2, size: 36, minSize: 22, weight: 800 });
   const lineH = fit.size * 1.2;
-  const top = 1392 - (lineH * (fit.lines.length - 1)) / 2;
+  const top = 1394 - (lineH * (fit.lines.length - 1)) / 2;
   ctx.fillStyle = '#ffe94d';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   fit.lines.forEach((line, i) => ctx.fillText(line, 540, top + i * lineH));
 }
 
+// Bottom row of the panel: which type this one beats, and which type beats it.
+function drawMatchups(ctx, type, data) {
+  const byId = (id) => data.types.types.find((x) => x.id === id);
+  const beats = byId(data.types.beats[type.id]);
+  const weakTo = byId(Object.keys(data.types.beats).find((id) => data.types.beats[id] === type.id));
+  ctx.strokeStyle = 'rgba(77, 210, 255, 0.35)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(96, 1298);
+  ctx.lineTo(984, 1298);
+  ctx.stroke();
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  const half = (label, other, color, x) => {
+    if (!other) return;
+    const fit = fitSingle(ctx, `${label} ${other.emoji} ${t(`types.${other.id}.name`)}`, { maxWidth: 420, size: 30, minSize: 20, weight: 800 });
+    ctx.fillStyle = color;
+    ctx.fillText(fit.text, x, 1326);
+  };
+  half(`⚔️ ${t('card.beats')}`, beats, '#8ff0a8', 300);
+  half(`💥 ${t('card.weakTo')}`, weakTo, '#ff9a9a', 780);
+  ctx.fillStyle = 'rgba(169, 182, 214, 0.6)';
+  ctx.fillText('|', 540, 1326);
+}
+
 function drawFooter(ctx, data) {
+  // Dark strip so the small print stays readable over any illustration.
+  ctx.save();
+  chamfer(ctx, 40, 40, 1000, 1432, 52);
+  ctx.clip();
+  ctx.fillStyle = 'rgba(10, 12, 28, 0.82)';
+  ctx.fillRect(40, 1438, 1000, 40);
+  ctx.restore();
   ctx.textBaseline = 'alphabetic';
   ctx.textAlign = 'left';
   setFont(ctx, 24, 900);
-  ctx.fillStyle = SOFT_TEXT;
-  ctx.fillText(t('app.name'), 90, 1458);
+  ctx.fillStyle = '#ffffff';
+  ctx.fillText(t('app.name'), 92, 1464);
   ctx.textAlign = 'right';
   setFont(ctx, 22, 600);
-  ctx.fillText(data.config.siteUrl, 990, 1458);
+  ctx.fillStyle = SOFT_TEXT;
+  ctx.fillText(data.config.siteUrl, 988, 1464);
 }
 
 export async function renderCard(canvas, card, data) {
@@ -524,6 +557,7 @@ export async function renderCard(canvas, card, data) {
   drawPanel(ctx);
   drawRadar(ctx, card, data, type);
   drawSkills(ctx, card, data);
+  drawMatchups(ctx, type, data);
   drawQuote(ctx, card, data, trim);
   drawFooter(ctx, data);
   if (frame.sparkle) {

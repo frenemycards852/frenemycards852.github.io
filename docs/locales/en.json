@@ -151,6 +151,8 @@
     "trait": "Trait",
     "weakness": "Weakness",
     "artSoon": "Illustration coming soon",
+    "beats": "Beats",
+    "weakTo": "Weak to",
     "quoteOpen": "“",
     "quoteClose": "”"
   },
