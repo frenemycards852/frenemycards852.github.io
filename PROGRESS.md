@@ -12,7 +12,7 @@ Keep it short: replace old "Next step" text rather than appending forever.
 - Product creator reviews the 4 sample cards (`docs/dev/test.html`, `?lang=en` for English).
 - Then 6b: pack-opening animation, reveal, lock card after roll, SSR holo shimmer, home example card.
 
-Phase 6 notes: `render-card.js` draws 1080×1512 (header + type burst art + stat radar (product creator chose radar over bars) + 3 skills + quote + footer with site URL). Rarity odds/frame colours in `config.json` → `rarity`; `rarity.js` rolls. `textlayout.js` wraps/shrinks text. English stat label "Punctuality" shortened to "On Time" to fit the radar.
+Phase 6 notes: `render-card.js` draws 1080×1512. Card design chosen 2026-10-10 after comparing 3 styles: "A" layout (large art window, type medallion, chamfered name plate, dark glass panel with stat radar (radar chosen over bars) + 3 skills, quote strip, footer with site URL) + gems + gold trim. Frame band and gem change with rarity (N bronze/stone, R silver/sapphire, SR gold/ruby, SSR holo/diamond + sparkles). Each type has an energy effect in the art (late clocks, foodie steam, slacker Zzz, work papers, love hearts, savage lightning), seeded from the card so it is stable. Market TCG samples were style references only; nothing copied (Magic sample explicitly avoided). Rarity odds/frame colours in `config.json` → `rarity`; `rarity.js` rolls. `textlayout.js` wraps/shrinks text. English stat label "Punctuality" shortened to "On Time" to fit the radar.
 
 Notes:
 - Avatar: placeholder SVG parts all in `docs/data/avatar.json` (one file instead of `assets/avatar/*.svg`; approved 2026-10-09). `avatar.js` builds the SVG; head is its own `<g class="head">` for future photo heads.
