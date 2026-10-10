@@ -19,12 +19,11 @@
   "rarity": {
     "order": ["N", "R", "SR", "SSR"],
     "odds": { "N": 50, "R": 30, "SR": 15, "SSR": 5 },
-    "trim": ["#fff4b0", "#e3a92c", "#fff0a0", "#b5780c", "#ffe27a", "#8a5a10"],
     "frames": {
-      "N": { "badgeText": ["#e6cfa8", "#b8925e"], "gem": ["#d8d0c0", "#8e8676", "#c2b9a6", "#5e584c"] },
-      "R": { "badgeText": ["#ffffff", "#c9d1da"], "gem": ["#bfe0ff", "#1f6fd6", "#7fb8ff", "#0b3a80"] },
-      "SR": { "badgeText": ["#ffe47e", "#e3a92c"], "gem": ["#ff9aa8", "#d2102e", "#ff5a6e", "#7a0012"] },
-      "SSR": { "badgeText": ["#ffe94d", "#6bff95", "#4dd2ff", "#ff6bd6"], "gem": ["#ffffff", "#9fe8ff", "#ffd6f5", "#b8a6ff", "#ffffff"], "sparkle": true }
+      "N": { "colors": ["#a3a8b2", "#4a4f59", "#8a8f99", "#3a3e47", "#9aa0aa"], "badgeText": ["#e6e9ee", "#aab0ba"] },
+      "R": { "colors": ["#ffffff", "#b9c2cc", "#f1f4f7", "#8e98a5", "#e6eaee"], "badgeText": ["#ffffff", "#c9d1da"] },
+      "SR": { "colors": ["#fff4b0", "#e3a92c", "#fff0a0", "#b5780c", "#ffe27a"], "badgeText": ["#ffe47e", "#e3a92c"] },
+      "SSR": { "colors": ["#ffffff", "#b9c2cc", "#ff6b6b", "#ffb84d", "#ffe94d", "#6bff95", "#4dd2ff", "#8f6bff", "#ff6bd6", "#f1f4f7"], "badgeText": ["#ffe94d", "#6bff95", "#4dd2ff", "#ff6bd6"], "sparkle": true }
     }
   }
 }

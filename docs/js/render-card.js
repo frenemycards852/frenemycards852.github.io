@@ -1,5 +1,5 @@
 // Draws a finished card onto a canvas (1080×1512). Layout is original to this project:
-// large art window with a type energy effect, type medallion, rarity plate, gems,
+// large art window with a type energy effect, type medallion, rarity plate,
 // name plate, dark glass stat panel (radar + skills), quote strip, footer.
 // card: { name, avatar, type, stats, move, trait, weakness, desc, rarity }
 // data: { config, types, skills, descriptions, avatar } loaded in the current language.
@@ -88,48 +88,6 @@ function sparkle(ctx, x, y, r) {
   ctx.quadraticCurveTo(x, y, x, y + r);
   ctx.quadraticCurveTo(x, y, x - r, y);
   ctx.quadraticCurveTo(x, y, x, y - r);
-  ctx.fill();
-  ctx.restore();
-}
-
-function gem(ctx, cx, cy, r, colors, trim) {
-  const pts = [...Array(6)].map((_, i) => {
-    const a = Math.PI / 6 + (i * Math.PI) / 3;
-    return [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
-  });
-  const outline = () => {
-    ctx.beginPath();
-    pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
-    ctx.closePath();
-  };
-  ctx.save();
-  // gold setting
-  ctx.beginPath();
-  ctx.arc(cx, cy, r + 10, 0, Math.PI * 2);
-  ctx.fillStyle = gradient(ctx, trim, cx - r, cy - r, cx + r, cy + r);
-  ctx.fill();
-  ctx.lineWidth = 4;
-  ctx.strokeStyle = NIGHT;
-  ctx.stroke();
-  outline();
-  ctx.fillStyle = gradient(ctx, colors, cx - r, cy - r, cx + r, cy + r);
-  ctx.fill();
-  ctx.lineWidth = 3;
-  ctx.stroke();
-  ctx.beginPath();
-  pts.forEach(([x, y]) => {
-    ctx.moveTo(cx, cy);
-    ctx.lineTo(x, y);
-  });
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
-  ctx.lineWidth = 2;
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.moveTo(cx - r * 0.45, cy - r * 0.35);
-  ctx.lineTo(cx - r * 0.1, cy - r * 0.6);
-  ctx.lineTo(cx + r * 0.05, cy - r * 0.2);
-  ctx.closePath();
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
   ctx.fill();
   ctx.restore();
 }
@@ -311,12 +269,16 @@ async function drawArt(ctx, card, data, type) {
   ctx.fillStyle = glow;
   ctx.fillRect(40, 40, 1000, 1432);
   EFFECTS[type.id]?.(ctx, seededRandom(`${card.name}${card.type}`), type);
-  // Fit the avatar by its shape: a tall (full-body) figure stands above the name plate,
-  // a square (head and shoulders) one sits on the bottom edge.
+  // Fit the avatar by its shape: a slim anime figure is drawn large so the face reads well
+  // and the legs continue behind the see-through panel; a chibi full body stands above the
+  // name plate; a square (head and shoulders) one sits on the bottom edge.
   const [, , vbW, vbH] = data.avatar.viewBox.split(' ').map(Number);
-  const box = vbH / vbW > 1.2
-    ? { h: 812, bottom: 876 }
-    : { h: 640, bottom: 940 };
+  const ratio = vbH / vbW;
+  const box = ratio > 1.8
+    ? { h: 1360, bottom: 1440 }
+    : ratio > 1.2
+      ? { h: 812, bottom: 876 }
+      : { h: 640, bottom: 940 };
   const w = Math.round((box.h * vbW) / vbH);
   const svg = avatarSvg(data.avatar, card.avatar, { prop: card.type }).replace('<svg ', `<svg width="${w}" height="${box.h}" `);
   const img = await loadImage(`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`);
@@ -325,7 +287,7 @@ async function drawArt(ctx, card, data, type) {
 }
 
 function drawFrame(ctx, trim) {
-  // Gold chamfered band with dark edges and a thin highlight
+  // Chamfered metal band (colour by rarity) with dark edges and a thin highlight
   chamfer(ctx, 20, 20, CARD_W - 40, CARD_H - 40, 60);
   ctx.lineWidth = 40;
   ctx.strokeStyle = gradient(ctx, trim, 0, 0, CARD_W, CARD_H);
@@ -541,7 +503,7 @@ export async function renderCard(canvas, card, data) {
   const ctx = canvas.getContext('2d');
   const rules = data.config.rarity;
   const frame = rules.frames[card.rarity];
-  const trim = rules.trim;
+  const trim = frame.colors; // the rarity metal is used for the frame and all trims
   const type = data.types.types.find((x) => x.id === card.type);
   ctx.clearRect(0, 0, CARD_W, CARD_H);
   chamfer(ctx, 0, 0, CARD_W, CARD_H, 70);
@@ -549,7 +511,6 @@ export async function renderCard(canvas, card, data) {
   ctx.fill();
   await drawArt(ctx, card, data, type);
   drawFrame(ctx, trim);
-  gem(ctx, 540, 40, 40, frame.gem, trim);
   drawMedallion(ctx, type, trim);
   drawRarityPlate(ctx, card, frame, trim);
   drawNamePlate(ctx, card, type, trim);

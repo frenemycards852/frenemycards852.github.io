@@ -68,6 +68,7 @@ Notes:
 - Environment: Git 2.56, Chrome, Cursor with Live Server (local testing). GitHub account was renamed from `excuseme852` to `frenemycards852` (same account ID); the noreply commit email still links to it. Repo-only commit name: `Frenemycards852`.
 - GitHub Pages: deploy from branch `main`, folder `/docs`. Live since 2026-10-08.
 - Card builder is one step per screen (decided 2026-10-08).
+- 2026-10-10: card art switches to **illustrations** (product creator's choice "A"): one illustration per type × boy/girl (12), chosen automatically by type + gender. The avatar builder will be retired once illustrations arrive (code stays in Git history). Brief: `spec/ILLUSTRATIONS.md`. Card frame back to style "A" (rarity-coloured chamfered metal frame, no gems). Product creator supplies the images; rights to publish must be confirmed for each (repo is public).
 - Photo heads (real photo head on a cartoon body): approved idea, to build **after Stage 1** is tested. Photo stays local only (preview, shared PNG, own album); links always carry the cartoon head. Needs a consent reminder and no face-altering effects. Phase 5 avatar must keep the head as a swappable layer.
 
 ## Open questions
