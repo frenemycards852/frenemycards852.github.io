@@ -380,9 +380,9 @@ function drawPanel(ctx) {
 function drawRadar(ctx, card, data, type) {
   const keys = data.config.stats.keys;
   const max = data.config.stats.max;
-  const cx = 250;
-  const cy = 1186;
-  const R = 92;
+  const cx = 276;
+  const cy = 1190;
+  const R = 100;
   const point = (i, r) => {
     const a = -Math.PI / 2 + (i * Math.PI * 2) / keys.length;
     return [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
@@ -433,44 +433,44 @@ function drawRadar(ctx, card, data, type) {
     ctx.textAlign = Math.abs(dx) < 10 ? 'center' : dx > 0 ? 'left' : 'right';
     ctx.textBaseline = 'alphabetic';
     const top = i === 0;
-    const label = fitSingle(ctx, t(`stats.${key}`), { maxWidth: 110, size: 26, minSize: 18, weight: 700 });
+    const label = fitSingle(ctx, t(`stats.${key}`), { maxWidth: 112, size: 28, minSize: 20, weight: 700 });
     ctx.fillStyle = SOFT_TEXT;
     ctx.fillText(label.text, px, top ? py - 32 : py + 2);
-    setFont(ctx, 38, 900);
+    setFont(ctx, 40, 900);
     ctx.fillStyle = LIGHT_TEXT;
     ctx.fillText(String(card.stats[i]), px, top ? py + 2 : py + 38);
   });
 }
 
 function drawSkills(ctx, card, data) {
-  const x = 462;
-  const w = 528;
-  let y = 1018;
+  const x = 522;
+  const w = 470;
+  let y = 1012;
   for (const kind of SKILL_KINDS) {
     const skill = resolveSkill(card[kind], data.skills[kind]);
-    const chip = fitSingle(ctx, t(`card.${kind}`), { maxWidth: 220, size: 24, minSize: 18, weight: 800 });
+    const chip = fitSingle(ctx, t(`card.${kind}`), { maxWidth: 220, size: 26, minSize: 18, weight: 800 });
     const chipW = ctx.measureText(chip.text).width + 28;
-    roundRect(ctx, x, y, chipW, 36, 18);
+    roundRect(ctx, x, y, chipW, 40, 20);
     ctx.fillStyle = SKILL_COLORS[kind];
     ctx.fill();
     ctx.fillStyle = '#ffffff';
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
-    ctx.fillText(chip.text, x + 14, y + 19);
+    ctx.fillText(chip.text, x + 14, y + 21);
     ctx.textBaseline = 'alphabetic';
-    const name = fitSingle(ctx, skill.name, { maxWidth: w - chipW - 14, size: 38, minSize: 26, weight: 900 });
+    const name = fitSingle(ctx, skill.name, { maxWidth: w - chipW - 14, size: 46, minSize: 28, weight: 900 });
     ctx.fillStyle = LIGHT_TEXT;
-    ctx.fillText(name.text, x + chipW + 14, y + 32);
+    ctx.fillText(name.text, x + chipW + 14, y + 36);
     if (skill.desc) {
       // Prefer one line; wrap to two smaller lines only when needed.
-      const one = fitLines(ctx, skill.desc, { maxWidth: w, maxLines: 1, size: 27, minSize: 22, weight: 500 });
+      const one = fitLines(ctx, skill.desc, { maxWidth: w, maxLines: 1, size: 32, minSize: 24, weight: 500 });
       const desc = one.lines[0].endsWith('…')
-        ? fitLines(ctx, skill.desc, { maxWidth: w, maxLines: 2, size: 22, minSize: 18, weight: 500 })
+        ? fitLines(ctx, skill.desc, { maxWidth: w, maxLines: 2, size: 24, minSize: 19, weight: 500 })
         : one;
       ctx.fillStyle = SOFT_TEXT;
-      desc.lines.forEach((line, i) => ctx.fillText(line, x, y + (desc.lines.length > 1 ? 64 : 72) + i * (desc.size + 2)));
+      desc.lines.forEach((line, i) => ctx.fillText(line, x, y + (desc.lines.length > 1 ? 70 : 82) + i * (desc.size + 2)));
     }
-    y += 106;
+    y += 110;
   }
 }
 
