@@ -39,6 +39,12 @@
     "type": {
       "title": "What type are they?"
     },
+    "look": {
+      "title": "Boy or girl?",
+      "hint": "The card uses this type's illustration",
+      "boy": "Boy",
+      "girl": "Girl"
+    },
     "stats": {
       "title": "Hand out the stats",
       "hint": "You have {total} points, up to {max} per stat. A zero for On Time? Totally allowed 😏",
@@ -72,6 +78,7 @@
         "name": "Name",
         "avatar": "Avatar",
         "type": "Type",
+        "look": "Look",
         "stats": "Stats",
         "move": "Signature move",
         "trait": "Trait",
@@ -124,6 +131,7 @@
     "move": "Signature move",
     "trait": "Trait",
     "weakness": "Weakness",
+    "artSoon": "Illustration coming soon",
     "quoteOpen": "“",
     "quoteClose": "”"
   },

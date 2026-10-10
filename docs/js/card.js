@@ -3,11 +3,11 @@
 export const SKILL_KINDS = ['move', 'trait', 'weakness'];
 export const CUSTOM = 'custom';
 
-// A fresh draft: avatar waits for a boy/girl choice; first preset of each kind.
+// A fresh draft: gender waits for a boy/girl choice; first preset of each kind.
 export function createDraft({ config, types, skills, descriptions }) {
   const draft = {
     name: '',
-    avatar: null,
+    gender: null,
     type: types.types[0].id,
     stats: [...config.stats.default],
     desc: { id: descriptions.items[0].id, text: '' },
@@ -16,6 +16,15 @@ export function createDraft({ config, types, skills, descriptions }) {
     draft[kind] = { id: skills[kind][0].id, name: '', desc: '' };
   }
   return draft;
+}
+
+export function isGender(config, value) {
+  return config.card.genders.includes(value);
+}
+
+// Illustration path for a type + gender (relative to docs/), or null if not drawn yet.
+export function cardArt(types, typeId, gender) {
+  return types.types.find((x) => x.id === typeId)?.art?.[gender] ?? null;
 }
 
 // Length in characters (code points), so emoji and Chinese count as one each.

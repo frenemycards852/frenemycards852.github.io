@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
+  <link rel="icon" href="data:,">
   <title>Dev tests</title>
   <style>
     body { margin: 0; padding: 16px; background: #f3efe6; color: #1d1412; font-family: system-ui, sans-serif; }
@@ -33,27 +34,26 @@
     import { setLang, t } from '../js/i18n.js';
     import { loadJSON } from '../js/data.js';
     import { renderCard } from '../js/render-card.js';
-    import { baseAvatar, randomAvatar } from '../js/avatar.js';
     import { rollRarity } from '../js/rarity.js';
 
     const lang = new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'zh-HK';
     await setLang(lang, { remember: false });
-    const [config, types, avatar, skills, descriptions] = await Promise.all([
-      loadJSON('data/config.json'), loadJSON('data/types.json'), loadJSON('data/avatar.json'),
+    const [config, types, skills, descriptions] = await Promise.all([
+      loadJSON('data/config.json'), loadJSON('data/types.json'),
       loadJSON(`data/skills/${lang}.json`), loadJSON(`data/descriptions/${lang}.json`),
     ]);
-    const data = { config, types, avatar, skills, descriptions };
+    const data = { config, types, skills, descriptions };
 
     let seed = 5;
     const rand = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
     const p = (id) => ({ id, name: '', desc: '' });
     const samples = [
-      { label: 'N · boy base · late', card: { name: '阿明', avatar: baseAvatar(avatar, 0), type: 'late', stats: [80, 70, 90, 0, 60], move: p('m1'), trait: p('t3'), weakness: p('w1'), desc: { id: 'd1', text: '' }, rarity: 'N' } },
-      { label: 'R · girl base · foodie', card: { name: 'Sam', avatar: baseAvatar(avatar, 1), type: 'foodie', stats: [60, 60, 60, 60, 60], move: p('m4'), trait: p('t2'), weakness: p('w4'), desc: { id: 'd4', text: '' }, rarity: 'R' } },
-      { label: 'SR · random · work', card: { name: '老細', avatar: randomAvatar(avatar, 0, rand), type: 'work', stats: [100, 85, 20, 95, 0], move: p('m5'), trait: p('t5'), weakness: p('w5'), desc: { id: 'd5', text: '' }, rarity: 'SR' } },
-      { label: 'SSR · random · savage', card: { name: 'Jessica', avatar: randomAvatar(avatar, 1, rand), type: 'savage', stats: [40, 100, 100, 30, 30], move: p('m2'), trait: p('t1'), weakness: p('w2'), desc: { id: 'd2', text: '' }, rarity: 'SSR' } },
-      { label: 'Stress · max-length custom text + emoji', card: { name: '超級無敵遲到王阿明仔😂', avatar: randomAvatar(avatar, 0, rand), type: 'love', stats: [20, 20, 20, 140, 100].map((v) => Math.min(v, 100)), move: { id: 'custom', name: 'Supercalifragilistic', desc: '一句好長好長嘅描述睇吓會唔會爆出張卡外面😂😂' }, trait: { id: 'custom', name: '自己寫嘅特性名稱好長', desc: '' }, weakness: p('w3'), desc: { id: 'custom', text: 'A very long custom description to check wrapping works fine' }, rarity: 'SSR' } },
-      { label: 'Stress · long English name', card: { name: 'Bartholomew', avatar: randomAvatar(avatar, 0, rand), type: 'slacker', stats: [50, 50, 100, 50, 50], move: p('m3'), trait: p('t4'), weakness: p('w2'), desc: { id: 'd3', text: '' }, rarity: 'R' } },
+      { label: 'N · boy · late', card: { name: '阿明', gender: 'boy', type: 'late', stats: [80, 70, 90, 0, 60], move: p('m1'), trait: p('t3'), weakness: p('w1'), desc: { id: 'd1', text: '' }, rarity: 'N' } },
+      { label: 'R · girl · late', card: { name: 'Sam', gender: 'girl', type: 'late', stats: [60, 60, 60, 60, 60], move: p('m4'), trait: p('t2'), weakness: p('w4'), desc: { id: 'd4', text: '' }, rarity: 'R' } },
+      { label: 'SR · random · work', card: { name: '老細', gender: 'boy', type: 'work', stats: [100, 85, 20, 95, 0], move: p('m5'), trait: p('t5'), weakness: p('w5'), desc: { id: 'd5', text: '' }, rarity: 'SR' } },
+      { label: 'SSR · random · savage', card: { name: 'Jessica', gender: 'girl', type: 'savage', stats: [40, 100, 100, 30, 30], move: p('m2'), trait: p('t1'), weakness: p('w2'), desc: { id: 'd2', text: '' }, rarity: 'SSR' } },
+      { label: 'Stress · max-length custom text + emoji', card: { name: '超級無敵遲到王阿明仔😂', gender: 'boy', type: 'love', stats: [20, 20, 20, 140, 100].map((v) => Math.min(v, 100)), move: { id: 'custom', name: 'Supercalifragilistic', desc: '一句好長好長嘅描述睇吓會唔會爆出張卡外面😂😂' }, trait: { id: 'custom', name: '自己寫嘅特性名稱好長', desc: '' }, weakness: p('w3'), desc: { id: 'custom', text: 'A very long custom description to check wrapping works fine' }, rarity: 'SSR' } },
+      { label: 'Stress · long English name', card: { name: 'Bartholomew', gender: 'boy', type: 'slacker', stats: [50, 50, 100, 50, 50], move: p('m3'), trait: p('t4'), weakness: p('w2'), desc: { id: 'd3', text: '' }, rarity: 'R' } },
     ];
 
     const box = document.getElementById('cards');

@@ -1,5 +1,6 @@
 {
   "card": {
+    "genders": ["boy", "girl"],
     "nameMax": 12,
     "descriptionMax": 40
   },

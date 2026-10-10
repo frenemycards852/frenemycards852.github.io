@@ -39,6 +39,12 @@
     "type": {
       "title": "佢屬於咩系？"
     },
+    "look": {
+      "title": "佢係男仔定女仔？",
+      "hint": "張卡會用呢個類型嘅插畫",
+      "boy": "男仔",
+      "girl": "女仔"
+    },
     "stats": {
       "title": "分配能力值",
       "hint": "{total} 點任你分，每項最多 {max} 點。準時度俾 0 都得 😏",
@@ -72,6 +78,7 @@
         "name": "名",
         "avatar": "頭像",
         "type": "類型",
+        "look": "樣",
         "stats": "能力值",
         "move": "必殺技",
         "trait": "特性",
@@ -124,6 +131,7 @@
     "move": "必殺技",
     "trait": "特性",
     "weakness": "弱點",
+    "artSoon": "插畫準備中",
     "quoteOpen": "「",
     "quoteClose": "」"
   },

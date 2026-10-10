@@ -1,6 +1,6 @@
 {
   "types": [
-    { "id": "late", "emoji": "⏰", "color": "#ffb020" },
+    { "id": "late", "emoji": "⏰", "color": "#ffb020", "art": { "boy": "assets/cards/late-boy.jpg", "girl": "assets/cards/late-girl.jpg" } },
     { "id": "foodie", "emoji": "🍜", "color": "#ff7a45", "effectItems": ["🍔", "🧋", "🍣", "🥟", "🍕", "🍩", "🍗", "🍦"] },
     { "id": "slacker", "emoji": "🛋️", "color": "#5cb85c" },
     { "id": "work", "emoji": "💼", "color": "#4f7cff" },

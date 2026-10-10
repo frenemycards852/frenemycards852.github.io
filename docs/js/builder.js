@@ -5,30 +5,26 @@ import { loadJSON } from './data.js';
 import {
   SKILL_KINDS, CUSTOM, createDraft, textLength, clipText, isBlocked, isTextOk,
   statTotal, isStatsValid, setStat, randomStats, pickOther, isSkillOk, isDescOk,
+  isGender, cardArt,
 } from './card.js';
-import {
-  avatarSvg, avatarStyle, baseAvatar, isAvatarValid, randomAvatar, optionCount, partIndex, withPart,
-} from './avatar.js';
 
-const STEPS = ['name', 'avatar', 'type', 'stats', 'skills', 'desc', 'summary'];
+const STEPS = ['name', 'type', 'look', 'stats', 'skills', 'desc', 'summary'];
 
 let draft = null; // kept in memory while the page is open
 let data = null;
 let mountToken = 0;
-let avatarPart = null; // avatar category tab currently open
 
 async function loadData() {
   const lang = getLang();
   if (data && data.lang === lang) return data;
-  const [config, types, blocklist, avatar, skills, descriptions] = await Promise.all([
+  const [config, types, blocklist, skills, descriptions] = await Promise.all([
     loadJSON('data/config.json'),
     loadJSON('data/types.json'),
     loadJSON('data/blocklist.json'),
-    loadJSON('data/avatar.json'),
     loadJSON(`data/skills/${lang}.json`),
     loadJSON(`data/descriptions/${lang}.json`),
   ]);
-  data = { lang, config, types, blocklist, avatar, skills, descriptions };
+  data = { lang, config, types, blocklist, skills, descriptions };
   return data;
 }
 
@@ -51,8 +47,8 @@ const go = (step) => { location.hash = `#/make/${step}`; };
 
 const VALID = {
   name: () => isTextOk(draft.name, terms()),
-  avatar: () => isAvatarValid(data.avatar, draft.avatar),
   type: () => data.types.types.some((type) => type.id === draft.type),
+  look: () => isGender(data.config, draft.gender),
   stats: () => isStatsValid(draft.stats, data.config.stats),
   skills: () => SKILL_KINDS.every((kind) => isSkillOk(draft[kind], terms())),
   desc: () => isDescOk(draft.desc, terms()),
@@ -151,11 +147,14 @@ function option({ name, value, checked, title, desc, color, onPick }) {
 
 const reminder = () => h('p', { class: 'reminder', text: t('builder.reminder') });
 
-// Wrapper element holding an avatar SVG built from our own data.
-function avatarEl(indices, className, label, viewBox) {
-  const el = h('div', { class: className });
-  el.innerHTML = avatarSvg(data.avatar, indices, { label, viewBox });
-  return el;
+// Card illustration for the draft's type + a gender, or a placeholder if not drawn yet.
+function artEl(gender, className) {
+  const src = cardArt(data.types, draft.type, gender);
+  if (src) return h('img', { class: className, src, alt: '' });
+  const type = data.types.types.find((x) => x.id === draft.type);
+  return h('div', { class: `${className} art-soon`, style: `--accent: ${type.color}` },
+    h('span', { class: 'art-soon-emoji', text: type.emoji }),
+    h('span', { text: t('card.artSoon') }));
 }
 
 const VIEWS = {
@@ -168,126 +167,21 @@ const VIEWS = {
     return { body: h('div', {}, field.el, reminder()), focus: () => field.input.focus() };
   },
 
-  avatar({ refresh, redraw }) {
-    const def = data.avatar;
-    // Dice keeps the chosen style; before a choice it picks one at random.
-    const randomStyled = () => {
-      const styleIndex = draft.avatar ? draft.avatar[0] : Math.floor(Math.random() * def.styles.length);
-      draft.avatar = randomAvatar(def, styleIndex);
-    };
-    const styleLabel = (style) => t(`builder.avatar.style.${style.id}`);
-
-    // First visit: choose boy or girl. Each style has its own categories.
-    if (!draft.avatar) {
-      const choices = def.styles.map((style, i) => h('button', {
-        type: 'button', class: 'style-choice',
-        onclick: () => { draft.avatar = baseAvatar(def, i); redraw(); },
-      }, avatarEl(baseAvatar(def, i), 'style-thumb', '', def.headViewBox), h('span', { text: styleLabel(style) })));
-      return {
-        body: h('div', {},
-          h('p', { class: 'hint', text: t('builder.avatar.styleHint') }),
-          h('div', { class: 'style-choices' }, ...choices)),
-        random: randomStyled,
-      };
-    }
-
-    const styleBar = h('div', { class: 'style-bar', role: 'group', 'aria-label': t('builder.avatar.styleLabel') },
-      ...def.styles.map((style, i) => h('button', {
-        type: 'button', class: 'part-tab', text: styleLabel(style),
-        'aria-pressed': String(i === draft.avatar[0]),
-        onclick: () => {
-          if (i === draft.avatar[0]) return;
-          draft.avatar = baseAvatar(def, i);
-          redraw();
-        },
-      })));
-
-    const style = avatarStyle(def, draft.avatar);
-    if (!style.partOrder.includes(avatarPart)) {
-      // After switching boy/girl, stay on the matching tab (e.g. boyHair → girlHair).
-      const label = avatarPart && t(`avatar.parts.${avatarPart}`);
-      avatarPart = style.partOrder.find((p) => t(`avatar.parts.${p}`) === label) ?? style.partOrder[0];
-    }
-    const preview = h('div', { class: 'avatar-stage' });
-    const drawPreview = () => {
-      preview.replaceChildren(avatarEl(draft.avatar, 'avatar-preview', t('builder.avatar.preview')));
-    };
-    const tabs = h('div', { class: 'part-tabs' });
-    const grid = h('div', { class: 'part-options' });
-
-    const drawOptions = () => {
-      const part = avatarPart;
-      const kind = def.parts[part].kind;
-      const current = draft.avatar[partIndex(style, part)];
-      const buttons = [];
-      for (let i = 0; i < optionCount(def, part); i++) {
-        const label = t('builder.avatar.option', { part: t(`avatar.parts.${part}`), n: i + 1 });
-        const btn = h('button', {
-          type: 'button', 'aria-label': label, 'aria-pressed': String(i === current),
-          class: kind === 'color' ? 'swatch' : 'part-option',
-          style: kind === 'color' ? `background: ${def.parts[part].options[i]}` : null,
-          onclick: () => {
-            draft.avatar = withPart(def, draft.avatar, part, i);
-            buttons.forEach((b, j) => b.setAttribute('aria-pressed', String(j === i)));
-            drawPreview();
-            refresh();
-          },
-        });
-        if (kind === 'shape') {
-          // Hide parts that would cover this one (e.g. a cap over hair) in the thumbnail.
-          let thumb = withPart(def, draft.avatar, part, i);
-          for (const hidden of style.thumbHides?.[part] ?? []) thumb = withPart(def, thumb, hidden, 0);
-          const full = def.fullThumbParts?.includes(part);
-          btn.append(avatarEl(thumb, full ? 'part-thumb full' : 'part-thumb', '', full ? def.viewBox : def.headViewBox));
-        }
-        buttons.push(btn);
-      }
-      grid.replaceChildren(...buttons);
-    };
-
-    // Keep the selected tab visible inside the sideways-scrolling row.
-    const revealTab = (tab) => {
-      const left = tab.offsetLeft - tabs.offsetLeft;
-      if (left < tabs.scrollLeft || left + tab.offsetWidth > tabs.scrollLeft + tabs.clientWidth) {
-        tabs.scrollLeft = left - (tabs.clientWidth - tab.offsetWidth) / 2;
-      }
-    };
-    // Fade the right edge only while more tabs are hidden there.
-    const updateFade = () => {
-      tabs.classList.toggle('more', tabs.scrollLeft + tabs.clientWidth < tabs.scrollWidth - 2);
-    };
-    tabs.addEventListener('scroll', updateFade, { passive: true });
-    // Desktop mouse wheels scroll vertically; turn that into sideways scrolling here.
-    tabs.addEventListener('wheel', (e) => {
-      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
-      const max = tabs.scrollWidth - tabs.clientWidth;
-      const canMove = e.deltaY > 0 ? tabs.scrollLeft < max : tabs.scrollLeft > 0;
-      if (!canMove) return;
-      tabs.scrollLeft += e.deltaY;
-      e.preventDefault();
-    }, { passive: false });
-
-    for (const part of style.partOrder) {
-      tabs.append(h('button', {
-        type: 'button', class: 'part-tab', text: t(`avatar.parts.${part}`),
-        'aria-pressed': String(part === avatarPart),
-        onclick: (e) => {
-          avatarPart = part;
-          tabs.querySelectorAll('.part-tab').forEach((b) => b.setAttribute('aria-pressed', String(b === e.currentTarget)));
-          revealTab(e.currentTarget);
-          drawOptions();
-        },
-      }));
-    }
-    drawPreview();
-    drawOptions();
-    return {
-      body: h('div', {}, styleBar, preview, tabs, grid),
-      random: randomStyled,
-      focus: () => {
-        revealTab(tabs.querySelector('.part-tab[aria-pressed="true"]'));
-        updateFade();
+  look({ refresh }) {
+    const genders = data.config.card.genders;
+    const buttons = genders.map((gender) => h('button', {
+      type: 'button', class: 'look-choice', 'aria-pressed': String(draft.gender === gender),
+      onclick: () => {
+        draft.gender = gender;
+        buttons.forEach((b, i) => b.setAttribute('aria-pressed', String(genders[i] === gender)));
+        refresh();
       },
+    }, artEl(gender, 'look-art'), h('span', { class: 'look-label', text: t(`builder.look.${gender}`) })));
+    return {
+      body: h('div', {},
+        h('p', { class: 'hint', text: t('builder.look.hint') }),
+        h('div', { class: 'look-choices' }, ...buttons)),
+      random: () => { draft.gender = pickOther(genders, draft.gender); },
     };
   },
 
@@ -458,8 +352,8 @@ const VIEWS = {
 
     const rows = [
       ['name', draft.name.trim(), 'name'],
-      ['avatar', avatarEl(draft.avatar, 'summary-avatar', t('builder.summary.rows.avatar'), data.avatar.headViewBox), 'avatar'],
       ['type', `${type.emoji} ${t(`types.${type.id}.name`)}`, 'type'],
+      ['look', h('span', { class: 'summary-look' }, artEl(draft.gender, 'summary-art'), t(`builder.look.${draft.gender}`)), 'look'],
       ['stats', statsText, 'stats'],
       ...SKILL_KINDS.map((kind) => [kind, skillText(kind), 'skills']),
       ['desc', descText, 'desc'],

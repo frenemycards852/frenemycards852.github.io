@@ -617,6 +617,79 @@ h1 {
   overflow: hidden;
 }
 
+/* Boy / girl choice with the type's illustration */
+.look-choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.look-choice {
+  display: grid;
+  gap: 8px;
+  padding: 8px;
+  border: 2px solid rgba(43, 33, 24, 0.25);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.look-choice[aria-pressed="true"] {
+  border: 4px solid var(--primary);
+  box-shadow: 0 3px 0 var(--border);
+}
+
+.look-art {
+  display: block;
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 10px;
+}
+
+.look-label {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.art-soon {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 6px;
+  background: var(--accent);
+  color: #ffffff;
+  font-weight: 800;
+  text-align: center;
+}
+
+.art-soon-emoji {
+  font-size: 40px;
+}
+
+.summary-look {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.summary-art {
+  width: 56px;
+  aspect-ratio: 5 / 7;
+  object-fit: cover;
+  object-position: top;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 10px;
+}
+
+.summary-art .art-soon-emoji {
+  font-size: 20px;
+}
+
 .load-error {
   text-align: center;
   color: #c0262d;

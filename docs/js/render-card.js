@@ -1,12 +1,11 @@
 // Draws a finished card onto a canvas (1080×1512). Layout is original to this project:
-// large art window with a type energy effect, type medallion, rarity plate,
-// name plate, dark glass stat panel (radar + skills), quote strip, footer.
-// card: { name, avatar, type, stats, move, trait, weakness, desc, rarity }
-// data: { config, types, skills, descriptions, avatar } loaded in the current language.
+// full-card illustration for the type + gender (or a type burst placeholder), type medallion,
+// rarity plate, name plate, see-through glass stat panel (radar + skills), quote strip, footer.
+// card: { name, gender, type, stats, move, trait, weakness, desc, rarity }
+// data: { config, types, skills, descriptions } loaded in the current language.
 
 import { setFont, fitSingle, fitLines } from './textlayout.js';
-import { avatarSvg } from './avatar.js';
-import { SKILL_KINDS, resolveSkill, resolveDesc } from './card.js';
+import { SKILL_KINDS, resolveSkill, resolveDesc, cardArt } from './card.js';
 import { t } from './i18n.js';
 
 export const CARD_W = 1080;
@@ -268,21 +267,29 @@ async function drawArt(ctx, card, data, type) {
   glow.addColorStop(1, 'rgba(255, 255, 255, 0)');
   ctx.fillStyle = glow;
   ctx.fillRect(40, 40, 1000, 1432);
-  EFFECTS[type.id]?.(ctx, seededRandom(`${card.name}${card.type}`), type);
-  // Fit the avatar by its shape: a slim anime figure is drawn large so the face reads well
-  // and the legs continue behind the see-through panel; a chibi full body stands above the
-  // name plate; a square (head and shoulders) one sits on the bottom edge.
-  const [, , vbW, vbH] = data.avatar.viewBox.split(' ').map(Number);
-  const ratio = vbH / vbW;
-  const box = ratio > 1.8
-    ? { h: 1360, bottom: 1440 }
-    : ratio > 1.2
-      ? { h: 812, bottom: 876 }
-      : { h: 640, bottom: 940 };
-  const w = Math.round((box.h * vbW) / vbH);
-  const svg = avatarSvg(data.avatar, card.avatar, { prop: card.type }).replace('<svg ', `<svg width="${w}" height="${box.h}" `);
-  const img = await loadImage(`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`);
-  ctx.drawImage(img, 540 - w / 2, box.bottom - box.h, w, box.h);
+  const src = cardArt(data.types, card.type, card.gender);
+  const img = src ? await loadImage(new URL(`../${src}`, import.meta.url).href).catch(() => null) : null;
+  if (img) {
+    // Illustration covers the whole card, anchored to the top (faces live in the upper half).
+    const scale = Math.max(1000 / img.naturalWidth, 1432 / img.naturalHeight);
+    const w = img.naturalWidth * scale;
+    ctx.drawImage(img, 540 - w / 2, 40, w, img.naturalHeight * scale);
+  } else {
+    // No illustration yet: type burst + energy effect + "coming soon".
+    EFFECTS[type.id]?.(ctx, seededRandom(`${card.name}${card.type}`), type);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    setFont(ctx, 200, 400);
+    ctx.fillStyle = '#000000';
+    ctx.fillText(type.emoji, 540, 480);
+    const label = fitSingle(ctx, t('card.artSoon'), { maxWidth: 760, size: 64, minSize: 36, weight: 900 });
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = 12;
+    ctx.strokeStyle = NIGHT;
+    ctx.strokeText(label.text, 540, 680);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(label.text, 540, 680);
+  }
   ctx.restore();
 }
 
@@ -359,7 +366,7 @@ function drawNamePlate(ctx, card, type, trim) {
 
 function drawPanel(ctx) {
   chamfer(ctx, 66, 996, 948, 344, 30);
-  ctx.fillStyle = 'rgba(16, 20, 44, 0.74)';
+  ctx.fillStyle = 'rgba(16, 20, 44, 0.82)';
   ctx.fill();
   ctx.save();
   ctx.shadowColor = '#4dd2ff';
