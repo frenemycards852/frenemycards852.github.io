@@ -5,8 +5,10 @@ import { loadJSON } from './data.js';
 import {
   SKILL_KINDS, CUSTOM, createDraft, textLength, clipText, isBlocked, isTextOk,
   statTotal, isStatsValid, setStat, randomStats, pickOther, isSkillOk, isDescOk,
-  isGender, cardArt,
+  isGender, cardArt, toCard,
 } from './card.js';
+import { rollRarity } from './rarity.js';
+import { showReveal } from './reveal.js';
 
 const STEPS = ['name', 'type', 'look', 'stats', 'skills', 'desc', 'summary'];
 
@@ -67,7 +69,19 @@ export async function mountBuilder(container, param) {
   if (token !== mountToken) return; // a newer navigation took over
   if (!draft) draft = createDraft(data);
 
-  let step = STEPS.includes(param) ? param : 'name';
+  // Once the rarity is rolled the card is final: only the reveal screen is shown.
+  if (draft.rarity) {
+    if (param !== 'reveal') history.replaceState(null, '', '#/make/reveal');
+    showReveal(container, toCard(draft), data, {
+      opened: draft.opened,
+      onOpened: () => { draft.opened = true; },
+      onAgain: () => { draft = createDraft(data); go('name'); },
+    });
+    return;
+  }
+
+  let step = STEPS.includes(param) ? param : param === 'reveal' ? 'summary' : 'name';
+  if (step !== param && param) history.replaceState(null, '', `#/make/${step}`);
   // Later steps need every earlier step to be valid.
   const firstInvalid = STEPS.slice(0, STEPS.indexOf(step)).find((s) => !VALID[s]());
   if (firstInvalid) {
@@ -371,12 +385,24 @@ const VIEWS = {
       class: 'btn btn-secondary', type: 'button', text: t('builder.summary.restart'),
       onclick: () => { draft = createDraft(data); go('name'); },
     });
+    // "Done" asks once, because the rarity roll is final.
+    const confirm = h('div', { class: 'confirm', hidden: true },
+      h('p', { text: t('builder.confirm.text') }),
+      h('div', { class: 'confirm-actions' },
+        h('button', {
+          class: 'btn btn-secondary', type: 'button', text: t('builder.confirm.no'),
+          onclick: () => { confirm.hidden = true; finish.hidden = false; },
+        }),
+        h('button', {
+          class: 'btn btn-primary', type: 'button', text: t('builder.confirm.yes'),
+          onclick: () => { draft.rarity = rollRarity(data.config.rarity); go('reveal'); },
+        })));
+    const finish = h('button', {
+      class: 'btn btn-primary btn-block', type: 'button', text: t('builder.summary.finish'),
+      onclick: () => { finish.hidden = true; confirm.hidden = false; },
+    });
     return {
-      body: h('div', {},
-        list,
-        h('button', { class: 'btn btn-primary btn-block', type: 'button', disabled: true, text: t('builder.summary.finish') }),
-        h('p', { class: 'hint center', text: t('builder.summary.soon') }),
-        h('div', { class: 'center' }, restart)),
+      body: h('div', {}, list, finish, confirm, h('div', { class: 'center' }, restart)),
     };
   },
 };

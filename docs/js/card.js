@@ -18,6 +18,21 @@ export function createDraft({ config, types, skills, descriptions }) {
   return draft;
 }
 
+// The finished card from a draft (what gets drawn, and later put in links).
+export function toCard(draft) {
+  return {
+    name: draft.name.trim(),
+    gender: draft.gender,
+    type: draft.type,
+    stats: [...draft.stats],
+    move: { ...draft.move },
+    trait: { ...draft.trait },
+    weakness: { ...draft.weakness },
+    desc: { ...draft.desc },
+    rarity: draft.rarity,
+  };
+}
+
 export function isGender(config, value) {
   return config.card.genders.includes(value);
 }

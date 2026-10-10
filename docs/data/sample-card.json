@@ -1,0 +1,14 @@
+{
+  "note": "Example card on the home screen. Presets are ids, so the text shows in the viewer's language.",
+  "names": { "zh-HK": "阿明", "en": "Sam" },
+  "card": {
+    "gender": "boy",
+    "type": "late",
+    "stats": [80, 70, 90, 0, 60],
+    "move": { "id": "m1", "name": "", "desc": "" },
+    "trait": { "id": "t3", "name": "", "desc": "" },
+    "weakness": { "id": "w1", "name": "", "desc": "" },
+    "desc": { "id": "d1", "text": "" },
+    "rarity": "SSR"
+  }
+}

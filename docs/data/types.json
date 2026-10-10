@@ -1,7 +1,7 @@
 {
   "types": [
     { "id": "late", "emoji": "⏰", "color": "#ffb020", "art": { "boy": "assets/cards/late-boy.jpg", "girl": "assets/cards/late-girl.jpg" } },
-    { "id": "foodie", "emoji": "🍜", "color": "#ff7a45", "effectItems": ["🍔", "🧋", "🍣", "🥟", "🍕", "🍩", "🍗", "🍦"] },
+    { "id": "foodie", "emoji": "🍜", "color": "#ff7a45", "art": { "boy": "assets/cards/foodie-boy.jpg" },"effectItems": ["🍔", "🧋", "🍣", "🥟", "🍕", "🍩", "🍗", "🍦"] },
     { "id": "slacker", "emoji": "🛋️", "color": "#5cb85c" },
     { "id": "work", "emoji": "💼", "color": "#4f7cff" },
     { "id": "love", "emoji": "💘", "color": "#ff5fa2", "effectColors": ["#ff2e63", "#ff8fb8", "#c77dff", "#ffffff", "#ff4d6d", "#ffb3c7"] },

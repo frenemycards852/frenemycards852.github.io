@@ -3,10 +3,11 @@
 
 import { applyI18n } from './i18n.js';
 import { mountBuilder } from './builder.js';
+import { mountHomeCard } from './home.js';
 
-// A route either clones a static <template> or mounts a view module.
+// A route either clones a static <template> (optionally followed by `after`) or mounts a view module.
 const ROUTES = {
-  '': { template: 'view-home' },
+  '': { template: 'view-home', after: mountHomeCard },
   make: { mount: mountBuilder },
   album: { template: 'view-album' },
 };
@@ -31,6 +32,7 @@ export function render() {
   } else {
     app.replaceChildren(document.getElementById(route.template).content.cloneNode(true));
     applyI18n(app);
+    route.after?.(app);
   }
   window.scrollTo(0, 0);
 }

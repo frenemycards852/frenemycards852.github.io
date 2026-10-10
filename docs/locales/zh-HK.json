@@ -10,7 +10,22 @@
     "tagline": "將班朋友變成收藏卡，專抽佢哋啲壞習慣：長期遲到、已讀不回、成日話「下次我請」。",
     "make": "幫朋友整卡",
     "album": "我的卡冊",
-    "hint": "整好就 send 俾佢，睇佢點反擊 😏"
+    "hint": "整好就 send 俾佢，睇佢點反擊 😏",
+    "exampleLabel": "示範卡：阿明，遲到系 SSR"
+  },
+  "reveal": {
+    "title": "開卡包！",
+    "tap": "撳開卡包 👆",
+    "cardLabel": "{name} 嘅卡，稀有度 {rarity}",
+    "again": "再整一張",
+    "home": "返首頁",
+    "shareSoon": "分享同儲存功能快將推出 🛠️",
+    "reaction": {
+      "N": "{name} 竟然係 N 卡 😂",
+      "R": "R 卡！{name} 都算有啲價值",
+      "SR": "SR！{name} 原來咁珍貴？",
+      "SSR": "✨ SSR！！{name} 係傳說級損友 ✨"
+    }
   },
   "builder": {
     "step": "第 {n}/{total} 步",
@@ -38,6 +53,11 @@
     },
     "type": {
       "title": "佢屬於咩系？"
+    },
+    "confirm": {
+      "text": "抽咗稀有度之後，張卡就唔可以再改。確定？",
+      "yes": "確定，抽卡！",
+      "no": "再改吓"
     },
     "look": {
       "title": "佢係男仔定女仔？",
@@ -72,7 +92,6 @@
       "title": "檢查吓張卡",
       "edit": "改",
       "finish": "完成",
-      "soon": "抽稀有度同畫卡功能整緊，快將推出 🛠️",
       "restart": "由頭整過",
       "rows": {
         "name": "名",

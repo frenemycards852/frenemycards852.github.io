@@ -5,27 +5,22 @@ Keep it short: replace old "Next step" text rather than appending forever.
 
 ## Current phase
 
-**Stage 1 · Phase 6 — Card rendering + rarity roll** (6a card face built; awaiting design review)
+**Stage 1 · Phase 6 — Card rendering + rarity roll** (6b built; awaiting review)
 
 ## Next step
 
-- Product creator reviews the 4 sample cards (`docs/dev/test.html`, `?lang=en` for English).
-- Then 6b: pack-opening animation, reveal, lock card after roll, SSR holo shimmer, home example card.
+- Product creator reviews 6b (pack opening, reveal, lock, home example card) and keeps making illustrations (`spec/ILLUSTRATIONS.md`; done: late-boy, late-girl, foodie-boy).
+- Before pushing: product creator confirms the illustrations may be published (made with Google Gemini).
+- Then Phase 7: card links + card view + sharing.
 
-Phase 6 notes: `render-card.js` draws 1080×1512. Card design chosen 2026-10-10 after comparing 3 styles: "A" layout (large art window, type medallion, chamfered name plate, dark glass panel with stat radar (radar chosen over bars) + 3 skills, quote strip, footer with site URL) + gems + gold trim. Revised 2026-10-10 to style "C": gold chamfered frame for every rarity, one top gem; rarity shown by gem (N stone, R sapphire, SR ruby, SSR diamond), rarity plate and SSR sparkles. Glass panel has a cyan glow edge. Art fills the whole card; lower panels are translucent (product creator request, like a holo TCG look). Each type has an energy effect in the art (late clocks, foodie assorted food emoji from `types.json` effectItems, love multicolour hearts from effectColors, slacker Zzz, work papers, savage lightning), seeded from the card so it is stable. Market TCG samples were style references only; nothing copied (Magic sample explicitly avoided). Rarity odds/frame colours in `config.json` → `rarity`; `rarity.js` rolls. `textlayout.js` wraps/shrinks text. English stat label "Punctuality" shortened to "On Time" to fit the radar.
-
-Notes:
-- Avatar: placeholder SVG parts all in `docs/data/avatar.json` (one file instead of `assets/avatar/*.svg`; approved 2026-10-09). `avatar.js` builds the SVG; head is its own `<g class="head">` for future photo heads.
-- Avatar step starts with 男仔/女仔 (product creator's request). Each style has its own categories (`styles[].partOrder`): boy 11 (incl. beard), girl 13 (incl. make-up, earrings, hair accessory); shared: face, skin, eyes, brows, mouth, hair colour, outfit colour. Choosing loads a basic look (`base`); dice keeps the style.
-- Stored avatar = `[styleIndex, ...indices in that style's partOrder]`, so the style **is** part of the card. **Never reorder/remove styles, parts or options; only append** (links depend on it).
-- Category row scrolls sideways (visible scrollbar, mouse wheel, edge fade).
-- Full body (2026-10-10, product creator's request): viewBox 200×320. New parts appended per style: bottoms (boyBottom/girlBottom, stand + wide variants), shoes (shared), pose (6: stand, hands-on-hip, point, battle stance (wide), fist pump, peace). Tops now draw the torso and declare sleeve length; `avatar.js` draws arms from the pose's elbow/hand points with sleeve colours, then the hand shape. Each type has a prop held in the pose's gripping hand (`avatar.json` → props), only drawn on the card (`avatarSvg(..., { prop: type })`). Thumbnails for body parts use the full view; head parts and the summary use the head crop.
-- Art style B "cool shonen chibi" (型格少年漫 Q 版), chosen 2026-10-09 by the product creator after a cute chibi round ("too peaceful for a battle game"): big-head proportions kept; sharp almond eyes, angled brows, V chin, cel shadows (hair `shade` slot under the eyes layer), spiky hair, dark outlines, cool palette. All art original (samples were style direction only). Detailed anime-illustration level ruled out (needs an illustrator; copyright). Note: spec Section 14 says "not dark/edgy" — B stays bright-outlined and playful, battle hype goes into card frames/battle screens later.
-- Routes: `#/`, `#/make/<step>` (steps: name, avatar, type, stats, skills, desc, summary), `#/album`. Unknown hashes → home. Opening a later step with earlier steps invalid redirects to the first invalid step.
-- Draft is kept in memory only (`builder.js`); a page reload starts a new card.
-- Skill/description presets share ids across languages (`m1`, `t1`, `w1`, `d1`); battle effects get mapped to these ids in Phase 8.
-- Custom entries use id `custom`. Builder dice uses `Math.random` (seeded RNG is only for battles).
-- Language saved as `fc.lang` in localStorage. Example card on home waits for Phase 6.
+Notes (current state):
+- Builder: `#/make/<step>` with steps name → type → look (boy/girl, previews the type's illustration) → stats → skills → desc → summary. "Done" asks to confirm, rolls rarity (`rarity.js`), then `#/make/reveal` (`reveal.js`): pack wobbles, tap → flash in the rarity colour → card flips in + reaction line; SSR gets a moving holo shine. After the roll the draft is locked: any edit step redirects to the reveal; "Make another card" starts fresh. Reduced motion skips straight to the card. Final states are the CSS defaults, animations only play the way in.
+- Card: `render-card.js` draws 1080×1512. Frame style "A": rarity-coloured chamfered metal (N steel, R silver, SR gold, SSR holo + sparkles), no gems. Illustration for type + gender (`types.json` → `art`) covers the card; lower glass panel (radar + skills) and quote strip are see-through. Missing illustration → type burst + energy effect + "插畫準備中". `card.js` → `toCard(draft)` is the finished card shape (stores `gender`, not an avatar).
+- Home shows an example card (`data/sample-card.json`, `home.js`).
+- `avatar.js` / `avatar.json` (programmatic avatars, styles explored 2026-10-09/10) are no longer loaded; kept in case of future use.
+- Draft lives in memory only; a page reload starts a new card.
+- Skill/description presets share ids across languages (`m1`, `t1`, `w1`, `d1`); battle effects get mapped to these ids in Phase 8. Custom entries use id `custom`. Builder dice uses `Math.random` (seeded RNG is only for battles).
+- Language saved as `fc.lang` in localStorage. Dev page: `docs/dev/test.html` (card samples, rarity distribution).
 
 ## Phase checklist
 
@@ -35,8 +30,8 @@ Notes:
 - [x] 2. Project setup & first deployment
 - [x] 3. App shell + localization
 - [x] 4. Card builder (without avatar)
-- [x] 5. Avatar builder
-- [ ] 6. Card rendering + rarity roll
+- [x] 5. Avatar builder (later replaced by illustrations)
+- [x] 6. Card rendering + rarity roll (awaiting review)
 - [ ] 7. Card links + card view + sharing → **test with real friends**
 
 ### Stage 2 — Battles
@@ -64,11 +59,11 @@ Notes:
 - Stats: 5 stats (體力, 抽水力, 臉皮, 準時度, 運氣), creator distributes 300 points.
 - Rarity N/R/SR/SSR rolled at random, cosmetic only.
 - Penalties: preset list + custom text.
-- Cartoon avatars only (no photos) in the MVP.
+- No real photos on cards in the MVP (card art = type illustrations, see below).
 - Environment: Git 2.56, Chrome, Cursor with Live Server (local testing). GitHub account was renamed from `excuseme852` to `frenemycards852` (same account ID); the noreply commit email still links to it. Repo-only commit name: `Frenemycards852`.
 - GitHub Pages: deploy from branch `main`, folder `/docs`. Live since 2026-10-08.
 - Card builder is one step per screen (decided 2026-10-08).
-- 2026-10-10: card art switches to **illustrations** (product creator's choice "A"): one illustration per type × boy/girl (12), chosen automatically by type + gender. Done 2026-10-10: builder steps are now name → type → look (boy/girl, previews the type's illustration) → stats → skills → desc → summary; card stores `gender` instead of `avatar`. Illustration paths live in `types.json` → `art`; missing ones show a "插畫準備中" placeholder (type burst + effect). `avatar.js` / `avatar.json` are no longer loaded (kept for now in case of future use). Illustrations in: late-boy, late-girl. Brief: `spec/ILLUSTRATIONS.md`. Card frame back to style "A" (rarity-coloured chamfered metal frame, no gems). Product creator supplies the images; rights to publish must be confirmed for each (repo is public).
+- 2026-10-10: card art switches to **illustrations** (product creator's choice "A"): one illustration per type × boy/girl (12), chosen automatically by type + gender. Done 2026-10-10: builder steps are now name → type → look (boy/girl, previews the type's illustration) → stats → skills → desc → summary; card stores `gender` instead of `avatar`. Illustration paths live in `types.json` → `art`; missing ones show a "插畫準備中" placeholder (type burst + effect). `avatar.js` / `avatar.json` are no longer loaded (kept for now in case of future use). Illustrations in: late-boy, late-girl, foodie-boy (made with Google Gemini). Brief: `spec/ILLUSTRATIONS.md`. Card frame back to style "A" (rarity-coloured chamfered metal frame, no gems). Product creator supplies the images; rights to publish must be confirmed for each (repo is public).
 - Photo heads (real photo head on a cartoon body): approved idea, to build **after Stage 1** is tested. Photo stays local only (preview, shared PNG, own album); links always carry the cartoon head. Needs a consent reminder and no face-altering effects. Phase 5 avatar must keep the head as a swappable layer.
 
 ## Open questions

@@ -690,14 +690,234 @@ h1 {
   font-size: 20px;
 }
 
+/* Card canvas (drawn at 1080×1512, shown scaled) */
+.card-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 6px 10px rgba(29, 20, 18, 0.35));
+}
+
+/* Home example card */
+.home-card {
+  width: min(62%, 240px);
+  margin: 0 auto 24px;
+  transform: rotate(-3deg);
+  animation: card-float 4s ease-in-out infinite;
+}
+
+@keyframes card-float {
+  0%, 100% { transform: rotate(-3deg) translateY(0); }
+  50% { transform: rotate(-1deg) translateY(-6px); }
+}
+
+/* Confirm before rolling */
+.confirm {
+  margin-top: 16px;
+  padding: 14px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-align: center;
+  font-weight: 600;
+}
+
+.confirm[hidden] {
+  display: none;
+}
+
+.confirm p {
+  margin: 0 0 12px;
+}
+
+.confirm-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.btn[hidden] {
+  display: none;
+}
+
+/* Pack opening + reveal */
+.reveal {
+  text-align: center;
+}
+
+.reveal-stage {
+  display: grid;
+  place-items: center;
+  min-height: 480px;
+}
+
+.reveal-stage > * {
+  grid-area: 1 / 1;
+}
+
+.pack {
+  display: grid;
+  place-content: center;
+  gap: 6px;
+  width: 220px;
+  height: 308px;
+  border: 3px solid var(--border);
+  border-radius: 18px;
+  background: linear-gradient(135deg, #1a1f3d, #4a4f9a 45%, #8f6bff 55%, #1a1f3d);
+  box-shadow: 0 8px 0 var(--border);
+  color: #ffffff;
+  font: inherit;
+  cursor: pointer;
+  animation: pack-wobble 1.6s ease-in-out infinite;
+}
+
+.pack-name {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.pack-q {
+  font-size: 110px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+@keyframes pack-wobble {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg) scale(1.03); }
+}
+
+.opening .pack {
+  animation: pack-shake 0.12s linear infinite;
+}
+
+@keyframes pack-shake {
+  0% { transform: translateX(-5px) rotate(-3deg); }
+  50% { transform: translateX(5px) rotate(3deg); }
+  100% { transform: translateX(-5px) rotate(-3deg); }
+}
+
+.reveal-flash {
+  width: 440px;
+  height: 440px;
+  max-width: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.opening .reveal-flash {
+  animation: reveal-flash 0.8s ease-out forwards;
+}
+
+@keyframes reveal-flash {
+  0% { opacity: 0; transform: scale(0.4); }
+  60% { opacity: 1; transform: scale(1.4); }
+  100% { opacity: 0; transform: scale(1.8); }
+}
+
+.opened .pack,
+.opened .reveal-tap {
+  display: none;
+}
+
+.reveal-card {
+  position: relative;
+  width: min(100%, 340px);
+  opacity: 0;
+  transform: perspective(900px) rotateY(90deg) scale(0.8);
+  pointer-events: none;
+}
+
+/* Final state is the default once revealed; the animation only plays the way in,
+   so the card still shows if animations are paused or skipped. */
+.revealed .reveal-card {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  animation: card-in 0.6s ease-out;
+}
+
+@keyframes card-in {
+  from { opacity: 0; transform: perspective(900px) rotateY(90deg) scale(0.8); }
+  to { opacity: 1; transform: perspective(900px) rotateY(0) scale(1); }
+}
+
+/* SSR moving holo shine, clipped to the card's cut corners */
+.holo {
+  overflow: hidden;
+  clip-path: polygon(6.5% 0, 93.5% 0, 100% 4.6%, 100% 95.4%, 93.5% 100%, 6.5% 100%, 0 95.4%, 0 4.6%);
+}
+
+.holo-shine {
+  position: absolute;
+  inset: 0 -100%;
+  background: linear-gradient(110deg, transparent 38%, rgba(255, 255, 255, 0.55) 46%, rgba(130, 220, 255, 0.4) 50%, rgba(255, 130, 220, 0.4) 54%, transparent 62%);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  animation: holo-sweep 3s linear infinite;
+}
+
+@keyframes holo-sweep {
+  from { transform: translateX(-35%); }
+  to { transform: translateX(35%); }
+}
+
+.reveal-tap {
+  margin: 12px 0 0;
+  font-weight: 700;
+}
+
+.reveal-reaction,
+.reveal-actions {
+  opacity: 0;
+}
+
+.revealed .reveal-reaction,
+.revealed .reveal-actions {
+  opacity: 1;
+  animation: fade-in 0.4s ease-out 0.4s backwards;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+}
+
+.reveal-reaction {
+  margin: 16px 0;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.reveal-actions {
+  display: grid;
+  gap: 10px;
+}
+
+.reveal-actions .hint {
+  margin: 0;
+}
+
 .load-error {
   text-align: center;
   color: #c0262d;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .view > section {
+  .view > section,
+  .home-card,
+  .pack,
+  .holo-shine {
     animation: none;
+  }
+
+  .revealed .reveal-card,
+  .revealed .reveal-reaction,
+  .revealed .reveal-actions {
+    animation: none;
+    opacity: 1;
+    transform: none;
   }
 
   .btn:active {
