@@ -5,7 +5,7 @@
     { "id": "slacker", "emoji": "🛋️", "color": "#5cb85c", "art": { "boy": "assets/cards/slacker-boy.jpg", "girl": "assets/cards/slacker-girl.jpg" } },
     { "id": "work", "emoji": "💼", "color": "#4f7cff", "art": { "boy": "assets/cards/work-boy.jpg", "girl": "assets/cards/work-girl.jpg" } },
     { "id": "love", "emoji": "💘", "color": "#ff5fa2", "art": { "boy": "assets/cards/love-boy.jpg", "girl": "assets/cards/love-girl.jpg" },"effectColors": ["#ff2e63", "#ff8fb8", "#c77dff", "#ffffff", "#ff4d6d", "#ffb3c7"] },
-    { "id": "savage", "emoji": "🗡️", "color": "#8a5cf6" }
+    { "id": "savage", "emoji": "🗡️", "color": "#8a5cf6", "art": { "boy": "assets/cards/savage-boy.jpg" } }
   ],
   "beats": {
     "work": "slacker",
