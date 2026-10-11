@@ -5,12 +5,11 @@ Keep it short: replace old "Next step" text rather than appending forever.
 
 ## Current phase
 
-**Stage 1 · Phase 7 — Card links + card view + sharing** (built; awaiting review)
+**Stage 1 · Phase 7 — Card links + card view + sharing** (built and checked on iPhone 2026-10-11: card emoji, Share to WhatsApp, Copy link, Save image)
 
 ## Next step
 
-- Product creator tests sharing on a real phone (Share to WhatsApp, Copy link, Save image), then push.
-- Then **test Stage 1 with real friends** before Stage 2 (battles).
+- **Test Stage 1 with real friends** (make, send, strike back) and collect feedback before Stage 2 (battles).
 
 Notes (current state):
 - Card links: `#c=<payload>` (`codec.js`). Payload = version digit + format ("j" plain / "z" deflate-raw via CompressionStream) + base64url of a compact JSON array `[name, gender b/g, type id, stats, move, trait, weakness, desc, rarity, from]`; presets are numbers (m3 → 3), customs are text. Typical link payload 60–80 chars. v1 must keep decoding forever; change the format by adding a version. Decode errors are `CodecError` with code corrupt / version / unsupported; `card.js` → `isCardValid` also rejects tampered cards (stats, unknown ids, blocked words).
