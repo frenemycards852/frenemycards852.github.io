@@ -1900,7 +1900,7 @@ h1 {
   top: 0;
   display: grid;
   place-items: center;
-  width: 38%;
+  width: 30%;
   font-size: clamp(13px, 4vw, 17px);
   font-weight: 900;
   line-height: 1.2;

@@ -4,7 +4,8 @@
 
 const EDIT_SIZE = 512; // working canvas (px)
 const EXPORT_SIZE = 256; // stored photo (px), about 20–30 KB as JPEG
-const MAX_SOURCE = 1600; // big phone photos are scaled down once, to keep memory low
+const MAX_SOURCE = 2400; // big phone photos are scaled down once, to keep memory low
+const MAX_ZOOM = 10; // far-away faces in group photos need a lot of zoom
 
 function el(tag, className, text) {
   const node = document.createElement(tag);
@@ -151,7 +152,7 @@ export function photoEditor({ state, art, onChange, text }) {
       pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
       if (pointers.size === 2 && pinch) {
         const [a, b] = [...pointers.values()];
-        current.view.zoom = Math.min(4, Math.max(1, pinch.zoom * (Math.hypot(a.x - b.x, a.y - b.y) / pinch.dist)));
+        current.view.zoom = Math.min(MAX_ZOOM, Math.max(1, pinch.zoom * (Math.hypot(a.x - b.x, a.y - b.y) / pinch.dist)));
         zoom.value = current.view.zoom;
       } else {
         current.view.x += (e.clientX - last.x) * k;
@@ -176,7 +177,7 @@ export function photoEditor({ state, art, onChange, text }) {
       field.append(el('span', null, label), range);
       return { field, range };
     };
-    const { field: zoomField, range: zoom } = slider(text('zoom'), 1, 4, 0.01, current.view.zoom, (v) => { current.view.zoom = v; });
+    const { field: zoomField, range: zoom } = slider(text('zoom'), 1, MAX_ZOOM, 0.01, current.view.zoom, (v) => { current.view.zoom = v; });
     const { field: rotateField } = slider(text('rotate'), -180, 180, 1, current.view.rotate, (v) => { current.view.rotate = v; });
 
     const change = el('button', 'btn btn-secondary', text('change'));
