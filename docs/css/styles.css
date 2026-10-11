@@ -754,6 +754,8 @@ h1 {
 
 .reveal-stage {
   display: grid;
+  /* One column exactly as wide as the screen, so wide children can't push it sideways. */
+  grid-template-columns: minmax(0, 1fr);
   place-items: center;
   min-height: 480px;
   overflow: hidden; /* the flash grows past the edges; keep it inside */
@@ -806,9 +808,8 @@ h1 {
 }
 
 .reveal-flash {
-  width: 440px;
-  height: 440px;
-  max-width: 100%;
+  width: min(100%, 440px);
+  aspect-ratio: 1;
   border-radius: 50%;
   background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
   opacity: 0;

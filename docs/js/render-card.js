@@ -328,6 +328,7 @@ function drawMedallion(ctx, type, trim) {
   setFont(ctx, 64, 400);
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
+  ctx.fillStyle = '#000000'; // iOS skips colour emoji drawn with a gradient fill
   ctx.fillText(type.emoji, 140, 146);
 }
 
