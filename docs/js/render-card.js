@@ -448,27 +448,27 @@ function drawSkills(ctx, card, data) {
   let y = 1008;
   for (const kind of SKILL_KINDS) {
     const skill = resolveSkill(card[kind], data.skills[kind]);
-    const chip = fitSingle(ctx, t(`card.${kind}`), { maxWidth: 220, size: 26, minSize: 18, weight: 800 });
+    const chip = fitSingle(ctx, t(`card.${kind}`), { maxWidth: 220, size: 22, minSize: 16, weight: 800 });
     const chipW = ctx.measureText(chip.text).width + 28;
-    roundRect(ctx, x, y, chipW, 40, 20);
+    roundRect(ctx, x, y + 2, chipW, 34, 17);
     ctx.fillStyle = SKILL_COLORS[kind];
     ctx.fill();
     ctx.fillStyle = '#ffffff';
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
-    ctx.fillText(chip.text, x + 14, y + 21);
+    ctx.fillText(chip.text, x + 14, y + 20);
     ctx.textBaseline = 'alphabetic';
-    const name = fitSingle(ctx, skill.name, { maxWidth: w - chipW - 14, size: 46, minSize: 28, weight: 900 });
+    const name = fitSingle(ctx, skill.name, { maxWidth: w - chipW - 14, size: 40, minSize: 26, weight: 900 });
     ctx.fillStyle = LIGHT_TEXT;
-    ctx.fillText(name.text, x + chipW + 14, y + 36);
+    ctx.fillText(name.text, x + chipW + 14, y + 33);
     if (skill.desc) {
       // Prefer one line; wrap to two smaller lines only when needed.
-      const one = fitLines(ctx, skill.desc, { maxWidth: w, maxLines: 1, size: 32, minSize: 24, weight: 500 });
+      const one = fitLines(ctx, skill.desc, { maxWidth: w, maxLines: 1, size: 28, minSize: 22, weight: 500 });
       const desc = one.lines[0].endsWith('…')
-        ? fitLines(ctx, skill.desc, { maxWidth: w, maxLines: 2, size: 24, minSize: 19, weight: 500 })
+        ? fitLines(ctx, skill.desc, { maxWidth: w, maxLines: 2, size: 22, minSize: 18, weight: 500 })
         : one;
       ctx.fillStyle = SOFT_TEXT;
-      desc.lines.forEach((line, i) => ctx.fillText(line, x, y + (desc.lines.length > 1 ? 64 : 78) + i * (desc.size + 2)));
+      desc.lines.forEach((line, i) => ctx.fillText(line, x, y + (desc.lines.length > 1 ? 62 : 72) + i * (desc.size + 2)));
     }
     y += 96;
   }
