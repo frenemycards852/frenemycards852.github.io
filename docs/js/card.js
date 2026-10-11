@@ -30,6 +30,8 @@ export function toCard(draft) {
     weakness: { ...draft.weakness },
     desc: { ...draft.desc },
     rarity: draft.rarity,
+    // The friend's photo stays on this phone: codec.js never puts it into a link.
+    ...(draft.photo ? { photo: draft.photo } : {}),
   };
 }
 

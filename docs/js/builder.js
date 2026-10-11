@@ -9,8 +9,9 @@ import {
 } from './card.js';
 import { rollRarity } from './rarity.js';
 import { showReveal } from './reveal.js';
+import { photoEditor } from './photo.js';
 
-const STEPS = ['name', 'type', 'look', 'stats', 'skills', 'desc', 'summary'];
+const STEPS = ['name', 'type', 'look', 'photo', 'stats', 'skills', 'desc', 'summary'];
 
 let draft = null; // kept in memory while the page is open
 let data = null;
@@ -61,6 +62,7 @@ const VALID = {
   name: () => isTextOk(draft.name, terms()),
   type: () => data.types.types.some((type) => type.id === draft.type),
   look: () => isGender(data.config, draft.gender),
+  photo: () => true, // optional
   stats: () => isStatsValid(draft.stats, data.config.stats),
   skills: () => SKILL_KINDS.every((kind) => isSkillOk(draft[kind], terms())),
   desc: () => isDescOk(draft.desc, terms()),
@@ -213,6 +215,28 @@ const VIEWS = {
         h('p', { class: 'hint', text: t('builder.look.hint') }),
         h('div', { class: 'look-choices' }, ...buttons)),
       random: () => { draft.gender = pickOther(genders, draft.gender); },
+    };
+  },
+
+  // Optional: the friend's photo as a sticker on the illustration's head.
+  photo() {
+    const type = data.types.types.find((x) => x.id === draft.type);
+    const src = cardArt(data.types, draft.type, draft.gender);
+    const head = type.head?.[draft.gender];
+    if (!src || !head) {
+      return { body: h('p', { class: 'hint', text: t('builder.photo.unavailable') }) };
+    }
+    const editor = photoEditor({
+      state: draft.photoState ?? null,
+      art: { src, head },
+      text: (key) => t(`builder.photo.${key}`),
+      onChange: (photo, state) => { draft.photo = photo; draft.photoState = state; },
+    });
+    return {
+      body: h('div', {},
+        h('p', { class: 'hint', text: t('builder.photo.hint') }),
+        editor,
+        h('p', { class: 'photo-privacy', text: t('builder.photo.privacy') })),
     };
   },
 
@@ -385,6 +409,9 @@ const VIEWS = {
       ['name', draft.name.trim(), 'name'],
       ['type', `${type.emoji} ${t(`types.${type.id}.name`)}`, 'type'],
       ['look', h('span', { class: 'summary-look' }, artEl(draft.gender, 'summary-art'), t(`builder.look.${draft.gender}`)), 'look'],
+      ['photo', draft.photo
+        ? h('img', { class: 'summary-photo', src: draft.photo, alt: t('builder.summary.rows.photo') })
+        : t('builder.summary.noPhoto'), 'photo'],
       ['stats', statsText, 'stats'],
       ...SKILL_KINDS.map((kind) => [kind, skillText(kind), 'skills']),
       ['desc', descText, 'desc'],

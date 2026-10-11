@@ -87,6 +87,20 @@
       "yes": "Yes, open it!",
       "no": "Keep editing"
     },
+    "photo": {
+      "title": "📷 Add your friend's photo",
+      "hint": "Optional: just tap Next to skip. The photo goes on the character's head, like a sticker.",
+      "pick": "🖼️ Choose or take a photo",
+      "fit": "Fit your friend's whole head (hair too) in the circle. Drag to line it up.",
+      "zoom": "Zoom",
+      "rotate": "Rotate",
+      "preview": "Your card will look like this:",
+      "change": "Change photo",
+      "remove": "Remove photo",
+      "error": "That photo won't open. Try another one.",
+      "privacy": "🔒 The photo only stays on your phone and in images you send. It never goes into links. Ask your friend before using their photo 😉",
+      "unavailable": "Photos aren't available for this type yet."
+    },
     "look": {
       "title": "Boy or girl?",
       "hint": "The card uses this type's illustration",
@@ -121,11 +135,13 @@
       "edit": "Edit",
       "finish": "Done",
       "restart": "Start over",
+      "noPhoto": "No photo",
       "rows": {
         "name": "Name",
         "avatar": "Avatar",
         "type": "Type",
         "look": "Look",
+        "photo": "Photo",
         "stats": "Stats",
         "move": "Signature move",
         "trait": "Trait",

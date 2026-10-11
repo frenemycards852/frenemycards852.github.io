@@ -970,6 +970,90 @@ h1 {
   color: var(--muted);
 }
 
+/* Builder: friend's photo (sticker head) */
+.photo-editor,
+.photo-edit {
+  display: grid;
+  gap: 12px;
+}
+
+.photo-edit .hint {
+  margin: 0;
+}
+
+.photo-ring {
+  width: min(78%, 280px);
+  margin: 0 auto;
+  overflow: hidden;
+  border: 6px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--border), 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+.photo-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  touch-action: none;
+  cursor: grab;
+}
+
+.photo-slider {
+  display: grid;
+  gap: 4px;
+  font-weight: 700;
+}
+
+.photo-slider input {
+  width: 100%;
+  min-height: var(--tap);
+  accent-color: var(--primary);
+}
+
+.photo-preview-label {
+  margin: 4px 0 0;
+  font-weight: 700;
+}
+
+.photo-preview {
+  position: relative;
+  width: min(60%, 220px);
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.photo-preview-art {
+  display: block;
+  width: 100%;
+}
+
+.photo-preview-sticker {
+  position: absolute;
+  aspect-ratio: 1;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+.photo-privacy {
+  margin: 16px 0 0;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.summary-photo {
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 /* My album + card picker */
 .album,
 .challenge {
