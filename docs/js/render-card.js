@@ -443,8 +443,8 @@ function drawRadar(ctx, card, data, type) {
 }
 
 function drawSkills(ctx, card, data) {
-  const x = 522;
-  const w = 470;
+  const x = 566;
+  const w = 426;
   let y = 1008;
   for (const kind of SKILL_KINDS) {
     const skill = resolveSkill(card[kind], data.skills[kind]);
