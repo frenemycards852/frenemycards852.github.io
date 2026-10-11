@@ -5,8 +5,8 @@ param(
   [string]$In, [string]$Out,
   [ValidateSet('flood', 'global')][string]$Mode = 'flood',
   [int]$MaxSize = 800,
-  # dark: the painted checkerboard is dark grey (black outlines are kept).
-  [ValidateSet('light', 'dark')][string]$Background = 'light',
+  # dark: the painted checkerboard is dark grey; mixed: mid and light grey (black outlines are kept).
+  [ValidateSet('light', 'dark', 'mixed')][string]$Background = 'light',
   # Optional "x,y,w,h" to cut out one part of the picture first.
   [string]$Crop = ''
 )
@@ -20,14 +20,15 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 public static class Cutout {
-  static bool dark;
+  static int bgKind; // 0 light, 1 dark, 2 mixed
   static bool IsBg(byte b, byte g, byte r) {
     int mx = Math.Max(r, Math.Max(g, b)), mn = Math.Min(r, Math.Min(g, b));
-    if (dark) return mx >= 26 && mx <= 165 && (mx - mn) < 30;
+    if (bgKind == 1) return mx >= 26 && mx <= 165 && (mx - mn) < 30;
+    if (bgKind == 2) return mx >= 60 && mx <= 228 && (mx - mn) < 30;
     return mn > 165 && (mx - mn) < 30;
   }
-  public static string Run(string input, string output, bool flood, int maxSize, bool darkBg, int cx, int cy, int cw, int ch) {
-    dark = darkBg;
+  public static string Run(string input, string output, bool flood, int maxSize, int kind, int cx, int cy, int cw, int ch) {
+    bgKind = kind;
     using (var src = new Bitmap(input)) {
       int w = cw > 0 ? cw : src.Width, h = ch > 0 ? ch : src.Height;
       var bmp = new Bitmap(w, h, PixelFormat.Format32bppArgb);
@@ -91,4 +92,4 @@ public static class Cutout {
 }
 "@
 $c = if ($Crop) { $Crop.Split(',') | ForEach-Object { [int]$_ } } else { @(0, 0, 0, 0) }
-[Cutout]::Run($In, $Out, $Mode -eq 'flood', $MaxSize, $Background -eq 'dark', $c[0], $c[1], $c[2], $c[3])
+[Cutout]::Run($In, $Out, $Mode -eq 'flood', $MaxSize, @('light', 'dark', 'mixed').IndexOf($Background), $c[0], $c[1], $c[2], $c[3])

@@ -1944,17 +1944,22 @@ h1 {
   white-space: nowrap;
 }
 
-.comic-stamp.win {
-  top: 9%;
-  color: #ffe94d;
-  font-size: clamp(26px, 8vw, 40px);
-  -webkit-text-stroke: 2px #1a0f2e;
-  transform: rotate(-8deg);
-  animation: comic-stamp-win 0.5s cubic-bezier(0.2, 1.6, 0.4, 1) 0.3s backwards;
+/* Drawn "WINNER! 優勝者!" art over the winning card */
+.comic-winner {
+  position: absolute;
+  top: 2%;
+  z-index: 4;
+  width: 54%;
+  aspect-ratio: 416 / 460;
+  background: url("../assets/fx/winner.png") center / contain no-repeat;
+  animation: comic-winner-in 0.5s cubic-bezier(0.2, 1.6, 0.4, 1) 0.3s backwards;
 }
 
-@keyframes comic-stamp-win {
-  from { opacity: 0; transform: translateY(20px) rotate(-8deg) scale(0.4); }
+.comic-winner.at-0 { left: -4%; }
+.comic-winner.at-1 { right: -4%; }
+
+@keyframes comic-winner-in {
+  from { opacity: 0; transform: translateY(20px) scale(0.4); }
 }
 
 .comic-stamp.lose {

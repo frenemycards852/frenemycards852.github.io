@@ -223,6 +223,13 @@ export async function showComicBattle(container, match, data, {
     backdrop.style.backgroundImage = `url("${src}")`;
     backdrop.dataset.src = src;
   };
+  // Drawn "WINNER!" art over the winning card.
+  const winner = (side) => {
+    const node = el('div', `comic-winner at-${side}`);
+    node.setAttribute('role', 'img');
+    node.setAttribute('aria-label', t('comic.winStamp'));
+    fx.append(node);
+  };
   // "WINNER!" above the winner, a "LOSE" rubber stamp across the loser.
   const stamp = (side, text, kind) => fx.append(el('div', `comic-stamp ${kind} at-${side}`, text));
   const banner = (text) => fx.append(el('div', 'comic-banner', text));
@@ -298,13 +305,12 @@ export async function showComicBattle(container, match, data, {
         setPose(w, 'attack', 'winner');
         setPose(1 - w, 'ko', 'ko');
         art('ko', t('comic.ko'));
-        stamp(w, t('comic.winStamp'), 'win');
       } else {
         scene = 'timeup';
         setPose(w, null, 'winner');
         setPose(1 - w, 'hurt', 'lose');
         banner(t('comic.timeUp'));
-        stamp(w, t('comic.winStamp'), 'win');
+        winner(w);
         stamp(1 - w, t('comic.loseStamp'), 'lose');
       }
     }
