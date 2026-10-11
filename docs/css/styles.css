@@ -1872,7 +1872,7 @@ h1 {
 }
 
 .comic-art.ko {
-  width: 80%;
+  width: 64%;
   aspect-ratio: 476 / 480;
   background-image: url("../assets/fx/ko.png");
 }
