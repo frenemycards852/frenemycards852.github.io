@@ -43,6 +43,11 @@ export function runBattle(match, data) {
   return { result, said: commentate(result, ctx, data.lines, match.seed) };
 }
 
+// How each side is named on screen: "You" for the viewer, else the person's name (or "Them").
+export function whoIs(match, viewer) {
+  return (side) => (side === viewer ? t('battle.you') : (match.people[side] || t('battle.opponent')));
+}
+
 function fighterBox(card, who, tactic) {
   const box = el('div', 'fighter');
   const art = el('div', 'fighter-art');
@@ -67,7 +72,7 @@ export async function showBattle(container, match, data, {
 }) {
   const { result, said } = runBattle(match, data);
   const pace = data.config.battle.pace;
-  const who = (side) => (side === viewer ? t('battle.you') : (match.people[side] || t('battle.opponent')));
+  const who = whoIs(match, viewer);
 
   const fighters = match.cards.map((card, side) => fighterBox(card, who(side), match.tactics[side]));
   const row = el('div', 'fighters');
@@ -200,7 +205,7 @@ export function resultSharePanel(match, result, data, { primary = true } = {}) {
   return box;
 }
 
-function showResult(box, match, result, data, { viewer, who, actions }) {
+export function showResult(box, match, result, data, { viewer, who, actions }) {
   const { winner } = result;
   let headline;
   if (winner === null) headline = t('result.draw');

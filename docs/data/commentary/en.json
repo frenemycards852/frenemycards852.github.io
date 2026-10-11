@@ -1,4 +1,11 @@
 {
+  "shout": [
+    "Take this!",
+    "Eat that!",
+    "Zip it!",
+    "Get back here!",
+    "My turn!"
+  ],
   "start": [
     "{actor} vs {opponent}. This friendship is about to be tested 🔥",
     "Ladies and gentlemen: {actor} and {opponent} are settling old scores.",

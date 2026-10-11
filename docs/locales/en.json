@@ -254,6 +254,32 @@
     "rematch": "🔄 Rematch!",
     "locked": "🔒 You already answered this challenge. The result is final."
   },
+  "comic": {
+    "referee": "📣 Ref",
+    "round": "Round {n}",
+    "miss": "Miss!",
+    "dodge": "Dodged!",
+    "crit": "Critical!",
+    "super": "Super effective!",
+    "survive": "Hanging on at 1!",
+    "reflect": "Bounced back {n}!",
+    "ko": "K.O.!!",
+    "timeUp": "⏰ Time's up!",
+    "winner": "👑 {name} wins",
+    "move": {
+      "nextMiss": "👻 Vanished",
+      "stun": "😵 Frozen!",
+      "delayedStrike": "⏳ Circling back…",
+      "strike": "💥 Signature!",
+      "heal": "✨ Heal",
+      "fail": "🙄 Nobody buys it"
+    },
+    "skip": {
+      "stun": "😵 Frozen",
+      "skipFirstTurn": "💤 Not awake",
+      "distracted": "📱 Distracted"
+    }
+  },
   "replay": {
     "title": "📺 Battle replay",
     "introYou": "{name} accepted your challenge! Let's see who won 👀",

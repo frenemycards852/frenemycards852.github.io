@@ -254,6 +254,32 @@
     "rematch": "🔄 再戰！",
     "locked": "🔒 你已經應戰咗呢個挑戰，結果唔可以改。"
   },
+  "comic": {
+    "referee": "📣 裁判",
+    "round": "第 {n} 回合",
+    "miss": "撲空！",
+    "dodge": "閃咗！",
+    "crit": "暴擊！",
+    "super": "效果拔群！",
+    "survive": "死剩 1 點！",
+    "reflect": "反彈 {n}！",
+    "ko": "K.O.!!",
+    "timeUp": "⏰ 時間到！",
+    "winner": "👑 {name} 勝出",
+    "move": {
+      "nextMiss": "👻 消失咗",
+      "stun": "😵 定格！",
+      "delayedStrike": "⏳ 跟進中……",
+      "strike": "💥 必殺！",
+      "heal": "✨ 回復",
+      "fail": "🙄 冇人信"
+    },
+    "skip": {
+      "stun": "😵 停機",
+      "skipFirstTurn": "💤 未開機",
+      "distracted": "📱 分心"
+    }
+  },
   "replay": {
     "title": "📺 對戰重播",
     "introYou": "{name} 應戰咗你嘅挑戰！睇吓邊個贏 👀",

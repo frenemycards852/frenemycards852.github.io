@@ -15,6 +15,7 @@ import { startNewCard } from './builder.js';
 import { radio, group, startChallenge } from './challenge.js';
 import { loadBattleData, showBattle, resultSharePanel } from './battleview.js';
 import { lockFight, lockedFight } from './matches.js';
+import { comicMode, showComicBattle } from './comicbattle.js';
 import { isCardValid } from './card.js';
 
 const NAME_KEY = 'fc.myName';
@@ -171,7 +172,7 @@ function fight(container, challenge, items, data, { animate, isAlive, notice = '
     penalty: challenge.penalty,
     people: [challenge.name.trim(), (mine.name ?? '').trim()],
   };
-  showBattle(container, match, data, {
+  (comicMode() ? showComicBattle : showBattle)(container, match, data, {
     viewer: 1,
     animate,
     isAlive,

@@ -9,6 +9,7 @@ import { showError } from './cardview.js';
 import { loadBattleData, showBattle, resultSharePanel } from './battleview.js';
 import { resultActions } from './accept.js';
 import { wasSent, lockedFight } from './matches.js';
+import { comicMode, showComicBattle } from './comicbattle.js';
 import { startNewCard } from './builder.js';
 
 let watched = null; // payload already played once (a language switch shows the result straight away)
@@ -66,7 +67,7 @@ export async function mountReplay(container, payload) {
 
   const play = (animate) => {
     watched = payload;
-    showBattle(container, match, data, {
+    (comicMode() ? showComicBattle : showBattle)(container, match, data, {
       viewer,
       animate,
       isAlive,

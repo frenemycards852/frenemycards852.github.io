@@ -46,7 +46,10 @@
       "chaos": { "dealt": 1, "taken": 1, "randomRange": [0.55, 1.5], "moveChance": [0.5, 0.5, 1] }
     },
     "healMoveBelow": 0.7,
-    "pace": { "lineMs": 1200, "roundMs": 700, "endMs": 900 }
+    "pace": {
+      "lineMs": 1200, "roundMs": 700, "endMs": 900,
+      "comic": { "introMs": 2200, "panelMs": 1900, "lineMs": 800, "finishMs": 2600 }
+    }
   },
   "rarity": {
     "order": ["N", "R", "SR", "SSR"],
