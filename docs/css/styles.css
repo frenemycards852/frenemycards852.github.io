@@ -1736,10 +1736,10 @@ h1 {
    Small labels (miss, dodge, move effects) use the hollow ring burst. */
 .comic-burst {
   position: absolute;
-  top: 20%;
+  top: 26%;
   display: grid;
   place-items: center;
-  width: 52%;
+  width: 36%;
   aspect-ratio: 362 / 400;
   --burst-art: url("../assets/fx/burst.png");
   transform: rotate(-6deg);
@@ -1757,26 +1757,26 @@ h1 {
   position: relative;
   max-width: 76%;
   color: #ffe94d;
-  font-size: clamp(24px, 8vw, 40px);
+  font-size: clamp(17px, 5.6vw, 28px);
   font-weight: 900;
   line-height: 1.05;
   text-align: center;
   white-space: nowrap;
-  -webkit-text-stroke: 5px #1a0f2e;
+  -webkit-text-stroke: 4px #1a0f2e;
   paint-order: stroke fill;
   text-shadow: 2px 2px 0 #1a0f2e, -2px 2px 0 #1a0f2e, 2px -2px 0 #1a0f2e, -2px -2px 0 #1a0f2e, 0 4px 0 #1a0f2e;
 }
 
-.comic-burst.at-0 { left: 2%; }
-.comic-burst.at-1 { right: 2%; }
+.comic-burst.at-0 { left: 4%; }
+.comic-burst.at-1 { right: 4%; }
 
 .comic-burst.crit {
-  width: 62%;
+  width: 43%;
 }
 
 .comic-burst.crit span {
   color: #ff5a36;
-  font-size: clamp(30px, 10vw, 50px);
+  font-size: clamp(21px, 7vw, 35px);
 }
 
 /* Heal: the same burst tinted green */
