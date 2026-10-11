@@ -6,7 +6,7 @@
 
 import { setFont, fitSingle, fitLines } from './textlayout.js';
 import { SKILL_KINDS, resolveSkill, resolveDesc, cardArt } from './card.js';
-import { t } from './i18n.js';
+import { t, getLang } from './i18n.js';
 
 export const CARD_W = 1080;
 export const CARD_H = 1512;
@@ -382,7 +382,7 @@ function drawRadar(ctx, card, data, type) {
   const max = data.config.stats.max;
   const cx = 276;
   const cy = 1164;
-  const R = 88;
+  const R = 76;
   const point = (i, r) => {
     const a = -Math.PI / 2 + (i * Math.PI * 2) / keys.length;
     return [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
@@ -443,8 +443,9 @@ function drawRadar(ctx, card, data, type) {
 }
 
 function drawSkills(ctx, card, data) {
-  const x = 566;
-  const w = 426;
+  // Column start can differ per language (config.json → cardLayout.skillsX).
+  const x = data.config.cardLayout?.skillsX?.[getLang()] ?? 566;
+  const w = 992 - x;
   let y = 1008;
   for (const kind of SKILL_KINDS) {
     const skill = resolveSkill(card[kind], data.skills[kind]);

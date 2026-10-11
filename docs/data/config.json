@@ -17,6 +17,9 @@
     "customDescMax": 30
   },
   "siteUrl": "frenemycards852.github.io",
+  "cardLayout": {
+    "skillsX": { "zh-HK": 566, "en": 536 }
+  },
   "rarity": {
     "order": ["N", "R", "SR", "SSR"],
     "odds": { "N": 50, "R": 30, "SR": 15, "SSR": 5 },
