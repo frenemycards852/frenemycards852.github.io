@@ -5,17 +5,18 @@ Keep it short: replace old "Next step" text rather than appending forever.
 
 ## Current phase
 
-**Stage 2 · Phase 10 — Challenges & battles** (done; whole battle loop checked on real phones 2026-10-11).
+**Stage 3 · Phase 11 — Album** (built; awaiting review). Stage 2 done and tested with real friends 2026-10-11.
 
 ## Next step
 
-- **Test Stage 2 with real friends** (challenge → accept → result → replay → rematch) and collect feedback before Stage 3.
+- Product creator tests Phase 11 (album filters, big card + delete, Friend Collection image, export → import), then Phase 12 (visual design).
 - Later, from the product creator: dedicated battle backgrounds (6, one per type, no people → `types.json` `scene`), better effects for damage, K.O. and skills, and pose images (`spec/ILLUSTRATIONS.md` §6).
 - Comic battle Cantonese (speech-bubble shouts in `data/commentary/zh-HK.json` → `shout`, `comic.*` labels) still to be reviewed line by line.
 - Decided: both players pick a tactic; the opponent can't see the challenger's tactic; the battle seed must combine the challenge nonce with B's card + tactic.
 - Comic battle (`comicbattle.js`) is the default battle screen since 2026-10-11; `?comic=0` shows the older list version (`battleview.js`), kept for comparison. Pose images (brief: `spec/ILLUSTRATIONS.md` §6) will replace the whole-card actors when drawn.
 
 Notes (current state):
+- Album (Phase 11, `mycards-view.js`): `#/album` = progress line, filter chips (source / type / rarity), sort (newest / rarity / name), grid; tap → `#/album/<n>` big card (challenge, share, delete with confirm). `#/album/collection` = pick up to `config.collection.max` (9) → 1080×1920 "Friend Collection" image (`render-collection.js`, title uses `fc.myName`). `#/album/export` = one link `#a=` (`codec.js` ALBUM_VERSION 1: `[[card array, "m"|"r"], …]`, ~48 chars per card) → import screen adds only new cards (`importMyCards`), broken entries skipped. Album max `config.myCards.max` = 100. `canStoreCards()` shows a notice when storage is off.
 - Comic battle: same `match` / `runBattle` / `showResult` as `battleview.js`. Events are grouped into panels (intro VS, one per action with trait effects folded in, round label on the next panel, finish = K.O.!! or ⏰ Time's up). HUD pills on top, stage with no box (the whole page background becomes the acting card's place while battling: fixed `#battle-backdrop`, body class `in-battle`, cleared by the router; `types.json` → `scene` if added later, else the card illustration, blurred, with a panel colour tint; the two whole cards as actors — the attacking card charges into the other — plus burst / speech bubble / tags; finish = WINNER! / LOSE stamps, K.O.!! burst or ⏰ banner), referee caption below, skip. Poses: `types.json` → `poses.<gender>.attack|hurt|ko` (pose images face right; the right fighter is mirrored), falling back to the whole card + CSS motion. Shouts for normal attacks: `shout` in `data/commentary/<lang>.json`. Pace: `config.battle.pace.comic`. Text: `comic.*` in locales. Switch in `accept.js` / `replay.js` via `comicMode()`.
 - My album (`mycards.js`, `mycards-view.js`, route `#/album`): `fc.myCards` = `{ v: 1, items: [{ card, source: made|received, at }] }`, newest first, max `config.myCards.max` (20), de-duplicated by `cardKey` (ignores `from`). Made cards are saved when the pack opens (`reveal.js`); received cards when a card link opens (`cardview.js`). Invalid stored cards are skipped. Thumbnails are drawn one at a time through one scratch canvas (memory on phones).
 - Challenges: `#/challenge` (`challenge.js`) = pick card (card picker) + penalty (`data/penalties/<lang>.json`, ids p1–p5 or custom ≤ `config.challenge.penaltyMax`) + tactic + your name (`fc.myName`). `startChallenge(card)` pre-picks a card (from reveal, card view, album). Link `#x=` (`codec.js` → `encodeChallenge`, CHALLENGE_VERSION 1): `[card array, tactic a/d/c, penalty number|text, name, nonce]`, ~110–140 chars. `challenge-model.js` → `isChallengeValid`, `penaltyText`. Image 1080×1350 (`render-challenge.js`). `#x=` opens `accept.js`.
@@ -65,7 +66,7 @@ Notes (current state):
 
 ### Stage 3 — Album & polish
 
-- [ ] 11. Album
+- [ ] 11. Album (built; awaiting review)
 - [ ] 12. Visual design
 - [ ] 13. Content & localization review
 - [ ] 14. Cross-browser & device testing

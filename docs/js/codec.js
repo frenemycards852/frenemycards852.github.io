@@ -1,4 +1,4 @@
-// Cards, challenges and replays ⇄ link payloads (after "#c=" / "#x=" / "#r="). No DOM access.
+// Cards, challenges, replays and album exports ⇄ link payloads (after "#c=" "#x=" "#r=" "#a="). No DOM access.
 //
 // Payload = "<version><format><base64url bytes>"
 //   version 1, format "j" = plain JSON bytes, "z" = deflate-raw compressed JSON bytes.
@@ -229,4 +229,36 @@ export async function decodeReplay(payload) {
     nonce,
     rules,
   };
+}
+
+// ---------- public: album export (#a=) ----------
+//
+// Album v1 JSON: [[card array, source ("m" made | "r" received)], ...]
+// Each card is checked separately on import; broken ones are skipped, not fatal.
+
+export const ALBUM_VERSION = 1;
+
+const SOURCE_CODE = { made: 'm', received: 'r' };
+const SOURCE_FROM_CODE = { m: 'made', r: 'received' };
+
+// items = [{ card, source }]
+export async function encodeAlbum(items) {
+  return encodeList(items.map((item) => [pack(item.card), SOURCE_CODE[item.source] ?? 'r']), ALBUM_VERSION);
+}
+
+// Returns { items: [{ card, source }], broken: number }.
+export async function decodeAlbum(payload) {
+  const list = await decodeList(payload, ALBUM_VERSION);
+  if (!Array.isArray(list)) throw new CodecError('corrupt', 'bad shape');
+  const items = [];
+  let broken = 0;
+  for (const entry of list) {
+    try {
+      if (!Array.isArray(entry)) throw new CodecError('corrupt', 'bad entry');
+      items.push({ card: unpack(entry[0]), source: SOURCE_FROM_CODE[entry[1]] ?? 'received' });
+    } catch {
+      broken += 1;
+    }
+  }
+  return { items, broken };
 }

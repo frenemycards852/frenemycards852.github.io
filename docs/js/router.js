@@ -1,5 +1,5 @@
 // Hash-based views: "#/" home, "#/make/<step>", "#/album", "#/challenge",
-// card links "#c=<payload>", challenge links "#x=<payload>" and replay links "#r=<payload>".
+// card links "#c=", challenge links "#x=", replay links "#r=" and album export links "#a=".
 
 import { applyI18n } from './i18n.js';
 import { mountBuilder } from './builder.js';
@@ -7,7 +7,7 @@ import { mountHome } from './home.js';
 import { mountCardView } from './cardview.js';
 import { mountChallenge } from './challenge.js';
 import { mountChallengeReceived } from './accept.js';
-import { mountMyCards } from './mycards-view.js';
+import { mountMyCards, mountAlbumImport } from './mycards-view.js';
 import { mountReplay } from './replay.js';
 
 // A route either clones a static <template> (optionally followed by `after`) or mounts a view module.
@@ -36,6 +36,12 @@ export function render() {
   // Challenge links: #x=<payload>
   if (location.hash.startsWith('#x=')) {
     mountChallengeReceived(app, location.hash.slice(3));
+    window.scrollTo(0, 0);
+    return;
+  }
+  // Album export links: #a=<payload>
+  if (location.hash.startsWith('#a=')) {
+    mountAlbumImport(app, location.hash.slice(3));
     window.scrollTo(0, 0);
     return;
   }

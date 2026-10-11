@@ -19,8 +19,11 @@
   "challenge": {
     "penaltyMax": 30
   },
+  "collection": {
+    "max": 9
+  },
   "myCards": {
-    "max": 20
+    "max": 100
   },
   "siteUrl": "frenemycards852.github.io",
   "cardLayout": {

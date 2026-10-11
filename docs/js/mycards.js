@@ -41,6 +41,39 @@ export function listMyCards(isValid = () => true) {
   });
 }
 
+// Whether this browser lets us keep the album (private modes and some in-app browsers don't).
+export function canStoreCards() {
+  try {
+    const probe = '__fc_probe__';
+    localStorage.setItem(probe, '1');
+    localStorage.removeItem(probe);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function removeMyCard(card) {
+  const key = cardKey(card);
+  return write(read().filter((item) => cardKey(item.card) !== key));
+}
+
+// Adds imported cards after the ones already here (existing cards keep their place).
+// Returns how many were new.
+export function importMyCards(items, max) {
+  const current = read();
+  const keys = new Set(current.map((item) => cardKey(item.card)));
+  const added = [];
+  for (const item of items) {
+    const key = cardKey(item.card);
+    if (keys.has(key)) continue;
+    keys.add(key);
+    added.push({ card: item.card, source: item.source, at: Date.now() });
+  }
+  write([...added, ...current].slice(0, max));
+  return added.length;
+}
+
 export function saveMyCard(card, source, max) {
   const key = cardKey(card);
   const items = read().filter((item) => cardKey(item.card) !== key);

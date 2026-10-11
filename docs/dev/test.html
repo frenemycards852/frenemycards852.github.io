@@ -203,7 +203,18 @@
       <tr><td>Payload length</td><td>${rPayload.length} · <a href="../#r=${rPayload}" target="_blank">open</a></td></tr>
       ${rRows.join('')}</table>`;
 
-    document.getElementById('challenges').innerHTML = `<table><tr><th>Sample</th><th>Round trip</th><th>Valid</th><th>Payload length</th><th>Challenge view</th></tr>${chRows.join('')}</table>
+    // Album export links: round trip, one broken entry is skipped (not fatal).
+    const { encodeAlbum, decodeAlbum } = await import('../js/codec.js');
+    const albumItems = samples.slice(0, 4).map((s, i) => ({ card: { ...s.card, from: i ? '阿明' : '' }, source: i % 2 ? 'received' : 'made' }));
+    const aPayload = await encodeAlbum(albumItems);
+    const aBack = await decodeAlbum(aPayload);
+    const withBroken = await decodeAlbum(`1j${btoa(unescape(encodeURIComponent(JSON.stringify([[['A', 'b', 'late', [60, 60, 60, 60, 60], 1, 1, 1, 1, 'N', ''], 'm'], 'junk', [42]])))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')}`);
+    const albumHtml = `<h3 style="font-size:15px;margin:12px 0 4px">Album export links (#a=)</h3><table>
+      <tr><td>Round trip (4 cards)</td><td>${JSON.stringify(aBack.items) === JSON.stringify(albumItems) && aBack.broken === 0 ? '✅' : '❌'}</td></tr>
+      <tr><td>Payload length</td><td>${aPayload.length} · <a href="../#a=${aPayload}" target="_blank">open</a></td></tr>
+      <tr><td>Broken entries skipped, good one kept</td><td>${withBroken.items.length === 1 && withBroken.broken === 2 ? '✅' : '❌'}</td></tr></table>`;
+
+    document.getElementById('challenges').innerHTML = albumHtml + `<table><tr><th>Sample</th><th>Round trip</th><th>Valid</th><th>Payload length</th><th>Challenge view</th></tr>${chRows.join('')}</table>
       <p></p><table><tr><th>Broken case</th><th>Result</th><th>View</th></tr>${xRows.join('')}</table>${replayHtml}`;
 
     const box = document.getElementById('cards');
