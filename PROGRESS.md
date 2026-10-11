@@ -5,16 +5,18 @@ Keep it short: replace old "Next step" text rather than appending forever.
 
 ## Current phase
 
-**Stage 2 · Phase 10a — My album, challenge setup, challenge link & image** (built; awaiting review). Phases 8–9 confirmed 2026-10-11 (Cantonese commentary reviewed).
+**Stage 2 · Phase 10b — Accept challenge, battle animation, result screen** (built; awaiting review). 10a confirmed on desktop 2026-10-11.
 
 ## Next step
 
-- Product creator tests 10a (make/receive cards → album → challenge → share), then **10b**: challenge received (pick card + tactic, or make one on the spot) → battle animation with commentary + skip → result screen. Then **10c**: result image, replay link `#r=`, rematch.
+- Product creator tests 10b, then **10c**: result image, "send result" with a replay link `#r=` (so the challenger watches the same battle), rematch. Consider locking the defender's choice per challenge (today a reload lets them fight again with another card/tactic).
 - Decided: both players pick a tactic; the opponent can't see the challenger's tactic; the battle seed must combine the challenge nonce with B's card + tactic.
 
 Notes (current state):
 - My album (`mycards.js`, `mycards-view.js`, route `#/album`): `fc.myCards` = `{ v: 1, items: [{ card, source: made|received, at }] }`, newest first, max `config.myCards.max` (20), de-duplicated by `cardKey` (ignores `from`). Made cards are saved when the pack opens (`reveal.js`); received cards when a card link opens (`cardview.js`). Invalid stored cards are skipped. Thumbnails are drawn one at a time through one scratch canvas (memory on phones).
-- Challenges: `#/challenge` (`challenge.js`) = pick card (card picker) + penalty (`data/penalties/<lang>.json`, ids p1–p5 or custom ≤ `config.challenge.penaltyMax`) + tactic + your name (`fc.myName`). `startChallenge(card)` pre-picks a card (from reveal, card view, album). Link `#x=` (`codec.js` → `encodeChallenge`, CHALLENGE_VERSION 1): `[card array, tactic a/d/c, penalty number|text, name, nonce]`, ~110–140 chars. `challenge-model.js` → `isChallengeValid`, `penaltyText`. Image 1080×1350 (`render-challenge.js`). `#x=` currently shows the challenger's card + penalty with a disabled "Accept (coming soon)" until 10b.
+- Challenges: `#/challenge` (`challenge.js`) = pick card (card picker) + penalty (`data/penalties/<lang>.json`, ids p1–p5 or custom ≤ `config.challenge.penaltyMax`) + tactic + your name (`fc.myName`). `startChallenge(card)` pre-picks a card (from reveal, card view, album). Link `#x=` (`codec.js` → `encodeChallenge`, CHALLENGE_VERSION 1): `[card array, tactic a/d/c, penalty number|text, name, nonce]`, ~110–140 chars. `challenge-model.js` → `isChallengeValid`, `penaltyText`. Image 1080×1350 (`render-challenge.js`). `#x=` opens `accept.js`.
+- Accept (`accept.js`, `#x=`): challenger card + penalty, pick your card (album) or "make one on the spot" (`startNewCard('', '#x=…')` → builder keeps `draft.returnTo` → reveal shows "Fight with this card" → `acceptWithCard`), pick tactic, Fight. Seed = `battleSeed(nonce, defender card, defender tactic)` (`challenge-model.js`, plain `cardKey` JSON, not the compressed link). State is in memory per challenge: a language switch shows the result without replaying.
+- Battle screen (`battleview.js`): `showBattle(container, match, data, { viewer, animate, isAlive, actions })`, match = `{ cards, tactics, seed, penalty, people }`. Fighter thumbnails, Stamina bars (`transform: scaleX`), shake + floating numbers, commentary feed one line at a time (`config.battle.pace`), skip button, result (headline from the viewer's side, final Stamina, both tactics revealed, who pays the penalty). "Send result" is disabled until 10c.
 - Canvas text must avoid FE0F emoji (penalty emoji 🍜 🤳 instead of 🍽️ 🖼️; challenge title uses 🥊).
 - Commentary (`commentary.js`, no DOM): `commentate(result, ctx, lines, seed)` → one array of lines per battle event. `ctx = { names, types (labels), typeIds, skills: [{ move, trait, weakness } names], rounds }`. Pools in `data/commentary/<lang>.json`, keyed by event (`attack.hit`, `effective.<attacker type>`, `trigger.<kind>`, `skip.<kind>`, `move.<kind>`, `trait.<kind>`, `end.*` …); placeholders `{actor} {opponent} {move} {oppMove} {trait} {oppTrait} {weakness} {type} {oppType} {dmg} {heal} {n}`. Own RNG stream (`talk|seed`); each pool is used up before repeating. Chinese templates have no spaces around placeholders; a space is added automatically next to Latin names/numbers. Dev page checks both languages have the same keys and every event gets a filled line. Phase 13 expands pools to ≥5 lines each.
 - Battle engine (`battle.js`, `rng.js`, no DOM): `simulateBattle({ cards: [a, b], tactics: [ta, tb], seed }, { config, types, effects })` → `{ winner 0/1/null, reason ko/points/draw, hp, maxHp, pct, effects, events }`. Events (`start`, `round`, `skip`, `move`, `attack`, `trait`, `end`) each carry `hp: [a, b]` for Phase 9 commentary and Phase 10 animation. RNG seed = `${battle.version}|${seed}`; Phase 10 must build the seed from the challenger's random part + B's card and tactic. Commentary must use its own RNG stream so wording changes never change results.
@@ -49,7 +51,9 @@ Notes (current state):
 
 - [x] 8. Battle engine
 - [x] 9. Commentary
-- [ ] 10a. My album + challenge setup/link/image (built; awaiting review)
+- [x] 10a. My album + challenge setup/link/image
+- [ ] 10b. Accept + battle animation + result screen (built; awaiting review)
+- [ ] 10c. Result image + replay link + rematch
 - [ ] 10. Challenge & battle screens → **test with real friends**
 
 ### Stage 3 — Album & polish

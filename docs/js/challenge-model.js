@@ -2,6 +2,7 @@
 
 import { TACTICS } from './battle.js';
 import { CUSTOM, isCardValid, isBlocked, textLength } from './card.js';
+import { cardKey } from './mycards.js';
 
 const NONCE = /^[a-z0-9]{6,16}$/;
 
@@ -22,6 +23,13 @@ export function isChallengeValid(challenge, data) {
     && textLength(challenge.name) <= config.card.nameMax
     && !isBlocked(challenge.name, blocklist.terms)
     && NONCE.test(challenge.nonce);
+}
+
+// Battle seed: the challenger's random nonce + the defender's card and tactic,
+// so the challenger can't know the result before sending. Plain JSON (not the
+// compressed link), so every browser builds exactly the same text.
+export function battleSeed(nonce, defenderCard, defenderTactic) {
+  return `${nonce}|${cardKey(defenderCard)}|${defenderTactic}`;
 }
 
 // Penalty with its emoji, e.g. "🧋 請對方飲珍奶".

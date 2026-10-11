@@ -220,6 +220,35 @@
     "defend": { "name": "🛡️ Defend", "desc": "Take less damage, deal less too" },
     "chaos": { "name": "🎲 Chaos", "desc": "Wild swings. Pray to the luck gods" }
   },
+  "accept": {
+    "pickCard": "Pick your card to fight with",
+    "noCards": "No cards on this phone yet. Make one right now and fight!",
+    "makeNew": "✏️ Make a new card to fight with",
+    "useThis": "⚔️ Fight with this card",
+    "tacticHint": "They picked a tactic too. You'll find out when it starts 🤫",
+    "fight": "⚔️ Fight!"
+  },
+  "battle": {
+    "title": "Battle!",
+    "vs": "VS",
+    "you": "You",
+    "opponent": "Them",
+    "hp": "Stamina {hp}/{max}",
+    "skip": "Skip to result ⏭"
+  },
+  "result": {
+    "win": "🏆 You win!",
+    "lose": "💀 You lose…",
+    "draw": "🤝 It's a draw!",
+    "winnerIs": "🏆 {name} wins!",
+    "youPay": "You have to:",
+    "theyPay": "{name} has to:",
+    "bothPay": "You both have to:",
+    "tacticOf": "{who} ({card}): {tactic}",
+    "tacticOfCard": "{card}: {tactic}",
+    "replay": "🔁 Watch again",
+    "send": "📤 Send the result"
+  },
   "soon": {
     "text": "Still building this one. Check back soon 🛠️"
   },

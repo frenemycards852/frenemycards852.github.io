@@ -16,11 +16,14 @@ let draft = null; // kept in memory while the page is open
 let data = null;
 let mountToken = 0;
 let pendingName = null; // name to pre-fill on the next new card (e.g. "strike back")
+let pendingReturn = null; // challenge link to go back to after making a card on the spot
 
 // Start a fresh card next time the builder opens, optionally with a name filled in.
-export function startNewCard(name = '') {
+// returnTo: a challenge link (#x=...) to answer with the new card.
+export function startNewCard(name = '', returnTo = null) {
   draft = null;
   pendingName = name;
+  pendingReturn = returnTo;
 }
 
 async function loadData() {
@@ -78,6 +81,8 @@ export async function mountBuilder(container, param) {
     draft = createDraft(data);
     if (pendingName) draft.name = pendingName;
     pendingName = null;
+    draft.returnTo = pendingReturn;
+    pendingReturn = null;
   }
 
   // Once the rarity is rolled the card is final: only the reveal screen is shown.
@@ -85,8 +90,9 @@ export async function mountBuilder(container, param) {
     if (param !== 'reveal') history.replaceState(null, '', '#/make/reveal');
     showReveal(container, toCard(draft), data, {
       opened: draft.opened,
+      returnTo: draft.returnTo,
       onOpened: () => { draft.opened = true; },
-      onAgain: () => { draft = createDraft(data); go('name'); },
+      onAgain: () => { const { returnTo } = draft; draft = createDraft(data); draft.returnTo = returnTo; go('name'); },
     });
     return;
   }

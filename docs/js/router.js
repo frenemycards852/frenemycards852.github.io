@@ -6,7 +6,8 @@ import { applyI18n } from './i18n.js';
 import { mountBuilder } from './builder.js';
 import { mountHome } from './home.js';
 import { mountCardView } from './cardview.js';
-import { mountChallenge, mountChallengeReceived } from './challenge.js';
+import { mountChallenge } from './challenge.js';
+import { mountChallengeReceived } from './accept.js';
 import { mountMyCards } from './mycards-view.js';
 
 // A route either clones a static <template> (optionally followed by `after`) or mounts a view module.

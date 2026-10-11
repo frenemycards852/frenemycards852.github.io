@@ -1,20 +1,17 @@
 // Challenge setup (#/challenge): pick a card, a penalty and a tactic, then send a challenge link.
-// Challenge received (#x=...): what the friend sees. Accepting and battling arrive in Phase 10b.
+// The friend's side (#x=...) lives in accept.js.
 
 import { t } from './i18n.js';
 import { loadCardData } from './carddata.js';
 import { CUSTOM, clipText, textLength, isBlocked } from './card.js';
 import { TACTICS } from './battle.js';
 import { randomSeed } from './rng.js';
-import { isPenaltyValid, isChallengeValid, penaltyText } from './challenge-model.js';
-import { decodeChallenge, CodecError } from './codec.js';
+import { isPenaltyValid, penaltyText } from './challenge-model.js';
 import { cardKey } from './mycards.js';
 import { cardPicker, myValidCards } from './mycards-view.js';
 import { renderChallenge } from './render-challenge.js';
-import { renderCard } from './render-card.js';
 import { createSharePanel, challengeLink } from './share.js';
 import { nameField } from './reveal.js';
-import { showError } from './cardview.js';
 import { startNewCard } from './builder.js';
 
 // Kept in memory while the page is open (survives a language switch).
@@ -35,7 +32,7 @@ function el(tag, className, text) {
   return node;
 }
 
-function radio(name, value, checked, title, desc) {
+export function radio(name, value, checked, title, desc) {
   const label = el('label', 'option');
   const input = el('input');
   Object.assign(input, { type: 'radio', name, value, checked });
@@ -46,7 +43,7 @@ function radio(name, value, checked, title, desc) {
   return { label, input };
 }
 
-function group(title, hint) {
+export function group(title, hint) {
   const box = el('fieldset', 'group');
   box.append(el('legend', null, title));
   if (hint) box.append(el('p', 'hint', hint));
@@ -214,61 +211,4 @@ async function showSent(container, data, token) {
   } catch (err) {
     if (token === mountToken) console.error(err);
   }
-}
-
-// ---------- received (#x=) ----------
-
-let receivedToken = 0;
-
-export async function mountChallengeReceived(container, payload) {
-  const token = ++receivedToken;
-  let data;
-  try {
-    data = await loadCardData();
-  } catch (err) {
-    console.error(err);
-    container.replaceChildren(el('p', 'load-error', t('error.load')));
-    return;
-  }
-  let challenge;
-  try {
-    challenge = await decodeChallenge(payload);
-    if (!isChallengeValid(challenge, data)) throw new CodecError('corrupt', 'invalid challenge');
-  } catch (err) {
-    if (token !== receivedToken) return;
-    console.warn('Challenge link could not be opened:', err.message);
-    showError(container, err instanceof CodecError ? err.code : 'corrupt');
-    return;
-  }
-  if (token !== receivedToken) return;
-
-  const name = challenge.name.trim();
-  const canvas = el('canvas', 'card-canvas');
-  canvas.setAttribute('role', 'img');
-  canvas.setAttribute('aria-label', t('reveal.cardLabel', { name: challenge.card.name, rarity: challenge.card.rarity }));
-  const cardBox = el('div', 'reveal-card');
-  cardBox.append(canvas);
-
-  const penalty = el('div', 'penalty-box');
-  penalty.append(el('p', 'penalty-label', t('challenge.imageLoser')), el('p', 'penalty-text', penaltyText(challenge.penalty, data.penalties)));
-
-  const accept = el('button', 'btn btn-primary', `${t('challenge.accept')} ${t('view.soon')}`);
-  accept.type = 'button';
-  accept.disabled = true;
-  const make = el('a', 'btn btn-secondary', t('view.makeOwn'));
-  make.href = '#/make';
-  make.addEventListener('click', () => startNewCard(''));
-
-  const section = el('section', 'card-view reveal');
-  section.append(
-    el('h1', null, name ? t('challenge.imageTitle', { name }) : t('challenge.imageTitleAnon')),
-    el('div', 'reveal-stage view-stage'),
-    el('div', 'reveal-actions view-actions'),
-  );
-  section.querySelector('.view-stage').append(cardBox);
-  section.querySelector('.view-actions').append(penalty, accept, make);
-  container.replaceChildren(section);
-  await renderCard(canvas, challenge.card, data).catch((err) => console.error(err));
-  if (token !== receivedToken) return;
-  section.classList.add('opened', 'revealed');
 }

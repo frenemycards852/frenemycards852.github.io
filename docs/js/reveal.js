@@ -7,6 +7,7 @@ import { createSharePanel } from './share.js';
 import { clipText, isBlocked } from './card.js';
 import { saveMyCard } from './mycards.js';
 import { startChallenge } from './challenge.js';
+import { acceptWithCard } from './accept.js';
 
 const NAME_KEY = 'fc.myName';
 
@@ -63,7 +64,7 @@ function el(tag, className, text) {
 }
 
 // opened: the pack was already opened (e.g. after a language switch), so show the card at once.
-export function showReveal(container, card, data, { opened = false, onOpened, onAgain }) {
+export function showReveal(container, card, data, { opened = false, returnTo = null, onOpened, onAgain }) {
   const frame = data.config.rarity.frames[card.rarity];
 
   const canvas = el('canvas', 'card-canvas');
@@ -101,7 +102,15 @@ export function showReveal(container, card, data, { opened = false, onOpened, on
   challenge.href = '#/challenge';
   challenge.addEventListener('click', () => startChallenge(card));
   const actions = el('div', 'reveal-actions');
-  actions.append(maker.el, share, challenge, again, home);
+  if (returnTo) {
+    // Made on the spot to answer a challenge: going back to it is the main action.
+    const accept = el('a', 'btn btn-primary btn-fight', t('accept.useThis'));
+    accept.href = returnTo;
+    accept.addEventListener('click', () => acceptWithCard(card));
+    actions.append(accept, maker.el, share, again, home);
+  } else {
+    actions.append(maker.el, share, challenge, again, home);
+  }
 
   const section = el('section', 'reveal');
   section.append(el('h1', null, t('reveal.title')), stage, tapHint, reaction, actions);

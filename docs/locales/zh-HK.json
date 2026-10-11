@@ -220,6 +220,35 @@
     "defend": { "name": "🛡️ 防守", "desc": "受傷少啲，但打得冇咁痛" },
     "chaos": { "name": "🎲 亂嚟", "desc": "傷害忽高忽低，睇天食飯" }
   },
+  "accept": {
+    "pickCard": "揀你嘅卡應戰",
+    "noCards": "你部手機仲未有卡，即場整一張應戰啦！",
+    "makeNew": "✏️ 即場整一張卡應戰",
+    "useThis": "⚔️ 用呢張卡應戰",
+    "tacticHint": "對方都揀咗戰術，開打先揭曉 🤫",
+    "fight": "⚔️ 開打！"
+  },
+  "battle": {
+    "title": "對戰中！",
+    "vs": "VS",
+    "you": "你",
+    "opponent": "對方",
+    "hp": "體力 {hp}/{max}",
+    "skip": "跳到結果 ⏭"
+  },
+  "result": {
+    "win": "🏆 你贏咗！",
+    "lose": "💀 你輸咗……",
+    "draw": "🤝 打和！",
+    "winnerIs": "🏆 {name} 勝出！",
+    "youPay": "你要：",
+    "theyPay": "{name} 要：",
+    "bothPay": "兩個一齊要：",
+    "tacticOf": "{who}（{card}）：{tactic}",
+    "tacticOfCard": "{card}：{tactic}",
+    "replay": "🔁 再睇一次",
+    "send": "📤 send 結果俾佢"
+  },
   "soon": {
     "text": "呢頁仲整緊，遲啲再嚟睇吓 🛠️"
   },
