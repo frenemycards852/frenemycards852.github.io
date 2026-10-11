@@ -243,6 +243,7 @@ const EFFECTS = {
 // ---------- card parts ----------
 
 async function drawArt(ctx, card, data, type) {
+  let art = null; // where the illustration landed, for the photo sticker
   ctx.save();
   chamfer(ctx, 40, 40, 1000, 1432, 52); // art fills the whole card; lower panels are see-through
   ctx.clip();
@@ -273,7 +274,9 @@ async function drawArt(ctx, card, data, type) {
     // Illustration covers the whole card, anchored to the top (faces live in the upper half).
     const scale = Math.max(1000 / img.naturalWidth, 1432 / img.naturalHeight);
     const w = img.naturalWidth * scale;
-    ctx.drawImage(img, 540 - w / 2, 40, w, img.naturalHeight * scale);
+    const h = img.naturalHeight * scale;
+    ctx.drawImage(img, 540 - w / 2, 40, w, h);
+    art = { x: 540 - w / 2, y: 40, w, h };
   } else {
     // No illustration yet: type burst + energy effect + "coming soon".
     EFFECTS[type.id]?.(ctx, seededRandom(`${card.name}${card.type}`), type);
@@ -290,6 +293,43 @@ async function drawArt(ctx, card, data, type) {
     ctx.fillStyle = '#ffffff';
     ctx.fillText(label.text, 540, 680);
   }
+  ctx.restore();
+  return art;
+}
+
+// Friend's photo as a round "sticker head" on the illustration's head
+// (types.json → head.<gender> = [x, y, r, angle]: fractions of the picture, degrees).
+// card.photo is a square image already cropped by the maker; it never goes into links.
+async function drawPhoto(ctx, card, data, type, art) {
+  const head = type.head?.[card.gender];
+  if (!card.photo || !art || !head) return;
+  const photo = await loadImage(card.photo).catch(() => null);
+  if (!photo) return;
+  const [hx, hy, hr, angle] = head;
+  const x = art.x + hx * art.w;
+  const y = art.y + hy * art.h;
+  const r = hr * art.w;
+  ctx.save();
+  chamfer(ctx, 40, 40, 1000, 1432, 52);
+  ctx.clip();
+  ctx.translate(x, y);
+  ctx.rotate((angle * Math.PI) / 180);
+  // White sticker edge with a soft shadow, then the photo inside.
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
+  ctx.shadowBlur = 18;
+  ctx.shadowOffsetY = 6;
+  ctx.beginPath();
+  ctx.arc(0, 0, r * 1.14, 0, Math.PI * 2);
+  ctx.fillStyle = '#ffffff';
+  ctx.fill();
+  ctx.shadowColor = 'transparent';
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = NIGHT;
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(0, 0, r, 0, Math.PI * 2);
+  ctx.clip();
+  ctx.drawImage(photo, -r, -r, r * 2, r * 2);
   ctx.restore();
 }
 
@@ -551,7 +591,8 @@ export async function renderCard(canvas, card, data) {
   chamfer(ctx, 0, 0, CARD_W, CARD_H, 70);
   ctx.fillStyle = NIGHT;
   ctx.fill();
-  await drawArt(ctx, card, data, type);
+  const art = await drawArt(ctx, card, data, type);
+  await drawPhoto(ctx, card, data, type, art);
   drawFrame(ctx, trim);
   drawMedallion(ctx, type, trim);
   drawRarityPlate(ctx, card, frame, trim);
