@@ -18,7 +18,7 @@
   },
   "siteUrl": "frenemycards852.github.io",
   "cardLayout": {
-    "skillsX": { "zh-HK": 566, "en": 536 }
+    "skillsX": { "zh-HK": 566, "en": 506 }
   },
   "rarity": {
     "order": ["N", "R", "SR", "SSR"],

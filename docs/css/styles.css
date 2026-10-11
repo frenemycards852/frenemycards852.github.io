@@ -34,6 +34,13 @@ body {
 }
 
 /* Phone-width column, centered on desktop */
+/* Safety net: no effect or long word may make the page scroll sideways on phones. */
+html,
+body {
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
 .shell {
   display: flex;
   flex-direction: column;
@@ -749,6 +756,7 @@ h1 {
   display: grid;
   place-items: center;
   min-height: 480px;
+  overflow: hidden; /* the flash grows past the edges; keep it inside */
 }
 
 .reveal-stage > * {
@@ -808,7 +816,7 @@ h1 {
 }
 
 .opening .reveal-flash {
-  animation: reveal-flash 0.8s ease-out forwards;
+  animation: reveal-flash 0.8s ease-out; /* no fill: it returns to its small hidden state */
 }
 
 @keyframes reveal-flash {
