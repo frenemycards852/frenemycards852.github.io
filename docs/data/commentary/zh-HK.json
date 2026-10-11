@@ -23,8 +23,8 @@
   ],
   "attack.crit": [
     "暴擊！{actor}講中{opponent}痛處，-{dmg}！全場「喔～～」",
-    "暴擊！{actor}將{opponent}嘅黑歷史 send 晒去公海，-{dmg}",
-    "暴擊！{actor}呢句太直接，{opponent}即場 -{dmg}"
+    "暴擊！{actor}將{opponent}嘅黑歷史 send 晒去公海，-{dmg} 🌊",
+    "暴擊！{actor}呢句太直接，{opponent}即場 -{dmg} 😱"
   ],
   "attack.delayed": [
     "{actor}嘅「{move}」遲咗少少，但終於到咗！{opponent} -{dmg}",
@@ -56,11 +56,11 @@
     "屬性相剋！{type}完全剋制{oppType}，效果拔群！"
   ],
   "effective.work": [
-    "工作狂剋廢青！{actor}凌晨三點仲覆緊 email，{opponent}光係睇到都覺得攰",
-    "工作狂剋廢青！{opponent}被{actor}嗰張 to-do list 嚇親"
+    "工作狂剋廢青！{actor}凌晨三點仲覆緊 email，{opponent}光係睇到都覺得攰 😩",
+    "工作狂剋廢青！{opponent}被{actor}嗰張 to-do list 嚇親 📋"
   ],
   "effective.slacker": [
-    "廢青剋食貨！{actor}一覺瞓到下晝三點，{opponent}個飯局冇人到",
+    "廢青剋食貨！{actor}一覺瞓到下晝三點，{opponent}個飯局冇人到 😴",
     "廢青剋食貨！{actor}瞓過咗飯局，{opponent}冇人陪食"
   ],
   "effective.foodie": [
@@ -81,7 +81,7 @@
   ],
 
   "trigger.lowHpWeak": [
-    "{actor}嘅弱點「{weakness}」發作，對手軟晒",
+    "{actor}嘅弱點「{weakness}」發作，雙手軟晒 😵",
     "「{weakness}」！{actor}開始慌，攻擊力大跌"
   ],
   "trigger.finalRoundGuard": [
@@ -158,7 +158,7 @@
   ],
 
   "end.ko": [
-    "{opponent}瞓低！{actor} KO 勝",
+    "{opponent}瞓低！{actor} KO 勝 🏆",
     "KO！{opponent}被{actor}抽到無言以對",
     "{opponent}頂唔順喇！{actor}贏 🏆"
   ],
