@@ -13,7 +13,7 @@
     "default": [60, 60, 60, 60, 60]
   },
   "skills": {
-    "customNameMax": 16,
+    "customNameMax": { "zh-HK": 10, "en": 16 },
     "customDescMax": 30
   },
   "siteUrl": "frenemycards852.github.io",

@@ -41,7 +41,7 @@ export function isCardValid(card, { config, types, skills, descriptions, blockli
     && (!required || text.trim().length > 0)
     && !isBlocked(text, terms);
   const skillOk = (entry, kind) => (entry.id === CUSTOM
-    ? textOk(entry.name, config.skills.customNameMax, true) && textOk(entry.desc, config.skills.customDescMax, false)
+    ? textOk(entry.name, Math.max(...Object.values(config.skills.customNameMax)), true) && textOk(entry.desc, config.skills.customDescMax, false)
     : skills[kind].some((x) => x.id === entry.id));
   return (
     textOk(card.name, config.card.nameMax, true)

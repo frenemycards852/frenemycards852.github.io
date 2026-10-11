@@ -297,7 +297,7 @@ const VIEWS = {
       const custom = h('div', { class: 'custom-fields', hidden: entry.id !== CUSTOM },
         textField({
           id: `f-${kind}-name`, label: t('builder.custom.name'), value: entry.name,
-          max: limits.customNameMax, onInput: (v) => { entry.name = v; refresh(); },
+          max: limits.customNameMax[data.lang] ?? 16, onInput: (v) => { entry.name = v; refresh(); },
         }).el,
         textField({
           id: `f-${kind}-desc`, label: t('builder.custom.desc'), value: entry.desc,
