@@ -2,17 +2,23 @@
 // Some apps drop the text when an image is attached, so "copy link" is always offered too.
 
 import { t } from './i18n.js';
-import { encodeCard } from './codec.js';
+import { encodeCard, encodeChallenge } from './codec.js';
 
 // Full link to a card on this site (works on GitHub Pages and on a local server).
 export async function cardLink(card) {
   return `${location.origin}${location.pathname}#c=${await encodeCard(card)}`;
 }
 
+// Full link to a challenge.
+export async function challengeLink(challenge) {
+  return `${location.origin}${location.pathname}#x=${await encodeChallenge(challenge)}`;
+}
+
 // Share / Copy link / Save image buttons with a small status line.
 // getCard() returns the card to put in the link (so a name typed just before still counts).
+// getLink() (optional) builds another kind of link instead, e.g. a challenge.
 // primary: whether "Share" is the page's main (orange) button.
-export function createSharePanel({ canvas, getCard, message, primary = true }) {
+export function createSharePanel({ canvas, getCard, getLink, message, primary = true }) {
   const panel = document.createElement('div');
   panel.className = 'share-panel';
   const status = document.createElement('p');
@@ -20,6 +26,7 @@ export function createSharePanel({ canvas, getCard, message, primary = true }) {
   status.setAttribute('aria-live', 'polite');
   const say = (key) => { status.textContent = key ? t(key) : ''; };
   const fileName = () => `frenemy-${getCard().name || 'card'}.png`;
+  const link = getLink ?? (() => cardLink(getCard()));
 
   const button = (key, cls, onClick) => {
     const b = document.createElement('button');
@@ -43,14 +50,14 @@ export function createSharePanel({ canvas, getCard, message, primary = true }) {
   const share = button('share.share', primary ? 'btn-primary' : 'btn-secondary', async () => {
     say(null);
     const result = await shareCard({
-      canvas, url: await cardLink(getCard()), text: message(), title: t('app.name'), fileName: fileName(),
+      canvas, url: await link(), text: message(), title: t('app.name'), fileName: fileName(),
     });
     if (result === 'unsupported') {
-      say((await copyText(await cardLink(getCard()))) ? 'share.copiedInstead' : 'share.failed');
+      say((await copyText(await link())) ? 'share.copiedInstead' : 'share.failed');
     }
   });
   const copy = button('share.copy', 'btn-secondary', async () => {
-    say((await copyText(await cardLink(getCard()))) ? 'share.copied' : 'share.failed');
+    say((await copyText(await link())) ? 'share.copied' : 'share.failed');
   });
   const save = button('share.save', 'btn-secondary', async () => {
     await saveImage(canvas, fileName());

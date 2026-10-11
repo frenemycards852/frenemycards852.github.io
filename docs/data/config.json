@@ -16,6 +16,12 @@
     "customNameMax": { "zh-HK": 10, "en": 16 },
     "customDescMax": 30
   },
+  "challenge": {
+    "penaltyMax": 30
+  },
+  "myCards": {
+    "max": 20
+  },
   "siteUrl": "frenemycards852.github.io",
   "cardLayout": {
     "skillsX": { "zh-HK": 566, "en": 506 }

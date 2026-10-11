@@ -30,6 +30,9 @@
   <h2>Broken / old / newer links (must fail politely)</h2>
   <div id="bad"></div>
 
+  <h2>Challenge links (#x=)</h2>
+  <div id="challenges"></div>
+
   <h2>Card samples (one per rarity + stress tests)</h2>
   <div class="cards" id="cards"></div>
 
@@ -124,6 +127,51 @@
       badRows.push(`<tr><td>${esc(label)}</td><td>${result}</td><td><a href="../#c=${encodeURIComponent(payload)}" target="_blank">open</a></td></tr>`);
     }
     document.getElementById('bad').innerHTML = `<table><tr><th>Case</th><th>Result</th><th>Card view</th></tr>${badRows.join('')}</table>`;
+
+    // ---- Challenge links ----
+    const { encodeChallenge, decodeChallenge } = await import('../js/codec.js');
+    const { isChallengeValid } = await import('../js/challenge-model.js');
+    const penalties = await loadJSON(`data/penalties/${lang}.json`);
+    const cdata = { ...vdata, penalties };
+    const chal = (over) => ({ card: { ...samples[1].card, from: 'Jessica' }, tactic: 'chaos', penalty: { id: 'p2', text: '' }, name: '阿珊', nonce: 'k3j9x0q2ab', ...over });
+    const goodChallenges = [
+      ['preset penalty', chal({})],
+      ['custom penalty, no name', chal({ penalty: { id: 'custom', text: '請全組人食雪糕 🍦' }, name: '', tactic: 'attack' })],
+      ['custom skills card', chal({ card: { ...samples[1].card, move: { id: 'custom', name: '食完先郁', desc: '冇得傾' }, from: '' }, tactic: 'defend' })],
+    ];
+    const chRows = [];
+    for (const [label, c] of goodChallenges) {
+      const payload = await encodeChallenge(c);
+      let back;
+      try { back = await decodeChallenge(payload); } catch (err) { back = { error: err.message }; }
+      const same = JSON.stringify(back) === JSON.stringify(c);
+      chRows.push(`<tr><td>${esc(label)}</td><td>${same ? '✅' : '❌'}</td><td>${!back.error && isChallengeValid(back, cdata) ? '✅' : '❌'}</td><td>${payload.length}</td><td><a href="../#x=${payload}" target="_blank">open</a></td></tr>`);
+    }
+    const goodX = await encodeChallenge(chal({}));
+    const xBad = [
+      ['empty', ''],
+      ['card link used as challenge', good],
+      ['newer version', `9${goodX.slice(1)}`],
+      ['cut in half', goodX.slice(0, Math.floor(goodX.length / 2))],
+      ['unknown penalty', await encodeChallenge(chal({ penalty: { id: 'p99', text: '' } }))],
+      ['penalty too long', await encodeChallenge(chal({ penalty: { id: 'custom', text: 'x'.repeat(40) } }))],
+      ['empty custom penalty', await encodeChallenge(chal({ penalty: { id: 'custom', text: '  ' } }))],
+      ['bad nonce', await encodeChallenge(chal({ nonce: '<script>' }))],
+      ['tampered card', await encodeChallenge(chal({ card: { ...samples[1].card, stats: [100, 100, 100, 100, 100], from: '' } }))],
+    ];
+    const xRows = [];
+    for (const [label, payload] of xBad) {
+      let result;
+      try {
+        const c = await decodeChallenge(payload);
+        result = isChallengeValid(c, cdata) ? '❌ accepted' : '✅ rejected (invalid challenge)';
+      } catch (err) {
+        result = err instanceof CodecError ? `✅ rejected (${err.code})` : `❌ crashed: ${esc(err.message)}`;
+      }
+      xRows.push(`<tr><td>${esc(label)}</td><td>${result}</td><td><a href="../#x=${encodeURIComponent(payload)}" target="_blank">open</a></td></tr>`);
+    }
+    document.getElementById('challenges').innerHTML = `<table><tr><th>Sample</th><th>Round trip</th><th>Valid</th><th>Payload length</th><th>Challenge view</th></tr>${chRows.join('')}</table>
+      <p></p><table><tr><th>Broken case</th><th>Result</th><th>View</th></tr>${xRows.join('')}</table>`;
 
     const box = document.getElementById('cards');
     for (const s of samples) {

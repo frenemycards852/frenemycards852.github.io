@@ -30,7 +30,7 @@
     "strike": "🔄 反擊！幫 {from} 整一張",
     "strikeAnon": "🔄 反擊！整張卡",
     "challenge": "⚔️ 挑戰佢",
-    "album": "📥 收入卡冊",
+    "saved": "📥 已經收入你嘅卡冊",
     "soon": "（快將推出）",
     "intro": "損友圖鑑：將朋友變成收藏卡，專抽佢哋啲壞習慣。",
     "makeOwn": "整自己嘅卡",
@@ -43,6 +43,7 @@
     "title": "開卡包！",
     "tap": "撳開卡包 👆",
     "cardLabel": "{name} 嘅卡，稀有度 {rarity}",
+    "challenge": "⚔️ 用呢張卡挑戰朋友",
     "again": "再整一張",
     "home": "返首頁",
     "yourName": "你叫咩名？",
@@ -187,7 +188,37 @@
     "load": "載入唔到資料，檢查吓網絡再試啦 🙏"
   },
   "album": {
-    "title": "我的卡冊"
+    "title": "我的卡冊",
+    "hint": "只存喺呢部手機，最多 {max} 張。清除瀏覽器資料就會冇咗。",
+    "tapHint": "撳一張卡，用佢挑戰朋友 🥊",
+    "empty": "仲未有卡。幫朋友整一張，或者等朋友 send 卡俾你！",
+    "made": "你整嘅",
+    "received": "收到嘅"
+  },
+  "challenge": {
+    "title": "發起挑戰 🥊",
+    "pickCard": "揀一張卡出戰",
+    "noCards": "你部手機仲未有卡。整一張先，或者等朋友 send 卡俾你！",
+    "penalty": "輸咗要做乜？",
+    "customPenalty": "✏️ 自己寫",
+    "customLabel": "懲罰內容",
+    "tactic": "你嘅戰術",
+    "tacticHint": "對方唔會知道你揀咗乜 🤫",
+    "create": "🥊 整挑戰",
+    "needPenalty": "寫低懲罰先",
+    "sentTitle": "挑戰準備好！",
+    "sentHint": "send 俾朋友，佢一應戰就開打 😏",
+    "edit": "改吓挑戰",
+    "shareMessage": "我向你挑戰 🥊 輸咗要：{penalty}！撳入嚟應戰：",
+    "imageTitle": "{name} 向你挑戰！🥊",
+    "imageTitleAnon": "有人向你挑戰！🥊",
+    "imageLoser": "輸咗要：",
+    "accept": "⚔️ 應戰"
+  },
+  "tactics": {
+    "attack": { "name": "⚔️ 進攻", "desc": "打得痛啲，但自己都易受傷" },
+    "defend": { "name": "🛡️ 防守", "desc": "受傷少啲，但打得冇咁痛" },
+    "chaos": { "name": "🎲 亂嚟", "desc": "傷害忽高忽低，睇天食飯" }
   },
   "soon": {
     "text": "呢頁仲整緊，遲啲再嚟睇吓 🛠️"

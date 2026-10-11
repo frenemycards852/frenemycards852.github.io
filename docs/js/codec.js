@@ -1,4 +1,4 @@
-// Card ⇄ link payload (the part after "#c="). No DOM access.
+// Cards and challenges ⇄ link payloads (the part after "#c=" / "#x="). No DOM access.
 //
 // Payload = "<version><format><base64url bytes>"
 //   version 1, format "j" = plain JSON bytes, "z" = deflate-raw compressed JSON bytes.
@@ -104,11 +104,10 @@ function unpack(list) {
   };
 }
 
-// ---------- public ----------
+// ---------- payload framing (shared by all link kinds) ----------
 
-// card: the finished card (see card.js toCard) plus optional `from` (maker's name).
-export async function encodeCard(card) {
-  const json = new TextEncoder().encode(JSON.stringify(pack(card)));
+async function encodeList(list, version) {
+  const json = new TextEncoder().encode(JSON.stringify(list));
   let format = 'j';
   let bytes = json;
   if (canCompress()) {
@@ -122,14 +121,14 @@ export async function encodeCard(card) {
       // Keep plain JSON if compression fails.
     }
   }
-  return `${CODEC_VERSION}${format}${toBase64Url(bytes)}`;
+  return `${version}${format}${toBase64Url(bytes)}`;
 }
 
-export async function decodeCard(payload) {
+async function decodeList(payload, currentVersion) {
   if (typeof payload !== 'string' || payload.length < 3) throw new CodecError('corrupt', 'empty');
   const version = Number(payload[0]);
   if (!Number.isInteger(version) || version < 1) throw new CodecError('corrupt', 'no version');
-  if (version > CODEC_VERSION) throw new CodecError('version', `version ${version}`);
+  if (version > currentVersion) throw new CodecError('version', `version ${version}`);
   const format = payload[1];
   let bytes = fromBase64Url(payload.slice(2));
   if (format === 'z') {
@@ -142,11 +141,50 @@ export async function decodeCard(payload) {
   } else if (format !== 'j') {
     throw new CodecError('corrupt', 'bad format');
   }
-  let list;
   try {
-    list = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes));
+    return JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes));
   } catch {
     throw new CodecError('corrupt', 'bad json');
   }
-  return unpack(list);
+}
+
+// ---------- public: cards (#c=) ----------
+
+// card: the finished card (see card.js toCard) plus optional `from` (maker's name).
+export async function encodeCard(card) {
+  return encodeList(pack(card), CODEC_VERSION);
+}
+
+export async function decodeCard(payload) {
+  return unpack(await decodeList(payload, CODEC_VERSION));
+}
+
+// ---------- public: challenges (#x=) ----------
+//
+// Challenge v1 JSON: [card array (as above), tactic ("a"|"d"|"c"), penalty, challenger name, nonce]
+//   penalty: preset number (p2 → 2) or custom text
+
+export const CHALLENGE_VERSION = 1;
+
+const TACTIC_CODE = { attack: 'a', defend: 'd', chaos: 'c' };
+const TACTIC_FROM_CODE = { a: 'attack', d: 'defend', c: 'chaos' };
+
+// challenge = { card, tactic, penalty: { id, text }, name, nonce }
+export async function encodeChallenge(challenge) {
+  const { card, tactic, penalty, name, nonce } = challenge;
+  const packedPenalty = penalty.id === 'custom' ? penalty.text.trim() : Number(penalty.id.slice(1));
+  return encodeList([pack(card), TACTIC_CODE[tactic], packedPenalty, name ?? '', nonce], CHALLENGE_VERSION);
+}
+
+export async function decodeChallenge(payload) {
+  const list = await decodeList(payload, CHALLENGE_VERSION);
+  if (!Array.isArray(list) || list.length < 5) throw new CodecError('corrupt', 'bad shape');
+  const [card, tactic, penalty, name, nonce] = list;
+  if (!(tactic in TACTIC_FROM_CODE)) throw new CodecError('corrupt', 'bad tactic');
+  if (typeof name !== 'string' || typeof nonce !== 'string') throw new CodecError('corrupt', 'bad fields');
+  let penaltyEntry;
+  if (Number.isInteger(penalty)) penaltyEntry = { id: `p${penalty}`, text: '' };
+  else if (typeof penalty === 'string') penaltyEntry = { id: 'custom', text: penalty };
+  else throw new CodecError('corrupt', 'bad penalty');
+  return { card: unpack(card), tactic: TACTIC_FROM_CODE[tactic], penalty: penaltyEntry, name, nonce };
 }

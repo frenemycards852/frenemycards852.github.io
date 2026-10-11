@@ -30,7 +30,7 @@
     "strike": "🔄 Strike back! Make one of {from}",
     "strikeAnon": "🔄 Strike back! Make a card",
     "challenge": "⚔️ Challenge them",
-    "album": "📥 Add to my album",
+    "saved": "📥 Saved to your album",
     "soon": "(coming soon)",
     "intro": "Frenemy Cards: turn your friends into collectible cards that roast their worst habits.",
     "makeOwn": "Make your own card",
@@ -43,6 +43,7 @@
     "title": "Open the pack!",
     "tap": "Tap to open 👆",
     "cardLabel": "{name}'s card, rarity {rarity}",
+    "challenge": "⚔️ Challenge a friend with this card",
     "again": "Make another card",
     "home": "Back to home",
     "yourName": "What's your name?",
@@ -187,7 +188,37 @@
     "load": "Couldn't load the data. Check your connection and try again 🙏"
   },
   "album": {
-    "title": "My album"
+    "title": "My album",
+    "hint": "Saved on this phone only, up to {max} cards. Clearing your browser data deletes them.",
+    "tapHint": "Tap a card to challenge a friend with it 🥊",
+    "empty": "No cards yet. Make one for a friend, or wait for a friend to send you one!",
+    "made": "You made",
+    "received": "Received"
+  },
+  "challenge": {
+    "title": "Start a challenge 🥊",
+    "pickCard": "Pick a card to fight with",
+    "noCards": "No cards on this phone yet. Make one first, or wait for a friend to send you one!",
+    "penalty": "What does the loser have to do?",
+    "customPenalty": "✏️ Write your own",
+    "customLabel": "Penalty",
+    "tactic": "Your tactic",
+    "tacticHint": "Your opponent won't see this 🤫",
+    "create": "🥊 Create challenge",
+    "needPenalty": "Write a penalty first",
+    "sentTitle": "Challenge ready!",
+    "sentHint": "Send it to a friend. The fight starts the moment they accept 😏",
+    "edit": "Change challenge",
+    "shareMessage": "I challenge you 🥊 Loser has to: {penalty}! Tap to accept:",
+    "imageTitle": "{name} challenges you! 🥊",
+    "imageTitleAnon": "You've been challenged! 🥊",
+    "imageLoser": "Loser has to:",
+    "accept": "⚔️ Accept"
+  },
+  "tactics": {
+    "attack": { "name": "⚔️ Attack", "desc": "Hit harder, but take more hits" },
+    "defend": { "name": "🛡️ Defend", "desc": "Take less damage, deal less too" },
+    "chaos": { "name": "🎲 Chaos", "desc": "Wild swings. Pray to the luck gods" }
   },
   "soon": {
     "text": "Still building this one. Check back soon 🛠️"

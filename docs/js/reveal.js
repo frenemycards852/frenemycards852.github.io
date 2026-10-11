@@ -5,6 +5,8 @@ import { t } from './i18n.js';
 import { renderCard } from './render-card.js';
 import { createSharePanel } from './share.js';
 import { clipText, isBlocked } from './card.js';
+import { saveMyCard } from './mycards.js';
+import { startChallenge } from './challenge.js';
 
 const NAME_KEY = 'fc.myName';
 
@@ -25,7 +27,7 @@ function saveName(value) {
 }
 
 // "What's your name?" so the friend can strike back at the right person. Optional.
-function nameField(data) {
+export function nameField(data) {
   const wrap = el('div', 'field maker-field');
   const label = el('label', null, t('reveal.yourName'));
   label.htmlFor = 'f-maker';
@@ -95,8 +97,11 @@ export function showReveal(container, card, data, { opened = false, onOpened, on
     getCard: () => ({ ...card, from: maker.value() }),
     message: () => t('share.message'),
   });
+  const challenge = el('a', 'btn btn-secondary', t('reveal.challenge'));
+  challenge.href = '#/challenge';
+  challenge.addEventListener('click', () => startChallenge(card));
   const actions = el('div', 'reveal-actions');
-  actions.append(maker.el, share, again, home);
+  actions.append(maker.el, share, challenge, again, home);
 
   const section = el('section', 'reveal');
   section.append(el('h1', null, t('reveal.title')), stage, tapHint, reaction, actions);
@@ -105,6 +110,7 @@ export function showReveal(container, card, data, { opened = false, onOpened, on
   // Start drawing straight away so the card is ready when the pack opens.
   const drawn = renderCard(canvas, card, data).catch((err) => console.error(err));
   const finish = () => {
+    saveMyCard(card, 'made', data.config.myCards.max);
     section.classList.add('revealed');
     onOpened?.();
   };

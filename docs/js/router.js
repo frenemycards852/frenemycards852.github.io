@@ -1,16 +1,20 @@
-// Hash-based views: "#/" home, "#/make/<step>", "#/album", and card links "#c=<payload>".
-// Challenge (#x=) and replay (#r=) links will be routed here in Stage 2.
+// Hash-based views: "#/" home, "#/make/<step>", "#/album", "#/challenge",
+// card links "#c=<payload>" and challenge links "#x=<payload>".
+// Replay links (#r=) are added in Phase 10c.
 
 import { applyI18n } from './i18n.js';
 import { mountBuilder } from './builder.js';
 import { mountHome } from './home.js';
 import { mountCardView } from './cardview.js';
+import { mountChallenge, mountChallengeReceived } from './challenge.js';
+import { mountMyCards } from './mycards-view.js';
 
 // A route either clones a static <template> (optionally followed by `after`) or mounts a view module.
 const ROUTES = {
   '': { template: 'view-home', after: mountHome },
   make: { mount: mountBuilder },
-  album: { template: 'view-album' },
+  album: { mount: mountMyCards },
+  challenge: { mount: mountChallenge },
 };
 
 function parseHash() {
@@ -23,6 +27,12 @@ export function render() {
   // Card links: #c=<payload>
   if (location.hash.startsWith('#c=')) {
     mountCardView(app, location.hash.slice(3));
+    window.scrollTo(0, 0);
+    return;
+  }
+  // Challenge links: #x=<payload>
+  if (location.hash.startsWith('#x=')) {
+    mountChallengeReceived(app, location.hash.slice(3));
     window.scrollTo(0, 0);
     return;
   }

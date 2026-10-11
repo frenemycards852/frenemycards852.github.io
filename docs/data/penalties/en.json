@@ -1,0 +1,10 @@
+{
+  "customEmoji": "📜",
+  "items": [
+    { "id": "p1", "emoji": "🧋", "text": "Buy them a bubble tea" },
+    { "id": "p2", "emoji": "🍜", "text": "Dinner is on you" },
+    { "id": "p3", "emoji": "👑", "text": "Call them \"Boss\" for a whole day" },
+    { "id": "p4", "emoji": "📸", "text": "Be their IG photographer until they're happy" },
+    { "id": "p5", "emoji": "🤳", "text": "Use the card they made of you as your profile picture for a day" }
+  ]
+}

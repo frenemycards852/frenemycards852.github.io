@@ -8,6 +8,8 @@ import { isCardValid } from './card.js';
 import { renderCard } from './render-card.js';
 import { createSharePanel } from './share.js';
 import { startNewCard } from './builder.js';
+import { saveMyCard } from './mycards.js';
+import { startChallenge } from './challenge.js';
 
 let mountToken = 0;
 
@@ -25,7 +27,7 @@ function makeOwnLink(primary = true) {
   return a;
 }
 
-function showError(container, code) {
+export function showError(container, code) {
   const key = code === 'version' ? 'view.newer' : code === 'unsupported' ? 'view.unsupported' : 'view.bad';
   const section = el('section', 'card-view card-view-error');
   section.append(el('h1', null, t('view.badTitle')), el('p', null, t(key)), makeOwnLink());
@@ -76,12 +78,11 @@ export async function mountCardView(container, payload) {
   strike.href = '#/make';
   strike.addEventListener('click', () => startNewCard(from));
 
-  const soon = (key) => {
-    const b = el('button', 'btn btn-secondary', `${t(key)} ${t('view.soon')}`);
-    b.type = 'button';
-    b.disabled = true;
-    return b;
-  };
+  // Received cards go into "My album" so they can be used to fight.
+  const saved = saveMyCard(card, 'received', data.config.myCards.max);
+  const challenge = el('a', 'btn btn-secondary', t('view.challenge'));
+  challenge.href = '#/challenge';
+  challenge.addEventListener('click', () => startChallenge(card));
 
   const share = createSharePanel({
     canvas,
@@ -100,7 +101,9 @@ export async function mountCardView(container, payload) {
     el('div', 'reveal-actions view-actions'),
   );
   section.querySelector('.view-stage').append(cardBox);
-  section.querySelector('.view-actions').append(strike, soon('view.challenge'), soon('view.album'), share, intro);
+  section.querySelector('.view-actions').append(strike, challenge);
+  if (saved) section.querySelector('.view-actions').append(el('p', 'hint', t('view.saved')));
+  section.querySelector('.view-actions').append(share, intro);
   container.replaceChildren(section);
 
   await renderCard(canvas, card, data).catch((err) => console.error(err));

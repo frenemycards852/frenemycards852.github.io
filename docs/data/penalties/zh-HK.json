@@ -1,0 +1,10 @@
+{
+  "customEmoji": "📜",
+  "items": [
+    { "id": "p1", "emoji": "🧋", "text": "請對方飲珍奶" },
+    { "id": "p2", "emoji": "🍜", "text": "請食晚飯" },
+    { "id": "p3", "emoji": "👑", "text": "叫對方做「大佬」一整日" },
+    { "id": "p4", "emoji": "📸", "text": "幫對方影 IG 相，影到佢滿意為止" },
+    { "id": "p5", "emoji": "🤳", "text": "用對方幫你整嘅卡做 WhatsApp 頭像一日" }
+  ]
+}
