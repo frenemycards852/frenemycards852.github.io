@@ -1944,22 +1944,25 @@ h1 {
   white-space: nowrap;
 }
 
-/* Drawn "WINNER! 優勝者!" art on the winning card's upper-left corner */
+/* Drawn "WINNER! 優勝者!" art, slanted, straddling the winning card's inner top corner
+   (left card → its top-right corner, right card → its top-left corner). */
 .comic-winner {
+  --tilt: 0deg;
   position: absolute;
-  top: 6%;
+  top: 0;
   z-index: 4;
   width: 46%;
   aspect-ratio: 416 / 460;
   background: url("../assets/fx/winner.png") center / contain no-repeat;
+  transform: rotate(var(--tilt));
   animation: comic-winner-in 0.5s cubic-bezier(0.2, 1.6, 0.4, 1) 0.3s backwards;
 }
 
-.comic-winner.at-0 { left: -2%; }
-.comic-winner.at-1 { left: 45%; }
+.comic-winner.at-0 { --tilt: 12deg; left: 21%; }
+.comic-winner.at-1 { --tilt: -12deg; left: 33%; }
 
 @keyframes comic-winner-in {
-  from { opacity: 0; transform: translateY(20px) scale(0.4); }
+  from { opacity: 0; transform: translateY(20px) rotate(var(--tilt)) scale(0.4); }
 }
 
 .comic-stamp.lose {
