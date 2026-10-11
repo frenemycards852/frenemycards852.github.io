@@ -170,8 +170,41 @@
       }
       xRows.push(`<tr><td>${esc(label)}</td><td>${result}</td><td><a href="../#x=${encodeURIComponent(payload)}" target="_blank">open</a></td></tr>`);
     }
+    // Replay links: round trip, same battle as the original seed, broken cases.
+    const { encodeReplay, decodeReplay } = await import('../js/codec.js');
+    const { isReplayValid, battleSeed } = await import('../js/challenge-model.js');
+    const { simulateBattle: simulate } = await import('../js/battle.js');
+    const effectsData = await loadJSON('data/effects.json');
+    const rp = { cards: [{ ...samples[0].card, from: '' }, { ...samples[3].card, from: '阿明' }], tactics: ['attack', 'defend'], penalty: { id: 'p3', text: '' }, people: ['阿明', ''], nonce: 'k3j9x0q2ab', rules: config.battle.version };
+    const rPayload = await encodeReplay(rp);
+    const rBack = await decodeReplay(rPayload);
+    const fightOf = (r) => JSON.stringify(simulate({ cards: r.cards, tactics: r.tactics, seed: battleSeed(r.nonce, r.cards[1], r.tactics[1]) }, { config, types, effects: effectsData }));
+    const rBad = [
+      ['challenge link used as replay', goodX],
+      ['newer version', `9${rPayload.slice(1)}`],
+      ['cut in half', rPayload.slice(0, Math.floor(rPayload.length / 2))],
+      ['tampered card B', await encodeReplay({ ...rp, cards: [rp.cards[0], { ...rp.cards[1], stats: [100, 100, 100, 100, 100] }] })],
+      ['bad tactic', plainJson([])],
+    ];
+    const rRows = [];
+    for (const [label, payload] of rBad) {
+      let res;
+      try {
+        res = isReplayValid(await decodeReplay(payload), cdata) ? '❌ accepted' : '✅ rejected (invalid replay)';
+      } catch (err) {
+        res = err instanceof CodecError ? `✅ rejected (${err.code})` : `❌ crashed: ${esc(err.message)}`;
+      }
+      rRows.push(`<tr><td>${esc(label)}</td><td>${res}</td></tr>`);
+    }
+    const replayHtml = `<h3 style="font-size:15px;margin:12px 0 4px">Replay links (#r=)</h3><table>
+      <tr><td>Round trip</td><td>${JSON.stringify(rBack) === JSON.stringify(rp) ? '✅' : '❌'}</td></tr>
+      <tr><td>Valid</td><td>${isReplayValid(rBack, cdata) ? '✅' : '❌'}</td></tr>
+      <tr><td>Replay gives the same battle</td><td>${fightOf(rBack) === fightOf(rp) ? '✅' : '❌'}</td></tr>
+      <tr><td>Payload length</td><td>${rPayload.length} · <a href="../#r=${rPayload}" target="_blank">open</a></td></tr>
+      ${rRows.join('')}</table>`;
+
     document.getElementById('challenges').innerHTML = `<table><tr><th>Sample</th><th>Round trip</th><th>Valid</th><th>Payload length</th><th>Challenge view</th></tr>${chRows.join('')}</table>
-      <p></p><table><tr><th>Broken case</th><th>Result</th><th>View</th></tr>${xRows.join('')}</table>`;
+      <p></p><table><tr><th>Broken case</th><th>Result</th><th>View</th></tr>${xRows.join('')}</table>${replayHtml}`;
 
     const box = document.getElementById('cards');
     for (const s of samples) {

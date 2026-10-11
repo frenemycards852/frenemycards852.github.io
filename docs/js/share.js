@@ -2,7 +2,7 @@
 // Some apps drop the text when an image is attached, so "copy link" is always offered too.
 
 import { t } from './i18n.js';
-import { encodeCard, encodeChallenge } from './codec.js';
+import { encodeCard, encodeChallenge, encodeReplay } from './codec.js';
 
 // Full link to a card on this site (works on GitHub Pages and on a local server).
 export async function cardLink(card) {
@@ -12,6 +12,11 @@ export async function cardLink(card) {
 // Full link to a challenge.
 export async function challengeLink(challenge) {
   return `${location.origin}${location.pathname}#x=${await encodeChallenge(challenge)}`;
+}
+
+// Full link to a battle replay.
+export async function replayLink(replay) {
+  return `${location.origin}${location.pathname}#r=${await encodeReplay(replay)}`;
 }
 
 // Share / Copy link / Save image buttons with a small status line.

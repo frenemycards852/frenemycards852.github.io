@@ -25,6 +25,16 @@ export function isChallengeValid(challenge, data) {
     && NONCE.test(challenge.nonce);
 }
 
+// Checks a replay that arrived in a link.
+export function isReplayValid(replay, data) {
+  const { config, blocklist } = data;
+  return replay.cards.every((card) => isCardValid(card, data))
+    && replay.tactics.every((tactic) => TACTICS.includes(tactic))
+    && isPenaltyValid(replay.penalty, data)
+    && replay.people.every((name) => textLength(name) <= config.card.nameMax && !isBlocked(name, blocklist.terms))
+    && NONCE.test(replay.nonce);
+}
+
 // Battle seed: the challenger's random nonce + the defender's card and tactic,
 // so the challenger can't know the result before sending. Plain JSON (not the
 // compressed link), so every browser builds exactly the same text.

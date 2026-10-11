@@ -1,6 +1,5 @@
 // Hash-based views: "#/" home, "#/make/<step>", "#/album", "#/challenge",
-// card links "#c=<payload>" and challenge links "#x=<payload>".
-// Replay links (#r=) are added in Phase 10c.
+// card links "#c=<payload>", challenge links "#x=<payload>" and replay links "#r=<payload>".
 
 import { applyI18n } from './i18n.js';
 import { mountBuilder } from './builder.js';
@@ -9,6 +8,7 @@ import { mountCardView } from './cardview.js';
 import { mountChallenge } from './challenge.js';
 import { mountChallengeReceived } from './accept.js';
 import { mountMyCards } from './mycards-view.js';
+import { mountReplay } from './replay.js';
 
 // A route either clones a static <template> (optionally followed by `after`) or mounts a view module.
 const ROUTES = {
@@ -34,6 +34,12 @@ export function render() {
   // Challenge links: #x=<payload>
   if (location.hash.startsWith('#x=')) {
     mountChallengeReceived(app, location.hash.slice(3));
+    window.scrollTo(0, 0);
+    return;
+  }
+  // Replay links: #r=<payload>
+  if (location.hash.startsWith('#r=')) {
+    mountReplay(app, location.hash.slice(3));
     window.scrollTo(0, 0);
     return;
   }

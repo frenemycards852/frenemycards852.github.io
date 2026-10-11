@@ -247,7 +247,18 @@
     "tacticOf": "{who}（{card}）：{tactic}",
     "tacticOfCard": "{card}：{tactic}",
     "replay": "🔁 再睇一次",
-    "send": "📤 send 結果俾佢"
+    "send": "📤 send 結果俾佢，等佢睇埋重播",
+    "shareMessage": "打完喇！{name} 勝出 🏆 撳入嚟睇重播 📺：",
+    "shareDraw": "打完喇！我哋打和 🤝 撳入嚟睇重播 📺：",
+    "forward": "📤 send 去 group，俾大家睇吓",
+    "rematch": "🔄 再戰！",
+    "locked": "🔒 你已經應戰咗呢個挑戰，結果唔可以改。"
+  },
+  "replay": {
+    "title": "📺 對戰重播",
+    "introYou": "{name} 應戰咗你嘅挑戰！睇吓邊個贏 👀",
+    "intro": "{a} 對 {b}，睇吓邊個贏 👀",
+    "oldRules": "呢場係用舊版規則打嘅，重播可能同當時有啲唔同。"
   },
   "soon": {
     "text": "呢頁仲整緊，遲啲再嚟睇吓 🛠️"

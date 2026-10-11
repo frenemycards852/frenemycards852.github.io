@@ -1,6 +1,6 @@
 // Challenge received (#x=...): see the challenger's card and the penalty, pick your card
 // (or make one on the spot) and a tactic, then fight. Result image, replay link and
-// rematch arrive in Phase 10c.
+// rematch are on the result. One fight per challenge on each phone (matches.js).
 
 import { t } from './i18n.js';
 import { loadCardData } from './carddata.js';
@@ -12,8 +12,10 @@ import { cardPicker, myValidCards } from './mycards-view.js';
 import { renderCard } from './render-card.js';
 import { showError } from './cardview.js';
 import { startNewCard } from './builder.js';
-import { radio, group } from './challenge.js';
-import { loadBattleData, showBattle } from './battleview.js';
+import { radio, group, startChallenge } from './challenge.js';
+import { loadBattleData, showBattle, resultSharePanel } from './battleview.js';
+import { lockFight, lockedFight } from './matches.js';
+import { isCardValid } from './card.js';
 
 const NAME_KEY = 'fc.myName';
 
@@ -66,7 +68,16 @@ export async function mountChallengeReceived(container, payload) {
   }
   if (token !== mountToken) return;
 
-  if (state?.payload !== payload) state = { payload, cardKey: null, tactic: 'chaos', fought: false };
+  if (state?.payload !== payload) state = { payload, cardKey: null, tactic: 'chaos', fought: false, locked: null };
+  // Already fought on this phone: show that same fight again, no new picks.
+  const locked = lockedFight(challenge.nonce);
+  if (locked && isCardValid(locked.card, data) && TACTICS.includes(locked.tactic)) {
+    const reopened = !state.fought;
+    state.fought = true;
+    state.locked = locked;
+    fight(container, challenge, [], data, { animate: false, isAlive, notice: reopened ? t('result.locked') : '' });
+    return;
+  }
   const items = myValidCards(data);
   if (pendingCard) {
     if (!items.some((item) => cardKey(item.card) === cardKey(pendingCard))) {
@@ -128,8 +139,10 @@ function showAccept(container, payload, challenge, items, data, isAlive) {
   const go = el('button', 'btn btn-primary btn-block btn-fight', t('accept.fight'));
   go.type = 'button';
   go.addEventListener('click', () => {
-    if (!state.cardKey) return;
+    const mine = items.find((item) => cardKey(item.card) === state.cardKey);
+    if (!mine) return;
     state.fought = true;
+    lockFight(challenge.nonce, { card: mine.card, tactic: state.tactic, name: myName().trim() });
     fight(container, challenge, items, data, { animate: true, isAlive });
     window.scrollTo(0, 0);
   });
@@ -140,32 +153,51 @@ function showAccept(container, payload, challenge, items, data, isAlive) {
   container.replaceChildren(section);
 }
 
-function fight(container, challenge, items, data, { animate, isAlive }) {
-  const mine = items.find((item) => cardKey(item.card) === state.cardKey);
-  if (!mine) {
+function fight(container, challenge, items, data, { animate, isAlive, notice = '' }) {
+  // The locked fight (if any) wins over the current picks.
+  const mine = state.locked
+    ? { card: state.locked.card, tactic: state.locked.tactic, name: state.locked.name ?? myName() }
+    : { ...items.find((item) => cardKey(item.card) === state.cardKey), tactic: state.tactic, name: myName() };
+  if (!mine.card) {
     state.fought = false;
     mountChallengeReceived(container, state.payload);
     return;
   }
   const match = {
     cards: [challenge.card, mine.card],
-    tactics: [challenge.tactic, state.tactic],
-    seed: battleSeed(challenge.nonce, mine.card, state.tactic),
+    tactics: [challenge.tactic, mine.tactic],
+    seed: battleSeed(challenge.nonce, mine.card, mine.tactic),
+    nonce: challenge.nonce,
     penalty: challenge.penalty,
-    people: [challenge.name.trim(), myName().trim()],
+    people: [challenge.name.trim(), (mine.name ?? '').trim()],
   };
+  showBattle(container, match, data, {
+    viewer: 1,
+    animate,
+    isAlive,
+    notice,
+    actions: (result) => [resultActions(match, result, data, 1, () => {
+      fight(container, challenge, items, data, { animate: true, isAlive });
+      window.scrollTo(0, 0);
+    })],
+  });
+}
+
+// Buttons under a result: send it (image + replay link), rematch, watch again, home.
+export function resultActions(match, result, data, viewer, onReplay, { send = true } = {}) {
+  const box = el('div', 'challenge-actions');
+  if (send) box.append(resultSharePanel(match, result, data, { primary: true }));
+  if (viewer !== null) {
+    const rematch = el('a', `btn ${send ? 'btn-secondary' : 'btn-primary'}`, t('result.rematch'));
+    rematch.href = '#/challenge';
+    rematch.addEventListener('click', () => startChallenge(match.cards[viewer], match.penalty));
+    box.append(rematch);
+  }
   const replay = el('button', 'btn btn-secondary', t('result.replay'));
   replay.type = 'button';
-  replay.addEventListener('click', () => {
-    fight(container, challenge, items, data, { animate: true, isAlive });
-    window.scrollTo(0, 0);
-  });
-  const send = el('button', 'btn btn-primary', `${t('result.send')} ${t('view.soon')}`);
-  send.type = 'button';
-  send.disabled = true;
+  replay.addEventListener('click', onReplay);
   const home = el('a', 'btn btn-secondary', t('reveal.home'));
   home.href = '#/';
-  const actions = el('div', 'challenge-actions');
-  actions.append(send, replay, home);
-  showBattle(container, match, data, { viewer: 1, animate, isAlive, actions: [actions] });
+  box.append(replay, home);
+  return box;
 }

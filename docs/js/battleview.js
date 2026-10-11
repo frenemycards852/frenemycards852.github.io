@@ -9,6 +9,8 @@ import { commentate } from './commentary.js';
 import { resolveSkill, SKILL_KINDS } from './card.js';
 import { renderThumb } from './mycards-view.js';
 import { penaltyText } from './challenge-model.js';
+import { renderResult } from './render-result.js';
+import { createSharePanel, replayLink } from './share.js';
 
 const reducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 
@@ -60,7 +62,9 @@ function fighterBox(card, who, tactic) {
 
 // viewer: the side looking at the screen (0 challenger, 1 defender), or null for an onlooker.
 // animate: false shows the finished battle at once (e.g. after a language switch).
-export async function showBattle(container, match, data, { viewer, animate = true, isAlive = () => true, actions = [] }) {
+export async function showBattle(container, match, data, {
+  viewer, animate = true, isAlive = () => true, actions = () => [], title = t('battle.title'), notice = '',
+}) {
   const { result, said } = runBattle(match, data);
   const pace = data.config.battle.pace;
   const who = (side) => (side === viewer ? t('battle.you') : (match.people[side] || t('battle.opponent')));
@@ -74,7 +78,9 @@ export async function showBattle(container, match, data, { viewer, animate = tru
   skip.type = 'button';
   const resultBox = el('div', 'battle-result');
   const section = el('section', 'battle');
-  section.append(el('h1', null, t('battle.title')), row, feed, skip, resultBox);
+  section.append(el('h1', null, title));
+  if (notice) section.append(el('p', 'hint center battle-notice', notice));
+  section.append(row, feed, skip, resultBox);
   container.replaceChildren(section);
 
   match.cards.forEach((card, side) => {
@@ -151,6 +157,49 @@ export async function showBattle(container, match, data, { viewer, animate = tru
   return result;
 }
 
+// Texts for the shared result image: names only (no "you"), so it reads right for anyone.
+export function resultImageTexts(match, result, data) {
+  const person = (side) => match.people[side] || match.cards[side].name;
+  const { winner } = result;
+  return {
+    title: winner === null ? t('result.draw') : t('result.winnerIs', { name: match.cards[winner].name }),
+    payLabel: winner === null ? t('result.bothPay') : t('result.theyPay', { name: person(1 - winner) }),
+    penalty: penaltyText(match.penalty, data.penalties),
+  };
+}
+
+// Result image + share panel with a replay link (#r=), so the other player can watch the same fight.
+export function resultSharePanel(match, result, data, { primary = true } = {}) {
+  const texts = resultImageTexts(match, result, data);
+  const canvas = el('canvas', 'card-canvas');
+  canvas.setAttribute('role', 'img');
+  canvas.setAttribute('aria-label', `${texts.title} ${texts.payLabel} ${texts.penalty}`);
+  renderResult(canvas, match, result, texts, data).catch((err) => console.error(err));
+  const replay = {
+    cards: match.cards,
+    tactics: match.tactics,
+    penalty: match.penalty,
+    people: match.people,
+    nonce: match.nonce,
+    rules: data.config.battle.version,
+  };
+  const message = result.winner === null
+    ? t('result.shareDraw')
+    : t('result.shareMessage', { name: match.cards[result.winner].name });
+  const share = createSharePanel({
+    canvas,
+    getCard: () => match.cards[result.winner ?? 0],
+    getLink: () => replayLink(replay),
+    message: () => message,
+    primary,
+  });
+  const image = el('div', 'result-image');
+  image.append(canvas);
+  const box = el('div', 'result-share');
+  box.append(el('p', 'result-send', t(primary ? 'result.send' : 'result.forward')), image, share);
+  return box;
+}
+
 function showResult(box, match, result, data, { viewer, who, actions }) {
   const { winner } = result;
   let headline;
@@ -180,6 +229,6 @@ function showResult(box, match, result, data, { viewer, who, actions }) {
     score,
     tactics,
     penalty,
-    ...actions,
+    ...actions(result),
   );
 }

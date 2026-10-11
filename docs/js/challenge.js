@@ -8,6 +8,7 @@ import { TACTICS } from './battle.js';
 import { randomSeed } from './rng.js';
 import { isPenaltyValid, penaltyText } from './challenge-model.js';
 import { cardKey } from './mycards.js';
+import { rememberSent } from './matches.js';
 import { cardPicker, myValidCards } from './mycards-view.js';
 import { renderChallenge } from './render-challenge.js';
 import { createSharePanel, challengeLink } from './share.js';
@@ -17,12 +18,14 @@ import { startNewCard } from './builder.js';
 // Kept in memory while the page is open (survives a language switch).
 let state = null;
 let pendingCard = null;
+let pendingPenalty = null;
 let mountToken = 0;
 
-// Open the challenge screen next time with this card already picked.
-export function startChallenge(card = null) {
+// Open the challenge screen next time with this card (and penalty, for a rematch) already picked.
+export function startChallenge(card = null, penalty = null) {
   state = null;
   pendingCard = card;
+  pendingPenalty = penalty;
 }
 
 function el(tag, className, text) {
@@ -53,7 +56,9 @@ export function group(title, hint) {
 function newState(items) {
   const first = pendingCard ? cardKey(pendingCard) : items[0] && cardKey(items[0].card);
   pendingCard = null;
-  return { cardKey: first, penalty: { id: 'p1', text: '' }, tactic: 'chaos', sent: null };
+  const penalty = pendingPenalty ? { ...pendingPenalty } : { id: 'p1', text: '' };
+  pendingPenalty = null;
+  return { cardKey: first, penalty, tactic: 'chaos', sent: null };
 }
 
 export async function mountChallenge(container) {
@@ -159,6 +164,7 @@ function showSetup(container, data, items, token) {
       name: maker.value(),
       nonce: randomSeed(10),
     };
+    rememberSent(state.sent.nonce);
     showSent(container, data, token);
     window.scrollTo(0, 0);
   });

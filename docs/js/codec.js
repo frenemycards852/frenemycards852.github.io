@@ -1,4 +1,4 @@
-// Cards and challenges ⇄ link payloads (the part after "#c=" / "#x="). No DOM access.
+// Cards, challenges and replays ⇄ link payloads (after "#c=" / "#x=" / "#r="). No DOM access.
 //
 // Payload = "<version><format><base64url bytes>"
 //   version 1, format "j" = plain JSON bytes, "z" = deflate-raw compressed JSON bytes.
@@ -187,4 +187,46 @@ export async function decodeChallenge(payload) {
   else if (typeof penalty === 'string') penaltyEntry = { id: 'custom', text: penalty };
   else throw new CodecError('corrupt', 'bad penalty');
   return { card: unpack(card), tactic: TACTIC_FROM_CODE[tactic], penalty: penaltyEntry, name, nonce };
+}
+
+// ---------- public: replays (#r=) ----------
+//
+// Replay v1 JSON: [card A, card B, tactic A, tactic B, penalty, name A, name B, nonce, battle rules version]
+// The battle seed is rebuilt from the nonce + card B + tactic B, exactly like when it was fought.
+
+export const REPLAY_VERSION = 1;
+
+const packPenalty = (penalty) => (penalty.id === 'custom' ? penalty.text.trim() : Number(penalty.id.slice(1)));
+
+function unpackPenalty(value) {
+  if (Number.isInteger(value)) return { id: `p${value}`, text: '' };
+  if (typeof value === 'string') return { id: 'custom', text: value };
+  throw new CodecError('corrupt', 'bad penalty');
+}
+
+// replay = { cards: [a, b], tactics: [ta, tb], penalty, people: [nameA, nameB], nonce, rules }
+export async function encodeReplay(replay) {
+  const { cards, tactics, penalty, people, nonce, rules } = replay;
+  return encodeList([
+    pack(cards[0]), pack(cards[1]), TACTIC_CODE[tactics[0]], TACTIC_CODE[tactics[1]],
+    packPenalty(penalty), people[0] ?? '', people[1] ?? '', nonce, rules,
+  ], REPLAY_VERSION);
+}
+
+export async function decodeReplay(payload) {
+  const list = await decodeList(payload, REPLAY_VERSION);
+  if (!Array.isArray(list) || list.length < 9) throw new CodecError('corrupt', 'bad shape');
+  const [a, b, ta, tb, penalty, nameA, nameB, nonce, rules] = list;
+  if (!(ta in TACTIC_FROM_CODE) || !(tb in TACTIC_FROM_CODE)) throw new CodecError('corrupt', 'bad tactic');
+  if ([nameA, nameB, nonce].some((x) => typeof x !== 'string') || !Number.isInteger(rules)) {
+    throw new CodecError('corrupt', 'bad fields');
+  }
+  return {
+    cards: [unpack(a), unpack(b)],
+    tactics: [TACTIC_FROM_CODE[ta], TACTIC_FROM_CODE[tb]],
+    penalty: unpackPenalty(penalty),
+    people: [nameA, nameB],
+    nonce,
+    rules,
+  };
 }

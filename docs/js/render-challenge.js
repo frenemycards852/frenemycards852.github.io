@@ -9,7 +9,7 @@ import { fitSingle, fitLines, setFont } from './textlayout.js';
 export const CHALLENGE_W = 1080;
 export const CHALLENGE_H = 1350;
 
-function roundRect(ctx, x, y, w, h, r) {
+export function roundRect(ctx, x, y, w, h, r) {
   ctx.beginPath();
   ctx.moveTo(x + r, y);
   ctx.arcTo(x + w, y, x + w, y + h, r);
@@ -19,7 +19,7 @@ function roundRect(ctx, x, y, w, h, r) {
   ctx.closePath();
 }
 
-function drawBackground(ctx) {
+export function drawBackground(ctx) {
   const bg = ctx.createLinearGradient(0, 0, CHALLENGE_W, CHALLENGE_H);
   bg.addColorStop(0, '#2a1155');
   bg.addColorStop(0.55, '#5a1238');
@@ -93,7 +93,12 @@ export async function renderChallenge(canvas, { card, name }, penaltyLine, data)
   const startY = boxY + 116 - ((lines.lines.length - 1) * lineH) / 2;
   lines.lines.forEach((line, i) => ctx.fillText(line, CHALLENGE_W / 2, startY + i * lineH));
 
-  // Footer
+  drawImageFooter(ctx, data);
+  return canvas;
+}
+
+// Product name + site URL along the bottom, so anyone who sees the image can find the site.
+export function drawImageFooter(ctx, data) {
   ctx.textBaseline = 'alphabetic';
   ctx.textAlign = 'left';
   setFont(ctx, 26, 900);
@@ -103,5 +108,4 @@ export async function renderChallenge(canvas, { card, name }, penaltyLine, data)
   setFont(ctx, 24, 600);
   ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
   ctx.fillText(data.config.siteUrl, CHALLENGE_W - 64, 1322);
-  return canvas;
 }

@@ -1287,6 +1287,29 @@ h1 {
   from { opacity: 0; transform: scale(0.6); }
 }
 
+.battle-notice {
+  margin: -4px 0 0;
+  font-weight: 700;
+}
+
+.result-share {
+  display: grid;
+  gap: 10px;
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--muted);
+}
+
+.result-send {
+  margin: 0;
+  font-weight: 800;
+}
+
+.result-image {
+  width: min(100%, 360px);
+  margin: 0 auto;
+}
+
 .result-score,
 .result-tactics {
   margin: 0;

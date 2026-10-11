@@ -247,7 +247,18 @@
     "tacticOf": "{who} ({card}): {tactic}",
     "tacticOfCard": "{card}: {tactic}",
     "replay": "🔁 Watch again",
-    "send": "📤 Send the result"
+    "send": "📤 Send them the result so they can watch the replay",
+    "shareMessage": "Battle over! {name} wins 🏆 Tap to watch the replay 📺:",
+    "shareDraw": "Battle over! It's a draw 🤝 Tap to watch the replay 📺:",
+    "forward": "📤 Share it with the group chat",
+    "rematch": "🔄 Rematch!",
+    "locked": "🔒 You already answered this challenge. The result is final."
+  },
+  "replay": {
+    "title": "📺 Battle replay",
+    "introYou": "{name} accepted your challenge! Let's see who won 👀",
+    "intro": "{a} vs {b}. Let's see who won 👀",
+    "oldRules": "This battle used older rules, so the replay may look a little different."
   },
   "soon": {
     "text": "Still building this one. Check back soon 🛠️"
