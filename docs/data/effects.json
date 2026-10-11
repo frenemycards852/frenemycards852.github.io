@@ -1,0 +1,43 @@
+{
+  "move": {
+    "m1": { "kind": "nextMiss" },
+    "m2": { "kind": "gambleHeal", "chance": 0.3, "amount": 45 },
+    "m3": { "kind": "stun" },
+    "m4": { "kind": "heal", "amount": 25 },
+    "m5": { "kind": "delayedStrike", "multiplier": 1.3 }
+  },
+  "trait": {
+    "t1": { "kind": "dodge", "chance": 0.25 },
+    "t2": { "kind": "regen", "amount": 7 },
+    "t3": { "kind": "surviveOnce" },
+    "t4": { "kind": "reflect", "ratio": 0.3 },
+    "t5": { "kind": "finalRoundGuard", "taken": 0.4 }
+  },
+  "weakness": {
+    "w1": { "kind": "skipFirstTurn", "chance": 0.6 },
+    "w2": { "kind": "finalRoundVulnerable", "taken": 1.8 },
+    "w3": { "kind": "lowHpWeak", "below": 0.5, "dealt": 0.4 },
+    "w4": { "kind": "slowerVulnerable", "taken": 1.5 },
+    "w5": { "kind": "distracted", "chance": 0.2 }
+  },
+  "custom": {
+    "move": [
+      { "kind": "heal", "amount": 25 },
+      { "kind": "strike", "multiplier": 1.8 },
+      { "kind": "nextMiss" },
+      { "kind": "stun" }
+    ],
+    "trait": [
+      { "kind": "dodge", "chance": 0.15 },
+      { "kind": "regen", "amount": 7 },
+      { "kind": "reflect", "ratio": 0.15 },
+      { "kind": "finalRoundGuard", "taken": 0.6 }
+    ],
+    "weakness": [
+      { "kind": "distracted", "chance": 0.2 },
+      { "kind": "finalRoundVulnerable", "taken": 1.6 },
+      { "kind": "lowHpWeak", "below": 0.5, "dealt": 0.5 },
+      { "kind": "slowerVulnerable", "taken": 1.4 }
+    ]
+  }
+}

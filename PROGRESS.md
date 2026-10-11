@@ -5,13 +5,16 @@ Keep it short: replace old "Next step" text rather than appending forever.
 
 ## Current phase
 
-**Stage 1 · Phase 7 — Card links + card view + sharing** (built and checked on iPhone 2026-10-11: card emoji, Share to WhatsApp, Copy link, Save image)
+**Stage 2 · Phase 8 — Battle engine** (built; awaiting review). Stage 1 was checked on iPhone and tested with real friends 2026-10-11.
 
 ## Next step
 
-- **Test Stage 1 with real friends** (make, send, strike back) and collect feedback before Stage 2 (battles).
+- Product creator reviews the Phase 8 balance results (dev page), then Phase 9 (commentary).
+- Decided for Phase 10: "My cards" — cards the user made or received are saved automatically in localStorage (about 20) and picked from when challenging; Stage 3's album builds on it.
 
 Notes (current state):
+- Battle engine (`battle.js`, `rng.js`, no DOM): `simulateBattle({ cards: [a, b], tactics: [ta, tb], seed }, { config, types, effects })` → `{ winner 0/1/null, reason ko/points/draw, hp, maxHp, pct, effects, events }`. Events (`start`, `round`, `skip`, `move`, `attack`, `trait`, `end`) each carry `hp: [a, b]` for Phase 9 commentary and Phase 10 animation. RNG seed = `${battle.version}|${seed}`; Phase 10 must build the seed from the challenger's random part + B's card and tactic. Commentary must use its own RNG stream so wording changes never change results.
+- Battle numbers: `config.json` → `battle` (bump `battle.version` when changing rules, so old replay links can be told apart). Effects: `effects.json` (presets by id; custom entries get a pool effect picked by a hash of their name). Tuned 2026-10-11 on the dev page (6000 random battles): every move/trait/weakness/top stat/tactic wins 41–56%; type advantage ≈ 66%. Higher 準時度 acts first and gets a first-strike bonus; nextMiss/stun aren't used when the opponent has no turn left.
 - Card links: `#c=<payload>` (`codec.js`). Payload = version digit + format ("j" plain / "z" deflate-raw via CompressionStream) + base64url of a compact JSON array `[name, gender b/g, type id, stats, move, trait, weakness, desc, rarity, from]`; presets are numbers (m3 → 3), customs are text. Typical link payload 60–80 chars. v1 must keep decoding forever; change the format by adding a version. Decode errors are `CodecError` with code corrupt / version / unsupported; `card.js` → `isCardValid` also rejects tampered cards (stats, unknown ids, blocked words).
 - Card view (`cardview.js`): flip-in card, "Strike back! Make one of {from}" (pre-fills the builder via `builder.startNewCard(name)`), grey "coming soon" Challenge / Add to album, share panel, intro + make your own. Bad links show a friendly message.
 - Sharing (`share.js`): Web Share with the PNG file when supported, else text + link, else copies the link; Copy link (clipboard with fallback); Save image (download, or open the image). The maker's name ("你叫咩名？", optional) is asked on the reveal screen, stored as `fc.myName`, and put in the link as `from`.
@@ -36,11 +39,11 @@ Notes (current state):
 - [x] 4. Card builder (without avatar)
 - [x] 5. Avatar builder (later replaced by illustrations)
 - [x] 6. Card rendering + rarity roll
-- [x] 7. Card links + card view + sharing → **test with real friends** (awaiting review)
+- [x] 7. Card links + card view + sharing → **test with real friends** (tested with friends)
 
 ### Stage 2 — Battles
 
-- [ ] 8. Battle engine
+- [x] 8. Battle engine (awaiting review)
 - [ ] 9. Commentary
 - [ ] 10. Challenge & battle screens → **test with real friends**
 

@@ -20,6 +20,27 @@
   "cardLayout": {
     "skillsX": { "zh-HK": 566, "en": 506 }
   },
+  "battle": {
+    "version": 1,
+    "rounds": 3,
+    "hpBase": 50,
+    "hpScale": 1,
+    "attackBase": 15,
+    "attackScale": 0.22,
+    "defenseReduce": 0.18,
+    "minDamage": 1,
+    "randomRange": [0.85, 1.15],
+    "typeMultiplier": 1.5,
+    "firstStrikeBonus": 1.25,
+    "crit": { "base": 0.05, "lukScale": 0.003, "multiplier": 1.6 },
+    "dodge": { "base": 0.03, "lukScale": 0.002 },
+    "tactics": {
+      "attack": { "dealt": 1.2, "taken": 1.15, "moveChance": [0.7, 0.85, 1] },
+      "defend": { "dealt": 0.85, "taken": 0.8, "moveChance": [0.2, 0.5, 1] },
+      "chaos": { "dealt": 1, "taken": 1, "randomRange": [0.55, 1.5], "moveChance": [0.5, 0.5, 1] }
+    },
+    "healMoveBelow": 0.7
+  },
   "rarity": {
     "order": ["N", "R", "SR", "SSR"],
     "odds": { "N": 50, "R": 30, "SR": 15, "SSR": 5 },

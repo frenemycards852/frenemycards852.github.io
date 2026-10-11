@@ -36,6 +36,16 @@
   <h2>Rarity distribution (10,000 rolls)</h2>
   <div id="rarity"></div>
 
+  <h2>Battle · same inputs → same battle</h2>
+  <div id="determinism"></div>
+
+  <h2>Battle · sample log (N 阿明 vs SSR Jessica)</h2>
+  <pre id="battlelog" style="font-size:12px;white-space:pre-wrap"></pre>
+
+  <h2>Battle · balance (random cards)</h2>
+  <p>Win rate counts a draw as half a win. Cells outside 40–60% are marked ⚠️.</p>
+  <div id="balance"></div>
+
   <script type="module">
     import { setLang, t } from '../js/i18n.js';
     import { loadJSON } from '../js/data.js';
@@ -124,6 +134,93 @@
     for (let i = 0; i < 10000; i++) counts[rollRarity(config.rarity)]++;
     const rows = config.rarity.order.map((k) => `<tr><td>${k}</td><td>${config.rarity.odds[k]}%</td><td>${(counts[k] / 100).toFixed(1)}%</td></tr>`).join('');
     document.getElementById('rarity').innerHTML = `<table><tr><th>Rarity</th><th>Target</th><th>Rolled</th></tr>${rows}</table>`;
+
+    // ---- Battles ----
+    const { simulateBattle, TACTICS } = await import('../js/battle.js');
+    const { createRng } = await import('../js/rng.js');
+    const { randomStats } = await import('../js/card.js');
+    const effects = await loadJSON('data/effects.json');
+    const bdata = { config, types, effects };
+    const fight = (a, b, ta, tb, seed) => simulateBattle({ cards: [a, b], tactics: [ta, tb], seed }, bdata);
+
+    const gen = createRng('balance');
+    const pickOf = (list) => list[Math.floor(gen() * list.length)];
+    const typeIds = types.types.map((x) => x.id);
+    const randomEntry = (kind) => (gen() < 0.2
+      ? { id: 'custom', name: `custom${Math.floor(gen() * 1000)}`, desc: '' }
+      : { id: pickOf(skills[kind]).id, name: '', desc: '' });
+    const randomCard = () => ({
+      name: 'x', gender: 'boy', type: pickOf(typeIds), stats: randomStats(config.stats, gen),
+      move: randomEntry('move'), trait: randomEntry('trait'), weakness: randomEntry('weakness'),
+      desc: { id: 'd1', text: '' }, rarity: 'N',
+    });
+
+    // Determinism: the same 300 battles twice must match exactly.
+    const pairs = Array.from({ length: 300 }, (_, i) => [randomCard(), randomCard(), pickOf(TACTICS), pickOf(TACTICS), `seed${i}`]);
+    const run = () => pairs.map((p) => JSON.stringify(fight(...p)));
+    const first = run();
+    const second = run();
+    const sameAll = first.every((x, i) => x === second[i]);
+    const reseeded = pairs.slice(0, 100).filter((p) => JSON.stringify(fight(...p)) !== JSON.stringify(fight(p[0], p[1], p[2], p[3], `${p[4]}x`))).length;
+    document.getElementById('determinism').innerHTML = `<table>
+      <tr><td>300 battles run twice give identical results</td><td>${sameAll ? '✅' : '❌'}</td></tr>
+      <tr><td>Changing only the seed changes the battle (out of 100)</td><td>${reseeded} ${reseeded > 80 ? '✅' : '⚠️'}</td></tr></table>`;
+
+    // Sample log.
+    const sample = fight(samples[0].card, samples[3].card, 'attack', 'defend', 'demo');
+    const nm = (s) => (s === 0 ? samples[0].card.name : samples[3].card.name);
+    const line = (e) => {
+      const who = nm(e.side);
+      switch (e.t) {
+        case 'start': return `Start  HP ${e.hp[0]} vs ${e.hp[1]}`;
+        case 'round': return `— Round ${e.round} —`;
+        case 'skip': return `${who} skips (${e.kind ?? e.cause})`;
+        case 'move': return `${who} uses move: ${e.kind}${'ok' in e ? (e.ok ? ' (worked)' : ' (failed)') : ''}${e.heal ? ` +${e.heal} HP` : ''}`;
+        case 'trait': return `${who} trait ${e.kind}${e.dmg ? ` reflects ${e.dmg}` : ''}${e.heal ? ` +${e.heal} HP` : ''}`;
+        case 'attack':
+          if (e.missed) return `${who} attacks (${e.via}) → misses (move effect)`;
+          if (e.dodged) return `${who} attacks (${e.via}) → dodged (${e.dodged})`;
+          return `${who} attacks (${e.via}) → ${e.dmg} dmg${e.crit ? ' CRIT' : ''}${e.effective ? ' SUPER' : ''}${e.saved ? ' (survived on 1)' : ''}${e.triggers.map((x) => ` [${nm(x.side)} ${x.slot}: ${x.kind}]`).join('')}`;
+        case 'end': return `End: ${e.winner === null ? 'DRAW' : `${nm(e.winner)} wins`} (${e.reason})`;
+        default: return JSON.stringify(e);
+      }
+    };
+    document.getElementById('battlelog').textContent = sample.events.map((e) => `${line(e).padEnd(70)} HP ${e.hp[0]} / ${e.hp[1]}`).join('\n');
+
+    // Balance: many random battles, win rate per attribute.
+    const N = 6000;
+    const tally = {};
+    const add = (group, key, score) => {
+      tally[group] ??= {};
+      tally[group][key] ??= { n: 0, w: 0 };
+      tally[group][key].n += 1;
+      tally[group][key].w += score;
+    };
+    const reasons = { ko: 0, points: 0, draw: 0 };
+    const topStat = (c) => config.stats.keys[c.stats.indexOf(Math.max(...c.stats))];
+    for (let i = 0; i < N; i++) {
+      const cards = [randomCard(), randomCard()];
+      const tac = [pickOf(TACTICS), pickOf(TACTICS)];
+      const r = fight(cards[0], cards[1], tac[0], tac[1], `b${i}`);
+      reasons[r.reason] += 1;
+      for (const side of [0, 1]) {
+        const c = cards[side];
+        const o = cards[1 - side];
+        const score = r.winner === null ? 0.5 : (r.winner === side ? 1 : 0);
+        add('Side', side === 0 ? 'A (challenger)' : 'B', score);
+        add('Type', c.type, score);
+        add('Tactic', tac[side], score);
+        add('Highest stat', topStat(c), score);
+        for (const kind of ['move', 'trait', 'weakness']) add(`${kind}`, c[kind].id, score);
+        if (types.beats[c.type] === o.type) add('Matchup', 'has type advantage', score);
+        else if (types.beats[o.type] === c.type) add('Matchup', 'has type disadvantage', score);
+        else add('Matchup', 'neutral', score);
+      }
+    }
+    const pctCell = (v) => `${(v * 100).toFixed(1)}%${v < 0.4 || v > 0.6 ? ' ⚠️' : ''}`;
+    const groups = Object.entries(tally).map(([group, rowsOf]) => `<h3 style="font-size:15px;margin:12px 0 4px">${esc(group)}</h3><table><tr><th>Value</th><th>Battles</th><th>Win rate</th></tr>${Object.entries(rowsOf).sort().map(([k, v]) => `<tr><td>${esc(k)}</td><td>${v.n}</td><td>${pctCell(v.w / v.n)}</td></tr>`).join('')}</table>`).join('');
+    const ends = Object.entries(reasons).map(([k, v]) => `<tr><td>${k}</td><td>${(v / N * 100).toFixed(1)}%</td></tr>`).join('');
+    document.getElementById('balance').innerHTML = `<p>${N} battles. How battles end:</p><table>${ends}</table>${groups}<p>Type advantage is meant to sit above 60% — that's the ×1.5 matchup working.</p>`;
     document.title = `Dev tests · ${t('app.name')}`;
   </script>
 </body>
