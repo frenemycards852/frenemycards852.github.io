@@ -266,7 +266,7 @@ export async function showComicBattle(container, match, data, {
         burst(d, e.missed ? t('comic.miss') : t('comic.dodge'), 'miss');
       } else {
         setPose(d, 'hurt', 'hurt');
-        burst(d, `-${e.dmg}`, e.crit ? 'crit' : '');
+        burst(d, t('comic.damage', { n: e.dmg }), e.crit ? 'crit' : '');
         if (e.crit) { tag(t('comic.crit'), 'hot'); scene += ' crit'; }
         if (e.effective) tag(t('comic.super'), 'hot');
         if (e.saved) tag(t('comic.survive'));
@@ -277,7 +277,7 @@ export async function showComicBattle(container, match, data, {
       setPose(a, 'attack', 'power');
       setPose(1 - a, null, '');
       bubble(a, skillName(a, 'move'));
-      if (e.kind === 'heal' || (e.kind === 'gambleHeal' && e.ok)) burst(a, `+${e.heal}`, 'heal');
+      if (e.kind === 'heal' || (e.kind === 'gambleHeal' && e.ok)) burst(a, t('comic.heal', { n: e.heal }), 'heal');
       else burst(a, t(`comic.move.${e.kind === 'gambleHeal' ? 'fail' : e.kind}`), 'small');
     } else if (panel.kind === 'skip') {
       const a = e.side;

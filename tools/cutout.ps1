@@ -4,7 +4,11 @@
 param(
   [string]$In, [string]$Out,
   [ValidateSet('flood', 'global')][string]$Mode = 'flood',
-  [int]$MaxSize = 800
+  [int]$MaxSize = 800,
+  # dark: the painted checkerboard is dark grey (black outlines are kept).
+  [ValidateSet('light', 'dark')][string]$Background = 'light',
+  # Optional "x,y,w,h" to cut out one part of the picture first.
+  [string]$Crop = ''
 )
 # Removes a painted checkerboard ("fake transparency") and saves a real transparent PNG.
 # flood: only light-grey/white pixels connected to the image edge (keeps white inside outlines).
@@ -16,15 +20,18 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 public static class Cutout {
+  static bool dark;
   static bool IsBg(byte b, byte g, byte r) {
     int mx = Math.Max(r, Math.Max(g, b)), mn = Math.Min(r, Math.Min(g, b));
+    if (dark) return mx >= 26 && mx <= 165 && (mx - mn) < 30;
     return mn > 165 && (mx - mn) < 30;
   }
-  public static string Run(string input, string output, bool flood, int maxSize) {
+  public static string Run(string input, string output, bool flood, int maxSize, bool darkBg, int cx, int cy, int cw, int ch) {
+    dark = darkBg;
     using (var src = new Bitmap(input)) {
-      int w = src.Width, h = src.Height;
+      int w = cw > 0 ? cw : src.Width, h = ch > 0 ? ch : src.Height;
       var bmp = new Bitmap(w, h, PixelFormat.Format32bppArgb);
-      using (var gr = Graphics.FromImage(bmp)) gr.DrawImage(src, 0, 0, w, h);
+      using (var gr = Graphics.FromImage(bmp)) gr.DrawImage(src, new Rectangle(0, 0, w, h), new Rectangle(cx, cy, w, h), GraphicsUnit.Pixel);
       var rect = new Rectangle(0, 0, w, h);
       var data = bmp.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
       int stride = data.Stride;
@@ -83,4 +90,5 @@ public static class Cutout {
   }
 }
 "@
-[Cutout]::Run($In, $Out, $Mode -eq 'flood', $MaxSize)
+$c = if ($Crop) { $Crop.Split(',') | ForEach-Object { [int]$_ } } else { @(0, 0, 0, 0) }
+[Cutout]::Run($In, $Out, $Mode -eq 'flood', $MaxSize, $Background -eq 'dark', $c[0], $c[1], $c[2], $c[3])

@@ -1732,64 +1732,77 @@ h1 {
   animation: comic-pop 0.35s ease-out;
 }
 
+/* Hit burst (drawn art) with the damage written on top, like "-38 HP".
+   Small labels (miss, dodge, move effects) use the hollow ring burst. */
 .comic-burst {
   position: absolute;
-  top: 22%;
+  top: 20%;
   display: grid;
   place-items: center;
-  width: 46%;
-  aspect-ratio: 1;
-  background: #1a0f2e;
-  clip-path: polygon(50% 0, 61% 26%, 90% 12%, 76% 39%, 100% 50%, 76% 61%, 90% 88%, 61% 74%, 50% 100%, 39% 74%, 10% 88%, 24% 61%, 0 50%, 24% 39%, 10% 12%, 39% 26%);
-  transform: rotate(-8deg);
+  width: 52%;
+  aspect-ratio: 362 / 400;
+  --burst-art: url("../assets/fx/burst.png");
+  transform: rotate(-6deg);
   animation: comic-burst-in 0.4s cubic-bezier(0.2, 1.6, 0.4, 1);
 }
 
 .comic-burst::before {
   content: "";
   position: absolute;
-  inset: 6px;
-  background: #ffe94d;
-  clip-path: inherit;
+  inset: 0;
+  background: var(--burst-art) center / contain no-repeat;
 }
 
 .comic-burst span {
   position: relative;
-  max-width: 70%;
-  color: #e5484d;
-  font-size: clamp(26px, 9vw, 44px);
+  max-width: 76%;
+  color: #ffe94d;
+  font-size: clamp(24px, 8vw, 40px);
   font-weight: 900;
   line-height: 1.05;
   text-align: center;
-  -webkit-text-stroke: 1.5px #1a0f2e;
+  white-space: nowrap;
+  -webkit-text-stroke: 5px #1a0f2e;
+  paint-order: stroke fill;
+  text-shadow: 2px 2px 0 #1a0f2e, -2px 2px 0 #1a0f2e, 2px -2px 0 #1a0f2e, -2px -2px 0 #1a0f2e, 0 4px 0 #1a0f2e;
 }
 
-.comic-burst.at-0 { left: 4%; }
-.comic-burst.at-1 { right: 4%; }
+.comic-burst.at-0 { left: 2%; }
+.comic-burst.at-1 { right: 2%; }
 
-.comic-burst.center {
-  top: 22%;
-  left: 15%;
-  width: 70%;
+.comic-burst.crit {
+  width: 62%;
 }
 
 .comic-burst.crit span {
-  font-size: clamp(32px, 11vw, 54px);
+  color: #ff5a36;
+  font-size: clamp(30px, 10vw, 50px);
 }
 
+/* Heal: the same burst tinted green */
 .comic-burst.heal::before {
-  background: #b8ffcf;
+  filter: hue-rotate(75deg) saturate(1.2);
 }
 
 .comic-burst.heal span {
-  color: #128a45;
+  color: #b8ffcf;
+}
+
+.comic-burst.small,
+.comic-burst.miss {
+  width: 42%;
+  aspect-ratio: 257 / 259;
+  --burst-art: url("../assets/fx/burst-ring.png");
 }
 
 .comic-burst.small span,
 .comic-burst.miss span {
+  max-width: 62%;
   color: #2b2118;
-  font-size: clamp(18px, 5.5vw, 26px);
+  font-size: clamp(14px, 4.4vw, 20px);
+  white-space: normal;
   -webkit-text-stroke: 0;
+  text-shadow: 0 0 4px #fff, 0 0 8px #fff;
 }
 
 @keyframes comic-burst-in {

@@ -10,7 +10,7 @@ Keep it short: replace old "Next step" text rather than appending forever.
 ## Next step
 
 - Product creator tests Phase 11 (album filters, big card + delete, Friend Collection image, export → import), then Phase 12 (visual design).
-- Battle effect art added 2026-10-11 (`docs/assets/fx/`: `vs.png`, `ko.png`, `bubble-say.png` for shouts/moves, `bubble-think.png` for skipped turns; text sits inside via `--text-area`). The AI images had a painted checkerboard instead of real transparency; `tools/cutout.ps1` turns such JPGs into transparent PNGs.
+- Battle effect art added 2026-10-11 (`docs/assets/fx/`: `vs.png`, `ko.png`, `bubble-say.png` for shouts/moves, `bubble-think.png` for skipped turns, `burst.png` behind "-38 HP" (crit bigger and red, heal tinted green), `burst-ring.png` for small labels like miss/dodge; text sits inside via `--text-area`). The AI images had a painted checkerboard instead of real transparency; `tools/cutout.ps1` turns such JPGs into transparent PNGs.
 - Battle backgrounds added 2026-10-11 (`docs/assets/scenes/`, `types.json` → `scene`): late street, foodie café, slacker beach, work office, love café (shared; a 6th scene could replace it), savage classroom. Later, from the product creator: better effects for damage, K.O. and skills, and pose images (`spec/ILLUSTRATIONS.md` §6).
 - Comic battle Cantonese (speech-bubble shouts in `data/commentary/zh-HK.json` → `shout`, `comic.*` labels) still to be reviewed line by line.
 - Decided: both players pick a tactic; the opponent can't see the challenger's tactic; the battle seed must combine the challenge nonce with B's card + tactic.

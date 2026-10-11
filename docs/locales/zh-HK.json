@@ -307,6 +307,8 @@
   "comic": {
     "referee": "📣 裁判",
     "round": "第 {n} 回合",
+    "damage": "-{n} HP",
+    "heal": "+{n} HP",
     "miss": "撲空！",
     "dodge": "閃咗！",
     "crit": "暴擊！",

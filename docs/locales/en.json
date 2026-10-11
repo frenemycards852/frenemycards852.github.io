@@ -307,6 +307,8 @@
   "comic": {
     "referee": "📣 Ref",
     "round": "Round {n}",
+    "damage": "-{n} HP",
+    "heal": "+{n} HP",
     "miss": "Miss!",
     "dodge": "Dodged!",
     "crit": "Critical!",
