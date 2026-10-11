@@ -514,7 +514,7 @@ function drawMatchups(ctx, type, data) {
     ctx.fillStyle = color;
     ctx.fillText(fit.text, x, 1326);
   };
-  half(`⚔️ ${t('card.beats')}`, beats, '#8ff0a8', 300);
+  half(`💪 ${t('card.beats')}`, beats, '#8ff0a8', 300);
   half(`💥 ${t('card.weakTo')}`, weakTo, '#ff9a9a', 780);
   ctx.fillStyle = 'rgba(169, 182, 214, 0.6)';
   ctx.fillText('|', 540, 1326);

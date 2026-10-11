@@ -1,7 +1,7 @@
 // Canvas text helpers: wrap and shrink text so it fits a box.
 // Uses only a 2D context (no page DOM). Chinese breaks per character, English per word.
 
-export const FONT_STACK = 'system-ui, -apple-system, "Segoe UI", "PingFang HK", "Microsoft JhengHei", "Noto Sans TC", sans-serif';
+export const FONT_STACK = 'system-ui, -apple-system, "Segoe UI", "PingFang HK", "Microsoft JhengHei", "Noto Sans TC", "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
 
 export function setFont(ctx, size, weight = 400) {
   ctx.font = `${weight} ${size}px ${FONT_STACK}`;
