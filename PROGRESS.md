@@ -5,11 +5,11 @@ Keep it short: replace old "Next step" text rather than appending forever.
 
 ## Current phase
 
-**Stage 2 · Phase 10 — Challenges & battles** (built; 10c + comic battle confirmed on desktop and pushed 2026-10-11).
+**Stage 2 · Phase 10 — Challenges & battles** (done; whole battle loop checked on real phones 2026-10-11).
 
 ## Next step
 
-- Product creator tests the whole battle loop on real phones, then **test Stage 2 with real friends** before Stage 3.
+- **Test Stage 2 with real friends** (challenge → accept → result → replay → rematch) and collect feedback before Stage 3.
 - Later, from the product creator: dedicated battle backgrounds (6, one per type, no people → `types.json` `scene`), better effects for damage, K.O. and skills, and pose images (`spec/ILLUSTRATIONS.md` §6).
 - Comic battle Cantonese (speech-bubble shouts in `data/commentary/zh-HK.json` → `shout`, `comic.*` labels) still to be reviewed line by line.
 - Decided: both players pick a tactic; the opponent can't see the challenger's tactic; the battle seed must combine the challenge nonce with B's card + tactic.
