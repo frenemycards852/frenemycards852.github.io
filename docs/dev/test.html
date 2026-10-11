@@ -42,6 +42,12 @@
   <h2>Battle · sample log (N 阿明 vs SSR Jessica)</h2>
   <pre id="battlelog" style="font-size:12px;white-space:pre-wrap"></pre>
 
+  <h2>Battle · commentary (same battle, then two random ones)</h2>
+  <div id="talk"></div>
+
+  <h2>Battle · commentary checks (3000 battles, both languages)</h2>
+  <div id="talkcheck"></div>
+
   <h2>Battle · balance (random cards)</h2>
   <p>Win rate counts a draw as half a win. Cells outside 40–60% are marked ⚠️.</p>
   <div id="balance"></div>
@@ -186,6 +192,62 @@
       }
     };
     document.getElementById('battlelog').textContent = sample.events.map((e) => `${line(e).padEnd(70)} HP ${e.hp[0]} / ${e.hp[1]}`).join('\n');
+
+    // Commentary.
+    const { commentate } = await import('../js/commentary.js');
+    const { resolveSkill } = await import('../js/card.js');
+    const other = lang === 'en' ? 'zh-HK' : 'en';
+    const [talkLines, otherLines, otherSkills] = await Promise.all([
+      loadJSON(`data/commentary/${lang}.json`), loadJSON(`data/commentary/${other}.json`), loadJSON(`data/skills/${other}.json`),
+    ]);
+    const talkCtx = (cards, skillLists, typeLabel) => ({
+      names: cards.map((c) => c.name),
+      types: cards.map((c) => typeLabel(c.type)),
+      typeIds: cards.map((c) => c.type),
+      skills: cards.map((c) => Object.fromEntries(['move', 'trait', 'weakness'].map((k) => [k, resolveSkill(c[k], skillLists[k]).name]))),
+      rounds: config.battle.rounds,
+    });
+    const typeName = (id) => t(`types.${id}.name`);
+    const showTalk = (cards, tac, seed) => {
+      const r = fight(cards[0], cards[1], tac[0], tac[1], seed);
+      const said = commentate(r, talkCtx(cards, skills, typeName), talkLines, seed);
+      const rows = said.map((ls, i) => ls.map((l) => `<div>${esc(l)} <span style="color:#998">(${r.events[i].hp.join(' / ')})</span></div>`).join('')).join('');
+      return `<div style="border:1px solid #ccc;padding:8px;margin-bottom:8px;font-size:14px;line-height:1.6"><b>${esc(cards[0].name)} (${tac[0]}) vs ${esc(cards[1].name)} (${tac[1]})</b>${rows}</div>`;
+    };
+    const named = (c, name) => ({ ...c, name });
+    document.getElementById('talk').innerHTML = [
+      showTalk([samples[0].card, samples[3].card], ['attack', 'defend'], 'demo'),
+      showTalk([named(randomCard(), '阿明'), named(randomCard(), 'Sam')], ['chaos', 'attack'], 'talk1'),
+      showTalk([named(randomCard(), '老細'), named(randomCard(), 'Jessica')], ['defend', 'chaos'], 'talk2'),
+    ].join('');
+
+    // Every line filled, every key in both languages, which keys come up.
+    const used = {};
+    const problems = [];
+    for (let i = 0; i < 3000; i++) {
+      const cards = [named(randomCard(), 'A'), named(randomCard(), 'B')];
+      const tac = [pickOf(TACTICS), pickOf(TACTICS)];
+      const r = fight(cards[0], cards[1], tac[0], tac[1], `c${i}`);
+      for (const [pool, list, label] of [[talkLines, skills, typeName], [otherLines, otherSkills, (id) => id]]) {
+        const said = commentate(r, talkCtx(cards, list, label), pool, `c${i}`);
+        said.forEach((ls, j) => {
+          const e = r.events[j];
+          if (ls.length === 0 && !['trait'].includes(e.t)) problems.push(`no line for ${JSON.stringify(e)}`);
+          for (const l of ls) if (/[{}]|undefined/.test(l)) problems.push(l);
+        });
+      }
+      for (const e of r.events) {
+        const key = e.t === 'attack' ? `attack ${e.missed ? 'missed' : e.dodged ? `dodge ${e.dodged}` : e.via}${e.crit ? ' crit' : ''}${e.effective ? ' effective' : ''}`
+          : e.t === 'move' ? `move ${e.kind}` : e.t === 'skip' ? `skip ${e.kind ?? e.cause}` : e.t === 'trait' ? `trait ${e.kind}` : e.t === 'end' ? `end ${e.reason}` : e.t;
+        used[key] = (used[key] ?? 0) + 1;
+      }
+    }
+    const keysA = Object.keys(talkLines).sort().join();
+    const keysB = Object.keys(otherLines).sort().join();
+    document.getElementById('talkcheck').innerHTML = `<table>
+      <tr><td>Same line keys in zh-HK and en</td><td>${keysA === keysB ? '✅' : '❌'}</td></tr>
+      <tr><td>Every event gets a line, no {placeholder} left</td><td>${problems.length === 0 ? '✅' : `❌ ${esc(problems.slice(0, 5).join(' · '))}`}</td></tr></table>
+      <p style="margin-top:8px">Event counts: ${Object.entries(used).sort().map(([k, v]) => `${esc(k)} ${v}`).join(' · ')}</p>`;
 
     // Balance: many random battles, win rate per attribute.
     const N = 6000;

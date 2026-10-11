@@ -1,0 +1,174 @@
+{
+  "start": [
+    "{actor} vs {opponent}. This friendship is about to be tested 🔥",
+    "Ladies and gentlemen: {actor} and {opponent} are settling old scores.",
+    "{actor} vs {opponent}. Only one leaves with their dignity."
+  ],
+  "round": [
+    "Round {n}!",
+    "Round {n}. The group chat is watching 👀",
+    "Round {n}. Somebody grab the popcorn 🍿"
+  ],
+  "finalRound": [
+    "Final round! Loser, get your wallet ready 💸",
+    "Last round. Whoever loses this one takes the penalty.",
+    "Final round. Friendship status: pending."
+  ],
+
+  "attack.hit": [
+    "{actor} drops a roast. {opponent} takes {dmg}!",
+    "{actor} brings up that thing from 2019. {opponent} -{dmg}",
+    "{actor} screenshots the evidence. {opponent} loses {dmg}",
+    "{actor} side-eyes {opponent} for {dmg} damage"
+  ],
+  "attack.crit": [
+    "CRITICAL! {actor} hits a nerve. {opponent} -{dmg} 😱",
+    "CRITICAL! {actor} posts the old photos. {opponent} -{dmg}",
+    "Critical hit! That one was too real. {opponent} -{dmg}"
+  ],
+  "attack.delayed": [
+    "{actor}'s \"{move}\" finally lands! {opponent} -{dmg}",
+    "Nobody expected a follow-up, but here it is: \"{move}\". {opponent} -{dmg}"
+  ],
+  "attack.moveHit": [
+    "\"{move}\" hits {opponent} square on! -{dmg}",
+    "{opponent} can't handle \"{move}\". -{dmg}"
+  ],
+  "attack.critExtra": [
+    "And it's a crit! 🔥",
+    "Critical! The crowd goes wild."
+  ],
+  "attack.missed": [
+    "{actor} swings... at nothing. {opponent}'s \"{oppMove}\" worked 😂",
+    "{actor} can't find {opponent} anywhere. Classic \"{oppMove}\"."
+  ],
+  "attack.dodgeLuck": [
+    "{opponent} bends down to tie a shoelace. {actor} misses 🤷",
+    "Lucky! {opponent} was looking the other way.",
+    "{actor} is too slow. {opponent} dodges!"
+  ],
+  "attack.dodgeTrait": [
+    "{opponent} activates \"{oppTrait}\". {actor} is roasting thin air!",
+    "\"{oppTrait}\"! {opponent} leaves {actor} on read 👻"
+  ],
+
+  "effective": [
+    "Type advantage! {type} beats {oppType}. Super effective!"
+  ],
+  "effective.work": [
+    "Workaholic beats Slacker! {actor} answers emails at 3am. {opponent} gets tired just watching 😩",
+    "Workaholic beats Slacker! {actor}'s to-do list terrifies {opponent}."
+  ],
+  "effective.slacker": [
+    "Slacker beats Foodie! {actor} sleeps through brunch and {opponent} eats alone 😴",
+    "Slacker beats Foodie! Nobody shows up to {opponent}'s dinner plans."
+  ],
+  "effective.foodie": [
+    "Foodie beats Workaholic! {actor} drags {opponent} to an all-you-can-eat. Deadline? Gone 🍣",
+    "Foodie beats Workaholic! {opponent} gets lured away by snacks."
+  ],
+  "effective.savage": [
+    "Savage beats Lovestruck! \"They're just not that into you.\" {opponent}'s bubble pops 💔",
+    "Savage beats Lovestruck! {actor} delivers the reality check."
+  ],
+  "effective.love": [
+    "Lovestruck beats Late! {opponent} is two hours late. {actor}: \"No worries, I'll wait 💘\"",
+    "Lovestruck beats Late! {actor} would wait forever, so being late does nothing."
+  ],
+  "effective.late": [
+    "Late beats Savage! {actor} isn't even here yet. {opponent} is roasting an empty chair ⏰",
+    "Late beats Savage! {actor} missed every single burn."
+  ],
+
+  "trigger.lowHpWeak": [
+    "{actor}'s weakness \"{weakness}\" kicks in. The punches go soft.",
+    "\"{weakness}\"! {actor} starts to panic."
+  ],
+  "trigger.finalRoundGuard": [
+    "{actor}'s \"{trait}\" kicks in. Barely a scratch!",
+    "\"{trait}\"! {actor} shrugs most of it off."
+  ],
+  "trigger.finalRoundVulnerable": [
+    "Final round, and {actor}'s weakness \"{weakness}\" hits hard!",
+    "\"{weakness}\"! {actor} crumbles at the worst moment."
+  ],
+  "trigger.slowerVulnerable": [
+    "{actor} is a step behind, and \"{weakness}\" makes it hurt more!",
+    "\"{weakness}\"! {actor} wasn't ready for that."
+  ],
+
+  "skip.stun": [
+    "{actor} got hit with \"{oppMove}\" and froze.",
+    "{actor} is still waiting for {opponent} to reply... turn wasted 📱"
+  ],
+  "skip.skipFirstTurn": [
+    "{actor}'s weakness \"{weakness}\": not awake yet 😴",
+    "{actor} hasn't booted up. \"{weakness}\" strikes again."
+  ],
+  "skip.distracted": [
+    "\"{weakness}\"! {actor} gets distracted and does nothing.",
+    "{actor} thinks about \"{weakness}\" and zones out."
+  ],
+
+  "move.heal": [
+    "{actor} uses \"{move}\". +{heal} Stamina ✨",
+    "\"{move}\"! {actor} catches a breath. +{heal}"
+  ],
+  "move.healFull": [
+    "{actor} uses \"{move}\"... at full Stamina. Wasted 😂"
+  ],
+  "move.gambleHeal.ok": [
+    "{actor} uses \"{move}\"... and actually follows through! +{heal} 🎉",
+    "A miracle! \"{move}\" works. {actor} +{heal}"
+  ],
+  "move.gambleHeal.fail": [
+    "{actor} uses \"{move}\"! Nobody believes it. Zero effect.",
+    "\"{move}\"? {opponent} has heard that a hundred times."
+  ],
+  "move.nextMiss": [
+    "{actor} uses \"{move}\"! {opponent}'s next attack will miss.",
+    "\"{move}\"! {actor} vanishes from {opponent}'s sight."
+  ],
+  "move.stun": [
+    "{actor} uses \"{move}\"! {opponent} freezes and loses a turn.",
+    "\"{move}\"! {opponent} is left waiting."
+  ],
+  "move.delayedStrike": [
+    "{actor}: \"{move}\"! ...and then nothing happens.",
+    "{actor} uses \"{move}\". Nobody expects a follow-up."
+  ],
+  "move.strike": [
+    "{actor} unleashes \"{move}\"!",
+    "{actor} goes all in: \"{move}\"!"
+  ],
+
+  "trait.reflect": [
+    "{actor} activates \"{trait}\" and bills {opponent} back: {dmg} damage!",
+    "\"{trait}\"! {actor} fires right back. {opponent} -{dmg}"
+  ],
+  "trait.regen": [
+    "While nobody's looking, {actor} quietly recovers {heal}.",
+    "\"{trait}\" again! {actor} +{heal}. Everyone's used to it by now.",
+    "\"{trait}\"! {actor} sneaks back {heal} Stamina.",
+    "{actor}'s \"{trait}\" kicks in. +{heal}"
+  ],
+  "trait.surviveOnce": [
+    "{actor} should be down, but \"{trait}\" keeps them standing on 1 Stamina!",
+    "No way! \"{trait}\" saves {actor}. Still standing!"
+  ],
+
+  "end.ko": [
+    "{opponent} is down! {actor} wins by KO 🏆",
+    "KO! {actor} roasts {opponent} into silence.",
+    "{opponent} can't take any more! {actor} wins 🏆"
+  ],
+  "end.points": [
+    "Three rounds done. {actor} has more Stamina left and wins 🏆",
+    "On points, {actor} takes it. {opponent}, accept your fate.",
+    "{actor} wins! {opponent}, time for the penalty 😏"
+  ],
+  "end.draw": [
+    "It's a draw! Both take the penalty 🤝",
+    "Dead even! {actor} and {opponent} both pay up."
+  ]
+}
