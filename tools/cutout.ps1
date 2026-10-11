@@ -1,5 +1,5 @@
 # Usage (PowerShell, from the project folder):
-#   .	oolstout.ps1 -In ko.jpg -Out docsssetsxko.png -Mode global -MaxSize 480
+#   .\tools\cutout.ps1 -In ko.jpg -Out docs\assets\fx\ko.png -Mode global -MaxSize 480
 # Use -Mode flood for art with white inside an outline (speech bubbles).
 param(
   [string]$In, [string]$Out,
