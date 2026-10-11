@@ -226,9 +226,19 @@ export async function showComicBattle(container, match, data, {
   // "WINNER!" above the winner, a "LOSE" rubber stamp across the loser.
   const stamp = (side, text, kind) => fx.append(el('div', `comic-stamp ${kind} at-${side}`, text));
   const banner = (text) => fx.append(el('div', 'comic-banner', text));
-  const bubble = (side, text) => {
+  // Speech bubble (shouts, move names) or thought bubble (dozing off, frozen), drawn art with text inside.
+  const bubble = (side, text, kind = 'say') => {
     if (!text) return;
-    fx.append(el('div', `comic-bubble at-${side}`, text));
+    const node = el('div', `comic-bubble ${kind} at-${side}`);
+    node.append(el('span', null, text));
+    fx.append(node);
+  };
+  // Drawn VS / K.O. art; the text stays for screen readers.
+  const art = (kind, text) => {
+    const node = el('div', `comic-art ${kind}`);
+    node.setAttribute('role', 'img');
+    node.setAttribute('aria-label', text);
+    fx.append(node);
   };
   const shout = (i) => {
     const pool = data.lines.shout ?? [];
@@ -245,7 +255,7 @@ export async function showComicBattle(container, match, data, {
     if (panel.kind === 'intro') {
       setPose(0, null, 'enter');
       setPose(1, null, 'enter');
-      burst(null, t('battle.vs'), 'vs');
+      art('vs', t('battle.vs'));
     } else if (panel.kind === 'attack') {
       const a = e.side;
       const d = 1 - a;
@@ -273,7 +283,7 @@ export async function showComicBattle(container, match, data, {
       const a = e.side;
       setPose(a, 'hurt', 'sleepy');
       setPose(1 - a, null, '');
-      burst(a, t(`comic.skip.${e.cause === 'stun' ? 'stun' : e.kind}`), 'small');
+      bubble(a, t(`comic.skip.${e.cause === 'stun' ? 'stun' : e.kind}`), 'think');
     } else if (panel.kind === 'status') {
       setPose(e.side, null, 'power');
       setPose(1 - e.side, null, '');
@@ -287,7 +297,7 @@ export async function showComicBattle(container, match, data, {
         scene = 'ko';
         setPose(w, 'attack', 'winner');
         setPose(1 - w, 'ko', 'ko');
-        burst(null, t('comic.ko'), 'big');
+        art('ko', t('comic.ko'));
         stamp(w, t('comic.winStamp'), 'win');
       } else {
         scene = 'timeup';
