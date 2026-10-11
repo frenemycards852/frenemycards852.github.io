@@ -5,13 +5,14 @@ Keep it short: replace old "Next step" text rather than appending forever.
 
 ## Current phase
 
-**Stage 2 · Phase 10c — Result image, replay link, rematch, one fight per challenge** (built; awaiting review). 10a–10b confirmed on desktop 2026-10-11.
+**Stage 2 · Phase 10 — Challenges & battles** (built; 10c + comic battle confirmed on desktop and pushed 2026-10-11).
 
 ## Next step
 
-- Product creator tests 10c on desktop, then push and test the whole battle loop on real phones, then **test Stage 2 with real friends** before Stage 3.
+- Product creator tests the whole battle loop on real phones, then **test Stage 2 with real friends** before Stage 3.
+- Later, from the product creator: dedicated battle backgrounds (6, one per type, no people → `types.json` `scene`), better effects for damage, K.O. and skills, and pose images (`spec/ILLUSTRATIONS.md` §6).
+- Comic battle Cantonese (speech-bubble shouts in `data/commentary/zh-HK.json` → `shout`, `comic.*` labels) still to be reviewed line by line.
 - Decided: both players pick a tactic; the opponent can't see the challenger's tactic; the battle seed must combine the challenge nonce with B's card + tactic.
-
 - Comic battle (`comicbattle.js`) is the default battle screen since 2026-10-11; `?comic=0` shows the older list version (`battleview.js`), kept for comparison. Pose images (brief: `spec/ILLUSTRATIONS.md` §6) will replace the whole-card actors when drawn.
 
 Notes (current state):
@@ -59,7 +60,7 @@ Notes (current state):
 - [x] 9. Commentary
 - [x] 10a. My album + challenge setup/link/image
 - [x] 10b. Accept + battle animation + result screen
-- [ ] 10c. Result image + replay link + rematch + lock (built; awaiting review)
+- [x] 10c. Result image + replay link + rematch + lock + comic battle → **test with real friends**
 - [ ] 10. Challenge & battle screens → **test with real friends**
 
 ### Stage 3 — Album & polish
