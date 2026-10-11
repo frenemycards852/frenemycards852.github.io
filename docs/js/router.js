@@ -25,6 +25,8 @@ function parseHash() {
 
 export function render() {
   const app = document.getElementById('app');
+  // The battle screen swaps the page background for its scene; every other view gets it back.
+  document.body.classList.remove('in-battle');
   // Card links: #c=<payload>
   if (location.hash.startsWith('#c=')) {
     mountCardView(app, location.hash.slice(3));

@@ -29,6 +29,19 @@ function el(tag, className, text) {
   return node;
 }
 
+// The page-wide scene layer (created once, shown only while body has "in-battle").
+function battleBackdrop() {
+  let layer = document.getElementById('battle-backdrop');
+  if (!layer) {
+    layer = el('div', 'battle-backdrop');
+    layer.id = 'battle-backdrop';
+    layer.setAttribute('aria-hidden', 'true');
+    layer.append(el('div', 'comic-scene'), el('div', 'comic-tint'));
+    document.body.prepend(layer);
+  }
+  return layer;
+}
+
 // Battle background for a card: a dedicated scene from types.json ("scene": "..."), if one
 // is added later, else the card's own illustration (its street, mall, café…), blurred by CSS.
 function scenePath(types, card) {
@@ -154,19 +167,25 @@ export async function showComicBattle(container, match, data, {
     return actor;
   });
   const fx = el('div', 'comic-fx');
-  const backdrop = el('div', 'comic-scene');
-  const tint = el('div', 'comic-tint');
-  stage.append(backdrop, tint, ...actors, fx);
+  // The whole page background becomes the scene while the battle is on screen
+  // (a fixed layer behind everything; the router clears "in-battle" on the next view).
+  const pageBackdrop = battleBackdrop();
+  const backdrop = pageBackdrop.querySelector('.comic-scene');
+  document.body.classList.add('in-battle');
+  stage.append(...actors, fx);
 
   const caption = el('div', 'comic-caption');
   caption.setAttribute('aria-live', 'polite');
   const skip = el('button', 'btn btn-secondary', t('battle.skip'));
   skip.type = 'button';
   const resultBox = el('div', 'battle-result');
+  // No box around the cards: they stand straight on the scene.
+  const arena = el('div', 'comic-arena');
+  arena.append(el('h1', null, title));
+  if (notice) arena.append(el('p', 'battle-notice', notice));
+  arena.append(hud, stage, caption, skip);
   const section = el('section', 'battle comic');
-  section.append(el('h1', null, title));
-  if (notice) section.append(el('p', 'hint center battle-notice', notice));
-  section.append(hud, stage, caption, skip, resultBox);
+  section.append(arena, resultBox);
   container.replaceChildren(section);
 
   // ---------- one panel ----------
@@ -175,6 +194,9 @@ export async function showComicBattle(container, match, data, {
     // With a pose image the character acts; without one, the whole card does.
     // Pose images face right; the right-hand fighter is mirrored to face the opponent.
     const src = posePath(data.types, match.cards[side], pose);
+    // Reset first so the same move twice in a row still replays its animation.
+    actor.className = `comic-actor side-${side}`;
+    void actor.offsetWidth;
     actor.className = `comic-actor side-${side}${cls ? ` ${cls}` : ''}${src ? ' posed' : ''}`;
     const img = actor.querySelector('.comic-pose');
     if (src && !img.src.endsWith(src)) img.src = src;
@@ -193,12 +215,13 @@ export async function showComicBattle(container, match, data, {
     tags.append(el('span', `comic-tag ${kind}`, text));
   };
   // Scene behind the cards: the acting side's place (street, mall, café…).
-  let backdropSrc = null;
+  let backdropSrc = backdrop.dataset.src ?? null;
   const setBackdrop = (side) => {
     const src = scenePath(data.types, match.cards[side]);
     if (!src || src === backdropSrc) return;
     backdropSrc = src;
     backdrop.style.backgroundImage = `url("${src}")`;
+    backdrop.dataset.src = src;
   };
   // "WINNER!" above the winner, a "LOSE" rubber stamp across the loser.
   const stamp = (side, text, kind) => fx.append(el('div', `comic-stamp ${kind} at-${side}`, text));
@@ -214,9 +237,7 @@ export async function showComicBattle(container, match, data, {
 
   function drawPanel(panel, index) {
     const e = panel.main;
-    // Restart all CSS animations for the new panel.
-    stage.className = 'comic-stage';
-    void stage.offsetWidth;
+    // New panel: clear the effects (actor animations restart in setPose).
     fx.replaceChildren();
     let scene = panel.kind;
     if (panel.round) fx.append(el('div', 'comic-round', t('comic.round', { n: panel.round })));
@@ -283,7 +304,7 @@ export async function showComicBattle(container, match, data, {
       if (extra.t === 'trait' && extra.kind === 'regen') tag(`+${extra.heal}`, 'heal');
     }
     setBackdrop(panel.kind === 'finish' ? (result.winner ?? 0) : (e.side ?? 0));
-    stage.className = `comic-stage scene-${scene}`;
+    pageBackdrop.className = `battle-backdrop scene-${scene}`;
     caption.replaceChildren(el('span', 'comic-referee', t('comic.referee')), ...panel.lines.map((line) => el('p', null, line)));
     setHp(panel.events[panel.events.length - 1].hp);
   }

@@ -1387,42 +1387,45 @@ h1 {
   font-size: 11px;
 }
 
-.comic-stage {
+/* During a battle the whole page background becomes the scene (a place: street, mall,
+   café…), softly blurred so the cards stand out, with the panel colour laid over it. */
+.battle-backdrop {
   --tint: #7ea2ff;
-  position: relative;
-  aspect-ratio: 1 / 1;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  display: none;
   overflow: hidden;
-  border: 4px solid var(--border);
-  border-radius: 16px;
-  background: var(--tint);
-  box-shadow: 0 5px 0 var(--border);
+  background: #1f2350;
 }
 
-/* Background scene (a place: street, mall, café…), softly blurred so the cards stand out,
-   with the panel colour laid over it like the reference panels. */
+.in-battle .battle-backdrop {
+  display: block;
+}
+
 .comic-scene {
   position: absolute;
-  inset: -6%;
+  inset: -4%;
   background-position: center 30%;
   background-size: cover;
-  filter: blur(2px) saturate(1.15);
+  filter: blur(3px) saturate(1.15);
 }
 
 .comic-tint {
   position: absolute;
   inset: 0;
   background: var(--tint);
-  opacity: 0.28;
+  opacity: 0.3;
 }
 
-.scene-ko .comic-tint,
-.comic-stage.crit .comic-tint {
+.battle-backdrop.scene-ko .comic-tint,
+.battle-backdrop.crit .comic-tint {
   opacity: 0.45;
 }
 
-.scene-timeup .comic-tint,
-.scene-finish .comic-tint {
-  opacity: 0.5;
+.battle-backdrop.scene-timeup .comic-tint,
+.battle-backdrop.scene-finish .comic-tint {
+  opacity: 0.55;
 }
 
 /* Panel colour per scene */
@@ -1433,25 +1436,63 @@ h1 {
 .scene-status { --tint: #8a5cf6; }
 .scene-skip { --tint: #7a7f9a; }
 .scene-ko,
-.comic-stage.crit { --tint: #e8262d; }
+.battle-backdrop.crit { --tint: #e8262d; }
 .scene-timeup,
 .scene-finish { --tint: #2b2f6b; }
+
+/* Header, footer and titles stay readable over the scene. */
+.in-battle .topbar .brand,
+.in-battle .footer,
+.comic-arena h1,
+.comic .battle-notice {
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.comic-arena {
+  display: grid;
+  gap: 12px;
+}
+
+.comic-arena h1 {
+  margin: 0;
+  text-align: center;
+}
+
+.comic .battle-notice {
+  margin: -4px 0 0;
+  font-weight: 700;
+  text-align: center;
+}
+
+.comic.battle .battle-result {
+  padding: 16px;
+  border: 3px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+
+/* No box: the cards stand straight on the scene, far apart. */
+.comic-stage {
+  position: relative;
+  aspect-ratio: 1 / 1.02;
+}
 
 /* Actors: the whole card acts until pose images exist. */
 .comic-actor {
   --dir: 1;
   --tilt: -5deg;
   position: absolute;
-  top: 25%;
-  left: 5%;
-  width: 42%;
+  top: 22%;
+  left: -1%;
+  width: 44%;
   transform: rotate(var(--tilt));
 }
 
 .comic-actor.side-1 {
   --dir: -1;
   --tilt: 5deg;
-  right: 5%;
+  right: -1%;
   left: auto;
 }
 
@@ -1516,14 +1557,14 @@ h1 {
 /* The attacking card charges into the other card. */
 .comic-actor.lunge {
   z-index: 2;
-  transform: translateX(calc(var(--dir) * 52%)) rotate(calc(var(--dir) * 8deg)) scale(1.08);
+  transform: translateX(calc(var(--dir) * 62%)) rotate(calc(var(--dir) * 8deg)) scale(1.08);
   animation: comic-lunge 0.45s cubic-bezier(0.3, 0, 0.4, 1.3);
 }
 
 @keyframes comic-lunge {
   0% { transform: rotate(var(--tilt)); }
   35% { transform: translateX(calc(var(--dir) * -10%)) rotate(calc(var(--dir) * -6deg)); }
-  75% { transform: translateX(calc(var(--dir) * 66%)) rotate(calc(var(--dir) * 10deg)) scale(1.12); }
+  75% { transform: translateX(calc(var(--dir) * 76%)) rotate(calc(var(--dir) * 10deg)) scale(1.12); }
 }
 
 .comic-actor.hurt {
