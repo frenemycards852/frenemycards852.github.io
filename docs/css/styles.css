@@ -1388,167 +1388,197 @@ h1 {
 }
 
 .comic-stage {
-  --tint-a: #2f6bff;
-  --tint-b: #9cc0ff;
+  --tint: #7ea2ff;
   position: relative;
   aspect-ratio: 1 / 1;
   overflow: hidden;
   border: 4px solid var(--border);
   border-radius: 16px;
-  background: linear-gradient(160deg, var(--tint-a), var(--tint-b));
+  background: var(--tint);
   box-shadow: 0 5px 0 var(--border);
 }
 
-.scene-intro { --tint-a: #3550c8; --tint-b: #9fb6ff; }
-.scene-attack-0 { --tint-a: #1f5bff; --tint-b: #7fc4ff; }
-.scene-attack-1 { --tint-a: #ff9f1a; --tint-b: #ffe36b; }
+/* One solid colour per scene, like the reference panels */
+.scene-intro { --tint: #7ea2ff; }
+.scene-attack-0 { --tint: #2f6bff; }
+.scene-attack-1 { --tint: #ffb020; }
 .scene-move,
-.scene-status { --tint-a: #6a3ee0; --tint-b: #c9a8ff; }
-.scene-skip { --tint-a: #5a5f7a; --tint-b: #b8bdd6; }
+.scene-status { --tint: #8a5cf6; }
+.scene-skip { --tint: #7a7f9a; }
 .scene-ko,
-.comic-stage.crit { --tint-a: #e8262d; --tint-b: #ff9a3b; }
+.comic-stage.crit { --tint: #e8262d; }
 .scene-timeup,
-.scene-finish { --tint-a: #2b1b5c; --tint-b: #ffcf4d; }
+.scene-finish { --tint: #2b2f6b; }
 
-/* Speed lines */
-.comic-bg {
-  position: absolute;
-  inset: -50%;
-  background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(255, 255, 255, 0.32) 0deg 2.5deg, transparent 2.5deg 10deg);
-  animation: comic-spin 14s linear infinite;
-}
-
-@keyframes comic-spin {
-  to { transform: rotate(360deg); }
-}
-
+/* Actors: the whole card acts until pose images exist. */
 .comic-actor {
   --dir: 1;
+  --tilt: -5deg;
   position: absolute;
-  bottom: 0;
-  left: -6%;
-  width: 60%;
-  height: 92%;
+  top: 25%;
+  left: 5%;
+  width: 42%;
+  transform: rotate(var(--tilt));
 }
 
 .comic-actor.side-1 {
   --dir: -1;
+  --tilt: 5deg;
+  right: 5%;
+  left: auto;
+}
+
+.comic-card {
+  position: relative;
+  aspect-ratio: 5 / 7;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.comic-card-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.45));
+}
+
+.comic-pose {
+  display: none;
+}
+
+/* With a pose image: a big character instead of the card. */
+.comic-actor.posed {
+  top: auto;
+  bottom: 0;
+  left: -6%;
+  width: 60%;
+  height: 92%;
+  transform: none;
+}
+
+.comic-actor.posed.side-1 {
   right: -6%;
   left: auto;
 }
 
-.comic-actor img {
+.comic-actor.posed .comic-card {
+  display: none;
+}
+
+.comic-actor.posed .comic-pose {
   display: block;
   width: 100%;
   height: 100%;
-  border: 3px solid var(--border);
-  border-radius: 14px 14px 0 0;
   object-fit: cover;
   object-position: 50% 18%;
 }
 
-.comic-actor.side-1.posed img {
+.comic-actor.side-1.posed .comic-pose {
   transform: scaleX(-1);
 }
 
-/* Poses: the class sets the final state; the animation only plays the way in. */
+/* Moves: the class sets the final state; the animation only plays the way in. */
 .comic-actor.enter {
   animation: comic-enter 0.6s cubic-bezier(0.2, 1.4, 0.4, 1);
 }
 
 @keyframes comic-enter {
-  from { opacity: 0; transform: translateX(calc(var(--dir) * -110%)); }
+  from { opacity: 0; transform: translateX(calc(var(--dir) * -130%)) rotate(var(--tilt)); }
 }
 
+/* The attacking card charges into the other card. */
 .comic-actor.lunge {
   z-index: 2;
-  transform: translateX(calc(var(--dir) * 16%)) scale(1.1) rotate(calc(var(--dir) * 4deg));
-  animation: comic-lunge 0.35s ease-out;
+  transform: translateX(calc(var(--dir) * 52%)) rotate(calc(var(--dir) * 8deg)) scale(1.08);
+  animation: comic-lunge 0.45s cubic-bezier(0.3, 0, 0.4, 1.3);
 }
 
 @keyframes comic-lunge {
-  from { transform: none; }
+  0% { transform: rotate(var(--tilt)); }
+  35% { transform: translateX(calc(var(--dir) * -10%)) rotate(calc(var(--dir) * -6deg)); }
+  75% { transform: translateX(calc(var(--dir) * 66%)) rotate(calc(var(--dir) * 10deg)) scale(1.12); }
 }
 
 .comic-actor.hurt {
-  transform: translateX(calc(var(--dir) * -6%)) rotate(calc(var(--dir) * -7deg));
-  animation: comic-hurt 0.5s ease-out;
-}
-
-.comic-actor.hurt::after,
-.comic-actor.ko::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 14px 14px 0 0;
-  background: rgba(255, 40, 40, 0.35);
-  opacity: 0;
-  animation: comic-flash 0.6s ease-out;
+  transform: translateX(calc(var(--dir) * -14%)) rotate(calc(var(--dir) * -14deg));
+  animation: comic-hurt 0.6s ease-out;
 }
 
 @keyframes comic-hurt {
-  0% { transform: none; }
-  20% { transform: translateX(calc(var(--dir) * -12%)) rotate(-4deg); }
-  40% { transform: translateX(calc(var(--dir) * -2%)) rotate(4deg); }
-  60% { transform: translateX(calc(var(--dir) * -9%)) rotate(-3deg); }
+  0%, 40% { transform: rotate(var(--tilt)); }
+  55% { transform: translateX(calc(var(--dir) * -22%)) rotate(calc(var(--dir) * -20deg)); }
+  70% { transform: translateX(calc(var(--dir) * -8%)) rotate(calc(var(--dir) * -8deg)); }
+  85% { transform: translateX(calc(var(--dir) * -17%)) rotate(calc(var(--dir) * -16deg)); }
+}
+
+.comic-actor.hurt .comic-card::after,
+.comic-actor.ko .comic-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: rgba(255, 40, 40, 0.45);
+  opacity: 0;
+  animation: comic-flash 0.7s ease-out;
 }
 
 @keyframes comic-flash {
-  0%, 40% { opacity: 1; }
+  0%, 35% { opacity: 0; }
+  45%, 65% { opacity: 1; }
 }
 
 .comic-actor.dodge {
-  opacity: 0.55;
-  transform: translate(calc(var(--dir) * -10%), -6%) scale(0.92);
-  animation: comic-dodge 0.4s ease-out;
+  opacity: 0.6;
+  transform: translate(calc(var(--dir) * -18%), -10%) rotate(calc(var(--dir) * -10deg));
+  animation: comic-dodge 0.45s ease-out;
 }
 
 @keyframes comic-dodge {
-  from { opacity: 1; transform: none; }
+  from { opacity: 1; transform: rotate(var(--tilt)); }
 }
 
 .comic-actor.power {
   z-index: 2;
-  transform: scale(1.06);
+  transform: translateY(-4%) rotate(0) scale(1.1);
   animation: comic-power 0.8s ease-in-out;
 }
 
 @keyframes comic-power {
-  0% { transform: none; }
-  30% { transform: scale(1.12); }
-  60% { transform: scale(1.02); }
+  0% { transform: rotate(var(--tilt)); }
+  35% { transform: translateY(-6%) scale(1.16); }
+  65% { transform: translateY(-3%) scale(1.06); }
 }
 
 .comic-actor.sleepy {
-  opacity: 0.75;
-  transform: translateY(6%) rotate(calc(var(--dir) * -8deg));
+  opacity: 0.7;
+  transform: translateY(8%) rotate(calc(var(--dir) * -14deg));
   animation: comic-sleepy 1s ease-in-out;
 }
 
 @keyframes comic-sleepy {
-  from { opacity: 1; transform: none; }
+  from { opacity: 1; transform: rotate(var(--tilt)); }
 }
 
 .comic-actor.ko {
   filter: grayscale(1);
-  transform: translate(calc(var(--dir) * -14%), 26%) rotate(calc(var(--dir) * -24deg));
-  animation: comic-ko 0.7s cubic-bezier(0.5, -0.4, 0.6, 1.4);
+  transform: translate(calc(var(--dir) * -12%), 34%) rotate(calc(var(--dir) * -70deg));
+  animation: comic-ko 0.8s cubic-bezier(0.5, -0.4, 0.6, 1.4);
 }
 
 @keyframes comic-ko {
-  from { transform: none; }
+  from { transform: rotate(var(--tilt)); }
 }
 
 .comic-actor.winner {
   z-index: 2;
-  transform: scale(1.08);
+  transform: translateY(-2%) rotate(0) scale(1.12);
   animation: comic-power 0.8s ease-in-out;
 }
 
 .comic-actor.lose {
   filter: grayscale(1);
-  opacity: 0.7;
-  transform: translateY(6%) scale(0.94);
+  opacity: 0.8;
+  transform: translateY(6%) rotate(calc(var(--dir) * -8deg)) scale(0.92);
   animation: comic-sleepy 0.8s ease-out;
 }
 
@@ -1577,7 +1607,7 @@ h1 {
 
 .comic-burst {
   position: absolute;
-  top: 16%;
+  top: 22%;
   display: grid;
   place-items: center;
   width: 46%;
@@ -1653,7 +1683,7 @@ h1 {
 
 .comic-bubble {
   position: absolute;
-  top: 15%;
+  top: 11%;
   max-width: 52%;
   padding: 8px 12px;
   border: 3px solid var(--border);
@@ -1722,6 +1752,65 @@ h1 {
 
 @keyframes comic-round-in {
   from { opacity: 0; transform: translateX(-50%) scale(0.5); }
+}
+
+.comic-stamp {
+  position: absolute;
+  z-index: 4;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.comic-stamp.win {
+  top: 9%;
+  color: #ffe94d;
+  font-size: clamp(26px, 8vw, 40px);
+  -webkit-text-stroke: 2px #1a0f2e;
+  transform: rotate(-8deg);
+  animation: comic-stamp-win 0.5s cubic-bezier(0.2, 1.6, 0.4, 1) 0.3s backwards;
+}
+
+@keyframes comic-stamp-win {
+  from { opacity: 0; transform: translateY(20px) rotate(-8deg) scale(0.4); }
+}
+
+.comic-stamp.lose {
+  top: 50%;
+  padding: 2px 14px;
+  border: 4px solid #e5484d;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #e5484d;
+  font-size: clamp(24px, 7vw, 36px);
+  transform: rotate(-16deg);
+  animation: comic-stamp-lose 0.35s ease-in 0.6s backwards;
+}
+
+@keyframes comic-stamp-lose {
+  from { opacity: 0; transform: rotate(-16deg) scale(2.4); }
+}
+
+.comic-stamp.at-0 { left: 9%; }
+.comic-stamp.at-1 { right: 9%; }
+
+.comic-banner {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  z-index: 4;
+  padding: 6px 18px;
+  border: 3px solid var(--border);
+  border-radius: 12px;
+  background: #ffe94d;
+  font-size: clamp(20px, 6vw, 28px);
+  font-weight: 900;
+  white-space: nowrap;
+  transform: translateX(-50%) rotate(-3deg);
+  animation: comic-banner-in 0.4s cubic-bezier(0.2, 1.6, 0.4, 1);
+}
+
+@keyframes comic-banner-in {
+  from { opacity: 0; transform: translateX(-50%) rotate(-3deg) scale(0.4); }
 }
 
 .comic-caption {

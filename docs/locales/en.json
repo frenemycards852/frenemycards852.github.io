@@ -265,7 +265,8 @@
     "reflect": "Bounced back {n}!",
     "ko": "K.O.!!",
     "timeUp": "⏰ Time's up!",
-    "winner": "👑 {name} wins",
+    "winStamp": "WINNER!",
+    "loseStamp": "LOSE",
     "move": {
       "nextMiss": "👻 Vanished",
       "stun": "😵 Frozen!",

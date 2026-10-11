@@ -265,7 +265,8 @@
     "reflect": "反彈 {n}！",
     "ko": "K.O.!!",
     "timeUp": "⏰ 時間到！",
-    "winner": "👑 {name} 勝出",
+    "winStamp": "WINNER!",
+    "loseStamp": "LOSE",
     "move": {
       "nextMiss": "👻 消失咗",
       "stun": "😵 定格！",

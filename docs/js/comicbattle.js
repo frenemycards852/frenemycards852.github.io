@@ -10,6 +10,7 @@
 import { t } from './i18n.js';
 import { cardArt } from './card.js';
 import { runBattle, showResult, whoIs } from './battleview.js';
+import { renderThumb } from './mycards-view.js';
 
 export function comicMode() {
   try {
@@ -28,9 +29,10 @@ function el(tag, className, text) {
   return node;
 }
 
-function poseArt(types, card, pose) {
+// Pose image path, or null while that pose hasn't been drawn yet.
+function posePath(types, card, pose) {
   const type = types.types.find((x) => x.id === card.type);
-  return (pose && type?.poses?.[card.gender]?.[pose]) || cardArt(types, card.type, card.gender);
+  return (pose && type?.poses?.[card.gender]?.[pose]) || null;
 }
 
 // Group battle events into panels: one per action, with its side effects folded in.
@@ -109,7 +111,7 @@ export async function showComicBattle(container, match, data, {
   const pills = match.cards.map((card, side) => {
     const pill = el('div', `comic-pill side-${side}`);
     const face = el('img', 'comic-face');
-    face.src = poseArt(data.types, card, null);
+    face.src = cardArt(data.types, card.type, card.gender) ?? '';
     face.alt = '';
     const info = el('div', 'comic-pill-info');
     const bar = el('div', 'hp-bar');
@@ -127,19 +129,25 @@ export async function showComicBattle(container, match, data, {
     pills[side].querySelector('.hp-text').textContent = t('battle.hp', { hp: value, max: result.maxHp[side] });
   });
 
-  // Stage: background, two actors, effects layer.
+  // Stage: solid scene colour, two actors (the whole card, or a pose image once drawn), effects.
   const stage = el('div', 'comic-stage');
-  const bg = el('div', 'comic-bg');
   const actors = match.cards.map((card, side) => {
     const actor = el('div', `comic-actor side-${side}`);
-    const img = el('img');
-    img.src = poseArt(data.types, card, null);
-    img.alt = card.name;
-    actor.append(img);
+    const cardBox = el('div', 'comic-card');
+    cardBox.setAttribute('role', 'img');
+    cardBox.setAttribute('aria-label', card.name);
+    const pose = el('img', 'comic-pose');
+    pose.alt = card.name;
+    actor.append(cardBox, pose);
+    renderThumb(card, data, 420).then((thumb) => {
+      if (!isAlive()) return;
+      thumb.className = 'comic-card-canvas';
+      cardBox.append(thumb);
+    }).catch((err) => console.error(err));
     return actor;
   });
   const fx = el('div', 'comic-fx');
-  stage.append(bg, ...actors, fx);
+  stage.append(...actors, fx);
 
   const caption = el('div', 'comic-caption');
   caption.setAttribute('aria-live', 'polite');
@@ -155,12 +163,12 @@ export async function showComicBattle(container, match, data, {
   // ---------- one panel ----------
   const setPose = (side, pose, cls) => {
     const actor = actors[side];
-    const src = poseArt(data.types, match.cards[side], pose);
+    // With a pose image the character acts; without one, the whole card does.
     // Pose images face right; the right-hand fighter is mirrored to face the opponent.
-    const posed = src !== poseArt(data.types, match.cards[side], null);
-    actor.className = `comic-actor side-${side}${cls ? ` ${cls}` : ''}${posed ? ' posed' : ''}`;
-    const img = actor.querySelector('img');
-    if (!img.src.endsWith(src)) img.src = src;
+    const src = posePath(data.types, match.cards[side], pose);
+    actor.className = `comic-actor side-${side}${cls ? ` ${cls}` : ''}${src ? ' posed' : ''}`;
+    const img = actor.querySelector('.comic-pose');
+    if (src && !img.src.endsWith(src)) img.src = src;
   };
   const burst = (side, text, kind = '') => {
     const node = el('div', `comic-burst ${side === null ? 'center' : `at-${side}`} ${kind}`);
@@ -175,6 +183,9 @@ export async function showComicBattle(container, match, data, {
     }
     tags.append(el('span', `comic-tag ${kind}`, text));
   };
+  // "WINNER!" above the winner, a "LOSE" rubber stamp across the loser.
+  const stamp = (side, text, kind) => fx.append(el('div', `comic-stamp ${kind} at-${side}`, text));
+  const banner = (text) => fx.append(el('div', 'comic-banner', text));
   const bubble = (side, text) => {
     if (!text) return;
     fx.append(el('div', `comic-bubble at-${side}`, text));
@@ -233,18 +244,20 @@ export async function showComicBattle(container, match, data, {
       if (w === null) {
         setPose(0, null, 'winner');
         setPose(1, null, 'winner');
-        burst(null, t('result.draw'), 'big');
+        banner(t('result.draw'));
       } else if (result.reason === 'ko') {
         scene = 'ko';
         setPose(w, 'attack', 'winner');
         setPose(1 - w, 'ko', 'ko');
         burst(null, t('comic.ko'), 'big');
+        stamp(w, t('comic.winStamp'), 'win');
       } else {
         scene = 'timeup';
         setPose(w, null, 'winner');
         setPose(1 - w, 'hurt', 'lose');
-        burst(null, t('comic.timeUp'), 'big');
-        tag(t('comic.winner', { name: match.cards[w].name }), 'hot');
+        banner(t('comic.timeUp'));
+        stamp(w, t('comic.winStamp'), 'win');
+        stamp(1 - w, t('comic.loseStamp'), 'lose');
       }
     }
     // Trait / weakness side effects folded into this panel.
