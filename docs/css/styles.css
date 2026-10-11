@@ -1321,7 +1321,7 @@ h1 {
   font-weight: 700;
 }
 
-/* Comic battle (preview: ?comic=1) */
+/* Comic battle (default; ?comic=0 shows the older list version) */
 .comic-hud {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);

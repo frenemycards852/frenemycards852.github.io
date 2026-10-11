@@ -1,10 +1,10 @@
-// Comic battle (preview, turned on with "?comic=1"): one big comic panel at a time.
+// Comic battle (the default battle screen; "?comic=0" shows the older list version): one big comic panel at a time.
 // HP bars stay on top, the panel shows the action (lunge, hit, burst, speech bubble,
 // K.O.), and the referee caption below reads the commentary. Same battle and
 // commentary as battleview.js; only the presentation differs.
 //
 // Poses: types.json may later add  "poses": { "boy": { "attack": "...", "hurt": "...", "ko": "..." } }.
-// Until then every pose falls back to the card's illustration plus CSS motion.
+// Until then the whole card acts, with CSS motion.
 // Animations are CSS (transform/opacity only); reduced motion shows plain panels.
 
 import { t } from './i18n.js';
@@ -14,9 +14,9 @@ import { renderThumb } from './mycards-view.js';
 
 export function comicMode() {
   try {
-    return new URLSearchParams(location.search).get('comic') === '1';
+    return new URLSearchParams(location.search).get('comic') !== '0';
   } catch {
-    return false;
+    return true;
   }
 }
 
