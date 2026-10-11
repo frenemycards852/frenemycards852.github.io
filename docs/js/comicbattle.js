@@ -29,6 +29,13 @@ function el(tag, className, text) {
   return node;
 }
 
+// Battle background for a card: a dedicated scene from types.json ("scene": "..."), if one
+// is added later, else the card's own illustration (its street, mall, café…), blurred by CSS.
+function scenePath(types, card) {
+  const type = types.types.find((x) => x.id === card.type);
+  return type?.scene || cardArt(types, card.type, card.gender);
+}
+
 // Pose image path, or null while that pose hasn't been drawn yet.
 function posePath(types, card, pose) {
   const type = types.types.find((x) => x.id === card.type);
@@ -147,7 +154,9 @@ export async function showComicBattle(container, match, data, {
     return actor;
   });
   const fx = el('div', 'comic-fx');
-  stage.append(...actors, fx);
+  const backdrop = el('div', 'comic-scene');
+  const tint = el('div', 'comic-tint');
+  stage.append(backdrop, tint, ...actors, fx);
 
   const caption = el('div', 'comic-caption');
   caption.setAttribute('aria-live', 'polite');
@@ -182,6 +191,14 @@ export async function showComicBattle(container, match, data, {
       fx.append(tags);
     }
     tags.append(el('span', `comic-tag ${kind}`, text));
+  };
+  // Scene behind the cards: the acting side's place (street, mall, café…).
+  let backdropSrc = null;
+  const setBackdrop = (side) => {
+    const src = scenePath(data.types, match.cards[side]);
+    if (!src || src === backdropSrc) return;
+    backdropSrc = src;
+    backdrop.style.backgroundImage = `url("${src}")`;
   };
   // "WINNER!" above the winner, a "LOSE" rubber stamp across the loser.
   const stamp = (side, text, kind) => fx.append(el('div', `comic-stamp ${kind} at-${side}`, text));
@@ -265,6 +282,7 @@ export async function showComicBattle(container, match, data, {
       if (extra.t === 'trait' && extra.kind === 'reflect') tag(t('comic.reflect', { n: extra.dmg }));
       if (extra.t === 'trait' && extra.kind === 'regen') tag(`+${extra.heal}`, 'heal');
     }
+    setBackdrop(panel.kind === 'finish' ? (result.winner ?? 0) : (e.side ?? 0));
     stage.className = `comic-stage scene-${scene}`;
     caption.replaceChildren(el('span', 'comic-referee', t('comic.referee')), ...panel.lines.map((line) => el('p', null, line)));
     setHp(panel.events[panel.events.length - 1].hp);

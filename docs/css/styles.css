@@ -1398,7 +1398,34 @@ h1 {
   box-shadow: 0 5px 0 var(--border);
 }
 
-/* One solid colour per scene, like the reference panels */
+/* Background scene (a place: street, mall, café…), softly blurred so the cards stand out,
+   with the panel colour laid over it like the reference panels. */
+.comic-scene {
+  position: absolute;
+  inset: -6%;
+  background-position: center 30%;
+  background-size: cover;
+  filter: blur(2px) saturate(1.15);
+}
+
+.comic-tint {
+  position: absolute;
+  inset: 0;
+  background: var(--tint);
+  opacity: 0.28;
+}
+
+.scene-ko .comic-tint,
+.comic-stage.crit .comic-tint {
+  opacity: 0.45;
+}
+
+.scene-timeup .comic-tint,
+.scene-finish .comic-tint {
+  opacity: 0.5;
+}
+
+/* Panel colour per scene */
 .scene-intro { --tint: #7ea2ff; }
 .scene-attack-0 { --tint: #2f6bff; }
 .scene-attack-1 { --tint: #ffb020; }
