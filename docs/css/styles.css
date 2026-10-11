@@ -1466,7 +1466,7 @@ h1 {
   inset: -4%;
   background-position: center 30%;
   background-size: cover;
-  filter: blur(3px) saturate(1.15);
+  filter: blur(1px);
 }
 
 .comic-tint {

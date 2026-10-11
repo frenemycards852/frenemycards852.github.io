@@ -10,7 +10,7 @@ Keep it short: replace old "Next step" text rather than appending forever.
 ## Next step
 
 - Product creator tests Phase 11 (album filters, big card + delete, Friend Collection image, export → import), then Phase 12 (visual design).
-- Later, from the product creator: dedicated battle backgrounds (6, one per type, no people → `types.json` `scene`), better effects for damage, K.O. and skills, and pose images (`spec/ILLUSTRATIONS.md` §6).
+- Battle backgrounds added 2026-10-11 (`docs/assets/scenes/`, `types.json` → `scene`): late street, foodie café, slacker beach, work office, love café (shared; a 6th scene could replace it), savage classroom. Later, from the product creator: better effects for damage, K.O. and skills, and pose images (`spec/ILLUSTRATIONS.md` §6).
 - Comic battle Cantonese (speech-bubble shouts in `data/commentary/zh-HK.json` → `shout`, `comic.*` labels) still to be reviewed line by line.
 - Decided: both players pick a tactic; the opponent can't see the challenger's tactic; the battle seed must combine the challenge nonce with B's card + tactic.
 - Comic battle (`comicbattle.js`) is the default battle screen since 2026-10-11; `?comic=0` shows the older list version (`battleview.js`), kept for comparison. Pose images (brief: `spec/ILLUSTRATIONS.md` §6) will replace the whole-card actors when drawn.
