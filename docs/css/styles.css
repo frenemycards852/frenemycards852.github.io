@@ -1944,19 +1944,19 @@ h1 {
   white-space: nowrap;
 }
 
-/* Drawn "WINNER! 優勝者!" art over the winning card */
+/* Drawn "WINNER! 優勝者!" art on the winning card's upper-left corner */
 .comic-winner {
   position: absolute;
-  top: 2%;
+  top: 6%;
   z-index: 4;
-  width: 54%;
+  width: 46%;
   aspect-ratio: 416 / 460;
   background: url("../assets/fx/winner.png") center / contain no-repeat;
   animation: comic-winner-in 0.5s cubic-bezier(0.2, 1.6, 0.4, 1) 0.3s backwards;
 }
 
-.comic-winner.at-0 { left: -4%; }
-.comic-winner.at-1 { right: -4%; }
+.comic-winner.at-0 { left: -2%; }
+.comic-winner.at-1 { left: 45%; }
 
 @keyframes comic-winner-in {
   from { opacity: 0; transform: translateY(20px) scale(0.4); }
