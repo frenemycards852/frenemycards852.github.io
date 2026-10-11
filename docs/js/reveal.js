@@ -3,6 +3,52 @@
 
 import { t } from './i18n.js';
 import { renderCard } from './render-card.js';
+import { createSharePanel } from './share.js';
+import { clipText, isBlocked } from './card.js';
+
+const NAME_KEY = 'fc.myName';
+
+function readName() {
+  try {
+    return localStorage.getItem(NAME_KEY) ?? '';
+  } catch {
+    return '';
+  }
+}
+
+function saveName(value) {
+  try {
+    localStorage.setItem(NAME_KEY, value);
+  } catch {
+    // Storage unavailable: the name just isn't remembered.
+  }
+}
+
+// "What's your name?" so the friend can strike back at the right person. Optional.
+function nameField(data) {
+  const wrap = el('div', 'field maker-field');
+  const label = el('label', null, t('reveal.yourName'));
+  label.htmlFor = 'f-maker';
+  const input = el('input', 'text-input');
+  Object.assign(input, { id: 'f-maker', type: 'text', autocomplete: 'nickname', value: readName() });
+  input.placeholder = t('builder.name.placeholder');
+  const hint = el('p', 'hint', t('reveal.yourNameHint'));
+  const error = el('p', 'field-error');
+  error.setAttribute('role', 'alert');
+  const max = data.config.card.nameMax;
+  const value = () => {
+    const v = input.value.trim();
+    return v && !isBlocked(v, data.blocklist.terms) ? v : '';
+  };
+  input.addEventListener('input', () => {
+    const clipped = clipText(input.value, max);
+    if (clipped !== input.value) input.value = clipped;
+    error.textContent = isBlocked(clipped, data.blocklist.terms) ? t('builder.blocked') : '';
+    saveName(value());
+  });
+  wrap.append(label, input, hint, error);
+  return { el: wrap, value };
+}
 
 const wait = (ms) => new Promise((resolve) => { setTimeout(resolve, ms); });
 const reducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
@@ -38,13 +84,19 @@ export function showReveal(container, card, data, { opened = false, onOpened, on
   const reaction = el('p', 'reveal-reaction', t(`reveal.reaction.${card.rarity}`, { name: card.name }));
   reaction.setAttribute('aria-live', 'polite');
 
-  const again = el('button', 'btn btn-primary', t('reveal.again'));
+  const again = el('button', 'btn btn-secondary', t('reveal.again'));
   again.type = 'button';
   again.addEventListener('click', onAgain);
   const home = el('a', 'btn btn-secondary', t('reveal.home'));
   home.href = '#/';
+  const maker = nameField(data);
+  const share = createSharePanel({
+    canvas,
+    getCard: () => ({ ...card, from: maker.value() }),
+    message: () => t('share.message'),
+  });
   const actions = el('div', 'reveal-actions');
-  actions.append(el('p', 'hint center', t('reveal.shareSoon')), again, home);
+  actions.append(maker.el, share, again, home);
 
   const section = el('section', 'reveal');
   section.append(el('h1', null, t('reveal.title')), stage, tapHint, reaction, actions);

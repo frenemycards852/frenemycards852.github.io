@@ -899,6 +899,68 @@ h1 {
   margin: 0;
 }
 
+/* Maker name + share panel (reveal and card view) */
+.maker-field {
+  margin: 8px 0 4px;
+  text-align: left;
+}
+
+.maker-field .hint {
+  margin: 6px 0 0;
+  font-size: 13px;
+}
+
+.share-panel {
+  display: grid;
+  gap: 8px;
+}
+
+.share-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.share-status {
+  min-height: 1.4em;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Card view (opened from a link) */
+.view-stage {
+  min-height: 0;
+  margin-bottom: 8px;
+}
+
+.btn-strike {
+  font-size: 18px;
+}
+
+.card-view-intro {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--muted);
+  color: var(--muted);
+}
+
+.card-view-intro p {
+  margin: 0;
+}
+
+.card-view-error {
+  text-align: center;
+  padding-top: 24px;
+}
+
+.card-view-error p {
+  margin: 0 0 20px;
+  color: var(--muted);
+}
+
 .load-error {
   text-align: center;
   color: #c0262d;

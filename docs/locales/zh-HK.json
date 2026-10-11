@@ -13,13 +13,40 @@
     "hint": "整好就 send 俾佢，睇佢點反擊 😏",
     "exampleLabel": "示範卡：阿明，遲到系 SSR"
   },
+  "share": {
+    "share": "分享",
+    "copy": "複製連結",
+    "save": "儲存圖片",
+    "message": "你張卡出咗 😂 撳入嚟睇：",
+    "forward": "睇吓 {name} 呢張卡 😂",
+    "copied": "已複製連結 ✅ 貼落 WhatsApp 就得",
+    "copiedInstead": "呢部手機分享唔到，已經幫你複製咗連結 ✅",
+    "saved": "圖片已下載 ✅",
+    "failed": "做唔到 😵 試吓長按張卡儲存，或者再試一次"
+  },
+  "view": {
+    "title": "{from} 幫你整咗張卡 😏",
+    "titleAnon": "你收到一張卡 😏",
+    "strike": "🔄 反擊！幫 {from} 整一張",
+    "strikeAnon": "🔄 反擊！整張卡",
+    "challenge": "⚔️ 挑戰佢",
+    "album": "📥 收入卡冊",
+    "soon": "（快將推出）",
+    "intro": "損友圖鑑：將朋友變成收藏卡，專抽佢哋啲壞習慣。",
+    "makeOwn": "整自己嘅卡",
+    "badTitle": "呢條連結開唔到 😵",
+    "bad": "連結可能唔完整或者壞咗。叫朋友再 send 一次，或者整自己嘅卡！",
+    "newer": "呢張卡用咗較新嘅版本整，重新整理網頁再試吓。",
+    "unsupported": "你嘅瀏覽器太舊，開唔到呢張卡。試吓用最新嘅 Chrome 或者 Safari。"
+  },
   "reveal": {
     "title": "開卡包！",
     "tap": "撳開卡包 👆",
     "cardLabel": "{name} 嘅卡，稀有度 {rarity}",
     "again": "再整一張",
     "home": "返首頁",
-    "shareSoon": "分享同儲存功能快將推出 🛠️",
+    "yourName": "你叫咩名？",
+    "yourNameHint": "朋友反擊你嗰陣會用到，可以唔填",
     "reaction": {
       "N": "{name} 竟然係 N 卡 😂",
       "R": "R 卡！{name} 都算有啲價值",

@@ -5,22 +5,25 @@ Keep it short: replace old "Next step" text rather than appending forever.
 
 ## Current phase
 
-**Stage 1 · Phase 6 — Card rendering + rarity roll** (done)
+**Stage 1 · Phase 7 — Card links + card view + sharing** (built; awaiting review)
 
 ## Next step
 
-- Phase 6 approved 2026-10-10 (6b reviewed OK); all 12 illustrations in.
-- Product creator confirmed Google Gemini terms allow publishing the illustrations (2026-10-10).
-- Then Phase 7: card links + card view + sharing.
+- Product creator tests sharing on a real phone (Share to WhatsApp, Copy link, Save image), then push.
+- Then **test Stage 1 with real friends** before Stage 2 (battles).
 
 Notes (current state):
+- Card links: `#c=<payload>` (`codec.js`). Payload = version digit + format ("j" plain / "z" deflate-raw via CompressionStream) + base64url of a compact JSON array `[name, gender b/g, type id, stats, move, trait, weakness, desc, rarity, from]`; presets are numbers (m3 → 3), customs are text. Typical link payload 60–80 chars. v1 must keep decoding forever; change the format by adding a version. Decode errors are `CodecError` with code corrupt / version / unsupported; `card.js` → `isCardValid` also rejects tampered cards (stats, unknown ids, blocked words).
+- Card view (`cardview.js`): flip-in card, "Strike back! Make one of {from}" (pre-fills the builder via `builder.startNewCard(name)`), grey "coming soon" Challenge / Add to album, share panel, intro + make your own. Bad links show a friendly message.
+- Sharing (`share.js`): Web Share with the PNG file when supported, else text + link, else copies the link; Copy link (clipboard with fallback); Save image (download, or open the image). The maker's name ("你叫咩名？", optional) is asked on the reveal screen, stored as `fc.myName`, and put in the link as `from`.
+- Home "make a card" always starts a fresh card.
 - Builder: `#/make/<step>` with steps name → type → look (boy/girl, previews the type's illustration) → stats → skills → desc → summary. "Done" asks to confirm, rolls rarity (`rarity.js`), then `#/make/reveal` (`reveal.js`): pack wobbles, tap → flash in the rarity colour → card flips in + reaction line; SSR gets a moving holo shine. After the roll the draft is locked: any edit step redirects to the reveal; "Make another card" starts fresh. Reduced motion skips straight to the card. Final states are the CSS defaults, animations only play the way in.
 - Card: `render-card.js` draws 1080×1512. Frame style "A": rarity-coloured chamfered metal (N steel, R silver, SR gold, SSR holo + sparkles), no gems. Illustration for type + gender (`types.json` → `art`) covers the card; lower glass panel (radar + skills) and quote strip are see-through. Missing illustration → type burst + energy effect + "插畫準備中". `card.js` → `toCard(draft)` is the finished card shape (stores `gender`, not an avatar).
 - Home shows an example card (`data/sample-card.json`, `home.js`).
 - `avatar.js` / `avatar.json` (programmatic avatars, styles explored 2026-10-09/10) are no longer loaded; kept in case of future use.
 - Draft lives in memory only; a page reload starts a new card.
 - Skill/description presets share ids across languages (`m1`, `t1`, `w1`, `d1`); battle effects get mapped to these ids in Phase 8. Custom entries use id `custom`. Builder dice uses `Math.random` (seeded RNG is only for battles).
-- Language saved as `fc.lang` in localStorage. Dev page: `docs/dev/test.html` (card samples, rarity distribution).
+- Language saved as `fc.lang` in localStorage. Dev page: `docs/dev/test.html` (link round trips, broken-link cases, card samples, rarity distribution).
 
 ## Phase checklist
 
@@ -32,7 +35,7 @@ Notes (current state):
 - [x] 4. Card builder (without avatar)
 - [x] 5. Avatar builder (later replaced by illustrations)
 - [x] 6. Card rendering + rarity roll
-- [ ] 7. Card links + card view + sharing → **test with real friends**
+- [x] 7. Card links + card view + sharing → **test with real friends** (awaiting review)
 
 ### Stage 2 — Battles
 

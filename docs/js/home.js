@@ -1,10 +1,13 @@
-// Home screen extras: draws the example card so first-time visitors see what this is.
+// Home screen extras: "make a card" always starts fresh, and the example card
+// shows first-time visitors what this is.
 
 import { t, getLang } from './i18n.js';
 import { loadJSON } from './data.js';
 import { renderCard } from './render-card.js';
+import { startNewCard } from './builder.js';
 
-export async function mountHomeCard(container) {
+export async function mountHome(container) {
+  container.querySelector('a[href="#/make"]')?.addEventListener('click', () => startNewCard(''));
   const box = container.querySelector('.home-card');
   if (!box) return;
   const lang = getLang();

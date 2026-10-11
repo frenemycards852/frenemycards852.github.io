@@ -24,6 +24,12 @@
   <h1>Developer test page</h1>
   <p>Not linked from the app. Language: <a href="?lang=zh-HK">zh-HK</a> · <a href="?lang=en">en</a></p>
 
+  <h2>Card links (encode → decode round trip)</h2>
+  <div id="codec"></div>
+
+  <h2>Broken / old / newer links (must fail politely)</h2>
+  <div id="bad"></div>
+
   <h2>Card samples (one per rarity + stress tests)</h2>
   <div class="cards" id="cards"></div>
 
@@ -55,6 +61,53 @@
       { label: 'Stress · max-length custom text + emoji', card: { name: '超級無敵遲到王阿明仔😂', gender: 'boy', type: 'love', stats: [20, 20, 20, 140, 100].map((v) => Math.min(v, 100)), move: { id: 'custom', name: 'Supercalifragilistic', desc: '一句好長好長嘅描述睇吓會唔會爆出張卡外面😂😂' }, trait: { id: 'custom', name: '自己寫嘅特性名稱好長', desc: '' }, weakness: p('w3'), desc: { id: 'custom', text: 'A very long custom description to check wrapping works fine' }, rarity: 'SSR' } },
       { label: 'Stress · long English name', card: { name: 'Bartholomew', gender: 'boy', type: 'slacker', stats: [50, 50, 100, 50, 50], move: p('m3'), trait: p('t4'), weakness: p('w2'), desc: { id: 'd3', text: '' }, rarity: 'R' } },
     ];
+
+    // ---- Card links ----
+    const { encodeCard, decodeCard, CodecError } = await import('../js/codec.js');
+    const { isCardValid } = await import('../js/card.js');
+    const blocklist = await loadJSON('data/blocklist.json');
+    const vdata = { ...data, blocklist };
+    const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const norm = (c) => JSON.stringify({ ...c, from: c.from ?? '' });
+    const codecRows = [];
+    for (const [i, s] of samples.entries()) {
+      const card = { ...s.card, from: i % 2 ? '' : '阿明' };
+      const payload = await encodeCard(card);
+      let back;
+      try { back = await decodeCard(payload); } catch (err) { back = { error: err.message }; }
+      const same = norm(back) === norm(card);
+      const valid = !back.error && isCardValid(back, vdata);
+      codecRows.push(`<tr><td>${esc(s.label)}</td><td>${same ? '✅' : '❌'}</td><td>${valid ? '✅' : '⚠️ invalid card'}</td><td>${payload[1] === 'z' ? 'deflate' : 'plain'}</td><td>${payload.length}</td><td><a href="../#c=${payload}" target="_blank">open</a></td></tr>`);
+    }
+    document.getElementById('codec').innerHTML = `<table><tr><th>Sample</th><th>Round trip</th><th>Valid</th><th>Format</th><th>Payload length</th><th>Card view</th></tr>${codecRows.join('')}</table><p>"Stress · max-length" is invalid on purpose (its stats don't add up to 300).</p>`;
+
+    const good = await encodeCard({ ...samples[0].card, from: '' });
+    const tampered = await encodeCard({ ...samples[0].card, stats: [100, 100, 100, 100, 100], from: '' });
+    const plainJson = (obj) => `1j${btoa(unescape(encodeURIComponent(JSON.stringify(obj)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')}`;
+    const badCases = [
+      ['empty', ''],
+      ['random text', 'hello'],
+      ['newer version', `9${good.slice(1)}`],
+      ['bad characters', '1j!!!$$$'],
+      ['cut in half', good.slice(0, Math.floor(good.length / 2))],
+      ['unknown format', `1x${good.slice(2)}`],
+      ['wrong JSON shape', plainJson({ a: 1 })],
+      ['stats tampered (500 points)', tampered],
+      ['unknown skill id', plainJson(['A', 'b', 'late', [60, 60, 60, 60, 60], 99, 1, 1, 1, 'N', ''])],
+      ['unknown type', plainJson(['A', 'b', 'pirate', [60, 60, 60, 60, 60], 1, 1, 1, 1, 'N', ''])],
+    ];
+    const badRows = [];
+    for (const [label, payload] of badCases) {
+      let result;
+      try {
+        const card = await decodeCard(payload);
+        result = isCardValid(card, vdata) ? '❌ accepted' : '✅ rejected (invalid card)';
+      } catch (err) {
+        result = err instanceof CodecError ? `✅ rejected (${err.code})` : `❌ crashed: ${esc(err.message)}`;
+      }
+      badRows.push(`<tr><td>${esc(label)}</td><td>${result}</td><td><a href="../#c=${encodeURIComponent(payload)}" target="_blank">open</a></td></tr>`);
+    }
+    document.getElementById('bad').innerHTML = `<table><tr><th>Case</th><th>Result</th><th>Card view</th></tr>${badRows.join('')}</table>`;
 
     const box = document.getElementById('cards');
     for (const s of samples) {

@@ -33,6 +33,30 @@ export function toCard(draft) {
   };
 }
 
+// Checks a card that arrived in a link. data: { config, types, skills, descriptions, blocklist }.
+export function isCardValid(card, { config, types, skills, descriptions, blocklist }) {
+  const terms = blocklist.terms;
+  const textOk = (text, max, required) => typeof text === 'string'
+    && textLength(text) <= max
+    && (!required || text.trim().length > 0)
+    && !isBlocked(text, terms);
+  const skillOk = (entry, kind) => (entry.id === CUSTOM
+    ? textOk(entry.name, config.skills.customNameMax, true) && textOk(entry.desc, config.skills.customDescMax, false)
+    : skills[kind].some((x) => x.id === entry.id));
+  return (
+    textOk(card.name, config.card.nameMax, true)
+    && isGender(config, card.gender)
+    && types.types.some((x) => x.id === card.type)
+    && isStatsValid(card.stats, config.stats)
+    && SKILL_KINDS.every((kind) => skillOk(card[kind], kind))
+    && (card.desc.id === CUSTOM
+      ? textOk(card.desc.text, config.card.descriptionMax, true)
+      : descriptions.items.some((x) => x.id === card.desc.id))
+    && config.rarity.order.includes(card.rarity)
+    && textOk(card.from ?? '', config.card.nameMax, false)
+  );
+}
+
 export function isGender(config, value) {
   return config.card.genders.includes(value);
 }

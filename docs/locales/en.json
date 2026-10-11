@@ -13,13 +13,40 @@
     "hint": "Send it to them and see how they strike back 😏",
     "exampleLabel": "Example card: Sam, Late type, SSR"
   },
+  "share": {
+    "share": "Share",
+    "copy": "Copy link",
+    "save": "Save image",
+    "message": "Your card just dropped 😂 Take a look:",
+    "forward": "Check out {name}'s card 😂",
+    "copied": "Link copied ✅ Paste it into WhatsApp",
+    "copiedInstead": "Sharing isn't available here, so the link was copied instead ✅",
+    "saved": "Image downloaded ✅",
+    "failed": "That didn't work 😵 Try long-pressing the card to save it, or try again"
+  },
+  "view": {
+    "title": "{from} made you a card 😏",
+    "titleAnon": "You've got a card 😏",
+    "strike": "🔄 Strike back! Make one of {from}",
+    "strikeAnon": "🔄 Strike back! Make a card",
+    "challenge": "⚔️ Challenge them",
+    "album": "📥 Add to my album",
+    "soon": "(coming soon)",
+    "intro": "Frenemy Cards: turn your friends into collectible cards that roast their worst habits.",
+    "makeOwn": "Make your own card",
+    "badTitle": "This link won't open 😵",
+    "bad": "It may be incomplete or broken. Ask your friend to send it again, or make your own card!",
+    "newer": "This card was made with a newer version. Refresh the page and try again.",
+    "unsupported": "Your browser is too old to open this card. Try the latest Chrome or Safari."
+  },
   "reveal": {
     "title": "Open the pack!",
     "tap": "Tap to open 👆",
     "cardLabel": "{name}'s card, rarity {rarity}",
     "again": "Make another card",
     "home": "Back to home",
-    "shareSoon": "Sharing and saving are coming soon 🛠️",
+    "yourName": "What's your name?",
+    "yourNameHint": "So your friend knows who to strike back at. Optional.",
     "reaction": {
       "N": "{name} is… an N card 😂",
       "R": "An R card! {name} is worth something after all",

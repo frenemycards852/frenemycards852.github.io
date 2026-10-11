@@ -15,6 +15,13 @@ const STEPS = ['name', 'type', 'look', 'stats', 'skills', 'desc', 'summary'];
 let draft = null; // kept in memory while the page is open
 let data = null;
 let mountToken = 0;
+let pendingName = null; // name to pre-fill on the next new card (e.g. "strike back")
+
+// Start a fresh card next time the builder opens, optionally with a name filled in.
+export function startNewCard(name = '') {
+  draft = null;
+  pendingName = name;
+}
 
 async function loadData() {
   const lang = getLang();
@@ -67,7 +74,11 @@ export async function mountBuilder(container, param) {
     return;
   }
   if (token !== mountToken) return; // a newer navigation took over
-  if (!draft) draft = createDraft(data);
+  if (!draft) {
+    draft = createDraft(data);
+    if (pendingName) draft.name = pendingName;
+    pendingName = null;
+  }
 
   // Once the rarity is rolled the card is final: only the reveal screen is shown.
   if (draft.rarity) {
