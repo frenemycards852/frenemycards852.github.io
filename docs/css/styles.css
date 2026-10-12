@@ -1900,7 +1900,7 @@ h1 {
   top: 0;
   display: grid;
   place-items: center;
-  width: 30%;
+  width: 24%;
   font-size: clamp(13px, 4vw, 17px);
   font-weight: 900;
   line-height: 1.2;
@@ -1916,7 +1916,7 @@ h1 {
 }
 
 .comic-bubble.say {
-  --text-area: 14% 12% 30% 12%;
+  --text-area: 12% 7% 27% 7%;
   aspect-ratio: 353 / 400;
 }
 
@@ -1925,7 +1925,7 @@ h1 {
 }
 
 .comic-bubble.think {
-  --text-area: 14% 14% 28% 10%;
+  --text-area: 12% 10% 26% 7%;
   aspect-ratio: 400 / 370;
 }
 
