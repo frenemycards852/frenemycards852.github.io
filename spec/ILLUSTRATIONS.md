@@ -146,6 +146,8 @@ flying behind her, ... detailed background of a busy city street at morning ...
 
 ## 7. 第二批角色：每個類型多 2 個場景（24 張）
 
+**第二批風格**：動畫海報式日常劇（slice of life anime key visual），乾淨畫面、標準鏡頭角度，冇速度線、集中線、邊框；同第一批唔同，完整 prompt 以 `PROMPTS-batch2.md` 為準。
+
 每個場景畫**男仔**同**女仔**各一張。檔名：`late-boy-2.jpg`、`late-girl-2.jpg`、`late-boy-3.jpg`、`late-girl-3.jpg`……（`-2` 係場景 A，`-3` 係場景 B）。
 
 ### 因為用家會貼真人相上個頭，個頭一定要清楚
