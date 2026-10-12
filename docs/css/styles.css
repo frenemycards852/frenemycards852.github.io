@@ -1916,7 +1916,7 @@ h1 {
 }
 
 .comic-bubble.say {
-  --text-area: 14% 7% 16% 7%; /* centred on the cloud (49% down), tail excluded */
+  --text-area: 14% 4% 16% 4%; /* centred on the cloud (49% down), tail excluded */
   aspect-ratio: 353 / 400;
 }
 
@@ -1925,7 +1925,7 @@ h1 {
 }
 
 .comic-bubble.think {
-  --text-area: 14% 7% 18.4% 9%; /* cloud centre is 51% across, 48% down */
+  --text-area: 14% 4% 18.4% 6%; /* cloud centre is 51% across, 48% down */
   aspect-ratio: 400 / 370;
 }
 
@@ -1941,6 +1941,9 @@ h1 {
   align-items: center;
   justify-content: center;
   overflow-wrap: anywhere;
+  /* Full-width ！？，keep an empty half after the glyph; trim it so the text looks centred. */
+  text-spacing-trim: trim-both;
+  font-feature-settings: "halt";
 }
 }
 
@@ -1949,7 +1952,7 @@ h1 {
 
 /* Mirrored thought bubble: its cloud centre moves to 49% across. */
 .comic-bubble.think.at-1 {
-  --text-area: 14% 9% 18.4% 7%;
+  --text-area: 14% 6% 18.4% 4%;
 }
 
 .comic-bubble.at-1::before {
