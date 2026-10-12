@@ -188,4 +188,6 @@ the main character is clearly bigger than anyone else
 - 我會做「揀角色」功能（整卡嗰步由「男仔／女仔」改成揀角色），同埋喺 `dev/heads.html` 逐張校準個頭位置
 - 舊嘅卡連結照樣開得（冇記錄角色嘅卡會用返第一個角色）
 
+**完整 prompt（直接複製）：** 見 `spec/PROMPTS-batch2.md`。
+
 **第一批 12 張**有啲嘢喺個頭附近（例如 late-boy 咬住多士、work-girl 戴草帽、slacker-girl 包住被）。因為貼上去嘅相會遮住成個頭，所以暫時可以照用。
