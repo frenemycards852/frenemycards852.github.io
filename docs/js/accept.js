@@ -7,7 +7,7 @@ import { loadCardData } from './carddata.js';
 import { TACTICS } from './battle.js';
 import { decodeChallenge, CodecError } from './codec.js';
 import { isChallengeValid, penaltyText, battleSeed } from './challenge-model.js';
-import { cardKey } from './mycards.js';
+import { cardKey, withAlbumPhoto } from './mycards.js';
 import { cardPicker, myValidCards } from './mycards-view.js';
 import { renderCard } from './render-card.js';
 import { showError } from './cardview.js';
@@ -165,7 +165,7 @@ function fight(container, challenge, items, data, { animate, isAlive, notice = '
     return;
   }
   const match = {
-    cards: [challenge.card, mine.card],
+    cards: [withAlbumPhoto(challenge.card), withAlbumPhoto(mine.card)],
     tactics: [challenge.tactic, mine.tactic],
     seed: battleSeed(challenge.nonce, mine.card, mine.tactic),
     nonce: challenge.nonce,

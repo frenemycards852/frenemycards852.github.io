@@ -1055,6 +1055,7 @@ h1 {
   color: var(--muted);
   font-size: 14px;
 }
+.share-panel .photo-privacy { margin: 0 0 12px; }
 
 .summary-photo {
   width: 48px;

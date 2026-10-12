@@ -41,7 +41,9 @@ export function wasSent(nonce) {
 export function lockFight(nonce, fight) {
   const store = read();
   if (store.fought.some((x) => x.nonce === nonce)) return;
-  store.fought.unshift({ nonce, card: fight.card, tactic: fight.tactic, name: fight.name ?? '', at: Date.now() });
+  // The photo stays in the album only (withAlbumPhoto brings it back); this list stays small.
+  const { photo, ...card } = fight.card;
+  store.fought.unshift({ nonce, card, tactic: fight.tactic, name: fight.name ?? '', at: Date.now() });
   write(store);
 }
 

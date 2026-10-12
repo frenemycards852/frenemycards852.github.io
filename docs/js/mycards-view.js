@@ -232,6 +232,7 @@ async function showDetail(container, items, index, data) {
     getCard: () => ({ ...card, from: card.from ?? '' }),
     message: () => t('share.forward', { name: card.name }),
     primary: false,
+    hasPhoto: Boolean(card.photo),
   });
 
   // Delete asks first, in place.
@@ -330,6 +331,7 @@ async function showCollectionImage(container, items, data) {
     getCard: () => ({ name: 'collection' }),
     getLink: async () => `${location.origin}${location.pathname}`,
     message: () => t('collection.shareMessage'),
+    hasPhoto: cards.some((card) => card.photo),
   });
   const again = button(t('collection.again'), 'btn btn-secondary', () => showCollection(container, items, data, () => true));
   const section = el('section', 'challenge-sent');

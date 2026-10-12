@@ -79,7 +79,20 @@ export function importMyCards(items, max) {
 
 export function saveMyCard(card, source, max) {
   const key = cardKey(card);
-  const items = read().filter((item) => cardKey(item.card) !== key);
-  items.unshift({ card, source, at: Date.now() });
+  const current = read();
+  // Links never carry the photo: opening the link of a card made here keeps the photo version.
+  const old = current.find((item) => cardKey(item.card) === key);
+  const keep = !card.photo && old?.card.photo ? { ...card, photo: old.card.photo } : card;
+  const items = current.filter((item) => cardKey(item.card) !== key);
+  items.unshift({ card: keep, source: old?.source === 'made' ? 'made' : source, at: Date.now() });
   return write(items.slice(0, max));
+}
+
+// A card that arrived through a link (challenge, replay) has no photo; if this phone made
+// the same card with a friend's photo, show that version.
+export function withAlbumPhoto(card) {
+  if (!card || card.photo) return card;
+  const key = cardKey(card);
+  const found = read().find((item) => cardKey(item.card) === key && item.card.photo);
+  return found ? { ...card, photo: found.card.photo } : card;
 }

@@ -23,7 +23,8 @@ export async function replayLink(replay) {
 // getCard() returns the card to put in the link (so a name typed just before still counts).
 // getLink() (optional) builds another kind of link instead, e.g. a challenge.
 // primary: whether "Share" is the page's main (orange) button.
-export function createSharePanel({ canvas, getCard, getLink, message, primary = true }) {
+// hasPhoto: the image shows a friend's real photo, so remind before it goes out.
+export function createSharePanel({ canvas, getCard, getLink, message, primary = true, hasPhoto = false }) {
   const panel = document.createElement('div');
   panel.className = 'share-panel';
   const status = document.createElement('p');
@@ -72,6 +73,12 @@ export function createSharePanel({ canvas, getCard, getLink, message, primary = 
   const row = document.createElement('div');
   row.className = 'share-row';
   row.append(copy, save);
+  if (hasPhoto) {
+    const note = document.createElement('p');
+    note.className = 'photo-privacy';
+    note.textContent = t('share.photoNote');
+    panel.append(note);
+  }
   panel.append(share, row, status);
   return panel;
 }

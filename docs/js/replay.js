@@ -9,6 +9,7 @@ import { showError } from './cardview.js';
 import { loadBattleData, showBattle, resultSharePanel } from './battleview.js';
 import { resultActions } from './accept.js';
 import { wasSent, lockedFight } from './matches.js';
+import { withAlbumPhoto } from './mycards.js';
 import { comicMode, showComicBattle } from './comicbattle.js';
 import { startNewCard } from './builder.js';
 
@@ -52,7 +53,7 @@ export async function mountReplay(container, payload) {
   else if (lockedFight(replay.nonce)) viewer = 1;
 
   const match = {
-    cards: replay.cards,
+    cards: replay.cards.map(withAlbumPhoto),
     tactics: replay.tactics,
     seed: battleSeed(replay.nonce, replay.cards[1], replay.tactics[1]),
     nonce: replay.nonce,

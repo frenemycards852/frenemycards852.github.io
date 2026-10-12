@@ -195,6 +195,7 @@ async function showSent(container, data, token) {
     getCard: () => challenge.card,
     getLink: () => challengeLink(challenge),
     message: () => t('challenge.shareMessage', { penalty }),
+    hasPhoto: Boolean(challenge.card.photo),
   });
   const edit = el('button', 'btn btn-secondary', t('challenge.edit'));
   edit.type = 'button';

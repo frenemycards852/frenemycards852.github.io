@@ -97,6 +97,7 @@ export function showReveal(container, card, data, { opened = false, returnTo = n
     canvas,
     getCard: () => ({ ...card, from: maker.value() }),
     message: () => t('share.message'),
+    hasPhoto: Boolean(card.photo),
   });
   const challenge = el('a', 'btn btn-secondary', t('reveal.challenge'));
   challenge.href = '#/challenge';

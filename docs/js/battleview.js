@@ -196,6 +196,7 @@ export function resultSharePanel(match, result, data, { primary = true } = {}) {
     getCard: () => match.cards[result.winner ?? 0],
     getLink: () => replayLink(replay),
     message: () => message,
+    hasPhoto: match.cards.some((card) => card.photo),
     primary,
   });
   const image = el('div', 'result-image');

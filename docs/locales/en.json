@@ -22,7 +22,8 @@
     "copied": "Link copied ✅ Paste it into WhatsApp",
     "copiedInstead": "Sharing isn't available here, so the link was copied instead ✅",
     "saved": "Image downloaded ✅",
-    "failed": "That didn't work 😵 Try long-pressing the card to save it, or try again"
+    "failed": "That didn't work 😵 Try long-pressing the card to save it, or try again",
+    "photoNote": "📸 This image has your friend's real photo on it. Check they're fine with it before it goes to a group or anywhere public 😉 Links never carry the photo: whoever opens one sees the original artwork."
   },
   "view": {
     "title": "{from} made you a card 😏",

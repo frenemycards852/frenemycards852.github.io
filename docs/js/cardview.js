@@ -8,7 +8,7 @@ import { isCardValid } from './card.js';
 import { renderCard } from './render-card.js';
 import { createSharePanel } from './share.js';
 import { startNewCard } from './builder.js';
-import { saveMyCard } from './mycards.js';
+import { saveMyCard, withAlbumPhoto } from './mycards.js';
 import { startChallenge } from './challenge.js';
 
 let mountToken = 0;
@@ -64,6 +64,8 @@ export async function mountCardView(container, payload) {
   }
   if (token !== mountToken) return;
 
+  // Opening the link of a card made on this phone shows the photo version.
+  card = withAlbumPhoto(card);
   const from = card.from.trim();
   const canvas = el('canvas', 'card-canvas');
   canvas.setAttribute('role', 'img');
@@ -89,6 +91,7 @@ export async function mountCardView(container, payload) {
     getCard: () => card,
     message: () => t('share.forward', { name: card.name }),
     primary: false, // "Strike back" is the main action here
+    hasPhoto: Boolean(card.photo),
   });
 
   const intro = el('div', 'card-view-intro');
