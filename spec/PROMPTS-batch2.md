@@ -1,7 +1,7 @@
 # 第二批角色：完整 prompt（24 張，直接複製）
 
 **第二批風格（同第一批唔同）**：日本電視動畫截圖、2020 年代日常劇風格、柔和光線、標準鏡頭、乾淨背景，冇任何特效。
-prompt 入面刻意唔寫 manga、speed／action lines、dynamic／exaggerated pose（連「唔要」都唔寫），因為提到反而會令 AI 畫出嚟；動作一律用靜止狀態描述。
+prompt 入面唔寫 manga、dynamic／exaggerated pose；動作一律用靜止狀態描述。每段最尾有 `No speed lines, no action lines.`（如果發現反而令 AI 畫出速度線，就刪走呢句）。
 因為用家會貼真人相上個頭，每段都要求塊面清楚、冇嘢遮住或者掂到個頭。
 **角度**：場景 A（`-2`）正面；場景 B（`-3`）四分三側面（兩隻眼都要見到，唔可以純側面）——遲到、工作狂、毒舌用低角度（由下向上），食貨、廢青、戀愛腦用高角度（由上向下）。第一批原圖本身已經係其他角度。
 整完之後用 `ILLUSTRATIONS.md` 第 7 節嘅清單檢查。檔名寫喺每段上面。
@@ -17,7 +17,7 @@ A young adult man with short messy bed hair standing in a cluttered apartment en
 A round wall clock without numbers on the clean background wall.
 Vertical 5:7 portrait, knee-up shot, character centered, front view, standard medium shot, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 His face is clearly visible and looking at the viewer, nothing covering or touching his face or head, no hat, no glasses, hands away from the face, head upright, his head in the upper half of the picture but not in the top corners.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ### `late-girl-2.jpg` — 我出緊門喇！（女）
@@ -27,7 +27,7 @@ A young adult woman with messy bed hair tied back in a loose ponytail standing i
 A round wall clock without numbers on the clean background wall.
 Vertical 5:7 portrait, knee-up shot, character centered, front view, standard medium shot, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 Her face is clearly visible and looking at the viewer, nothing covering or touching her face or head, no hat, no glasses, hands away from the face, hair not covering the face, head upright, her head in the upper half of the picture but not in the top corners.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ### `late-boy-3.jpg` — 衝閘追車（男）
@@ -37,7 +37,7 @@ A young adult man with short hair standing on a subway escalator, leaning forwar
 A subway platform behind him with train doors closing, a few small passengers far in the background.
 Vertical 5:7 portrait, full body shot, character centered, three-quarter view from the side, slightly low camera angle looking up at the character, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 His face is clearly visible and turned three-quarters toward the viewer with both eyes visible, nothing covering or touching his face or head, no hat, no glasses, hands away from the face, head upright, his head in the upper half of the picture but not in the top corners, he is clearly the biggest person in the picture.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ### `late-girl-3.jpg` — 衝閘追車（女）
@@ -47,7 +47,7 @@ A young adult woman with hair tied back in a ponytail standing on a subway escal
 A subway platform behind her with train doors closing, a few small passengers far in the background.
 Vertical 5:7 portrait, full body shot, character centered, three-quarter view from the side, slightly low camera angle looking up at the character, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 Her face is clearly visible and turned three-quarters toward the viewer with both eyes visible, nothing covering or touching her face or head, no hat, no glasses, hands away from the face, hair not covering the face, head upright, her head in the upper half of the picture but not in the top corners, she is clearly the biggest person in the picture.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ---
@@ -61,7 +61,7 @@ A young adult man with short hair sitting at a hot pot table, smiling happily wi
 A cosy hot pot restaurant on the clean background.
 Vertical 5:7 portrait, medium shot, character centered, front view, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 His face is clearly visible and looking at the viewer, nothing covering or touching his face or head, no steam over the face, no hat, no glasses, hands away from the face, head upright, his head in the upper half of the picture but not in the top corners.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ### `foodie-girl-2.jpg` — 火鍋放題戰士（女）
@@ -71,7 +71,7 @@ A young adult woman with hair tied up in a bun sitting at a hot pot table, smili
 A cosy hot pot restaurant on the clean background.
 Vertical 5:7 portrait, medium shot, character centered, front view, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 Her face is clearly visible and looking at the viewer, nothing covering or touching her face or head, no steam over the face, no hat, no glasses, hands away from the face, hair not covering the face, head upright, her head in the upper half of the picture but not in the top corners.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ### `foodie-boy-3.jpg` — 凌晨三點開雪櫃（男）
@@ -81,7 +81,7 @@ A young adult man with short hair standing in front of an open fridge late at ni
 A dark kitchen at night on the clean background.
 Vertical 5:7 portrait, knee-up shot, character centered, three-quarter view from the side, slightly high camera angle looking down at the character, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 His face is clearly visible and turned three-quarters toward the viewer with both eyes visible, nothing covering or touching his face or head, no hat, no glasses, hands away from the face, head upright, his head in the upper half of the picture but not in the top corners.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ### `foodie-girl-3.jpg` — 凌晨三點開雪櫃（女）
@@ -91,7 +91,7 @@ A young adult woman with hair tied back standing in front of an open fridge late
 A dark kitchen at night on the clean background.
 Vertical 5:7 portrait, knee-up shot, character centered, three-quarter view from the side, slightly high camera angle looking down at the character, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 Her face is clearly visible and turned three-quarters toward the viewer with both eyes visible, nothing covering or touching her face or head, no hat, no glasses, hands away from the face, hair not covering the face, head upright, her head in the upper half of the picture but not in the top corners.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ---
@@ -105,7 +105,7 @@ A young adult man with short messy hair sitting deep in a big beanbag with his h
 A messy living room on the clean background.
 Vertical 5:7 portrait, full body shot, character centered, front view, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 His face is clearly visible and looking at the viewer, nothing covering or touching his face or head, no hat, no glasses, hands away from the face, head upright, his head in the upper half of the picture but not in the top corners.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ### `slacker-girl-2.jpg` — 躺平叫外賣（女）
@@ -115,7 +115,7 @@ A young adult woman with hair in a messy bun sitting deep in a big beanbag with 
 A messy living room on the clean background.
 Vertical 5:7 portrait, full body shot, character centered, front view, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 Her face is clearly visible and looking at the viewer, nothing covering or touching her face or head, no hat, no glasses, hands away from the face, hair not covering the face, head upright, her head in the upper half of the picture but not in the top corners.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ### `slacker-boy-3.jpg` — 圖書館瞓著咗（男）
@@ -125,7 +125,7 @@ A young adult man with short hair asleep in a library chair, leaning back with h
 A quiet library with tall bookshelves on the clean background.
 Vertical 5:7 portrait, medium shot, character centered, three-quarter view from the side, slightly high camera angle looking down at the character, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 His whole face is clearly visible and turned three-quarters toward the viewer, nothing covering or touching his face or head, no hat, no glasses, hands away from the face, head upright, his head in the upper half of the picture but not in the top corners, he is clearly the biggest person in the picture.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ### `slacker-girl-3.jpg` — 圖書館瞓著咗（女）
@@ -135,7 +135,7 @@ A young adult woman with hair tied back asleep in a library chair, leaning back 
 A quiet library with tall bookshelves on the clean background.
 Vertical 5:7 portrait, medium shot, character centered, three-quarter view from the side, slightly high camera angle looking down at the character, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 Her whole face is clearly visible and turned three-quarters toward the viewer, nothing covering or touching her face or head, no hat, no glasses, hands away from the face, hair not covering the face, head upright, her head in the upper half of the picture but not in the top corners, she is clearly the biggest person in the picture.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ---
@@ -149,7 +149,7 @@ A young adult man with short hair sitting at a friend's birthday party table, ty
 A decorated living room with balloons and streamers on the clean background.
 Vertical 5:7 portrait, medium shot, character centered, front view, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 His face is clearly visible and looking at the viewer, nothing covering or touching his face or head, no hat, no glasses, hands away from the face, head upright, his head in the upper half of the picture but not in the top corners, he is clearly the biggest person in the picture.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ### `work-girl-2.jpg` — 生日會都覆 email（女）
@@ -159,7 +159,7 @@ A young adult woman with hair tied back sitting at a friend's birthday party tab
 A decorated living room with balloons and streamers on the clean background.
 Vertical 5:7 portrait, medium shot, character centered, front view, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 Her face is clearly visible and looking at the viewer, nothing covering or touching her face or head, no hat, no glasses, hands away from the face, hair not covering the face, head upright, her head in the upper half of the picture but not in the top corners, she is clearly the biggest person in the picture.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ### `work-boy-3.jpg` — 地鐵企住開會（男）
@@ -169,7 +169,7 @@ A young adult man with short hair in a business shirt standing in a crowded trai
 A crowded train carriage on the clean background.
 Vertical 5:7 portrait, knee-up shot, character centered, three-quarter view from the side, slightly low camera angle looking up at the character, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 His face is clearly visible and turned three-quarters toward the viewer with both eyes visible, nothing covering or touching his face or head, no hat, no glasses, no headphones, head upright, his head in the upper half of the picture but not in the top corners, he is clearly the biggest person in the picture.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ### `work-girl-3.jpg` — 地鐵企住開會（女）
@@ -179,7 +179,7 @@ A young adult woman with hair tied back in a business blouse standing in a crowd
 A crowded train carriage on the clean background.
 Vertical 5:7 portrait, knee-up shot, character centered, three-quarter view from the side, slightly low camera angle looking up at the character, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 Her face is clearly visible and turned three-quarters toward the viewer with both eyes visible, nothing covering or touching her face or head, no hat, no glasses, no headphones, hair not covering the face, head upright, her head in the upper half of the picture but not in the top corners, she is clearly the biggest person in the picture.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ---
@@ -193,7 +193,7 @@ A young adult man with short hair kneeling by his bed, facing the viewer, blushi
 A tidy bedroom on the clean background.
 Vertical 5:7 portrait, knee-up shot, character centered, front view, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 His face is clearly visible and looking at the viewer, nothing covering or touching his face or head, no mirror, no hat, no glasses, hands away from the face, head upright, his head in the upper half of the picture but not in the top corners.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ### `love-girl-2.jpg` — 對住公仔練習表白（女）
@@ -203,7 +203,7 @@ A young adult woman with hair tied back kneeling by her bed, facing the viewer, 
 A tidy bedroom on the clean background.
 Vertical 5:7 portrait, knee-up shot, character centered, front view, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 Her face is clearly visible and looking at the viewer, nothing covering or touching her face or head, no mirror, no hat, no glasses, hands away from the face, hair not covering the face, head upright, her head in the upper half of the picture but not in the top corners.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ### `love-boy-3.jpg` — 等緊佢覆（男）
@@ -213,7 +213,7 @@ A young adult man with short hair standing by a window at night, holding his glo
 A cosy bedroom with city lights outside the window on the clean background.
 Vertical 5:7 portrait, medium shot, character centered, three-quarter view from the side, slightly high camera angle looking down at the character, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 His face is clearly visible and turned three-quarters toward the viewer with both eyes visible, nothing covering or touching his face or head, no hat, no glasses, hands away from the face, head upright, his head in the upper half of the picture but not in the top corners.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ### `love-girl-3.jpg` — 等緊佢覆（女）
@@ -223,7 +223,7 @@ A young adult woman with hair tied back standing by a window at night, holding h
 A cosy bedroom with city lights outside the window on the clean background.
 Vertical 5:7 portrait, medium shot, character centered, three-quarter view from the side, slightly high camera angle looking down at the character, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 Her face is clearly visible and turned three-quarters toward the viewer with both eyes visible, nothing covering or touching her face or head, no hat, no glasses, hands away from the face, hair not covering the face, head upright, her head in the upper half of the picture but not in the top corners.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ---
@@ -237,7 +237,7 @@ A young adult man with short hair standing in a home kitchen with a smug smirk, 
 A bright home kitchen on the clean background.
 Vertical 5:7 portrait, knee-up shot, character centered, front view, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 His face is clearly visible and looking at the viewer, nothing covering or touching his face or head, no hat, no glasses, hands away from the face, head upright, his head in the upper half of the picture but not in the top corners, he is clearly bigger than the friend and the friend's head is not next to his head, no weapons.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ### `savage-girl-2.jpg` — 一啖就評（女）
@@ -247,7 +247,7 @@ A young adult woman with hair tied back standing in a home kitchen with a smug s
 A bright home kitchen on the clean background.
 Vertical 5:7 portrait, knee-up shot, character centered, front view, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 Her face is clearly visible and looking at the viewer, nothing covering or touching her face or head, no hat, no glasses, hands away from the face, hair not covering the face, head upright, her head in the upper half of the picture but not in the top corners, she is clearly bigger than the friend and the friend's head is not next to her head, no weapons.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ### `savage-boy-3.jpg` — K 房毒舌評判（男）
@@ -257,7 +257,7 @@ A young adult man with short hair sitting on a karaoke room sofa with an unimpre
 A karaoke room with a big screen showing only colours on the clean background.
 Vertical 5:7 portrait, knee-up shot, character centered, three-quarter view from the side, slightly low camera angle looking up at the character, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 His face is clearly visible and turned three-quarters toward the viewer with both eyes visible, nothing covering or touching his face or head, no hat, no glasses, hands away from the face, head upright, his head in the upper half of the picture but not in the top corners, he is clearly the biggest person in the picture, no weapons.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
 ### `savage-girl-3.jpg` — K 房毒舌評判（女）
@@ -267,5 +267,5 @@ A young adult woman with hair tied back sitting on a karaoke room sofa with an u
 A karaoke room with a big screen showing only colours on the clean background.
 Vertical 5:7 portrait, knee-up shot, character centered, three-quarter view from the side, slightly low camera angle looking up at the character, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
 Her face is clearly visible and turned three-quarters toward the viewer with both eyes visible, nothing covering or touching her face or head, no hat, no glasses, hands away from the face, hair not covering the face, head upright, her head in the upper half of the picture but not in the top corners, she is clearly the biggest person in the picture, no weapons.
-No text, no letters, no numbers, no logos, no watermark.
+No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
