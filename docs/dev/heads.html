@@ -66,21 +66,21 @@
     const photo = face.toDataURL('image/png');
 
     const p = (id) => ({ id, name: '', desc: '' });
-    const list = types.types.flatMap((type) => ['boy', 'girl'].map((gender) => ({ type, gender })));
+    const list = types.types.flatMap((type) => ['boy', 'girl'].flatMap((gender) => (type.art?.[gender] ?? []).map((entry, scene) => ({ type, gender, scene, entry, key: `${type.id}-${gender}-${scene + 1}` }))));
     const grid = document.getElementById('grid');
     const canvases = new Map();
-    const draw = async ({ type, gender }) => {
-      const card = { name: `${type.id}-${gender}`, gender, type: type.id, stats: randomStats(config.stats), move: p('m1'), trait: p('t1'), weakness: p('w1'), desc: { id: 'd1', text: '' }, rarity: 'R', photo };
-      await renderCard(canvases.get(`${type.id}-${gender}`), card, data);
+    const draw = async ({ type, gender, scene, key }) => {
+      const card = { name: key, gender, type: type.id, stats: randomStats(config.stats), move: p('m1'), trait: p('t1'), weakness: p('w1'), desc: { id: 'd1', text: '' }, rarity: 'R', photo, ...(scene > 0 ? { scene } : {}) };
+      await renderCard(canvases.get(key), card, data);
     };
     const showAll = () => {
-      document.getElementById('all').textContent = types.types.map((type) => `"${type.id}": "head": { "boy": ${JSON.stringify(type.head.boy)}, "girl": ${JSON.stringify(type.head.girl)} }`).join('\n');
+      document.getElementById('all').textContent = types.types.map((type) => `"${type.id}": "art": ${JSON.stringify(type.art)}`).join('\n');
     };
     for (const item of list) {
       const b = document.createElement('button');
       b.type = 'button';
       const c = document.createElement('canvas');
-      canvases.set(`${item.type.id}-${item.gender}`, c);
+      canvases.set(item.key, c);
       b.append(c);
       b.addEventListener('click', () => {
         grid.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
@@ -98,7 +98,7 @@
     let current = null;
     const round = (v) => Math.round(v * 1000) / 1000;
     function place() {
-      const [x, y, r, a] = current.type.head[current.gender];
+      const [x, y, r, a] = current.entry.head;
       const w = img.clientWidth;
       ring.style.left = `${x * 100}%`;
       ring.style.top = `${y * 100}%`;
@@ -106,10 +106,10 @@
       ring.style.transform = `translate(-50%, -50%) rotate(${a}deg)`;
       document.getElementById('r').value = r;
       document.getElementById('angle').value = a;
-      document.getElementById('out').textContent = JSON.stringify(current.type.head[current.gender]);
+      document.getElementById('out').textContent = JSON.stringify(current.entry.head);
     }
     async function update(values) {
-      current.type.head[current.gender] = values.map((v, i) => (i < 3 ? round(v) : Math.round(v)));
+      current.entry.head = values.map((v, i) => (i < 3 ? round(v) : Math.round(v)));
       place();
       showAll();
       await draw(current);
@@ -117,9 +117,9 @@
     function edit(item) {
       current = item;
       document.getElementById('editor').hidden = false;
-      document.getElementById('which').textContent = `${item.type.id}-${item.gender}`;
+      document.getElementById('which').textContent = item.key;
       img.onload = place;
-      img.src = `../${item.type.art[item.gender]}`;
+      img.src = `../${item.entry.src}`;
     }
     let dragging = false;
     pic.addEventListener('pointerdown', (e) => { dragging = true; pic.setPointerCapture(e.pointerId); move(e); });
@@ -127,13 +127,13 @@
     pic.addEventListener('pointerup', () => { dragging = false; draw(current); });
     function move(e) {
       const box = img.getBoundingClientRect();
-      const [, , r, a] = current.type.head[current.gender];
-      current.type.head[current.gender] = [round((e.clientX - box.left) / box.width), round((e.clientY - box.top) / box.height), r, a];
+      const [, , r, a] = current.entry.head;
+      current.entry.head = [round((e.clientX - box.left) / box.width), round((e.clientY - box.top) / box.height), r, a];
       place();
       showAll();
     }
-    document.getElementById('r').addEventListener('input', (e) => { const h = current.type.head[current.gender]; update([h[0], h[1], Number(e.target.value), h[3]]); });
-    document.getElementById('angle').addEventListener('input', (e) => { const h = current.type.head[current.gender]; update([h[0], h[1], h[2], Number(e.target.value)]); });
+    document.getElementById('r').addEventListener('input', (e) => { const h = current.entry.head; update([h[0], h[1], Number(e.target.value), h[3]]); });
+    document.getElementById('angle').addEventListener('input', (e) => { const h = current.entry.head; update([h[0], h[1], h[2], Number(e.target.value)]); });
   </script>
 </body>
 </html>

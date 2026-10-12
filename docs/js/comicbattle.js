@@ -8,7 +8,7 @@
 // Animations are CSS (transform/opacity only); reduced motion shows plain panels.
 
 import { t } from './i18n.js';
-import { cardArt } from './card.js';
+import { cardArt, cardScene } from './card.js';
 import { runBattle, showResult, whoIs } from './battleview.js';
 import { renderThumb } from './mycards-view.js';
 
@@ -46,7 +46,7 @@ function battleBackdrop() {
 // is added later, else the card's own illustration (its street, mall, café…), blurred by CSS.
 function scenePath(types, card) {
   const type = types.types.find((x) => x.id === card.type);
-  return type?.scene || cardArt(types, card.type, card.gender);
+  return type?.scene || cardArt(types, card.type, card.gender, card.scene);
 }
 
 // Pose image path, or null while that pose hasn't been drawn yet.
@@ -131,7 +131,15 @@ export async function showComicBattle(container, match, data, {
   const pills = match.cards.map((card, side) => {
     const pill = el('div', `comic-pill side-${side}`);
     const face = el('img', 'comic-face');
-    face.src = cardArt(data.types, card.type, card.gender) ?? '';
+    face.src = cardArt(data.types, card.type, card.gender, card.scene) ?? '';
+    // Centre the little avatar on this scene's head.
+    const head = cardScene(data.types, card.type, card.gender, card.scene)?.head;
+    if (head) face.style.objectPosition = `${head[0] * 100}% ${head[1] * 100}%`;
+    // A card with a friend's photo shows the photo itself.
+    if (card.photo) {
+      face.src = card.photo;
+      face.style.objectPosition = '50% 50%';
+    }
     face.alt = '';
     const info = el('div', 'comic-pill-info');
     const bar = el('div', 'hp-bar');

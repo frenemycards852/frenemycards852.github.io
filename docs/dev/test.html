@@ -79,6 +79,7 @@
       { label: 'SSR · random · savage', card: { name: 'Jessica', gender: 'girl', type: 'savage', stats: [40, 100, 100, 30, 30], move: p('m2'), trait: p('t1'), weakness: p('w2'), desc: { id: 'd2', text: '' }, rarity: 'SSR' } },
       { label: 'Stress · max-length custom text + emoji', card: { name: '超級無敵遲到王阿明仔😂', gender: 'boy', type: 'love', stats: [20, 20, 20, 140, 100].map((v) => Math.min(v, 100)), move: { id: 'custom', name: 'Supercalifragilistic', desc: '一句好長好長嘅描述睇吓會唔會爆出張卡外面😂😂' }, trait: { id: 'custom', name: '自己寫嘅特性名稱好長', desc: '' }, weakness: p('w3'), desc: { id: 'custom', text: 'A very long custom description to check wrapping works fine' }, rarity: 'SSR' } },
       { label: 'Stress · long English name', card: { name: 'Bartholomew', gender: 'boy', type: 'slacker', stats: [50, 50, 100, 50, 50], move: p('m3'), trait: p('t4'), weakness: p('w2'), desc: { id: 'd3', text: '' }, rarity: 'R' } },
+      { label: 'Scene 3 · late boy (character scenes)', card: { name: 'Ken', gender: 'boy', type: 'late', scene: 2, stats: [60, 60, 60, 60, 60], move: p('m1'), trait: p('t1'), weakness: p('w1'), desc: { id: 'd1', text: '' }, rarity: 'SR' } },
     ];
 
     // ---- Card links ----
@@ -87,7 +88,8 @@
     const blocklist = await loadJSON('data/blocklist.json');
     const vdata = { ...data, blocklist };
     const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-    const norm = (c) => JSON.stringify({ ...c, from: c.from ?? '' });
+    // Compare regardless of field order (optional fields like scene come last after decoding).
+    const norm = (c) => JSON.stringify(Object.fromEntries(Object.entries({ ...c, from: c.from ?? '' }).sort()));
     const codecRows = [];
     for (const [i, s] of samples.entries()) {
       const card = { ...s.card, from: i % 2 ? '' : '阿明' };
@@ -114,6 +116,8 @@
       ['stats tampered (500 points)', tampered],
       ['unknown skill id', plainJson(['A', 'b', 'late', [60, 60, 60, 60, 60], 99, 1, 1, 1, 'N', ''])],
       ['unknown type', plainJson(['A', 'b', 'pirate', [60, 60, 60, 60, 60], 1, 1, 1, 1, 'N', ''])],
+      ['unknown scene (99)', plainJson(['A', 'b', 'late', [60, 60, 60, 60, 60], 1, 1, 1, 1, 'N', '', 99])],
+      ['scene that is not a number', plainJson(['A', 'b', 'late', [60, 60, 60, 60, 60], 1, 1, 1, 1, 'N', '', 'x'])],
     ];
     const badRows = [];
     for (const [label, payload] of badCases) {

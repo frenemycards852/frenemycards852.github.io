@@ -87,6 +87,11 @@
       "yes": "Yes, open it!",
       "no": "Keep editing"
     },
+    "scene": {
+      "title": "Choose a scene",
+      "hint": "Pick a scene. The card will use this illustration.",
+      "option": "Scene {n}"
+    },
     "photo": {
       "title": "📷 Add your friend's photo",
       "hint": "Optional: just tap Next to skip. The photo goes on the character's head, like a sticker.",

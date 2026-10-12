@@ -30,6 +30,8 @@ export function toCard(draft) {
     weakness: { ...draft.weakness },
     desc: { ...draft.desc },
     rarity: draft.rarity,
+    // Which character scene (only stored when not the first one).
+    ...(draft.scene > 0 ? { scene: draft.scene } : {}),
     // The friend's photo stays on this phone: codec.js never puts it into a link.
     ...(draft.photo ? { photo: draft.photo } : {}),
   };
@@ -49,6 +51,7 @@ export function isCardValid(card, { config, types, skills, descriptions, blockli
     textOk(card.name, config.card.nameMax, true)
     && isGender(config, card.gender)
     && types.types.some((x) => x.id === card.type)
+    && isSceneValid(types, card)
     && isStatsValid(card.stats, config.stats)
     && SKILL_KINDS.every((kind) => skillOk(card[kind], kind))
     && (card.desc.id === CUSTOM
@@ -59,13 +62,32 @@ export function isCardValid(card, { config, types, skills, descriptions, blockli
   );
 }
 
+// No scene (old cards) means the first one; otherwise it must exist for this type + gender.
+export function isSceneValid(types, card) {
+  if (card.scene === undefined) return true;
+  return Number.isInteger(card.scene) && card.scene >= 0
+    && card.scene < Math.max(1, cardScenes(types, card.type, card.gender).length);
+}
+
 export function isGender(config, value) {
   return config.card.genders.includes(value);
 }
 
-// Illustration path for a type + gender (relative to docs/), or null if not drawn yet.
-export function cardArt(types, typeId, gender) {
-  return types.types.find((x) => x.id === typeId)?.art?.[gender] ?? null;
+// Character scenes for a type + gender: [{ src, head }], the first one is the default.
+// head = [x, y, r, tilt] (fractions of the picture, degrees) for the photo sticker.
+export function cardScenes(types, typeId, gender) {
+  return types.types.find((x) => x.id === typeId)?.art?.[gender] ?? [];
+}
+
+// The scene a card uses (falls back to the first one), or null if none is drawn yet.
+export function cardScene(types, typeId, gender, scene = 0) {
+  const list = cardScenes(types, typeId, gender);
+  return list[scene] ?? list[0] ?? null;
+}
+
+// Illustration path (relative to docs/), or null if not drawn yet.
+export function cardArt(types, typeId, gender, scene = 0) {
+  return cardScene(types, typeId, gender, scene)?.src ?? null;
 }
 
 // Length in characters (code points), so emoji and Chinese count as one each.

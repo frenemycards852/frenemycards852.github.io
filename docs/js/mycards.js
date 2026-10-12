@@ -6,8 +6,11 @@ const STORE_VERSION = 1;
 
 // Same card, same key (so opening a link twice doesn't add it twice).
 export function cardKey(card) {
-  const { name, gender, type, stats, move, trait, weakness, desc, rarity } = card;
-  return JSON.stringify([name, gender, type, stats, move, trait, weakness, desc, rarity]);
+  const { name, gender, type, stats, move, trait, weakness, desc, rarity, scene } = card;
+  const key = [name, gender, type, stats, move, trait, weakness, desc, rarity];
+  // Only non-default scenes are added, so older keys (and battle seeds built from them) stay the same.
+  if (scene > 0) key.push(scene);
+  return JSON.stringify(key);
 }
 
 function read() {

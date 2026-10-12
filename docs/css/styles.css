@@ -970,6 +970,16 @@ h1 {
   color: var(--muted);
 }
 
+/* Builder: choose a character scene (thumbnails only) */
+.scene-choices {
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 8px;
+}
+
+.scene-choice {
+  padding: 4px;
+}
+
 /* Builder: friend's photo (sticker head) */
 .photo-editor,
 .photo-edit {

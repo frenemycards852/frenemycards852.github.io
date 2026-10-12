@@ -5,13 +5,19 @@ import { loadJSON } from './data.js';
 import {
   SKILL_KINDS, CUSTOM, createDraft, textLength, clipText, isBlocked, isTextOk,
   statTotal, isStatsValid, setStat, randomStats, pickOther, isSkillOk, isDescOk,
-  isGender, cardArt, toCard,
+  isGender, cardArt, cardScene, cardScenes, isSceneValid, toCard,
 } from './card.js';
 import { rollRarity } from './rarity.js';
 import { showReveal } from './reveal.js';
 import { photoEditor } from './photo.js';
 
-const STEPS = ['name', 'type', 'look', 'photo', 'stats', 'skills', 'desc', 'summary'];
+const ALL_STEPS = ['name', 'type', 'look', 'scene', 'photo', 'stats', 'skills', 'desc', 'summary'];
+
+// "Choose a character scene" only appears when this type + gender has more than one.
+function steps() {
+  const many = cardScenes(data.types, draft.type, draft.gender).length > 1;
+  return ALL_STEPS.filter((s) => s !== 'scene' || many);
+}
 
 let draft = null; // kept in memory while the page is open
 let data = null;
@@ -62,6 +68,7 @@ const VALID = {
   name: () => isTextOk(draft.name, terms()),
   type: () => data.types.types.some((type) => type.id === draft.type),
   look: () => isGender(data.config, draft.gender),
+  scene: () => isSceneValid(data.types, { type: draft.type, gender: draft.gender, scene: draft.scene ?? 0 }),
   photo: () => true, // optional
   stats: () => isStatsValid(draft.stats, data.config.stats),
   skills: () => SKILL_KINDS.every((kind) => isSkillOk(draft[kind], terms())),
@@ -99,7 +106,8 @@ export async function mountBuilder(container, param) {
     return;
   }
 
-  let step = STEPS.includes(param) ? param : param === 'reveal' ? 'summary' : 'name';
+  const STEPS = steps();
+  let step = STEPS.includes(param) ? param : param === 'scene' ? 'photo' : param === 'reveal' ? 'summary' : 'name';
   if (step !== param && param) history.replaceState(null, '', `#/make/${step}`);
   // Later steps need every earlier step to be valid.
   const firstInvalid = STEPS.slice(0, STEPS.indexOf(step)).find((s) => !VALID[s]());
@@ -111,12 +119,26 @@ export async function mountBuilder(container, param) {
 }
 
 function showStep(container, step) {
+  const STEPS = steps();
   const index = STEPS.indexOf(step);
   const nextBtn = h('button', {
     class: 'btn btn-primary', type: 'button', text: t('builder.next'),
-    onclick: () => VALID[step]() && go(STEPS[index + 1]),
+    // Work out the next step on click: choosing boy/girl can add or remove the scene step.
+    onclick: () => {
+      if (!VALID[step]()) return;
+      const now = steps();
+      go(now[now.indexOf(step) + 1]);
+    },
   });
-  const refresh = () => { nextBtn.disabled = !VALID[step](); };
+  const refresh = () => {
+    nextBtn.disabled = !VALID[step]();
+    // The step count can change with boy/girl (some have more than one scene).
+    const now = steps();
+    const count = container.querySelector('.step-count');
+    if (count) count.textContent = t('builder.step', { n: now.indexOf(step) + 1, total: now.length });
+    const bar = container.querySelector('.progress span');
+    if (bar) bar.style.transform = `scaleX(${(now.indexOf(step) + 1) / now.length})`;
+  };
   const view = VIEWS[step]({
     refresh, next: () => nextBtn.click(), redraw: () => showStep(container, step),
   });
@@ -181,8 +203,8 @@ function option({ name, value, checked, title, desc, color, onPick }) {
 const reminder = () => h('p', { class: 'reminder', text: t('builder.reminder') });
 
 // Card illustration for the draft's type + a gender, or a placeholder if not drawn yet.
-function artEl(gender, className) {
-  const src = cardArt(data.types, draft.type, gender);
+function artEl(gender, className, scene = 0) {
+  const src = cardArt(data.types, draft.type, gender, scene);
   if (src) return h('img', { class: className, src, alt: '' });
   const type = data.types.types.find((x) => x.id === draft.type);
   return h('div', { class: `${className} art-soon`, style: `--accent: ${type.color}` },
@@ -206,6 +228,7 @@ const VIEWS = {
       type: 'button', class: 'look-choice', 'aria-pressed': String(draft.gender === gender),
       onclick: () => {
         draft.gender = gender;
+        draft.scene = 0;
         buttons.forEach((b, i) => b.setAttribute('aria-pressed', String(genders[i] === gender)));
         refresh();
       },
@@ -214,15 +237,35 @@ const VIEWS = {
       body: h('div', {},
         h('p', { class: 'hint', text: t('builder.look.hint') }),
         h('div', { class: 'look-choices' }, ...buttons)),
-      random: () => { draft.gender = pickOther(genders, draft.gender); },
+      random: () => { draft.gender = pickOther(genders, draft.gender); draft.scene = 0; },
+    };
+  },
+
+  // Which character scene of this type + gender (only shown when there is more than one).
+  scene({ refresh }) {
+    const scenes = cardScenes(data.types, draft.type, draft.gender);
+    const buttons = scenes.map((item, i) => h('button', {
+      type: 'button', class: 'look-choice scene-choice', 'aria-pressed': String((draft.scene ?? 0) === i),
+      'aria-label': t('builder.scene.option', { n: i + 1 }),
+      onclick: () => {
+        draft.scene = i;
+        buttons.forEach((b, j) => b.setAttribute('aria-pressed', String(j === i)));
+        refresh();
+      },
+    }, h('img', { class: 'look-art', src: item.src, alt: '' })));
+    return {
+      body: h('div', {},
+        h('p', { class: 'hint', text: t('builder.scene.hint') }),
+        h('div', { class: 'look-choices scene-choices' }, ...buttons)),
+      random: () => { draft.scene = Number(pickOther(scenes.map((_, i) => String(i)), String(draft.scene ?? 0))); },
     };
   },
 
   // Optional: the friend's photo as a sticker on the illustration's head.
   photo() {
-    const type = data.types.types.find((x) => x.id === draft.type);
-    const src = cardArt(data.types, draft.type, draft.gender);
-    const head = type.head?.[draft.gender];
+    const chosen = cardScene(data.types, draft.type, draft.gender, draft.scene ?? 0);
+    const src = chosen?.src;
+    const head = chosen?.head;
     if (!src || !head) {
       return { body: h('p', { class: 'hint', text: t('builder.photo.unavailable') }) };
     }
@@ -246,11 +289,11 @@ const VIEWS = {
       list.append(option({
         name: 'type', value: type.id, checked: draft.type === type.id, color: type.color,
         title: `${type.emoji} ${t(`types.${type.id}.name`)}`, desc: t(`types.${type.id}.idea`),
-        onPick: () => { draft.type = type.id; refresh(); },
+        onPick: () => { draft.type = type.id; draft.scene = 0; refresh(); },
       }));
     }
     const ids = data.types.types.map((type) => type.id);
-    return { body: list, random: () => { draft.type = pickOther(ids, draft.type); } };
+    return { body: list, random: () => { draft.type = pickOther(ids, draft.type); draft.scene = 0; } };
   },
 
   stats({ refresh }) {
@@ -408,7 +451,7 @@ const VIEWS = {
     const rows = [
       ['name', draft.name.trim(), 'name'],
       ['type', `${type.emoji} ${t(`types.${type.id}.name`)}`, 'type'],
-      ['look', h('span', { class: 'summary-look' }, artEl(draft.gender, 'summary-art'), t(`builder.look.${draft.gender}`)), 'look'],
+      ['look', h('span', { class: 'summary-look' }, artEl(draft.gender, 'summary-art', draft.scene ?? 0), t(`builder.look.${draft.gender}`)), 'look'],
       ['photo', draft.photo
         ? h('img', { class: 'summary-photo', src: draft.photo, alt: t('builder.summary.rows.photo') })
         : t('builder.summary.noPhoto'), 'photo'],

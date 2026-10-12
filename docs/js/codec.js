@@ -3,7 +3,8 @@
 // Payload = "<version><format><base64url bytes>"
 //   version 1, format "j" = plain JSON bytes, "z" = deflate-raw compressed JSON bytes.
 // v1 JSON is a compact array:
-//   [name, gender ("b"|"g"), type id, [5 stats], move, trait, weakness, desc, rarity, from]
+//   [name, gender ("b"|"g"), type id, [5 stats], move, trait, weakness, desc, rarity, from, scene?]
+//   scene (optional, added 2026-10): character scene index, written only when > 0
 //   skills: preset number (m3 → 3) or [customName, customDesc]
 //   desc: preset number (d2 → 2) or custom text
 // Old versions must keep decoding forever; add a new version instead of changing v1.
@@ -65,7 +66,7 @@ function unpackSkill(value, kind) {
 }
 
 function pack(card) {
-  return [
+  const list = [
     card.name,
     GENDER_CODE[card.gender],
     card.type,
@@ -77,6 +78,9 @@ function pack(card) {
     card.rarity,
     card.from ?? '',
   ];
+  // Optional 11th field: the character scene, only when not the first one (old apps ignore it).
+  if (card.scene > 0) list.push(card.scene);
+  return list;
 }
 
 function unpack(list) {
@@ -101,6 +105,8 @@ function unpack(list) {
     desc: descEntry,
     rarity,
     from,
+    // Scene index (validated later by isCardValid); absent means the first scene.
+    ...(list.length > 10 ? { scene: list[10] } : {}),
   };
 }
 

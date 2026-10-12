@@ -5,7 +5,7 @@
 // data: { config, types, skills, descriptions } loaded in the current language.
 
 import { setFont, fitSingle, fitLines } from './textlayout.js';
-import { SKILL_KINDS, resolveSkill, resolveDesc, cardArt } from './card.js';
+import { SKILL_KINDS, resolveSkill, resolveDesc, cardArt, cardScene } from './card.js';
 import { t, getLang } from './i18n.js';
 
 export const CARD_W = 1080;
@@ -268,7 +268,7 @@ async function drawArt(ctx, card, data, type) {
   glow.addColorStop(1, 'rgba(255, 255, 255, 0)');
   ctx.fillStyle = glow;
   ctx.fillRect(40, 40, 1000, 1432);
-  const src = cardArt(data.types, card.type, card.gender);
+  const src = cardArt(data.types, card.type, card.gender, card.scene);
   const img = src ? await loadImage(new URL(`../${src}`, import.meta.url).href).catch(() => null) : null;
   if (img) {
     // Illustration covers the whole card, anchored to the top (faces live in the upper half).
@@ -298,10 +298,10 @@ async function drawArt(ctx, card, data, type) {
 }
 
 // Friend's photo as a round "sticker head" on the illustration's head
-// (types.json → head.<gender> = [x, y, r, angle]: fractions of the picture, degrees).
+// (types.json → art.<gender>[scene].head = [x, y, r, angle]: fractions of the picture, degrees).
 // card.photo is a square image already cropped by the maker; it never goes into links.
-async function drawPhoto(ctx, card, data, type, art) {
-  const head = type.head?.[card.gender];
+async function drawPhoto(ctx, card, data, art) {
+  const head = cardScene(data.types, card.type, card.gender, card.scene)?.head;
   if (!card.photo || !art || !head) return;
   const photo = await loadImage(card.photo).catch(() => null);
   if (!photo) return;
@@ -592,7 +592,7 @@ export async function renderCard(canvas, card, data) {
   ctx.fillStyle = NIGHT;
   ctx.fill();
   const art = await drawArt(ctx, card, data, type);
-  await drawPhoto(ctx, card, data, type, art);
+  await drawPhoto(ctx, card, data, art);
   drawFrame(ctx, trim);
   drawMedallion(ctx, type, trim);
   drawRarityPlate(ctx, card, frame, trim);
