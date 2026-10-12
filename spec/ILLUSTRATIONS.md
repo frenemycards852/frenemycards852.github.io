@@ -141,3 +141,51 @@ flying behind her, ... detailed background of a busy city street at morning ...
 ```json
 "poses": { "boy": { "attack": "assets/cards/late-boy-attack.jpg", "hurt": "...", "ko": "..." } }
 ```
+
+---
+
+## 7. 第二批角色：每個類型多 2 個場景（24 張）
+
+每個場景畫**男仔**同**女仔**各一張。檔名：`late-boy-2.jpg`、`late-girl-2.jpg`、`late-boy-3.jpg`、`late-girl-3.jpg`……（`-2` 係場景 A，`-3` 係場景 B）。
+
+### 因為用家會貼真人相上個頭，個頭一定要清楚
+
+**每張整完都要檢查：**
+- [ ] 塊面**向前**或者**微微側**（四分三角度），兩隻眼都見到
+- [ ] 個頭**冇俾任何嘢遮住或者掂到**：手、食物、手機、杯、帽、兜帽、眼鏡、遮臉嘅頭髮、對話泡泡、蒸氣、特效
+- [ ] 個頭**大致企直**（斜唔好超過 15 度）
+- [ ] 成個頭喺畫面入面、喺圖片**上半部**，但**唔好貼近左上角同右上角**（張卡嗰兩個位有類型圓章同稀有度牌）
+- [ ] 個頭唔好太細：大約係圖片闊度嘅 1/6 至 1/4
+- [ ] **只有一個主角係大嘅**；朋友或者路人明顯細過主角，而且唔好喺主角個頭附近
+- [ ] 第 1 節嘅規則照用：冇字、冇真人、冇武器，只抽生活習慣
+
+**每個 prompt 都要喺第 4 節嘅基本 prompt 後面加：**
+```
+face clearly visible and facing the viewer, nothing covering or touching the head or face,
+no hat, no hood, no glasses, hands kept away from the face, head upright,
+the main character is clearly bigger than anyone else
+```
+
+### 場景清單
+
+| 類型 | 場景 | 中文說明 | English（放入 `[scene description]` 同 `[place]`） |
+|---|---|---|---|
+| ⏰ 遲到系 | A「我出緊門喇！」 | 喺屋企門口，著住睡衣，梳亂晒頭，一隻腳著咗鞋、另一隻鞋喺手；電話開咪拎喺胸口前大聲講「到喇到喇」，牙刷拎喺另一隻手 | shouting confidently into a phone on speaker held at chest height while still in pyjamas, messy bed hair, one shoe on and the other in hand, a toothbrush in the other hand, a clock without numbers on the wall · *a cluttered apartment entrance* |
+| ⏰ 遲到系 | B 衝閘追車 | 喺地鐵站衝上扶手電梯，車門就快閂，襯衫鈕扣扣錯晒，麵包拎喺手，背囊飛起，塊面望向前 | sprinting up an escalator toward closing train doors, shirt buttoned wrong, holding a piece of bread, backpack flying, looking toward the viewer · *a busy subway station* |
+| 🍜 食貨系 | A 火鍋放題戰士 | 坐喺火鍋前面，**身邊**啲空碟疊到好高，兩隻手揸住筷子喺枱面高度，蒸氣只喺個煲上面，星星眼 | sitting at a hot pot table with empty plates stacked very high beside them, chopsticks in both hands at table height, steam only above the pot, sparkling starry eyes · *a hot pot restaurant* |
+| 🍜 食貨系 | B 凌晨三點開雪櫃 | 深夜著睡衣企喺打開咗嘅雪櫃前，雪櫃燈照住佢，一手雞髀一手蛋糕，喺胸口高度；隻貓喺腳邊驚訝咁望住 | standing at an open fridge late at night in pyjamas, lit by the fridge light, a chicken drumstick in one hand and a slice of cake in the other at chest height, a surprised cat at their feet · *a dark kitchen* |
+| 🥱 廢青系 | A 躺平叫外賣 | 陷入懶人梳化，個頭企直、面向前，用腳趾撳遙控，手機喺大腿上叫外賣；門口一袋外賣，旁邊一大堆未摺嘅衫 | sunk into a beanbag with the head upright facing the viewer, pressing the TV remote with their toes, ordering food on a phone resting on their lap, a delivery bag at the door, a mountain of unfolded laundry nearby · *a messy living room* |
+| 🥱 廢青系 | B 圖書館瞓著咗 | 喺圖書館挨後瞓喺櫈度，個頭企直、面向前，口微微張開；打開咗嘅書喺枱面，「Zzz」泡泡喺個頭**旁邊**；後面細細個嘅同學勤力溫書 | asleep leaning back in a library chair, head upright facing the viewer, mouth slightly open, open books on the desk, a sleep bubble with zigzag lines floating beside (not over) the head, small students studying in the background · *a quiet library* |
+| 💼 工作狂系 | A 生日會都覆 email | 朋友生日會，蛋糕喺面前，**朋友**戴派對帽；佢一邊打手提電腦一邊抬頭望向前，朋友喺後面反白眼 | at a friend's birthday party, a birthday cake in front of them, friends in party hats rolling their eyes in the background, typing on a laptop while glancing up at the viewer, confetti · *a decorated living room* |
+| 💼 工作狂系 | B 地鐵企住開會 | 喺迫嘅車廂一手拉住扶手、一手托住手提電腦，戴無線耳機視像會議，塊面向前好認真；旁邊細細個嘅乘客好無奈 | standing in a packed train holding the strap with one hand and balancing a laptop on the other, small wireless earbuds, on a video call with a serious face toward the viewer, small annoyed passengers around · *a crowded train carriage* |
+| 💘 戀愛腦系 | A 對住公仔練習表白 | 跪喺床邊，對住一隻公仔熊練習表白，一束花拎喺胸口，緊張到出汗、面紅；牀上散滿紙團，有啲細心心飄喺身邊 | kneeling by the bed practising a love confession to a teddy bear, holding a bouquet at chest height, sweating and blushing, crumpled paper balls on the bed, small hearts floating at the sides · *a bedroom* |
+| 💘 戀愛腦系 | B 等緊佢覆 | 夜晚喺窗邊，手機拎喺胸口，手機上面浮住「…」打字中泡泡；心形氣球喺身邊，表情又期待又擔心 | by a window at night holding a phone at chest height, a typing-indicator bubble with three dots floating just above the phone, heart-shaped balloons at the sides, a hopeful but anxious face · *a cosy bedroom with city lights* |
+| 💀 毒舌系 | A 一啖就評 | 試完朋友焗嘅蛋糕，叉拎低咗，冷笑兼拇指向下；細細個嘅朋友捧住開始裂開嘅蛋糕，大受打擊 | having just tasted a friend's homemade cake, fork lowered, smug smirk and a thumbs-down, the smaller friend holding the cake as it cracks, looking shocked · *a home kitchen* |
+| 💀 毒舌系 | B K 房毒舌評判 | 坐喺卡拉 OK 梳化，舉起一塊大紅色「✕」牌喺**身邊**；細細個嘅朋友喺後面好投入咁唱歌，即刻碎成一粒粒 | sitting on a karaoke sofa holding a big red X sign up beside them like a harsh judge, a smaller friend singing passionately in the background crumbling into little pieces · *a karaoke room with coloured lights* |
+
+### 整好之後
+- send 俾我或者放喺 `docs/assets/cards/`
+- 我會做「揀角色」功能（整卡嗰步由「男仔／女仔」改成揀角色），同埋喺 `dev/heads.html` 逐張校準個頭位置
+- 舊嘅卡連結照樣開得（冇記錄角色嘅卡會用返第一個角色）
+
+**第一批 12 張**有啲嘢喺個頭附近（例如 late-boy 咬住多士、work-girl 戴草帽、slacker-girl 包住被）。因為貼上去嘅相會遮住成個頭，所以暫時可以照用。
