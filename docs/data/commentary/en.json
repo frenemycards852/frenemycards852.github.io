@@ -11,42 +11,60 @@
     "Almost there!",
     "Five more minutes!",
     "Blame the traffic!",
-    "Leaving now!"
+    "Leaving now!",
+    "On my way!",
+    "Don't start yet!",
+    "Two more stops!"
   ],
   "shout.foodie": [
     "Hands off my fries!",
     "Hangry mode!",
     "Dessert first!",
     "That bite is mine!",
-    "Snack attack!"
+    "Snack attack!",
+    "Camera eats first!",
+    "Buffet after this!",
+    "Still room for dessert!"
   ],
   "shout.slacker": [
     "Then I nap!",
     "Ugh, fine…",
     "Don't wake me!",
     "One hit, done!",
-    "Can't be bothered!"
+    "Can't be bothered!",
+    "Tomorrow, maybe?",
+    "Can't get up…",
+    "Wake me when it's over!"
   ],
   "shout.work": [
     "Per my last email!",
     "Done by EOD!",
     "Let's circle back!",
     "Noted, on it!",
-    "Action item: you!"
+    "Action item: you!",
+    "Overtime? Fine!",
+    "Deadline's tonight!",
+    "Cc'ing your boss!"
   ],
   "shout.love": [
     "This one's for them!",
     "Love wins!",
     "They're watching!",
     "Heart attack!",
-    "Don't diss bae!"
+    "Don't diss bae!",
+    "They said I'm amazing!",
+    "Brb, texting them!",
+    "Charging in for love!"
   ],
   "shout.savage": [
     "Shut it!",
     "Just being honest!",
     "Did I ask?",
     "Truth hurts!",
-    "Bless your heart!"
+    "Bless your heart!",
+    "Seriously?",
+    "Oh, sweetie.",
+    "Just stating facts!"
   ],
   "start": [
     "{actor} vs {opponent}. This friendship is about to be tested 🔥",
