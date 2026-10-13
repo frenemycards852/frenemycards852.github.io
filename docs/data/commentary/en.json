@@ -6,6 +6,48 @@
     "Get back here!",
     "My turn!"
   ],
+  "shout.late": [
+    "Wait for me!",
+    "Almost there!",
+    "Five more minutes!",
+    "Blame the traffic!",
+    "Leaving now!"
+  ],
+  "shout.foodie": [
+    "Hands off my fries!",
+    "Hangry mode!",
+    "Dessert first!",
+    "That bite is mine!",
+    "Snack attack!"
+  ],
+  "shout.slacker": [
+    "Then I nap!",
+    "Ugh, fine…",
+    "Don't wake me!",
+    "One hit, done!",
+    "Can't be bothered!"
+  ],
+  "shout.work": [
+    "Per my last email!",
+    "Done by EOD!",
+    "Let's circle back!",
+    "Noted, on it!",
+    "Action item: you!"
+  ],
+  "shout.love": [
+    "This one's for them!",
+    "Love wins!",
+    "They're watching!",
+    "Heart attack!",
+    "Don't diss bae!"
+  ],
+  "shout.savage": [
+    "Shut it!",
+    "Just being honest!",
+    "Did I ask?",
+    "Truth hurts!",
+    "Bless your heart!"
+  ],
   "start": [
     "{actor} vs {opponent}. This friendship is about to be tested 🔥",
     "Ladies and gentlemen: {actor} and {opponent} are settling old scores.",

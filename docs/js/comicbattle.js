@@ -255,8 +255,9 @@ export async function showComicBattle(container, match, data, {
     node.setAttribute('aria-label', text);
     fx.append(node);
   };
-  const shout = (i) => {
-    const pool = data.lines.shout ?? [];
+  // Each type has its own shouts ("shout.<type>"); "shout" is the fallback.
+  const shout = (side, i) => {
+    const pool = data.lines[`shout.${match.cards[side].type}`] ?? data.lines.shout ?? [];
     return pool.length ? pool[i % pool.length] : '';
   };
 
@@ -286,7 +287,7 @@ export async function showComicBattle(container, match, data, {
         if (e.effective) tag(t('comic.super'), 'hot');
         if (e.saved) tag(t('comic.survive'));
       }
-      bubble(a, e.via === 'normal' ? shout(index) : skillName(a, 'move'));
+      bubble(a, e.via === 'normal' ? shout(a, index) : skillName(a, 'move'));
     } else if (panel.kind === 'move') {
       const a = e.side;
       setPose(a, 'attack', 'power');
