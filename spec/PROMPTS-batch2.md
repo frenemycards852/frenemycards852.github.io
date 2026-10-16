@@ -118,24 +118,24 @@ Her face is clearly visible and looking at the viewer, nothing covering or touch
 No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
 ```
 
-### `slacker-boy-3.jpg` — 圖書館瞓著咗（男）
+### `slacker-boy-3.jpg` — 黑房打機食杯麵（男）
 ```
-A Japanese TV anime screenshot, modern 2020s slice of life anime style, bold clean black outlines, smooth cel shading, vibrant colors, soft afternoon lighting.
-A young adult man with short hair asleep in a library chair, leaning back with his head upright and turned three-quarters toward the viewer, eyes closed, mouth slightly open. Open books lie on the desk in front of him at table height, and his pencil has rolled onto the floor. A few small students study in the far background.
-A quiet library with tall bookshelves on the clean background.
+A Japanese TV anime screenshot, modern 2020s slice of life anime style, bold clean black outlines, smooth cel shading, vibrant colors, soft blue glow from a computer screen lighting his face evenly.
+A young adult man with short messy hair and a hoodie sitting slumped in a gaming chair in a dark bedroom at night, playing a computer game with a happy, tired smile and slightly sleepy eyes. One hand rests on the keyboard and the other on the mouse, both at desk height. On the desk beside the keyboard sit an open cup of instant noodles with chopsticks in it and a can of soft drink, and a few empty cans and noodle cups are piled at the edge of the desk.
+A dark messy bedroom with closed curtains on the clean background, the computer screen glowing.
 Vertical 5:7 portrait, medium shot, character centered, three-quarter view from the side, slightly high camera angle looking down at the character, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
-His whole face is clearly visible and turned three-quarters toward the viewer, nothing covering or touching his face or head, no hat, no glasses, hands away from the face, head upright, his head in the upper half of the picture but not in the top corners, he is clearly the biggest person in the picture.
-No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
+His whole face is clearly visible, well lit by the screen and turned three-quarters toward the viewer with both eyes visible, nothing covering or touching his face or head, no headphones, no headset, no hat, no glasses, hands away from the face, head upright, his head in the upper half of the picture but not in the top corners.
+No text, no letters, no numbers, no logos, no watermark, nothing readable on the screen or the cans. No speed lines, no action lines.
 ```
 
-### `slacker-girl-3.jpg` — 圖書館瞓著咗（女）
+### `slacker-girl-3.jpg` — 黑房打機食杯麵（女）
 ```
-A Japanese TV anime screenshot, modern 2020s slice of life anime style, bold clean black outlines, smooth cel shading, vibrant colors, soft afternoon lighting.
-A young adult woman with hair tied back asleep in a library chair, leaning back with her head upright and turned three-quarters toward the viewer, eyes closed, mouth slightly open. Open books lie on the desk in front of her at table height, and her pencil has rolled onto the floor. A few small students study in the far background.
-A quiet library with tall bookshelves on the clean background.
+A Japanese TV anime screenshot, modern 2020s slice of life anime style, bold clean black outlines, smooth cel shading, vibrant colors, soft blue glow from a computer screen lighting her face evenly.
+A young adult woman with hair in a messy bun and a hoodie sitting slumped in a gaming chair in a dark bedroom at night, playing a computer game with a happy, tired smile and slightly sleepy eyes. One hand rests on the keyboard and the other on the mouse, both at desk height. On the desk beside the keyboard sit an open cup of instant noodles with chopsticks in it and a can of soft drink, and a few empty cans and noodle cups are piled at the edge of the desk.
+A dark messy bedroom with closed curtains on the clean background, the computer screen glowing.
 Vertical 5:7 portrait, medium shot, character centered, three-quarter view from the side, slightly high camera angle looking down at the character, clean animation visual, sharp focus, no graphic effects, clear environment, clean background without overlays.
-Her whole face is clearly visible and turned three-quarters toward the viewer, nothing covering or touching her face or head, no hat, no glasses, hands away from the face, hair not covering the face, head upright, her head in the upper half of the picture but not in the top corners, she is clearly the biggest person in the picture.
-No text, no letters, no numbers, no logos, no watermark. No speed lines, no action lines.
+Her whole face is clearly visible, well lit by the screen and turned three-quarters toward the viewer with both eyes visible, nothing covering or touching her face or head, no headphones, no headset, no hat, no glasses, hands away from the face, hair not covering the face, head upright, her head in the upper half of the picture but not in the top corners.
+No text, no letters, no numbers, no logos, no watermark, nothing readable on the screen or the cans. No speed lines, no action lines.
 ```
 
 ---
