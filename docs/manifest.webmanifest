@@ -1,0 +1,15 @@
+{
+  "name": "損友圖鑑 Frenemy Cards",
+  "short_name": "損友圖鑑",
+  "description": "將朋友變成抽水卡牌，再嚟一場對決！ Turn your friends into roast cards. Then battle it out.",
+  "lang": "zh-HK",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fff4dc",
+  "theme_color": "#fff4dc",
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

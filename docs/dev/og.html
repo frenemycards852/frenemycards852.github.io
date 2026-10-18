@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:,">
+  <title>Share images</title>
+  <style>
+    body { margin: 0; padding: 16px; background: #f3efe6; color: #1d1412; font-family: system-ui, sans-serif; }
+    body.shot { padding: 0; overflow: hidden; background: #fff; }
+    h1 { font-size: 20px; margin: 0 0 4px; }
+    p { margin: 0 0 12px; color: #6b5d50; }
+    .row { display: flex; flex-wrap: wrap; gap: 16px; align-items: end; margin-bottom: 16px; }
+    .row canvas { max-width: 100%; height: auto; border: 1px solid #ccc; }
+    body.shot canvas { display: block; border: 0; max-width: none; }
+  </style>
+</head>
+<body>
+  <h1>Share images (link preview + app icons)</h1>
+  <p>Not linked from the app. tools/make-share-images.ps1 screenshots ?shot=og and ?shot=icon&amp;size=N into docs/assets/.
+    Icons come from assets/icons/icon-source.png (square, from the illustrator).</p>
+  <div id="out"></div>
+
+  <script type="module">
+    import { setLang } from '../js/i18n.js';
+    import { loadJSON } from '../js/data.js';
+    import { renderCard, CARD_W, CARD_H } from '../js/render-card.js';
+
+    const OG_W = 1200;
+    const OG_H = 630;
+    const FONT = '"Microsoft JhengHei", "PingFang HK", "Noto Sans TC", system-ui, sans-serif';
+    const COLORS = { bg: '#fff4dc', ray: '#ffe6ad', text: '#2b2118', muted: '#6b5d50', primary: '#ff5a36' };
+
+    await setLang('zh-HK', { remember: false });
+    const params = new URLSearchParams(location.search);
+    const shot = params.get('shot');
+    const out = document.getElementById('out');
+
+    function loadImage(src) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = () => reject(new Error(`missing ${src}`));
+        img.src = src;
+      });
+    }
+
+    function wrap(ctx, text, maxWidth) {
+      // English wraps by word; Chinese after punctuation when the piece fits, else by character.
+      const parts = /\s/.test(text)
+        ? text.split(/(\s+)/)
+        : text.split(/(?<=[，。！？、])/).flatMap((p) => (ctx.measureText(p).width > maxWidth ? [...p] : [p]));
+      const lines = [];
+      let line = '';
+      for (const part of parts) {
+        const next = line + part;
+        if (line && ctx.measureText(next).width > maxWidth) {
+          lines.push(line.trim());
+          line = part.trimStart();
+        } else {
+          line = next;
+        }
+      }
+      if (line.trim()) lines.push(line.trim());
+      return lines;
+    }
+
+    async function drawOg(canvas) {
+      canvas.width = OG_W;
+      canvas.height = OG_H;
+      const ctx = canvas.getContext('2d');
+      const [config, types, skills, descriptions, sample, zh, en, vs] = await Promise.all([
+        loadJSON('data/config.json'), loadJSON('data/types.json'),
+        loadJSON('data/skills/zh-HK.json'), loadJSON('data/descriptions/zh-HK.json'),
+        loadJSON('data/sample-card.json'), loadJSON('locales/zh-HK.json'), loadJSON('locales/en.json'),
+        loadImage('../assets/fx/vs.png'),
+      ]);
+      const data = { config, types, skills, descriptions };
+
+      // Background: warm paper with soft rays behind the cards.
+      ctx.fillStyle = COLORS.bg;
+      ctx.fillRect(0, 0, OG_W, OG_H);
+      const cx = 898;
+      const cy = 315;
+      ctx.fillStyle = COLORS.ray;
+      for (let i = 0; i < 24; i += 2) {
+        const a = (i / 24) * Math.PI * 2;
+        const b = ((i + 1) / 24) * Math.PI * 2;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, 1200, a, b);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      // Two cards facing off.
+      const cardH = 450;
+      const cardW = cardH * (CARD_W / CARD_H);
+      const cards = [
+        { ...sample.card, name: sample.names['zh-HK'] },
+        { ...sample.rival.card, name: sample.rival.names['zh-HK'] },
+      ];
+      const spots = [[790, 318, -8], [1005, 318, 8]];
+      for (const [i, card] of cards.entries()) {
+        const c = document.createElement('canvas');
+        await renderCard(c, card, data);
+        const [x, y, tilt] = spots[i];
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate((tilt * Math.PI) / 180);
+        ctx.shadowColor = 'rgba(43, 33, 24, 0.35)';
+        ctx.shadowBlur = 24;
+        ctx.shadowOffsetY = 10;
+        ctx.drawImage(c, -cardW / 2, -cardH / 2, cardW, cardH);
+        ctx.restore();
+      }
+      const vsW = 190;
+      const vsH = vsW * (vs.height / vs.width);
+      ctx.drawImage(vs, 898 - vsW / 2, 318 - vsH / 2, vsW, vsH);
+
+      // Title block on the left (text from the locale files).
+      const left = 60;
+      const maxW = 500;
+      ctx.textBaseline = 'alphabetic';
+      ctx.fillStyle = COLORS.text;
+      ctx.font = `900 112px ${FONT}`;
+      ctx.fillText(zh.app.name, left, 190);
+      ctx.fillStyle = COLORS.primary;
+      ctx.font = `800 54px ${FONT}`;
+      ctx.fillText(en.app.name, left + 4, 262);
+      let y = 340;
+      ctx.fillStyle = COLORS.text;
+      ctx.font = `700 32px ${FONT}`;
+      for (const line of wrap(ctx, zh.app.shareTagline, maxW)) { ctx.fillText(line, left + 2, y); y += 44; }
+      y += 10;
+      ctx.fillStyle = COLORS.muted;
+      ctx.font = `600 28px ${FONT}`;
+      for (const line of wrap(ctx, en.app.shareTagline, maxW)) { ctx.fillText(line, left + 2, y); y += 38; }
+      ctx.fillStyle = COLORS.muted;
+      ctx.font = `600 24px ${FONT}`;
+      ctx.fillText('frenemycards852.github.io', left + 2, OG_H - 44);
+    }
+
+    async function drawIcon(canvas, size) {
+      canvas.width = canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      ctx.imageSmoothingQuality = 'high';
+      try {
+        const img = await loadImage('../assets/icons/icon-source.png');
+        const s = Math.min(img.width, img.height);
+        ctx.drawImage(img, (img.width - s) / 2, (img.height - s) / 2, s, s, 0, 0, size, size);
+      } catch {
+        // Placeholder until the illustrated icon arrives.
+        ctx.fillStyle = COLORS.primary;
+        ctx.fillRect(0, 0, size, size);
+        ctx.fillStyle = '#fff';
+        ctx.font = `900 ${size * 0.6}px ${FONT}`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('損', size / 2, size / 2 + size * 0.04);
+      }
+    }
+
+    if (shot) {
+      document.body.className = 'shot';
+      document.querySelectorAll('h1, p').forEach((n) => n.remove());
+      const canvas = document.createElement('canvas');
+      out.append(canvas);
+      if (shot === 'og') await drawOg(canvas);
+      else await drawIcon(canvas, Number(params.get('size')) || 512);
+      document.title = 'ready';
+    } else {
+      const row = document.createElement('div');
+      row.className = 'row';
+      out.append(row);
+      const og = document.createElement('canvas');
+      og.style.width = '600px';
+      row.append(og);
+      await drawOg(og);
+      for (const size of [512, 192, 180, 32]) {
+        const c = document.createElement('canvas');
+        row.append(c);
+        await drawIcon(c, size);
+      }
+    }
+  </script>
+</body>
+</html>

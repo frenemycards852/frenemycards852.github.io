@@ -1,6 +1,7 @@
 {
   "app": {
-    "name": "損友圖鑑"
+    "name": "損友圖鑑",
+    "shareTagline": "將朋友變成抽水卡牌，再嚟一場對決！"
   },
   "lang": {
     "switch": "English",

@@ -1,5 +1,5 @@
 {
-  "note": "Example card on the home screen. Presets are ids, so the text shows in the viewer's language.",
+  "note": "Example card on the home screen (and the link preview image, with the rival). Presets are ids, so the text shows in the viewer's language.",
   "names": { "zh-HK": "阿明", "en": "Sam" },
   "card": {
     "gender": "boy",
@@ -10,5 +10,18 @@
     "weakness": { "id": "w1", "name": "", "desc": "" },
     "desc": { "id": "d1", "text": "" },
     "rarity": "SSR"
+  },
+  "rival": {
+    "names": { "zh-HK": "阿欣", "en": "Jess" },
+    "card": {
+      "gender": "girl",
+      "type": "savage",
+      "stats": [60, 90, 70, 30, 50],
+      "move": { "id": "m3", "name": "", "desc": "" },
+      "trait": { "id": "t4", "name": "", "desc": "" },
+      "weakness": { "id": "w3", "name": "", "desc": "" },
+      "desc": { "id": "d2", "text": "" },
+      "rarity": "SR"
+    }
   }
 }

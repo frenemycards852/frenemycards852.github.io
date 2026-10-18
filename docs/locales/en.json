@@ -1,6 +1,7 @@
 {
   "app": {
-    "name": "Frenemy Cards"
+    "name": "Frenemy Cards",
+    "shareTagline": "Turn your friends into roast cards. Then battle it out."
   },
   "lang": {
     "switch": "中文",
