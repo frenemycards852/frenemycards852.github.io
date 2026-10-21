@@ -1,7 +1,0 @@
-{
-  "_note": "Batch-2 scenes waiting until all 24 illustrations are done. Each list is appended to types.json -> art.<gender> after the first (original) entry. Image files wait in art-pending/ (outside docs/, so not on the website); move them back to docs/assets/cards/ when the scenes return.",
-  "late": {
-    "boy": [{ "src": "assets/cards/late-boy-2.webp", "head": [0.486, 0.165, 0.165, 0] }, { "src": "assets/cards/late-boy-3.webp", "head": [0.604, 0.148, 0.142, 5] }],
-    "girl": [{ "src": "assets/cards/late-girl-2.webp", "head": [0.49, 0.2, 0.175, 0] }]
-  }
-}
