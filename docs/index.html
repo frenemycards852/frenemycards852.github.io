@@ -30,7 +30,7 @@
 <body>
   <div class="shell">
     <header class="topbar">
-      <a class="brand" href="#/" data-i18n="app.name"></a>
+      <a class="brand" href="#/"><img class="brand-icon" src="assets/icons/icon-192.png" alt="" width="32" height="32"><span data-i18n="app.name"></span></a>
       <button class="lang-btn" type="button" id="lang-btn"
               data-i18n="lang.switch" data-i18n-aria-label="lang.switchLabel"></button>
     </header>
@@ -48,12 +48,17 @@
     <section class="home">
       <h1 class="home-title" data-i18n="app.name"></h1>
       <p class="home-tagline" data-i18n="home.tagline"></p>
-      <div class="home-card"></div>
+      <div class="home-fan"></div>
       <div class="actions">
         <a class="btn btn-primary" href="#/make" data-i18n="home.make"></a>
         <a class="btn btn-secondary" href="#/album" data-i18n="home.album"></a>
       </div>
-      <p class="home-hint" data-i18n="home.hint"></p>
+      <h2 class="home-how-title" data-i18n="home.howTitle"></h2>
+      <ol class="home-steps">
+        <li><span class="home-step-icon" aria-hidden="true" data-i18n="home.step1Icon"></span><span data-i18n="home.step1"></span></li>
+        <li><span class="home-step-icon" aria-hidden="true" data-i18n="home.step2Icon"></span><span data-i18n="home.step2"></span></li>
+        <li><span class="home-step-icon" aria-hidden="true" data-i18n="home.step3Icon"></span><span data-i18n="home.step3"></span></li>
+      </ol>
     </section>
   </template>
 

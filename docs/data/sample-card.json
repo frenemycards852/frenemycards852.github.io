@@ -1,5 +1,5 @@
 {
-  "note": "Example card on the home screen (and the link preview image, with the rival). Presets are ids, so the text shows in the viewer's language.",
+  "note": "Example cards: home screen fan = card (front) + rival + more; link preview image = card + rival. Presets are ids, so the text shows in the viewer's language.",
   "names": { "zh-HK": "阿明", "en": "Sam" },
   "card": {
     "gender": "boy",
@@ -11,6 +11,21 @@
     "desc": { "id": "d1", "text": "" },
     "rarity": "SSR"
   },
+  "more": [
+    {
+      "names": { "zh-HK": "阿樂", "en": "Leo" },
+      "card": {
+        "gender": "boy",
+        "type": "foodie",
+        "stats": [90, 50, 80, 40, 40],
+        "move": { "id": "m4", "name": "", "desc": "" },
+        "trait": { "id": "t2", "name": "", "desc": "" },
+        "weakness": { "id": "w4", "name": "", "desc": "" },
+        "desc": { "id": "d3", "text": "" },
+        "rarity": "R"
+      }
+    }
+  ],
   "rival": {
     "names": { "zh-HK": "阿欣", "en": "Jess" },
     "card": {

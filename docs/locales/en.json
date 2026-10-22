@@ -11,7 +11,13 @@
     "tagline": "Turn your friends into collectible cards that roast their worst habits: always late, never replies, \"next time I'll pay.\"",
     "make": "Make a card for a friend",
     "album": "My album",
-    "hint": "Send it to them and see how they strike back 😏",
+    "step1Icon": "✏️",
+    "step2Icon": "📲",
+    "step3Icon": "⚔️",
+    "howTitle": "How it works",
+    "step1": "Roast a friend in a card",
+    "step2": "Send it and wait for the comeback",
+    "step3": "Battle it out. Loser pays up",
     "exampleLabel": "Example card: Sam, Late type, SSR"
   },
   "share": {
