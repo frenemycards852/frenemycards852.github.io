@@ -1,7 +1,7 @@
 # App icon prompt
 
 Save the result as a square PNG (1024×1024 or bigger) and send it over; it goes to
-`docs/assets/icons/icon-source.png`, then `tools/make-share-images.ps1` makes every size.
+`docs/assets/icons/icon-source.webp`, then `tools/make-share-images.ps1` makes every size.
 
 Rules: solid background filling the whole square (iPhone fills transparent corners with black and
 rounds the corners itself), the subject inside the middle 70% (Android may crop to a circle),

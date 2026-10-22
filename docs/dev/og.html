@@ -19,7 +19,7 @@
 <body>
   <h1>Share images (link preview + app icons)</h1>
   <p>Not linked from the app. tools/make-share-images.ps1 screenshots ?shot=og and ?shot=icon&amp;size=N into docs/assets/.
-    Icons come from assets/icons/icon-source.png (square, from the illustrator).</p>
+    Icons come from assets/icons/icon-source.webp (square, from the illustrator).</p>
   <div id="out"></div>
 
   <script type="module">
@@ -147,7 +147,7 @@
       const ctx = canvas.getContext('2d');
       ctx.imageSmoothingQuality = 'high';
       try {
-        const img = await loadImage('../assets/icons/icon-source.png');
+        const img = await loadImage('../assets/icons/icon-source.webp');
         const s = Math.min(img.width, img.height);
         ctx.drawImage(img, (img.width - s) / 2, (img.height - s) / 2, s, s, 0, 0, size, size);
       } catch {

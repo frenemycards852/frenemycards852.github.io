@@ -3,11 +3,13 @@
 #   .\tools\make-share-images.ps1 -Base http://127.0.0.1:5500/docs   (Live Server)
 # Saves the link preview image (docs/assets/og.jpg, JPEG: WhatsApp skips big previews) and the app icons (docs/assets/icons/)
 # by screenshotting docs/dev/og.html with headless Chrome. Icons use
-# docs/assets/icons/icon-source.png when it exists (a placeholder otherwise).
+# docs/assets/icons/icon-source.webp when it exists (a placeholder otherwise).
 param(
   [string]$Base = 'http://localhost:5600',
   [string]$Chrome = 'C:\Program Files\Google\Chrome\Application\chrome.exe'
 )
+try { Invoke-WebRequest -UseBasicParsing "$Base/dev/og.html" | Out-Null }
+catch { Write-Output "The site is not running at $Base. Start the local server first."; exit 1 }
 $root = Split-Path -Parent $PSScriptRoot
 $assets = Join-Path $root 'docs\assets'
 New-Item -ItemType Directory -Force (Join-Path $assets 'icons') | Out-Null
