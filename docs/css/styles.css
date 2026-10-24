@@ -2256,3 +2256,25 @@ h1 {
     transform: none;
   }
 }
+
+/* Type badges (drawn image, or the emoji when a type has none yet) */
+.type-badge {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  margin-right: 0.35em;
+  vertical-align: -0.4em;
+  object-fit: contain;
+}
+
+.type-badge.is-emoji {
+  width: auto;
+  height: auto;
+  vertical-align: baseline;
+}
+
+.chip .type-badge {
+  width: 1.4em;
+  height: 1.4em;
+  margin-right: 0.25em;
+}

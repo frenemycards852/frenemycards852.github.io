@@ -10,6 +10,7 @@ import {
 import { rollRarity } from './rarity.js';
 import { showReveal } from './reveal.js';
 import { photoEditor } from './photo.js';
+import { typeBadge } from './typebadge.js';
 
 const ALL_STEPS = ['name', 'type', 'look', 'scene', 'photo', 'stats', 'skills', 'desc', 'summary'];
 
@@ -192,11 +193,11 @@ function textField({ id, label, value, max, placeholder, onInput, onEnter }) {
 }
 
 // Radio-style option card. Native radios keep it accessible.
-function option({ name, value, checked, title, desc, color, onPick }) {
+function option({ name, value, checked, title, icon, desc, color, onPick }) {
   return h('label', { class: 'option', style: color ? `--accent: ${color}` : null },
     h('input', { type: 'radio', name, value, checked, onchange: onPick }),
     h('span', { class: 'option-body' },
-      h('span', { class: 'option-title', text: title }),
+      h('span', { class: 'option-title' }, icon ?? null, title),
       desc ? h('span', { class: 'option-desc', text: desc }) : null));
 }
 
@@ -288,7 +289,7 @@ const VIEWS = {
     for (const type of data.types.types) {
       list.append(option({
         name: 'type', value: type.id, checked: draft.type === type.id, color: type.color,
-        title: `${type.emoji} ${t(`types.${type.id}.name`)}`, desc: t(`types.${type.id}.idea`),
+        icon: typeBadge(type), title: t(`types.${type.id}.name`), desc: t(`types.${type.id}.idea`),
         onPick: () => { draft.type = type.id; draft.scene = 0; refresh(); },
       }));
     }
@@ -450,7 +451,7 @@ const VIEWS = {
 
     const rows = [
       ['name', draft.name.trim(), 'name'],
-      ['type', `${type.emoji} ${t(`types.${type.id}.name`)}`, 'type'],
+      ['type', h('span', { class: 'summary-type' }, typeBadge(type), t(`types.${type.id}.name`)), 'type'],
       ['look', h('span', { class: 'summary-look' }, artEl(draft.gender, 'summary-art', draft.scene ?? 0), t(`builder.look.${draft.gender}`)), 'look'],
       ['photo', draft.photo
         ? h('img', { class: 'summary-photo', src: draft.photo, alt: t('builder.summary.rows.photo') })

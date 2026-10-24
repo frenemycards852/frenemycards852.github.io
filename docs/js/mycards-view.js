@@ -14,6 +14,7 @@ import { showError } from './cardview.js';
 import { createSharePanel, copyText } from './share.js';
 import { startNewCard } from './builder.js';
 import { startChallenge } from './challenge.js';
+import { typeBadge } from './typebadge.js';
 
 const NAME_KEY = 'fc.myName';
 
@@ -146,8 +147,9 @@ function chips(label, options, current, onChange) {
   const row = el('div', 'chip-row');
   row.setAttribute('role', 'group');
   row.setAttribute('aria-label', label);
-  for (const [value, text] of options) {
+  for (const [value, text, icon] of options) {
     const chip = button(text, 'chip', () => onChange(value));
+    if (icon) chip.prepend(icon);
     chip.setAttribute('aria-pressed', String(value === current));
     row.append(chip);
   }
@@ -182,7 +184,7 @@ function showList(container, items, data, isAlive) {
   const filters = el('div', 'album-filters');
   filters.append(
     chips(t('album.filterSource'), [['all', t('album.all')], ['made', t('album.made')], ['received', t('album.received')]], view.source, set('source')),
-    chips(t('album.filterType'), [['all', t('album.allTypes')], ...data.types.types.map((type) => [type.id, `${type.emoji} ${t(`types.${type.id}.name`)}`])], view.type, set('type')),
+    chips(t('album.filterType'), [['all', t('album.allTypes')], ...data.types.types.map((type) => [type.id, t(`types.${type.id}.name`), typeBadge(type)])], view.type, set('type')),
     chips(t('album.filterRarity'), [['all', t('album.allRarity')], ...data.config.rarity.order.map((r) => [r, r])], view.rarity, set('rarity')),
     chips(t('album.sort'), [['new', t('album.sortNew')], ['rarity', t('album.sortRarity')], ['name', t('album.sortName')]], view.sort, set('sort')),
   );

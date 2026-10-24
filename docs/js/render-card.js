@@ -65,6 +65,18 @@ function loadImage(src) {
   });
 }
 
+
+// Drawn type badges (types.json -> badge), loaded once; null falls back to the type emoji.
+const badgeCache = new Map();
+function loadBadges(types) {
+  return Promise.all(types.map(async (type) => {
+    if (!type.badge) return [type.id, null];
+    if (!badgeCache.has(type.badge)) {
+      badgeCache.set(type.badge, loadImage(new URL(`../${type.badge}`, import.meta.url).href).catch(() => null));
+    }
+    return [type.id, await badgeCache.get(type.badge)];
+  })).then((pairs) => new Map(pairs));
+}
 // Small seeded random so a card's effect looks the same every time it is drawn.
 function seededRandom(text) {
   let s = 7;
@@ -351,7 +363,7 @@ function drawFrame(ctx, trim) {
   ctx.stroke();
 }
 
-function drawMedallion(ctx, type, trim) {
+function drawMedallion(ctx, type, trim, badge) {
   ctx.beginPath();
   ctx.arc(140, 140, 62, 0, Math.PI * 2);
   const g = ctx.createRadialGradient(130, 125, 10, 140, 140, 62);
@@ -359,12 +371,14 @@ function drawMedallion(ctx, type, trim) {
   g.addColorStop(1, mix(type.color, '#000000', 0.35));
   ctx.fillStyle = g;
   ctx.fill();
+  if (badge) ctx.drawImage(badge, 140 - 60, 140 - 60, 120, 120);
   ctx.lineWidth = 10;
   ctx.strokeStyle = gradient(ctx, trim, 80, 80, 200, 200);
   ctx.stroke();
   ctx.lineWidth = 3;
   ctx.strokeStyle = NIGHT;
   ctx.stroke();
+  if (badge) return;
   setFont(ctx, 64, 400);
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
@@ -386,7 +400,7 @@ function drawRarityPlate(ctx, card, frame, trim) {
   ctx.fillText(label.text, 915, 134);
 }
 
-function drawNamePlate(ctx, card, type, trim) {
+function drawNamePlate(ctx, card, type, trim, badge) {
   chamfer(ctx, 80, 870, 920, 108, 34);
   ctx.fillStyle = gradient(ctx, PLATE, 80, 870, 1000, 978);
   ctx.fill();
@@ -395,10 +409,16 @@ function drawNamePlate(ctx, card, type, trim) {
   ctx.stroke();
   ctx.textBaseline = 'middle';
   ctx.textAlign = 'right';
-  const typeLabel = fitSingle(ctx, `${type.emoji} ${t(`types.${type.id}.name`)}`, { maxWidth: 260, size: 34, minSize: 24, weight: 800 });
-  const typeW = ctx.measureText(typeLabel.text).width;
+  const BADGE = 44;
+  const typeName = t(`types.${type.id}.name`);
+  const typeLabel = fitSingle(ctx, badge ? typeName : `${type.emoji} ${typeName}`, { maxWidth: badge ? 260 - BADGE - 8 : 260, size: 34, minSize: 24, weight: 800 });
+  let typeW = ctx.measureText(typeLabel.text).width;
   ctx.fillStyle = mix(type.color, '#ffffff', 0.45);
   ctx.fillText(typeLabel.text, 962, 926);
+  if (badge) {
+    ctx.drawImage(badge, 962 - typeW - 8 - BADGE, 926 - BADGE / 2, BADGE, BADGE);
+    typeW += BADGE + 8;
+  }
   ctx.textAlign = 'left';
   const name = fitSingle(ctx, card.name, { maxWidth: 962 - typeW - 40 - 126, size: 72, minSize: 38, weight: 900 });
   ctx.fillStyle = LIGHT_TEXT;
@@ -536,7 +556,7 @@ function drawQuote(ctx, card, data, trim) {
 }
 
 // Bottom row of the panel: which type this one beats, and which type beats it.
-function drawMatchups(ctx, type, data) {
+function drawMatchups(ctx, type, data, badges) {
   const byId = (id) => data.types.types.find((x) => x.id === id);
   const beats = byId(data.types.beats[type.id]);
   const weakTo = byId(Object.keys(data.types.beats).find((id) => data.types.beats[id] === type.id));
@@ -550,9 +570,28 @@ function drawMatchups(ctx, type, data) {
   ctx.textBaseline = 'middle';
   const half = (label, other, color, x) => {
     if (!other) return;
-    const fit = fitSingle(ctx, `${label} ${other.emoji} ${t(`types.${other.id}.name`)}`, { maxWidth: 420, size: 30, minSize: 20, weight: 800 });
+    const badge = badges.get(other.id);
+    const name = t(`types.${other.id}.name`);
     ctx.fillStyle = color;
-    ctx.fillText(fit.text, x, 1326);
+    if (!badge) {
+      const fit = fitSingle(ctx, `${label} ${other.emoji} ${name}`, { maxWidth: 420, size: 30, minSize: 20, weight: 800 });
+      ctx.fillText(fit.text, x, 1326);
+      return;
+    }
+    // "label [badge] name", centred on x.
+    const B = 36;
+    const fit = fitSingle(ctx, `${label} ${name}`, { maxWidth: 420 - B - 12, size: 30, minSize: 20, weight: 800 });
+    const labelW = ctx.measureText(`${label} `).width;
+    const nameW = ctx.measureText(name).width;
+    let left = x - (labelW + B + 6 + nameW) / 2;
+    ctx.textAlign = 'left';
+    ctx.fillText(fit.text === `${label} ${name}` ? `${label} ` : fit.text, left, 1326);
+    if (fit.text === `${label} ${name}`) {
+      left += labelW;
+      ctx.drawImage(badge, left, 1326 - B / 2, B, B);
+      ctx.fillText(name, left + B + 6, 1326);
+    }
+    ctx.textAlign = 'center';
   };
   half(`👊 ${t('card.beats')}`, beats, '#8ff0a8', 300);
   half(`💥 ${t('card.weakTo')}`, weakTo, '#ff9a9a', 780);
@@ -594,13 +633,14 @@ export async function renderCard(canvas, card, data) {
   const art = await drawArt(ctx, card, data, type);
   await drawPhoto(ctx, card, data, art);
   drawFrame(ctx, trim);
-  drawMedallion(ctx, type, trim);
+  const badges = await loadBadges(data.types.types);
+  drawMedallion(ctx, type, trim, badges.get(type.id));
   drawRarityPlate(ctx, card, frame, trim);
-  drawNamePlate(ctx, card, type, trim);
+  drawNamePlate(ctx, card, type, trim, badges.get(type.id));
   drawPanel(ctx);
   drawRadar(ctx, card, data, type);
   drawSkills(ctx, card, data);
-  drawMatchups(ctx, type, data);
+  drawMatchups(ctx, type, data, badges);
   drawQuote(ctx, card, data, trim);
   drawFooter(ctx, data);
   if (frame.sparkle) {
