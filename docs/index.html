@@ -8,6 +8,11 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png">
   <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
+  <!-- Home-screen app (iPhone): full screen, light status bar, short name under the icon. -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="損友圖鑑">
   <!-- Link previews (WhatsApp, IG, Threads…). Crawlers don't run JS, so this text can't come
        from the locale files; keep it in step with app.name / app.shareTagline. og:image must be
        an absolute URL. Regenerate the image with tools/make-share-images.ps1. -->
@@ -28,6 +33,11 @@
   <script type="module" src="js/main.js"></script>
 </head>
 <body>
+  <!-- Splash until the first view is drawn (main.js removes it). No text: the language is not loaded yet. -->
+  <div class="splash" id="splash" aria-hidden="true">
+    <img class="splash-icon" src="assets/icons/icon-192.png" alt="" width="96" height="96">
+    <span class="splash-dots"><i></i><i></i><i></i></span>
+  </div>
   <div class="shell">
     <header class="topbar">
       <a class="brand" href="#/"><img class="brand-icon" src="assets/icons/icon-192.png" alt="" width="32" height="32"><span data-i18n="app.name"></span></a>

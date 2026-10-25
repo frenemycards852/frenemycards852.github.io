@@ -53,16 +53,46 @@ body {
   max-width: var(--col);
   margin: 0 auto;
   padding:
-    env(safe-area-inset-top) calc(16px + env(safe-area-inset-right))
+    0 calc(16px + env(safe-area-inset-right))
     env(safe-area-inset-bottom) calc(16px + env(safe-area-inset-left));
 }
 
+/* Header stays on top; once the page scrolls it turns to frosted glass (main.js sets .scrolled).
+   It also carries the notch / status-bar space so the glass covers that too. */
 .topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   min-height: 56px;
+  margin: 0 calc(-16px - env(safe-area-inset-right)) 0 calc(-16px - env(safe-area-inset-left));
+  padding: env(safe-area-inset-top) calc(16px + env(safe-area-inset-right)) 0 calc(16px + env(safe-area-inset-left));
+  border-bottom: 1px solid transparent;
+  transition: background-color 0.25s, border-color 0.25s, box-shadow 0.25s;
+}
+
+.scrolled .topbar {
+  background: rgba(255, 244, 220, 0.62);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  border-bottom-color: rgba(43, 33, 24, 0.12);
+  box-shadow: 0 4px 16px rgba(43, 33, 24, 0.08);
+}
+
+/* Over a battle scene the glass is dark, so the white header text stays readable. */
+.scrolled .in-battle .topbar {
+  background: rgba(15, 18, 35, 0.4);
+  border-bottom-color: rgba(255, 255, 255, 0.15);
+}
+
+/* No backdrop-filter support: a plain, more solid bar instead. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .scrolled .topbar {
+    background: rgba(255, 244, 220, 0.95);
+  }
 }
 
 .brand {
@@ -2435,6 +2465,72 @@ h1 {
   }
 
   .card-glint {
+    animation: none;
+  }
+}
+
+/* Splash: shown by index.html before any script runs, faded out by main.js.
+   If the scripts never finish it still goes away on its own after a few seconds. */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 18px;
+  background: var(--bg);
+  animation: splash-giveup 0.3s ease-out 6s forwards;
+}
+
+.splash-icon {
+  width: 96px;
+  height: 96px;
+  border: 3px solid var(--border);
+  border-radius: 24px;
+  box-shadow: 0 6px 0 var(--border);
+  animation: splash-bounce 0.9s ease-in-out infinite;
+}
+
+.splash-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.splash-dots i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--primary);
+  animation: splash-dot 0.9s ease-in-out infinite;
+}
+
+.splash-dots i:nth-child(2) { animation-delay: 0.15s; }
+.splash-dots i:nth-child(3) { animation-delay: 0.3s; }
+
+.splash.done {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-out, visibility 0s 0.3s;
+}
+
+@keyframes splash-bounce {
+  0%, 100% { transform: rotate(-6deg) translateY(0); }
+  50% { transform: rotate(4deg) translateY(-10px); }
+}
+
+@keyframes splash-dot {
+  0%, 100% { opacity: 0.25; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes splash-giveup {
+  to { opacity: 0; visibility: hidden; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash-icon,
+  .splash-dots i {
     animation: none;
   }
 }

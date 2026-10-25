@@ -8,6 +8,18 @@ function refreshChrome() {
   document.title = t('app.name');
 }
 
+// Fade out the splash once the first view is on screen (or startup failed).
+function hideSplash() {
+  requestAnimationFrame(() => document.getElementById('splash')?.classList.add('done'));
+}
+
+// The header turns to frosted glass once the page scrolls.
+function watchScroll() {
+  const update = () => document.documentElement.classList.toggle('scrolled', window.scrollY > 4);
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+}
+
 async function start() {
   await initI18n();
   refreshChrome();
@@ -21,4 +33,5 @@ async function start() {
   });
 }
 
-start();
+watchScroll();
+start().catch((err) => console.error(err)).finally(hideSplash);

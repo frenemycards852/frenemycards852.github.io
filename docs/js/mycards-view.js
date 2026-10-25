@@ -165,6 +165,8 @@ function showList(container, items, data, isAlive) {
     section.append(el('p', 'album-warn', t('album.noStorage')));
   } else {
     section.append(el('p', 'hint', t('album.hint', { max })));
+    // iPhone keeps Safari and the home-screen app's storage apart; say so where it matters.
+    if (isIOS()) section.append(el('p', 'hint', t('album.iosNote')));
   }
 
   const make = link(t('home.make'), '#/make', 'btn btn-primary');
@@ -465,4 +467,10 @@ export async function mountAlbumImport(container, payload) {
   }
   section.append(status, link(t('import.open'), '#/album'), link(t('nav.back'), '#/'));
   container.replaceChildren(section);
+}
+
+// iPhone / iPad (iPadOS reports itself as a Mac with touch).
+function isIOS() {
+  return /iPhone|iPad|iPod/.test(navigator.userAgent)
+    || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 }

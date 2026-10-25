@@ -223,6 +223,7 @@
     "empty": "Your album is looking lonely… Go roast a friend and make their card! Or wait for one to land.",
     "made": "You made",
     "received": "Received",
+    "iosNote": "📱 iPhone tip: Safari and the home-screen app keep separate albums. To move your cards across, use \"Export album\" below.",
     "noStorage": "This browser can't keep cards (maybe a private window or an in-app browser). Everything else works, but the album stays empty.",
     "stats": "{n}/{max} collected · {ssr} SSR",
     "none": "No cards match these filters. Try another mix?",
