@@ -16,6 +16,7 @@ const SPIN_PER_WIDTH = 200; // degrees for a drag across the whole card
 const DRAG_START = 8; // px before a press becomes a spin
 const TAP_MS = 350; // a press shorter than this, without a drag, turns the card over
 
+// Returns { showBack, turnOver } for scripted turns (nothing with reduced motion).
 export function attachTilt(box, { foil = false } = {}) {
   if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
   box.classList.add('tilt');
@@ -136,4 +137,20 @@ export function attachTilt(box, { foil = false } = {}) {
     box.classList.remove('pressed');
     if (!drag?.spinning) untilt();
   });
+
+  return {
+    // Show the card back straight away, with no turning animation.
+    showBack() {
+      box.parentElement?.classList.add('tilt-stage');
+      spin = 180;
+      box.classList.add('spinning');
+      setSpin(spin);
+      requestAnimationFrame(() => requestAnimationFrame(() => box.classList.remove('spinning')));
+    },
+    // Turn the card over (front ↔ back) with the normal flip.
+    turnOver() {
+      box.parentElement?.classList.add('tilt-stage');
+      flipBy(180);
+    },
+  };
 }

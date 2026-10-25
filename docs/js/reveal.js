@@ -75,7 +75,7 @@ export function showReveal(container, card, data, { opened = false, returnTo = n
   const cardBox = el('div', frame.sparkle ? 'reveal-card holo' : 'reveal-card');
   cardBox.append(canvas);
   if (frame.sparkle) cardBox.append(el('div', 'holo-shine'));
-  attachTilt(cardBox, { foil: Boolean(frame.foil) });
+  const turn = attachTilt(cardBox, { foil: Boolean(frame.foil) });
 
   const { front: pack, torn } = boosterPack({
     name: t('app.name'), label: t('reveal.tap'), icon: 'assets/icons/icon-192.png',
@@ -143,21 +143,26 @@ export function showReveal(container, card, data, { opened = false, returnTo = n
   }
   torn.then(async () => {
     await drawn;
-    // The card slides up out of the opened pack, the pack drops away, the card lands centre stage.
+    // Face down, the card slides up out of the pack while the pack is flung away to the left.
+    turn?.showBack();
     cardBox.style.animation = 'none';
     const rise = cardBox.animate([
       { opacity: 1, transform: 'translateY(30%) scale(0.6)' },
-      { opacity: 1, transform: 'translateY(-62%) scale(0.6)', offset: 0.5 },
+      { opacity: 1, transform: 'translateY(-45%) scale(0.68)', offset: 0.45 },
       { opacity: 1, transform: 'translateY(0) scale(1)' },
-    ], { duration: 1100, easing: 'cubic-bezier(0.3, 0.7, 0.3, 1.1)', fill: 'forwards' });
+    ], { duration: 900, easing: 'cubic-bezier(0.3, 0.7, 0.3, 1.1)', fill: 'forwards' });
     pack.animate([
       { transform: 'none', opacity: 1 },
-      { transform: 'translateY(120%) rotate(8deg)', opacity: 0 },
-    ], { duration: 500, delay: 520, easing: 'ease-in', fill: 'forwards' });
-    await wait(650);
-    section.classList.add('opening'); // flash as the card leaves the pack
+      { transform: 'translateX(8%) rotate(4deg)', opacity: 1, offset: 0.2 },
+      { transform: 'translate(-170%, 25%) rotate(-28deg)', opacity: 0 },
+    ], { duration: 650, easing: 'cubic-bezier(0.5, 0, 0.7, 0.4)', fill: 'forwards' });
     await rise.finished.catch(() => {});
     section.classList.add('opened');
+    // It rests face down for a moment, then turns over: the flash, aura and rarity come with the turn.
+    await wait(500);
+    turn?.turnOver();
+    await wait(275); // edge-on: the front is about to show
+    section.classList.add('opening');
     finish();
     rise.cancel(); // hand over to the revealed state (same final position)
   });

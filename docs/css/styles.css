@@ -958,44 +958,27 @@ h1 {
   transition: none;
 }
 
-/* The strip rolls up from the left: everything left of the roll is already rolled away. */
-.pack-strip-wrap {
+/* The strip lifts straight up from its left end as the finger moves (hinged at the right),
+   then slides off once torn. */
+.pack-strip {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  clip-path: inset(0 0 0 calc(var(--tear) * 100%));
+  transform-origin: 100% 100%;
+  transform: rotate(calc(var(--tear) * -20deg)) translateY(calc(var(--tear) * -6px));
 }
 
-.pack-strip {
-  position: absolute;
-  inset: 0;
+.pack.torn .pack-strip {
+  animation: strip-off 0.35s ease-in 0.45s forwards;
 }
 
-/* The rolled-up foil: a shiny tube riding the tear edge, fatter the more it has rolled. */
-.pack-roll {
-  position: absolute;
-  top: 0;
-  left: calc(var(--tear) * 100%);
-  width: calc(8px + var(--tear) * 18px);
-  translate: -50% calc(var(--tear) * -4px);
-  border-radius: 999px;
-  background: linear-gradient(90deg, #1a1f3d, #8f6bff 30%, #ffffff 50%, #ff6bd6 70%, #1a1f3d);
-  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.4);
-  opacity: min(1, calc(var(--tear) * 20));
-  pointer-events: none;
+@keyframes strip-off {
+  from { transform: rotate(-20deg) translateY(-6px); opacity: 1; }
+  to { transform: translate(140px, -70px) rotate(-20deg); opacity: 0; }
 }
 
-/* Once it reaches the far edge, the roll pops off. */
-.pack.torn .pack-roll {
-  animation: roll-off 0.4s ease-in 0.45s forwards;
-}
-
-@keyframes roll-off {
-  to { translate: -30% -70px; rotate: 35deg; opacity: 0; }
-}
-
-/* Dotted tear line, and the white rip under the rolled-up part */
+/* Dotted tear line, and the white rip under the lifted part */
 .pack-seam {
   position: absolute;
   left: 8%;
