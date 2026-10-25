@@ -69,10 +69,13 @@ export function myValidCards(data) {
 // Single choice by default; with multi, each tap toggles and onPick returns whether it's allowed.
 export function cardPicker(items, data, { selectedKey = null, selectedKeys = null, multi = false, onPick, isAlive = () => true }) {
   const grid = el('div', 'card-grid');
-  const buttons = items.map((item) => {
+  const buttons = items.map((item, n) => {
     const key = cardKey(item.card);
     const b = el('button', 'card-pick');
     b.type = 'button';
+    // Type colour for the hover glow, and a place in the line for the drop-in.
+    b.style.setProperty('--accent', data.types.types.find((x) => x.id === item.card.type)?.color ?? 'var(--primary)');
+    b.style.setProperty('--n', Math.min(n, 12));
     b.setAttribute('aria-pressed', String(multi ? selectedKeys.has(key) : key === selectedKey));
     b.setAttribute('aria-label', `${item.card.name} · ${t(`album.${item.source}`)}`);
     b.append(

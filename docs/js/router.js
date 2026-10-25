@@ -69,10 +69,25 @@ export function render() {
   window.scrollTo(0, 0);
 }
 
+// The old page fades out for this long before the new one is drawn (none with reduced motion).
+const LEAVE_MS = 120;
+
 export function initRouter() {
-  window.addEventListener('hashchange', () => {
+  const app = document.getElementById('app');
+  let leaving = 0;
+  const show = () => {
+    app.classList.remove('leaving');
     render();
-    document.getElementById('app').focus({ preventScroll: true });
+    app.focus({ preventScroll: true });
+  };
+  window.addEventListener('hashchange', () => {
+    clearTimeout(leaving);
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || !app.firstElementChild) {
+      show();
+      return;
+    }
+    app.classList.add('leaving');
+    leaving = setTimeout(show, LEAVE_MS);
   });
   render();
 }

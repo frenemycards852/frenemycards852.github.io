@@ -83,7 +83,15 @@ export function showReveal(container, card, data, { opened = false, returnTo = n
 
   const stage = el('div', 'reveal-stage');
   stage.style.setProperty('--glow', frame.badgeText[0]);
-  stage.append(pack, el('div', 'reveal-flash'), cardBox);
+  // Shockwave rings behind the card as it lands, in the type's colour (more for rarer cards).
+  const type = data.types.types.find((x) => x.id === card.type);
+  stage.style.setProperty('--aura', type?.color ?? frame.badgeText[0]);
+  const rings = Array.from({ length: frame.aura ?? 1 }, (_, i) => {
+    const ring = el('div', 'aura-ring');
+    ring.style.setProperty('--i', i);
+    return ring;
+  });
+  stage.append(pack, el('div', 'reveal-flash'), ...rings, cardBox);
 
   const tapHint = el('p', 'reveal-tap', t('reveal.tap'));
   const reaction = el('p', 'reveal-reaction', t(`reveal.reaction.${card.rarity}`, { name: card.name }));

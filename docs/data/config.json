@@ -58,10 +58,10 @@
     "order": ["N", "R", "SR", "SSR"],
     "odds": { "N": 50, "R": 30, "SR": 15, "SSR": 5 },
     "frames": {
-      "N": { "colors": ["#a3a8b2", "#4a4f59", "#8a8f99", "#3a3e47", "#9aa0aa"], "badgeText": ["#e6e9ee", "#aab0ba"] },
-      "R": { "colors": ["#ffffff", "#b9c2cc", "#f1f4f7", "#8e98a5", "#e6eaee"], "badgeText": ["#ffffff", "#c9d1da"] },
-      "SR": { "colors": ["#fff4b0", "#e3a92c", "#fff0a0", "#b5780c", "#ffe27a"], "badgeText": ["#ffe47e", "#e3a92c"], "foil": true },
-      "SSR": { "colors": ["#ffffff", "#b9c2cc", "#ff6b6b", "#ffb84d", "#ffe94d", "#6bff95", "#4dd2ff", "#8f6bff", "#ff6bd6", "#f1f4f7"], "badgeText": ["#ffe94d", "#6bff95", "#4dd2ff", "#ff6bd6"], "sparkle": true, "foil": true }
+      "N": { "colors": ["#a3a8b2", "#4a4f59", "#8a8f99", "#3a3e47", "#9aa0aa"], "badgeText": ["#e6e9ee", "#aab0ba"], "aura": 1 },
+      "R": { "colors": ["#ffffff", "#b9c2cc", "#f1f4f7", "#8e98a5", "#e6eaee"], "badgeText": ["#ffffff", "#c9d1da"], "aura": 1 },
+      "SR": { "colors": ["#fff4b0", "#e3a92c", "#fff0a0", "#b5780c", "#ffe27a"], "badgeText": ["#ffe47e", "#e3a92c"], "foil": true, "aura": 2 },
+      "SSR": { "colors": ["#ffffff", "#b9c2cc", "#ff6b6b", "#ffb84d", "#ffe94d", "#6bff95", "#4dd2ff", "#8f6bff", "#ff6bd6", "#f1f4f7"], "badgeText": ["#ffe94d", "#6bff95", "#4dd2ff", "#ff6bd6"], "sparkle": true, "foil": true, "aura": 3 }
     }
   }
 }
