@@ -942,30 +942,60 @@ h1 {
   background-position: 0 0, 0 -52px; /* continues the strip's foil below the seam */
 }
 
-.pack-strip {
+/* --tear is registered so it can animate: a tap (or a swipe let go past halfway) rolls the
+   strip the rest of the way on its own. */
+@property --tear {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+.pack {
+  transition: --tear 0.45s cubic-bezier(0.3, 0.7, 0.3, 1);
+}
+
+.pack.dragging {
+  transition: none;
+}
+
+/* The strip rolls up from the left: everything left of the roll is already rolled away. */
+.pack-strip-wrap {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  transform-origin: 100% 100%;
-  transform: rotate(calc(var(--tear) * -14deg)) translateY(calc(var(--tear) * -8px));
-  transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.3);
+  clip-path: inset(0 0 0 calc(var(--tear) * 100%));
 }
 
-.pack.dragging .pack-strip {
-  transition: none;
+.pack-strip {
+  position: absolute;
+  inset: 0;
 }
 
-.pack.torn .pack-strip {
-  animation: strip-fly 0.5s ease-in forwards;
+/* The rolled-up foil: a shiny tube riding the tear edge, fatter the more it has rolled. */
+.pack-roll {
+  position: absolute;
+  top: 0;
+  left: calc(var(--tear) * 100%);
+  width: calc(8px + var(--tear) * 18px);
+  translate: -50% calc(var(--tear) * -4px);
+  border-radius: 999px;
+  background: linear-gradient(90deg, #1a1f3d, #8f6bff 30%, #ffffff 50%, #ff6bd6 70%, #1a1f3d);
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.4);
+  opacity: min(1, calc(var(--tear) * 20));
+  pointer-events: none;
 }
 
-@keyframes strip-fly {
-  from { transform: rotate(-14deg) translateY(-8px); opacity: 1; }
-  to { transform: translate(80px, -170px) rotate(-45deg); opacity: 0; }
+/* Once it reaches the far edge, the roll pops off. */
+.pack.torn .pack-roll {
+  animation: roll-off 0.4s ease-in 0.45s forwards;
 }
 
-/* Dotted tear line, and the white rip that follows the finger along it */
+@keyframes roll-off {
+  to { translate: -30% -70px; rotate: 35deg; opacity: 0; }
+}
+
+/* Dotted tear line, and the white rip under the rolled-up part */
 .pack-seam {
   position: absolute;
   left: 8%;
@@ -981,16 +1011,12 @@ h1 {
   margin-top: -2px;
   background: #ffffff;
   box-shadow: 0 0 8px #ffffff;
-  transition: width 0.35s ease-out;
-}
-
-.pack.dragging .pack-rip {
-  transition: none;
 }
 
 .pack.torn .pack-seam,
 .pack.torn .pack-rip {
   opacity: 0;
+  transition: opacity 0.2s 0.45s;
 }
 
 .pack-logo {

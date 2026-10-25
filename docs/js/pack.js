@@ -1,5 +1,5 @@
 // Booster pack: crimped foil pack with a tear strip along the top.
-// Swipe along the dotted line to tear it (the strip lifts with the finger; past halfway it
+// Swipe along the dotted line to tear it (the strip rolls up behind the finger; past halfway it
 // tears off on release), or tap / press Enter to tear it in one go.
 //
 // boosterPack() returns { front, torn }:
@@ -35,7 +35,12 @@ export function boosterPack({ name, label, icon }) {
   const body = el('div', 'pack-body');
   body.style.clipPath = `polygon(0 0, 100% 0, ${[...crimp(100, -3)].reverse().join(', ')})`;
   body.style.top = `${top}%`;
-  strip.style.height = `${top}%`;
+  // The strip rolls up from the left: the wrap hides the rolled-up part, the roll rides the edge.
+  const stripWrap = el('div', 'pack-strip-wrap');
+  stripWrap.style.height = `${top}%`;
+  stripWrap.append(strip);
+  const roll = el('div', 'pack-roll');
+  roll.style.height = `${top}%`;
   const seam = el('div', 'pack-seam');
   seam.style.top = `${top}%`;
   const rip = el('div', 'pack-rip');
@@ -49,7 +54,7 @@ export function boosterPack({ name, label, icon }) {
   const q = el('span', 'pack-q');
   q.textContent = '?';
   body.append(logo, title, q);
-  front.append(body, strip, seam, rip);
+  front.append(body, stripWrap, seam, rip, roll);
 
   let state = 'closed'; // closed → tearing → torn
   let resolveTorn;
@@ -63,9 +68,10 @@ export function boosterPack({ name, label, icon }) {
     front.classList.remove('dragging');
     setTear(1);
     front.classList.add('torn');
-    strip.addEventListener('animationend', () => resolveTorn(), { once: true });
+    // The strip finishes rolling up to the right edge, then the roll pops off.
+    roll.addEventListener('animationend', () => resolveTorn(), { once: true });
     // Safety net if the animation is skipped.
-    setTimeout(resolveTorn, 900);
+    setTimeout(resolveTorn, 1300);
   };
 
   let drag = null;
