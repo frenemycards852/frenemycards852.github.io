@@ -143,17 +143,24 @@ export async function showComicBattle(container, match, data, {
     face.alt = '';
     const info = el('div', 'comic-pill-info');
     const bar = el('div', 'hp-bar');
-    bar.append(el('span', 'hp-fill'));
+    // Fighting-game bar: the green part drops at once, a red trail follows a moment later.
+    bar.append(el('span', 'hp-trail'), el('span', 'hp-fill'));
     info.append(el('p', 'comic-pill-name', card.name), bar, el('p', 'hp-text'));
     pill.append(face, info);
     hud.append(pill);
     return pill;
   });
+  const lastPct = [1, 1];
   const setHp = (hp) => hp.forEach((value, side) => {
     const pct = value / result.maxHp[side];
     const fill = pills[side].querySelector('.hp-fill');
+    const trail = pills[side].querySelector('.hp-trail');
     fill.style.transform = `scaleX(${pct})`;
     fill.classList.toggle('low', pct < 0.3);
+    // Healing: the trail jumps up with the bar instead of lagging behind.
+    trail.classList.toggle('instant', pct >= lastPct[side]);
+    trail.style.transform = `scaleX(${pct})`;
+    lastPct[side] = pct;
     pills[side].querySelector('.hp-text').textContent = t('battle.hp', { hp: value, max: result.maxHp[side] });
   });
 
@@ -255,6 +262,28 @@ export async function showComicBattle(container, match, data, {
     node.setAttribute('aria-label', text);
     fx.append(node);
   };
+  // Comic sound-effect word beside the card that gets hit ("sfx.hit" / "sfx.crit" / "sfx.miss").
+  const sfx = (side, kind, i) => {
+    const pool = data.lines[`sfx.${kind}`] ?? [];
+    if (!pool.length) return;
+    const node = el('div', `comic-sfx ${kind} at-${side}`);
+    node.setAttribute('aria-hidden', 'true');
+    node.append(el('span', null, pool[i % pool.length]));
+    fx.append(node);
+  };
+  // Critical hit: the whole battle area jolts.
+  const shake = () => {
+    arena.classList.remove('shake');
+    void arena.offsetWidth;
+    arena.classList.add('shake');
+  };
+  // Final blow: freeze, slash the stage in two, the loser's half goes grey screentone.
+  const split = (loser) => {
+    const node = el('div', `comic-split loser-${loser}`);
+    node.setAttribute('aria-hidden', 'true');
+    node.append(el('div', 'comic-split-grey'), el('div', 'comic-split-slash'));
+    stage.append(node);
+  };
   // Each type has its own shouts ("shout.<type>"); "shout" is the fallback.
   const shout = (side, i) => {
     const pool = data.lines[`shout.${match.cards[side].type}`] ?? data.lines.shout ?? [];
@@ -280,10 +309,12 @@ export async function showComicBattle(container, match, data, {
       if (e.missed || e.dodged) {
         setPose(d, null, 'dodge');
         burst(d, e.missed ? t('comic.miss') : t('comic.dodge'), 'miss');
+        sfx(d, 'miss', index);
       } else {
         setPose(d, 'hurt', 'hurt');
         burst(d, t('comic.damage', { n: e.dmg }), e.crit ? 'crit' : '');
-        if (e.crit) { tag(t('comic.crit'), 'hot'); scene += ' crit'; }
+        sfx(d, e.crit ? 'crit' : 'hit', index);
+        if (e.crit) { tag(t('comic.crit'), 'hot'); scene += ' crit'; shake(); }
         if (e.effective) tag(t('comic.super'), 'hot');
         if (e.saved) tag(t('comic.survive'));
       }
@@ -305,6 +336,7 @@ export async function showComicBattle(container, match, data, {
       setPose(1 - e.side, null, '');
     } else if (panel.kind === 'finish') {
       const w = result.winner;
+      if (w !== null && !stage.querySelector('.comic-split')) split(1 - w);
       if (w === null) {
         setPose(0, null, 'winner');
         setPose(1, null, 'winner');
@@ -347,6 +379,14 @@ export async function showComicBattle(container, match, data, {
   setHp(result.events[0].hp);
   for (const [i, panel] of panels.entries()) {
     if (skipped || !isAlive()) break;
+    // Final blow: hold the last hit as a freeze frame and slash the stage before the finish.
+    if (panel.kind === 'finish' && result.winner !== null && !reducedMotion()) {
+      split(1 - result.winner);
+      stage.classList.add('frozen');
+      await sleep(pace.freezeMs ?? 0);
+      stage.classList.remove('frozen');
+      if (skipped || !isAlive()) break;
+    }
     drawPanel(panel, i);
     let ms = pace.panelMs + pace.lineMs * Math.max(0, panel.lines.length - 1);
     if (panel.kind === 'intro') ms = pace.introMs;

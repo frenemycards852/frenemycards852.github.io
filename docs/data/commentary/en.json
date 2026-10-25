@@ -66,6 +66,9 @@
     "Oh, sweetie.",
     "Just stating facts!"
   ],
+  "sfx.hit": ["BAM!", "WHAM!", "POW!"],
+  "sfx.crit": ["CRASH!!", "KABOOM!!"],
+  "sfx.miss": ["WHOOSH~"],
   "start": [
     "{actor} vs {opponent}. This friendship is about to be tested 🔥",
     "Ladies and gentlemen: {actor} and {opponent} are settling old scores.",
