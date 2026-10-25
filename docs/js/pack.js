@@ -66,6 +66,7 @@ export function boosterPack({ name, label, icon }) {
     front.classList.remove('dragging');
     setTear(1);
     front.classList.add('torn');
+    back.classList.add('open'); // the inside only shows once there is an opening
     strip.addEventListener('animationend', () => resolveTorn(), { once: true });
     // Safety net if the animation is skipped.
     setTimeout(resolveTorn, 900);
