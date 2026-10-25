@@ -49,7 +49,7 @@
   },
   "reveal": {
     "title": "開卡包！",
-    "tap": "撳開卡包 👆",
+    "tap": "沿住虛線向右掃，或者撳一下，撕開卡包 👉",
     "cardLabel": "{name} 嘅卡，稀有度 {rarity}",
     "challenge": "⚔️ 用呢張卡挑戰朋友",
     "again": "再整一張",

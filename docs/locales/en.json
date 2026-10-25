@@ -49,7 +49,7 @@
   },
   "reveal": {
     "title": "Open the pack!",
-    "tap": "Tap to open 👆",
+    "tap": "Swipe along the dotted line, or tap, to tear it open 👉",
     "cardLabel": "{name}'s card, rarity {rarity}",
     "challenge": "⚔️ Challenge a friend with this card",
     "again": "Make another card",

@@ -896,46 +896,137 @@ h1 {
   grid-area: 1 / 1;
 }
 
+/* Booster pack (pack.js): foil body with crimped seals and a tear strip along the top.
+   --tear (0–1) lifts the strip as a finger swipes along the dotted line. */
 .pack {
-  display: grid;
-  place-content: center;
-  gap: 6px;
+  --tear: 0;
+  position: relative;
+  z-index: 1;
   width: 220px;
   height: 308px;
-  border: 3px solid var(--border);
-  border-radius: 18px;
-  background: linear-gradient(135deg, #1a1f3d, #4a4f9a 45%, #8f6bff 55%, #1a1f3d);
-  box-shadow: 0 8px 0 var(--border);
+  padding: 0;
+  border: 0;
+  background: none;
   color: #ffffff;
   font: inherit;
   cursor: pointer;
+  touch-action: pan-y; /* sideways swipes tear; up and down still scroll */
+  -webkit-user-select: none;
+  user-select: none;
+  filter: drop-shadow(0 6px 0 rgba(43, 33, 24, 0.9)) drop-shadow(0 14px 18px rgba(43, 33, 24, 0.25));
   animation: pack-wobble 1.6s ease-in-out infinite;
+}
+
+.pack.dragging,
+.pack.torn {
+  animation: none;
+}
+
+.pack-body,
+.pack-strip,
+.pack-back {
+  background:
+    linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.35) 38%, transparent 46%),
+    linear-gradient(135deg, #1a1f3d, #4a4f9a 40%, #8f6bff 52%, #ff6bd6 60%, #1a1f3d);
+  background-size: 100% 100%, 100% 308px;
+}
+
+.pack-body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 6px;
+  background-position: 0 0, 0 -52px; /* continues the strip's foil below the seam */
+}
+
+.pack-strip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  transform-origin: 100% 100%;
+  transform: rotate(calc(var(--tear) * -14deg)) translateY(calc(var(--tear) * -8px));
+  transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.3);
+}
+
+.pack.dragging .pack-strip {
+  transition: none;
+}
+
+.pack.torn .pack-strip {
+  animation: strip-fly 0.5s ease-in forwards;
+}
+
+@keyframes strip-fly {
+  from { transform: rotate(-14deg) translateY(-8px); opacity: 1; }
+  to { transform: translate(80px, -170px) rotate(-45deg); opacity: 0; }
+}
+
+/* Dotted tear line, and the white rip that follows the finger along it */
+.pack-seam {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  border-top: 2px dashed rgba(255, 255, 255, 0.75);
+}
+
+.pack-rip {
+  position: absolute;
+  left: 0;
+  width: calc(var(--tear) * 100%);
+  height: 4px;
+  margin-top: -2px;
+  background: #ffffff;
+  box-shadow: 0 0 8px #ffffff;
+  transition: width 0.35s ease-out;
+}
+
+.pack.dragging .pack-rip {
+  transition: none;
+}
+
+.pack.torn .pack-seam,
+.pack.torn .pack-rip {
+  opacity: 0;
+}
+
+.pack-logo {
+  width: 68px;
+  height: 68px;
+  border: 3px solid #ffffff;
+  border-radius: 16px;
+  transform: rotate(-6deg);
 }
 
 .pack-name {
   font-size: 20px;
-  font-weight: 800;
+  font-weight: 900;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.4);
 }
 
 .pack-q {
-  font-size: 110px;
+  font-size: 84px;
   font-weight: 900;
   line-height: 1;
+  text-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* Inside of the pack: seen through the opening once the strip is gone. */
+.pack-back {
+  width: 220px;
+  height: 308px;
+  border-radius: 6px;
+  background: linear-gradient(#0b0d1c, #2c2f6b);
+  box-shadow: inset 0 18px 24px rgba(0, 0, 0, 0.6);
 }
 
 @keyframes pack-wobble {
   0%, 100% { transform: rotate(-2deg); }
   50% { transform: rotate(2deg) scale(1.03); }
-}
-
-.opening .pack {
-  animation: pack-shake 0.12s linear infinite;
-}
-
-@keyframes pack-shake {
-  0% { transform: translateX(-5px) rotate(-3deg); }
-  50% { transform: translateX(5px) rotate(3deg); }
-  100% { transform: translateX(-5px) rotate(-3deg); }
 }
 
 .reveal-flash {
@@ -958,6 +1049,7 @@ h1 {
 }
 
 .opened .pack,
+.opened .pack-back,
 .opened .reveal-tap {
   display: none;
 }
