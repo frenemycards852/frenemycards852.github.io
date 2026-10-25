@@ -8,6 +8,7 @@ import { clipText, isBlocked } from './card.js';
 import { saveMyCard } from './mycards.js';
 import { startChallenge } from './challenge.js';
 import { acceptWithCard } from './accept.js';
+import { attachTilt } from './tilt.js';
 
 const NAME_KEY = 'fc.myName';
 
@@ -73,6 +74,7 @@ export function showReveal(container, card, data, { opened = false, returnTo = n
   const cardBox = el('div', frame.sparkle ? 'reveal-card holo' : 'reveal-card');
   cardBox.append(canvas);
   if (frame.sparkle) cardBox.append(el('div', 'holo-shine'));
+  attachTilt(cardBox, { foil: Boolean(frame.foil) });
 
   const pack = el('button', 'pack');
   pack.type = 'button';

@@ -15,6 +15,7 @@ import { createSharePanel, copyText } from './share.js';
 import { startNewCard } from './builder.js';
 import { startChallenge } from './challenge.js';
 import { typeBadge } from './typebadge.js';
+import { attachTilt } from './tilt.js';
 
 const NAME_KEY = 'fc.myName';
 
@@ -86,7 +87,7 @@ export function cardPicker(items, data, { selectedKey = null, selectedKeys = nul
         return;
       }
       for (const other of buttons) other.setAttribute('aria-pressed', String(other === b));
-      onPick(item, true);
+      onPick(item, true, b);
     });
     grid.append(b);
     return b;
@@ -197,7 +198,10 @@ function showList(container, items, data, isAlive) {
     section.append(
       el('p', 'album-tap', t('album.tapHint')),
       cardPicker(shown, data, {
-        onPick: (item) => { location.hash = `#/album/${item.index}`; },
+        onPick: (item, on, button) => {
+          rememberZoom(item.index, button.querySelector('canvas') ?? button);
+          location.hash = `#/album/${item.index}`;
+        },
         isAlive,
       }),
     );
@@ -216,6 +220,34 @@ function showList(container, items, data, isAlive) {
 
 // ---------- one card, big ----------
 
+// The tapped thumbnail's place on the page, so the big card can grow out of it.
+let zoom = null;
+function rememberZoom(index, node) {
+  const r = node.getBoundingClientRect();
+  zoom = { index, at: Date.now(), left: r.left + window.scrollX, top: r.top + window.scrollY, width: r.width };
+}
+
+function zoomIn(cardBox, index) {
+  const from = zoom;
+  zoom = null;
+  if (!from || from.index !== index || Date.now() - from.at > 1500) return false;
+  if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || !cardBox.animate) return false;
+  const to = cardBox.getBoundingClientRect();
+  if (!to.width) return false;
+  const scale = from.width / to.width;
+  const dx = from.left - window.scrollX - to.left;
+  const dy = from.top - window.scrollY - to.top;
+  cardBox.style.animation = 'none'; // replaces the flip-in used when a pack is opened
+  cardBox.animate(
+    [
+      { transformOrigin: '0 0', transform: `translate(${dx}px, ${dy}px) scale(${scale})`, opacity: 0.7 },
+      { transformOrigin: '0 0', transform: 'none', opacity: 1 },
+    ],
+    { duration: 380, easing: 'cubic-bezier(0.2, 0.9, 0.3, 1.1)' },
+  );
+  return true;
+}
+
 async function showDetail(container, items, index, data) {
   const item = items[index];
   const { card } = item;
@@ -226,6 +258,7 @@ async function showDetail(container, items, index, data) {
   const cardBox = el('div', frame.sparkle ? 'reveal-card holo' : 'reveal-card');
   cardBox.append(canvas);
   if (frame.sparkle) cardBox.append(el('div', 'holo-shine'));
+  attachTilt(cardBox, { foil: Boolean(frame.foil) });
 
   const challenge = link(t('album.challenge'), '#/challenge', 'btn btn-primary');
   challenge.addEventListener('click', () => startChallenge(card));
@@ -266,7 +299,10 @@ async function showDetail(container, items, index, data) {
   section.append(el('h1', null, card.name), stage, box);
   container.replaceChildren(section);
   await renderCard(canvas, card, data).catch((err) => console.error(err));
+  // Opened from a thumbnail: no flip-in (it would also skew the size measured for the zoom).
+  if (zoom?.index === index) cardBox.style.animation = 'none';
   section.classList.add('opened', 'revealed');
+  zoomIn(cardBox, index);
 }
 
 // ---------- Friend Collection image ----------

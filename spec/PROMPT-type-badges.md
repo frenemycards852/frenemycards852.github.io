@@ -2,7 +2,7 @@
 
 Same look as the app icon (flat anime style, bold black outlines, cel shading). One object per badge
 on a round coloured badge; the badge colour matches `types.json` → `color`. Send each square image
-over; they become `docs/assets/types/<type>.png` (transparent corners are cut out on our side if needed).
+over; they become `docs/assets/types/<type>.webp` (transparent corners are cut out on our side if needed).
 
 Rules: square image, one round badge filling about 85% of the square, plain white background around
 it, one simple object in the middle, readable at 24 px, no text, no faces of real people, original design.

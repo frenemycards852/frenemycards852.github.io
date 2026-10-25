@@ -10,6 +10,7 @@ import { createSharePanel } from './share.js';
 import { startNewCard } from './builder.js';
 import { saveMyCard, withAlbumPhoto } from './mycards.js';
 import { startChallenge } from './challenge.js';
+import { attachTilt } from './tilt.js';
 
 let mountToken = 0;
 
@@ -74,6 +75,7 @@ export async function mountCardView(container, payload) {
   const cardBox = el('div', frame.sparkle ? 'reveal-card holo' : 'reveal-card');
   cardBox.append(canvas);
   if (frame.sparkle) cardBox.append(el('div', 'holo-shine'));
+  attachTilt(cardBox, { foil: Boolean(frame.foil) });
 
   // Strike back: start a new card for the person who made this one.
   const strike = el('a', 'btn btn-primary btn-strike', from ? t('view.strike', { from }) : t('view.strikeAnon'));

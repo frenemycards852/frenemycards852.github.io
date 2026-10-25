@@ -1959,7 +1959,7 @@ h1 {
   place-items: center;
   width: 36%;
   aspect-ratio: 362 / 400;
-  --burst-art: url("../assets/fx/burst.png");
+  --burst-art: url("../assets/fx/burst.webp");
   transform: rotate(-6deg);
   animation: comic-burst-in 0.4s cubic-bezier(0.2, 1.6, 0.4, 1);
 }
@@ -2010,7 +2010,7 @@ h1 {
 .comic-burst.miss {
   width: 42%;
   aspect-ratio: 355 / 360;
-  --burst-art: url("../assets/fx/burst-label.png");
+  --burst-art: url("../assets/fx/burst-label.webp");
 }
 
 .comic-burst.small span,
@@ -2055,7 +2055,7 @@ h1 {
 }
 
 .comic-bubble.say::before {
-  background-image: url("../assets/fx/bubble-say.png");
+  background-image: url("../assets/fx/bubble-say.webp");
 }
 
 .comic-bubble.think {
@@ -2064,7 +2064,7 @@ h1 {
 }
 
 .comic-bubble.think::before {
-  background-image: url("../assets/fx/bubble-think.png");
+  background-image: url("../assets/fx/bubble-think.webp");
 }
 
 /* The text sits inside the cloud part (insets are a share of the bubble's own size). */
@@ -2107,13 +2107,13 @@ h1 {
 .comic-art.vs {
   width: 74%;
   aspect-ratio: 398 / 560;
-  background-image: url("../assets/fx/vs.png");
+  background-image: url("../assets/fx/vs.webp");
 }
 
 .comic-art.ko {
   width: 64%;
   aspect-ratio: 476 / 480;
-  background-image: url("../assets/fx/ko.png");
+  background-image: url("../assets/fx/ko.webp");
 }
 
 @keyframes comic-art-in {
@@ -2179,7 +2179,7 @@ h1 {
   z-index: 4;
   width: 46%;
   aspect-ratio: 416 / 460;
-  background: url("../assets/fx/winner.png") center / contain no-repeat;
+  background: url("../assets/fx/winner.webp") center / contain no-repeat;
   transform: rotate(var(--tilt));
   animation: comic-winner-in 0.5s cubic-bezier(0.2, 1.6, 0.4, 1) 0.3s backwards;
 }
@@ -2315,4 +2315,58 @@ h1 {
   width: 1.4em;
   height: 1.4em;
   margin-right: 0.25em;
+}
+
+/* Big card tilt + glare (tilt.js). Uses the separate `rotate` property so it adds to
+   the reveal animation's transform instead of replacing it. */
+.tilt-stage {
+  perspective: 900px;
+}
+
+.tilt {
+  --tilt-ax: 0;
+  --tilt-ay: 1;
+  --tilt-deg: 0deg;
+  --tilt-x: 50%;
+  --tilt-y: 50%;
+  rotate: var(--tilt-ax) var(--tilt-ay) 0 var(--tilt-deg);
+  transition: rotate 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  touch-action: pan-y; /* sideways drags tilt the card; up and down still scroll the page */
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.tilt.tilting {
+  transition: rotate 0.08s linear;
+}
+
+.tilt-shine {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(6.5% 0, 93.5% 0, 100% 4.6%, 100% 95.4%, 93.5% 100%, 6.5% 100%, 0 95.4%, 0 4.6%);
+  background: radial-gradient(circle at var(--tilt-x) var(--tilt-y), rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.12) 28%, transparent 55%);
+  mix-blend-mode: soft-light;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-out;
+}
+
+/* Foil (SR, SSR): a rainbow band that slides with the pointer. */
+.tilt-shine.foil {
+  background:
+    radial-gradient(circle at var(--tilt-x) var(--tilt-y), rgba(255, 255, 255, 0.5) 0%, transparent 40%),
+    linear-gradient(115deg, transparent 25%, rgba(255, 90, 90, 0.55) 35%, rgba(255, 230, 80, 0.55) 42%, rgba(90, 255, 160, 0.55) 49%, rgba(80, 200, 255, 0.55) 56%, rgba(200, 110, 255, 0.55) 63%, transparent 73%)
+      calc(100% - var(--tilt-x)) calc(100% - var(--tilt-y)) / 250% 250%;
+  mix-blend-mode: overlay;
+}
+
+.tilt.tilting .tilt-shine {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tilt {
+    rotate: none;
+    transition: none;
+  }
 }
