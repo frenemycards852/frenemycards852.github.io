@@ -1,20 +1,59 @@
-// Big card you can play with: a finger drag (or mouse hover) tilts it a little and a light
-// glare follows the pointer; foil cards (SR, SSR) get a rainbow sheen on top.
-// No phone tilt sensor: iPhone asks for permission and many in-app browsers block it.
+// Big card you can play with, like a real card fresh out of the pack:
+// - mouse hover tilts it a little and a glare follows the pointer;
+// - a sideways drag (finger or mouse) spins it round to show the card back, and on release
+//   it settles on whichever side is nearer;
+// - every few seconds a glint sweeps across the front.
+// Foil cards (SR, SSR) get a rainbow sheen. No phone tilt sensor: iPhone asks for permission
+// and many in-app browsers block it.
+//
+// box > .card-flip (spin) > .card-face.front (the original children) + .card-face.back
+
+import { cardBackImage } from './render-back.js';
 
 const MAX_DEG = 12;
+const SPIN_PER_WIDTH = 200; // degrees for a drag across the whole card
+const DRAG_START = 8; // px before a press becomes a spin
 
 export function attachTilt(box, { foil = false } = {}) {
   if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
   box.classList.add('tilt');
+
+  const front = document.createElement('div');
+  front.className = 'card-face front';
+  // The cut-corner clip moves to the face: a clip on the box would flatten the 3D flip.
+  if (box.classList.contains('holo')) {
+    box.classList.remove('holo');
+    front.classList.add('holo');
+  }
+  front.append(...box.childNodes);
+  const glint = document.createElement('div');
+  glint.className = 'card-glint';
   const shine = document.createElement('div');
   shine.className = foil ? 'tilt-shine foil' : 'tilt-shine';
-  shine.setAttribute('aria-hidden', 'true');
-  box.append(shine);
+  front.append(glint, shine);
 
+  const back = document.createElement('div');
+  back.className = 'card-face back';
+  back.setAttribute('aria-hidden', 'true');
+  cardBackImage().then((src) => {
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = '';
+    img.draggable = false;
+    back.append(img);
+  }).catch((err) => console.error(err));
+
+  const flip = document.createElement('div');
+  flip.className = 'card-flip';
+  flip.append(front, back);
+  box.append(flip);
+
+  let spin = 0; // resting angle: a multiple of 180
+  let drag = null; // { id, x, spinning }
   let frame = 0;
-  const move = (e) => {
-    box.parentElement?.classList.add('tilt-stage'); // 3D depth; the card is placed on the page after attachTilt
+  const setSpin = (deg) => box.style.setProperty('--spin', `${deg}deg`);
+
+  const tilt = (e) => {
     const r = box.getBoundingClientRect();
     if (!r.width || !r.height) return;
     const x = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
@@ -33,14 +72,45 @@ export function attachTilt(box, { foil = false } = {}) {
       box.style.setProperty('--tilt-y', `${(y * 100).toFixed(1)}%`);
     });
   };
-  const reset = () => {
+  const untilt = () => {
     cancelAnimationFrame(frame);
     box.classList.remove('tilting');
     box.style.setProperty('--tilt-deg', '0deg');
   };
-  box.addEventListener('pointermove', move);
-  box.addEventListener('pointerdown', move);
-  box.addEventListener('pointerleave', reset);
-  box.addEventListener('pointerup', (e) => { if (e.pointerType !== 'mouse') reset(); });
-  box.addEventListener('pointercancel', reset);
+
+  box.addEventListener('pointerdown', (e) => {
+    box.parentElement?.classList.add('tilt-stage'); // 3D depth; the card is placed on the page after attachTilt
+    drag = { id: e.pointerId, x: e.clientX, spinning: false };
+    if (e.pointerType === 'mouse') tilt(e);
+  });
+  box.addEventListener('pointermove', (e) => {
+    box.parentElement?.classList.add('tilt-stage');
+    if (drag && drag.id === e.pointerId) {
+      const dx = e.clientX - drag.x;
+      if (!drag.spinning && Math.abs(dx) > DRAG_START) {
+        drag.spinning = true;
+        try { box.setPointerCapture(e.pointerId); } catch { /* pointer already gone */ }
+        untilt();
+        box.classList.add('spinning');
+      }
+      if (drag.spinning) {
+        setSpin(spin + (dx / box.getBoundingClientRect().width) * SPIN_PER_WIDTH);
+        return;
+      }
+    }
+    if (e.pointerType === 'mouse') tilt(e);
+  });
+  const release = (e) => {
+    if (drag?.spinning) {
+      const now = parseFloat(box.style.getPropertyValue('--spin')) || spin;
+      spin = Math.round(now / 180) * 180;
+      setSpin(spin);
+      box.classList.remove('spinning');
+    }
+    drag = null;
+    if (e.type !== 'pointerup' || e.pointerType !== 'mouse') untilt();
+  };
+  box.addEventListener('pointerup', release);
+  box.addEventListener('pointercancel', release);
+  box.addEventListener('pointerleave', (e) => { if (!drag?.spinning) untilt(); });
 }

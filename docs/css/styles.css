@@ -2317,8 +2317,8 @@ h1 {
   margin-right: 0.25em;
 }
 
-/* Big card tilt + glare (tilt.js). Uses the separate `rotate` property so it adds to
-   the reveal animation's transform instead of replacing it. */
+/* Big card you can play with (tilt.js): box (hover tilt) > .card-flip (drag spin) > two faces.
+   Both use the separate `rotate` property so they add to the reveal animation's transform. */
 .tilt-stage {
   perspective: 900px;
 }
@@ -2329,25 +2329,70 @@ h1 {
   --tilt-deg: 0deg;
   --tilt-x: 50%;
   --tilt-y: 50%;
+  --spin: 0deg;
   rotate: var(--tilt-ax) var(--tilt-ay) 0 var(--tilt-deg);
+  transform-style: preserve-3d;
   transition: rotate 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2);
-  touch-action: pan-y; /* sideways drags tilt the card; up and down still scroll the page */
+  touch-action: pan-y; /* sideways drags spin the card; up and down still scroll the page */
   -webkit-user-select: none;
   user-select: none;
+  cursor: grab;
 }
 
 .tilt.tilting {
   transition: rotate 0.08s linear;
 }
 
-.tilt-shine {
+.tilt.spinning {
+  cursor: grabbing;
+}
+
+.card-flip {
+  position: relative;
+  transform-style: preserve-3d;
+  rotate: 0 1 0 var(--spin);
+  transition: rotate 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.15);
+}
+
+.spinning .card-flip {
+  transition: none;
+}
+
+.card-face {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.card-face.front {
+  position: relative;
+}
+
+.card-face.back {
+  position: absolute;
+  inset: 0;
+  rotate: 0 1 0 180deg;
+}
+
+.card-face.back img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 6px 10px rgba(29, 20, 18, 0.35));
+}
+
+/* Glare that follows the pointer */
+.tilt-shine,
+.card-glint {
   position: absolute;
   inset: 0;
   clip-path: polygon(6.5% 0, 93.5% 0, 100% 4.6%, 100% 95.4%, 93.5% 100%, 6.5% 100%, 0 95.4%, 0 4.6%);
+  pointer-events: none;
+}
+
+.tilt-shine {
   background: radial-gradient(circle at var(--tilt-x) var(--tilt-y), rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.12) 28%, transparent 55%);
   mix-blend-mode: soft-light;
   opacity: 0;
-  pointer-events: none;
   transition: opacity 0.3s ease-out;
 }
 
@@ -2364,9 +2409,32 @@ h1 {
   opacity: 1;
 }
 
+/* A glint sweeps across the front every few seconds while the card rests. */
+.card-glint {
+  background: linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, 0.75) 50%, transparent 58%) 160% 0 / 300% 100% no-repeat;
+  mix-blend-mode: soft-light;
+  animation: card-glint 3s ease-in-out 1s infinite;
+}
+
+@keyframes card-glint {
+  0% { background-position: 160% 0; }
+  30%, 100% { background-position: -60% 0; }
+}
+
+.tilting .card-glint,
+.spinning .card-glint {
+  animation-play-state: paused;
+  opacity: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .tilt {
+  .tilt,
+  .card-flip {
     rotate: none;
     transition: none;
+  }
+
+  .card-glint {
+    animation: none;
   }
 }
