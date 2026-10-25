@@ -77,7 +77,7 @@ export function showReveal(container, card, data, { opened = false, returnTo = n
   if (frame.sparkle) cardBox.append(el('div', 'holo-shine'));
   attachTilt(cardBox, { foil: Boolean(frame.foil) });
 
-  const { back: packBack, front: pack, torn } = boosterPack({
+  const { front: pack, torn } = boosterPack({
     name: t('app.name'), label: t('reveal.tap'), icon: 'assets/icons/icon-192.png',
   });
 
@@ -91,8 +91,8 @@ export function showReveal(container, card, data, { opened = false, returnTo = n
     ring.style.setProperty('--i', i);
     return ring;
   });
-  // Back of the pack, then the card, then the pack front: the card slides out from inside.
-  stage.append(packBack, el('div', 'reveal-flash'), ...rings, cardBox, pack);
+  // The pack sits in front of the card, so the card slides out from inside it.
+  stage.append(el('div', 'reveal-flash'), ...rings, cardBox, pack);
 
   const tapHint = el('p', 'reveal-tap', t('reveal.tap'));
   const reaction = el('p', 'reveal-reaction', t(`reveal.reaction.${card.rarity}`, { name: card.name }));
@@ -150,12 +150,10 @@ export function showReveal(container, card, data, { opened = false, returnTo = n
       { opacity: 1, transform: 'translateY(-62%) scale(0.6)', offset: 0.5 },
       { opacity: 1, transform: 'translateY(0) scale(1)' },
     ], { duration: 1100, easing: 'cubic-bezier(0.3, 0.7, 0.3, 1.1)', fill: 'forwards' });
-    for (const part of [pack, packBack]) {
-      part.animate([
-        { transform: 'none', opacity: 1 },
-        { transform: 'translateY(120%) rotate(8deg)', opacity: 0 },
-      ], { duration: 500, delay: 520, easing: 'ease-in', fill: 'forwards' });
-    }
+    pack.animate([
+      { transform: 'none', opacity: 1 },
+      { transform: 'translateY(120%) rotate(8deg)', opacity: 0 },
+    ], { duration: 500, delay: 520, easing: 'ease-in', fill: 'forwards' });
     await wait(650);
     section.classList.add('opening'); // flash as the card leaves the pack
     await rise.finished.catch(() => {});

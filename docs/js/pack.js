@@ -2,8 +2,7 @@
 // Swipe along the dotted line to tear it (the strip lifts with the finger; past halfway it
 // tears off on release), or tap / press Enter to tear it in one go.
 //
-// boosterPack() returns { back, front, torn }:
-//   back  – the inside of the pack, placed behind the card;
+// boosterPack() returns { front, torn }:
 //   front – the pack itself (a button), placed in front of the card;
 //   torn  – a promise that resolves once the strip has flown off.
 
@@ -26,8 +25,6 @@ function el(tag, className) {
 
 export function boosterPack({ name, label, icon }) {
   const top = STRIP * 100;
-  const back = el('div', 'pack-back');
-  back.setAttribute('aria-hidden', 'true');
 
   const front = el('button', 'pack');
   front.type = 'button';
@@ -66,7 +63,6 @@ export function boosterPack({ name, label, icon }) {
     front.classList.remove('dragging');
     setTear(1);
     front.classList.add('torn');
-    back.classList.add('open'); // the inside only shows once there is an opening
     strip.addEventListener('animationend', () => resolveTorn(), { once: true });
     // Safety net if the animation is skipped.
     setTimeout(resolveTorn, 900);
@@ -106,5 +102,5 @@ export function boosterPack({ name, label, icon }) {
     if (state === 'closed') tearOff();
   });
 
-  return { back, front, torn };
+  return { front, torn };
 }
