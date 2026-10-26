@@ -39,7 +39,6 @@
     "strikeAnon": "🔄 Strike back! Make a card",
     "challenge": "⚔️ Challenge them",
     "saved": "📥 Saved to your album",
-    "soon": "(coming soon)",
     "intro": "Frenemy Cards: turn your friends into collectible cards that roast their worst habits.",
     "makeOwn": "Make your own card",
     "badTitle": "This link won't open 😵",
@@ -76,17 +75,6 @@
       "label": "Friend's name or nickname",
       "placeholder": "e.g. Sam"
     },
-    "avatar": {
-      "title": "Give them a look",
-      "preview": "Avatar preview",
-      "styleHint": "Pick a starting look, then change anything you like",
-      "styleLabel": "Starting look",
-      "style": {
-        "boy": "Boy",
-        "girl": "Girl"
-      },
-      "option": "{part} {n}"
-    },
     "type": {
       "title": "What type are they?"
     },
@@ -96,9 +84,9 @@
       "no": "Keep editing"
     },
     "scene": {
-      "title": "Choose a scene",
-      "hint": "Pick a scene. The card will use this illustration.",
-      "option": "Scene {n}"
+      "title": "Choose a character",
+      "hint": "Pick a character. The card will use this illustration.",
+      "option": "Character {n}"
     },
     "photo": {
       "title": "📷 Add your friend's photo",
@@ -151,9 +139,8 @@
       "noPhoto": "No photo",
       "rows": {
         "name": "Name",
-        "avatar": "Avatar",
         "type": "Type",
-        "look": "Look",
+        "look": "Character",
         "photo": "Photo",
         "stats": "Stats",
         "move": "Signature move",
@@ -170,31 +157,6 @@
     "work": { "name": "Workaholic", "idea": "\"Let me just reply to this email\"" },
     "love": { "name": "Lovestruck", "idea": "\"They're not like that\"" },
     "savage": { "name": "Savage", "idea": "Roasts everyone" }
-  },
-  "avatar": {
-    "parts": {
-      "face": "Face",
-      "skin": "Skin",
-      "boyHair": "Hair",
-      "girlHair": "Hair",
-      "hairColor": "Hair colour",
-      "eyes": "Eyes",
-      "brows": "Brows",
-      "mouth": "Mouth",
-      "beard": "Beard",
-      "makeup": "Make-up",
-      "earrings": "Earrings",
-      "hairAccessory": "Hair accessory",
-      "boyOutfit": "Outfit",
-      "girlOutfit": "Outfit",
-      "shirt": "Outfit colour",
-      "boyBottom": "Bottoms",
-      "girlBottom": "Bottoms",
-      "shoes": "Shoes",
-      "pose": "Pose",
-      "boyAccessory": "Extras",
-      "girlAccessory": "Extras"
-    }
   },
   "stats": {
     "hp": "Stamina",
@@ -237,7 +199,7 @@
     "sortNew": "Newest",
     "sortRarity": "Rarity",
     "sortName": "Name",
-    "collection": "🖼️ Make a Friend Collection",
+    "collection": "🖼️ Make a Frenemy Collection",
     "export": "📤 Export album (backup / new phone)",
     "challenge": "⚔️ Challenge with this card",
     "delete": "🗑️ Delete",
@@ -247,7 +209,7 @@
     "back": "Back to album"
   },
   "collection": {
-    "title": "Friend Collection",
+    "title": "Frenemy Collection",
     "hint": "Pick up to {max} cards to turn into one image for your IG Story or WhatsApp.",
     "picked": "{n}/{max} picked",
     "make": "🖼️ Make the image",
@@ -368,9 +330,6 @@
     "introYou": "{name} accepted your challenge! Let's see who won 👀",
     "intro": "{a} vs {b}. Let's see who won 👀",
     "oldRules": "This battle used older rules, so the replay may look a little different."
-  },
-  "soon": {
-    "text": "Still building this one. Check back soon 🛠️"
   },
   "nav": {
     "back": "Back to home"

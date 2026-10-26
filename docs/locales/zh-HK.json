@@ -39,7 +39,6 @@
     "strikeAnon": "🔄 反擊！整張卡",
     "challenge": "⚔️ 挑戰佢",
     "saved": "📥 已經收入你嘅卡簿",
-    "soon": "（快將推出）",
     "intro": "損友圖鑑：將朋友變成收藏卡，專抽佢哋啲壞習慣。",
     "makeOwn": "整自己嘅卡",
     "badTitle": "呢條連結開唔到 😵",
@@ -76,17 +75,6 @@
       "label": "朋友個名或者花名",
       "placeholder": "例如：阿明"
     },
-    "avatar": {
-      "title": "幫佢整個頭像",
-      "preview": "頭像預覽",
-      "styleHint": "先揀一個款，之後可以逐樣改",
-      "styleLabel": "款式",
-      "style": {
-        "boy": "男仔",
-        "girl": "女仔"
-      },
-      "option": "{part} {n}"
-    },
     "type": {
       "title": "佢屬於咩系？"
     },
@@ -97,7 +85,7 @@
     },
     "scene": {
       "title": "揀角色",
-      "hint": "揀一個場景，張卡會用呢張插畫。",
+      "hint": "揀一個角色，張卡會用呢張插畫。",
       "option": "角色 {n}"
     },
     "photo": {
@@ -150,10 +138,9 @@
       "restart": "由頭整過",
       "noPhoto": "冇貼相",
       "rows": {
-        "name": "名",
-        "avatar": "頭像",
+        "name": "名字",
         "type": "類型",
-        "look": "樣",
+        "look": "角色",
         "photo": "相片",
         "stats": "能力值",
         "move": "必殺技",
@@ -170,31 +157,6 @@
     "work": { "name": "工作狂系", "idea": "「等我覆埋封 email 先」" },
     "love": { "name": "戀愛腦系", "idea": "「佢唔係咁㗎」" },
     "savage": { "name": "毒舌系", "idea": "食玻璃大" }
-  },
-  "avatar": {
-    "parts": {
-      "face": "面形",
-      "skin": "膚色",
-      "boyHair": "髮型",
-      "girlHair": "髮型",
-      "hairColor": "髮色",
-      "eyes": "眼",
-      "brows": "眉",
-      "mouth": "口",
-      "beard": "鬍鬚",
-      "makeup": "妝容",
-      "earrings": "耳環",
-      "hairAccessory": "髮飾",
-      "boyOutfit": "衫款",
-      "girlOutfit": "衫款",
-      "shirt": "衫色",
-      "boyBottom": "褲",
-      "girlBottom": "褲／裙",
-      "shoes": "鞋",
-      "pose": "姿勢",
-      "boyAccessory": "配件",
-      "girlAccessory": "配件"
-    }
   },
   "stats": {
     "hp": "體力",
@@ -236,8 +198,8 @@
     "sort": "排序",
     "sortNew": "最新",
     "sortRarity": "稀有度",
-    "sortName": "名",
-    "collection": "🖼️ 整朋友圖鑑",
+    "sortName": "名字",
+    "collection": "🖼️ 整損友圖鑑",
     "export": "📤 匯出卡簿（備份／換手機）",
     "challenge": "⚔️ 用佢挑戰",
     "delete": "🗑️ 刪除",
@@ -247,7 +209,7 @@
     "back": "返卡簿"
   },
   "collection": {
-    "title": "朋友圖鑑",
+    "title": "損友圖鑑",
     "hint": "揀最多 {max} 張卡，砌成一張圖，send 去 IG Story 或者 WhatsApp。",
     "picked": "揀咗 {n}/{max} 張",
     "make": "🖼️ 整圖",
@@ -369,11 +331,8 @@
     "intro": "{a} 對 {b}，睇吓邊個贏 👀",
     "oldRules": "呢場係用舊版規則打嘅，重播可能同當時有啲唔同。"
   },
-  "soon": {
-    "text": "呢頁仲整緊，遲啲再嚟睇吓 🛠️"
-  },
   "nav": {
-    "back": "返回首頁"
+    "back": "返首頁"
   },
   "footer": {
     "privacy": "所有資料只喺連結同你部手機入面，我哋冇伺服器，乜都唔會儲存。",
