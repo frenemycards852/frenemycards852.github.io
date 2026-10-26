@@ -3009,10 +3009,54 @@ h1 {
   }
 }
 
-/* Pack opening: one thing at a time. Flash, then the slow aura rings, and only then the
-   card's own glint and holo sweep ("settled" is set by reveal.js after the last ring). */
-.pack-reveal:not(.settled) .card-glint,
-.pack-reveal:not(.settled) .holo-shine {
+/* Pack opening: the aura rings repeat, and the card's glint / SSR holo sweep take turns with
+   them in one shared 4.5 s cycle, so they never overlap (and the first rings wait for the
+   0.8 s flash). In each cycle: rings 0.8–3.7 s (0.45 s apart), then the glint 3.9–4.8 s and
+   the holo sweep 3.8–5.2 s. All start together when the card is revealed. */
+.pack-reveal .aura-ring {
+  animation: none;
+}
+
+.pack-reveal.revealed .aura-ring {
+  animation: aura-cycle 4.5s cubic-bezier(0.15, 0.6, 0.3, 1) calc(0.8s + var(--i) * 0.45s) infinite;
+}
+
+@keyframes aura-cycle {
+  0% { opacity: 0.9; transform: scale(0.35); }
+  44% { opacity: 0; transform: scale(1.7); }
+  100% { opacity: 0; transform: scale(1.7); }
+}
+
+.pack-reveal:not(.revealed) .card-glint,
+.pack-reveal:not(.revealed) .holo-shine {
   animation: none;
   opacity: 0;
+}
+
+.pack-reveal.revealed .card-glint {
+  animation: glint-cycle 4.5s ease-in-out 3.9s infinite;
+}
+
+@keyframes glint-cycle {
+  0% { background-position: 160% 0; }
+  20%, 100% { background-position: -60% 0; }
+}
+
+.pack-reveal.revealed .holo-shine {
+  opacity: 0; /* hidden between sweeps and while waiting for its turn */
+  animation: holo-cycle 4.5s linear 3.8s infinite;
+}
+
+@keyframes holo-cycle {
+  0% { opacity: 1; transform: translateX(-35%); }
+  31% { opacity: 1; transform: translateX(35%); }
+  32%, 100% { opacity: 0; transform: translateX(35%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pack-reveal.revealed .aura-ring,
+  .pack-reveal.revealed .card-glint,
+  .pack-reveal.revealed .holo-shine {
+    animation: none;
+  }
 }

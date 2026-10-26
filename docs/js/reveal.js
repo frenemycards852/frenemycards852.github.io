@@ -124,7 +124,7 @@ export function showReveal(container, card, data, { opened = false, returnTo = n
     actions.append(maker.el, share, challenge, again, home);
   }
 
-  // pack-reveal: the card's own glint and holo sweep wait until the aura rings are done ("settled").
+  // pack-reveal: aura rings and the card's glint / holo sweep share one repeating cycle (CSS), taking turns.
   const section = el('section', 'reveal pack-reveal');
   section.append(el('h1', null, t('reveal.title')), stage, tapHint, reaction, actions);
   container.replaceChildren(section);
@@ -135,14 +135,10 @@ export function showReveal(container, card, data, { opened = false, returnTo = n
     saveMyCard(card, 'made', data.config.myCards.max);
     section.classList.add('revealed');
     onOpened?.();
-    // Once the last aura ring has faded, let the card's glint and holo shine start.
-    const settle = () => section.classList.add('settled');
-    rings.at(-1)?.addEventListener('animationend', settle, { once: true });
-    setTimeout(settle, 6000);
   };
 
   if (opened || reducedMotion()) {
-    section.classList.add('opened', 'settled');
+    section.classList.add('opened');
     drawn.then(finish);
     return;
   }
