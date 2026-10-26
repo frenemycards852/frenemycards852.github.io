@@ -2696,7 +2696,9 @@ h1 {
 }
 
 .revealed .aura-ring {
-  animation: aura-pulse 1.1s cubic-bezier(0.2, 0.7, 0.3, 1) calc(0.15s + var(--i) * 0.22s) both;
+  /* After the flash (0.8 s), the rings spread slowly, one after another. */
+  /* "forwards", not "both": hidden while waiting, so nothing shows during the flash. */
+  animation: aura-pulse 2s cubic-bezier(0.15, 0.6, 0.3, 1) calc(0.8s + var(--i) * 0.45s) forwards;
 }
 
 @keyframes aura-pulse {
@@ -3005,4 +3007,12 @@ h1 {
   .pack-hint {
     animation: none;
   }
+}
+
+/* Pack opening: one thing at a time. Flash, then the slow aura rings, and only then the
+   card's own glint and holo sweep ("settled" is set by reveal.js after the last ring). */
+.pack-reveal:not(.settled) .card-glint,
+.pack-reveal:not(.settled) .holo-shine {
+  animation: none;
+  opacity: 0;
 }
