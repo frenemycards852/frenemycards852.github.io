@@ -5,6 +5,16 @@
     { "id": "p2", "emoji": "🍜", "text": "Dinner is on you" },
     { "id": "p3", "emoji": "👑", "text": "Call them \"Boss\" for a whole day" },
     { "id": "p4", "emoji": "📸", "text": "Be their IG photographer until they're happy" },
-    { "id": "p5", "emoji": "🤳", "text": "Use the card they made of you as your profile picture for a day" }
+    { "id": "p5", "emoji": "🤳", "text": "Use the card they made of you as your profile picture for a day" },
+    { "id": "p6", "emoji": "🍟", "text": "Treat them to a snack" },
+    { "id": "p7", "emoji": "🎤", "text": "Sing a song of their choice at karaoke" },
+    { "id": "p8", "emoji": "⏰", "text": "Arrive ten minutes early to the next meetup" },
+    { "id": "p9", "emoji": "🧹", "text": "You're booking the table next time" },
+    { "id": "p10", "emoji": "💬", "text": "Reply to all their messages within a minute, for a day" },
+    { "id": "p11", "emoji": "🙇", "text": "Praise them three times in the group chat" },
+    { "id": "p12", "emoji": "🎮", "text": "Play one game of their choice with them" },
+    { "id": "p13", "emoji": "🍦", "text": "Buy them an ice cream" },
+    { "id": "p14", "emoji": "🎭", "text": "Talk in a voice of their choice for an hour" },
+    { "id": "p15", "emoji": "📱", "text": "Post a story with a photo they pick" }
   ]
 }
