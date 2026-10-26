@@ -21,7 +21,17 @@
     { "id": "t2", "name": "Second Stomach", "desc": "Always room for more" },
     { "id": "t3", "name": "Excuse Machine", "desc": "Blames traffic while walking" },
     { "id": "t4", "name": "Human Calculator", "desc": "Splits the bill to the cent" },
-    { "id": "t5", "name": "Offline at Six", "desc": "Unreachable after work hours" }
+    { "id": "t5", "name": "Offline at Six", "desc": "Unreachable after work hours" },
+    { "id": "t6", "name": "Always On The Way", "desc": "Says \"nearly there\" from the sofa" },
+    { "id": "t7", "name": "Buffet Warrior", "desc": "Eats till the timer runs out" },
+    { "id": "t8", "name": "Unbothered", "desc": "Sky falls? Pass the blanket" },
+    { "id": "t9", "name": "Running On Coffee", "desc": "Four cups and counting" },
+    { "id": "t10", "name": "Overtime Machine", "desc": "Strongest after 11 p.m." },
+    { "id": "t11", "name": "Rose-Tinted Glasses", "desc": "Even the red flags look cute" },
+    { "id": "t12", "name": "Instant Reply (For Them)", "desc": "One second for them, three days for you" },
+    { "id": "t13", "name": "Comeback King", "desc": "Say one thing, get three back" },
+    { "id": "t14", "name": "Teflon Ego", "desc": "Insults slide right off" },
+    { "id": "t15", "name": "Own Time Zone", "desc": "Their 7 is your 8" }
   ],
   "weakness": [
     { "id": "w1", "name": "Before 9 a.m.", "desc": "Brain still booting" },

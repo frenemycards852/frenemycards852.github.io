@@ -21,7 +21,17 @@
     "t2": { "kind": "regen", "amount": 7 },
     "t3": { "kind": "surviveOnce" },
     "t4": { "kind": "reflect", "ratio": 0.3 },
-    "t5": { "kind": "finalRoundGuard", "taken": 0.4 }
+    "t5": { "kind": "finalRoundGuard", "taken": 0.4 },
+    "t6": { "kind": "dodge", "chance": 0.2 },
+    "t7": { "kind": "regen", "amount": 6 },
+    "t8": { "kind": "surviveOnce" },
+    "t9": { "kind": "regen", "amount": 6 },
+    "t10": { "kind": "finalRoundGuard", "taken": 0.5 },
+    "t11": { "kind": "finalRoundGuard", "taken": 0.45 },
+    "t12": { "kind": "dodge", "chance": 0.2 },
+    "t13": { "kind": "reflect", "ratio": 0.3 },
+    "t14": { "kind": "reflect", "ratio": 0.25 },
+    "t15": { "kind": "dodge", "chance": 0.22 }
   },
   "weakness": {
     "w1": { "kind": "skipFirstTurn", "chance": 0.6 },
