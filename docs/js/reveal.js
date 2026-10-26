@@ -77,7 +77,7 @@ export function showReveal(container, card, data, { opened = false, returnTo = n
   if (frame.sparkle) cardBox.append(el('div', 'holo-shine'));
   const turn = attachTilt(cardBox, { foil: Boolean(frame.foil) });
 
-  const { front: pack, torn } = boosterPack({
+  const { front: pack, torn, listen: listenForTear } = boosterPack({
     name: t('app.name'), label: t('reveal.tap'), icon: 'assets/icons/icon-192.png',
   });
 
@@ -142,6 +142,8 @@ export function showReveal(container, card, data, { opened = false, returnTo = n
     drawn.then(finish);
     return;
   }
+  // Tap or swipe anywhere on the page to tear the pack open.
+  listenForTear(section);
   torn.then(async () => {
     await drawn;
     // Face down, the card slides up out of the pack while the pack is flung away to the left.

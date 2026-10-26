@@ -2,9 +2,10 @@
 // Swipe along the dotted line to tear it (the torn part lifts and folds over to the right; past halfway it
 // tears off on release), or tap / press Enter to tear it in one go.
 //
-// boosterPack() returns { front, torn }:
-//   front – the pack itself (a button), placed in front of the card;
-//   torn  – a promise that resolves once the strip has flown off.
+// boosterPack() returns { front, torn, listen }:
+//   front  – the pack itself (a button), placed in front of the card;
+//   torn   – a promise that resolves once the strip has flown off;
+//   listen – listen(surface): read swipes and taps anywhere on that element.
 
 const STRIP = 0.17; // tear strip height, share of the pack
 const TEAR_AT = 0.5; // swipe this far across to tear on release
@@ -85,37 +86,42 @@ export function boosterPack({ name, label, icon }) {
 
   let drag = null;
   let swipedAway = false; // a swipe ends with a click event too; that click must not tear
-  front.addEventListener('pointerdown', (e) => {
-    if (state === 'torn') return;
-    drag = { id: e.pointerId, x: e.clientX, y: e.clientY, moved: false };
-  });
-  front.addEventListener('pointermove', (e) => {
-    if (!drag || drag.id !== e.pointerId || state === 'torn') return;
-    const dx = e.clientX - drag.x;
-    if (!drag.moved && Math.abs(dx) > TAP_PX) {
-      drag.moved = true;
-      front.classList.add('dragging');
-      try { front.setPointerCapture(e.pointerId); } catch { /* pointer already gone */ }
-    }
-    if (drag.moved) setTear(Math.min(1, Math.max(0, (dx / front.getBoundingClientRect().width) * 1.2)));
-  });
-  const release = (e) => {
-    if (!drag || state === 'torn') return;
-    const p = parseFloat(front.style.getPropertyValue('--tear')) || 0;
-    const swiped = drag.moved;
-    drag = null;
-    front.classList.remove('dragging');
-    swipedAway = swiped && e.type === 'pointerup'; // a cancelled touch sends no click
-    if (swiped && p >= TEAR_AT) tearOff();
-    else if (swiped) setTear(0); // springs back (CSS transition)
+  // Swipes and taps are read from `surface` (the whole reveal page), not just the pack.
+  const listen = (surface) => {
+    surface.classList.add('pack-surface');
+    torn.then(() => surface.classList.remove('pack-surface'));
+    surface.addEventListener('pointerdown', (e) => {
+      if (state === 'torn') return;
+      drag = { id: e.pointerId, x: e.clientX, y: e.clientY, moved: false };
+    });
+    surface.addEventListener('pointermove', (e) => {
+      if (!drag || drag.id !== e.pointerId || state === 'torn') return;
+      const dx = e.clientX - drag.x;
+      if (!drag.moved && Math.abs(dx) > TAP_PX) {
+        drag.moved = true;
+        front.classList.add('dragging');
+        try { surface.setPointerCapture(e.pointerId); } catch { /* pointer already gone */ }
+      }
+      if (drag.moved) setTear(Math.min(1, Math.max(0, (dx / front.getBoundingClientRect().width) * 1.2)));
+    });
+    const release = (e) => {
+      if (!drag || state === 'torn') return;
+      const p = parseFloat(front.style.getPropertyValue('--tear')) || 0;
+      const swiped = drag.moved;
+      drag = null;
+      front.classList.remove('dragging');
+      swipedAway = swiped && e.type === 'pointerup'; // a cancelled touch sends no click
+      if (swiped && p >= TEAR_AT) tearOff();
+      else if (swiped) setTear(0); // springs back (CSS transition)
+    };
+    surface.addEventListener('pointerup', release);
+    surface.addEventListener('pointercancel', release);
+    // A tap or Enter / Space: tear it in one go (a swipe that moved is handled above).
+    surface.addEventListener('click', () => {
+      if (swipedAway) { swipedAway = false; return; }
+      if (state === 'closed') tearOff();
+    });
   };
-  front.addEventListener('pointerup', release);
-  front.addEventListener('pointercancel', release);
-  // A tap or Enter / Space: tear it in one go (a swipe that moved is handled above).
-  front.addEventListener('click', () => {
-    if (swipedAway) { swipedAway = false; return; }
-    if (state === 'closed') tearOff();
-  });
 
-  return { front, torn };
+  return { front, torn, listen };
 }

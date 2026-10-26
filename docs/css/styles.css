@@ -3278,3 +3278,17 @@ h1 {
     animation: none;
   }
 }
+
+/* Pack opening: the whole page takes the tap / sideways swipe (pack.js → listen). Up-and-down
+   swipes still scroll. The hidden result buttons can't be pressed until the card is out. */
+.pack-surface {
+  touch-action: pan-y;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.reveal:not(.revealed) .reveal-reaction,
+.reveal:not(.revealed) .reveal-actions {
+  pointer-events: none;
+}
