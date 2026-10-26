@@ -889,7 +889,9 @@ h1 {
   grid-template-columns: minmax(0, 1fr);
   place-items: center;
   min-height: 480px;
-  overflow: hidden; /* the flash grows past the edges; keep it inside */
+  /* Visible: the torn strip and the flung pack travel past the stage. Sideways page scroll is
+     still blocked by html/body (overflow-x clip). */
+  overflow: visible;
 }
 
 .reveal-stage > * {
@@ -958,24 +960,53 @@ h1 {
   transition: none;
 }
 
-/* The strip lifts straight up from its left end as the finger moves (hinged at the right),
-   then slides off once torn. */
+/* Peeling the strip like tape: right of the tear it stays sealed; left of the tear the
+   torn-off flap is hinged at the tear point and folds over to the right — a little lifted
+   at first, folded over by halfway, fully over at the end — then flies off to the right. */
+.pack-sealed,
+.pack-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.pack-sealed {
+  right: 0;
+  clip-path: inset(0 0 0 calc(var(--tear) * 100%));
+}
+
+.pack-flap {
+  z-index: 2;
+  width: calc(var(--tear) * 100%);
+  overflow: hidden;
+  transform-origin: 100% 50%;
+  /* 0 → 50%: from a slight lift to folded flat over the sealed half; 50% → 100%: the longer
+     flap rises back to ~100° (nearly upright) so it does not hang out past the pack. */
+  transform: perspective(500px) rotateY(calc((min(175, 35 + var(--tear) * 280) - max(0, var(--tear) - 0.5) * 150) * 1deg));
+  filter: drop-shadow(3px 4px 3px rgba(0, 0, 0, 0.45));
+}
+
+/* Both pieces show the strip at the pack's full width, lined up with each other. */
 .pack-strip {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  transform-origin: 100% 100%;
-  transform: rotate(calc(var(--tear) * -20deg)) translateY(calc(var(--tear) * -6px));
+  width: 220px;
+  height: 100%;
 }
 
-.pack.torn .pack-strip {
-  animation: strip-off 0.35s ease-in 0.45s forwards;
+/* The flap's underside (seen once it folds past edge-on) is the paler inside of the foil. */
+.pack-flap .pack-strip {
+  filter: brightness(calc(1 + min(0.5, var(--tear) * 0.8)));
 }
 
-@keyframes strip-off {
-  from { transform: rotate(-20deg) translateY(-6px); opacity: 1; }
-  to { transform: translate(140px, -70px) rotate(-20deg); opacity: 0; }
+.pack.torn .pack-flap {
+  animation: flap-off 0.35s ease-in 0.45s forwards;
+}
+
+@keyframes flap-off {
+  from { transform: perspective(500px) rotateY(100deg); opacity: 1; }
+  to { transform: perspective(500px) translateX(160px) translateY(-60px) rotateY(100deg) rotateZ(-15deg); opacity: 0; }
 }
 
 /* Dotted tear line, and the white rip under the lifted part */

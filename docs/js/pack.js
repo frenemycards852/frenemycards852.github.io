@@ -1,5 +1,5 @@
 // Booster pack: crimped foil pack with a tear strip along the top.
-// Swipe along the dotted line to tear it (the strip lifts, straight, with the finger; past halfway it
+// Swipe along the dotted line to tear it (the torn part lifts and folds over to the right; past halfway it
 // tears off on release), or tap / press Enter to tear it in one go.
 //
 // boosterPack() returns { front, torn }:
@@ -30,12 +30,22 @@ export function boosterPack({ name, label, icon }) {
   front.type = 'button';
   front.setAttribute('aria-label', label);
 
-  const strip = el('div', 'pack-strip');
-  strip.style.clipPath = `polygon(${[...crimp(0, 4), `100% 100%`, `0 100%`].join(', ')})`;
+  // The strip is drawn twice: the part still sealed (right of the tear), and the torn-off
+  // flap (left of the tear) that folds over to the right on a hinge at the tear point.
+  const stripPiece = () => {
+    const piece = el('div', 'pack-strip');
+    piece.style.clipPath = `polygon(${[...crimp(0, 4), `100% 100%`, `0 100%`].join(', ')})`;
+    return piece;
+  };
+  const sealed = el('div', 'pack-sealed');
+  sealed.append(stripPiece());
+  const flap = el('div', 'pack-flap');
+  flap.append(stripPiece());
   const body = el('div', 'pack-body');
   body.style.clipPath = `polygon(0 0, 100% 0, ${[...crimp(100, -3)].reverse().join(', ')})`;
   body.style.top = `${top}%`;
-  strip.style.height = `${top}%`;
+  sealed.style.height = `${top}%`;
+  flap.style.height = `${top}%`;
   const seam = el('div', 'pack-seam');
   seam.style.top = `${top}%`;
   const rip = el('div', 'pack-rip');
@@ -49,7 +59,7 @@ export function boosterPack({ name, label, icon }) {
   const q = el('span', 'pack-q');
   q.textContent = '?';
   body.append(logo, title, q);
-  front.append(body, strip, seam, rip);
+  front.append(body, sealed, seam, rip, flap);
 
   let state = 'closed'; // closed → tearing → torn
   let resolveTorn;
@@ -63,8 +73,8 @@ export function boosterPack({ name, label, icon }) {
     front.classList.remove('dragging');
     setTear(1);
     front.classList.add('torn');
-    // The strip finishes lifting, then slides off.
-    strip.addEventListener('animationend', () => resolveTorn(), { once: true });
+    // The flap finishes folding over, then flies off to the right.
+    flap.addEventListener('animationend', () => resolveTorn(), { once: true });
     // Safety net if the animation is skipped.
     setTimeout(resolveTorn, 1300);
   };
