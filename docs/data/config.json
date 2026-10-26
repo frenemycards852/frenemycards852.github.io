@@ -30,7 +30,7 @@
     "skillsX": { "zh-HK": 566, "en": 506 }
   },
   "battle": {
-    "version": 1,
+    "version": 2,
     "rounds": 3,
     "hpBase": 50,
     "hpScale": 1,
@@ -39,7 +39,7 @@
     "defenseReduce": 0.18,
     "minDamage": 1,
     "randomRange": [0.85, 1.15],
-    "typeMultiplier": 1.5,
+    "typeMultiplier": 1.2,
     "firstStrikeBonus": 1.25,
     "crit": { "base": 0.05, "lukScale": 0.003, "multiplier": 1.6 },
     "dodge": { "base": 0.03, "lukScale": 0.002 },

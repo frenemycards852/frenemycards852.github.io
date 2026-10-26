@@ -319,9 +319,9 @@
     "{actor}靠「{trait}」慢慢回氣，+{heal}"
   ],
   "trait.surviveOnce": [
-    "{actor}本來已經倒低，但「{trait}」一出，剩 1 點體力都撐住！",
+    "{actor}本來已經倒低，但「{trait}」一出，又企返起身！",
     "冇可能！{actor}用「{trait}」頂住，仲未死得！",
-    "差少少就倒低！{actor}靠「{trait}」死撐住 1 點體力",
+    "差少少就倒低！{actor}靠「{trait}」死撐落去",
     "「{trait}」救命！{actor}企返起身，仲未輸得！",
     "全場以為完咗，點知{actor}用「{trait}」吊住最後一口氣"
   ],

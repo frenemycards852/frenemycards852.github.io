@@ -319,9 +319,9 @@
     "{actor} slowly gets their breath back with \"{trait}\". +{heal}"
   ],
   "trait.surviveOnce": [
-    "{actor} should be down, but \"{trait}\" keeps them standing on 1 Stamina!",
+    "{actor} should be down, but \"{trait}\" gets them back on their feet!",
     "No way! \"{trait}\" saves {actor}. Still standing!",
-    "So close to going down! {actor} hangs on at 1 with \"{trait}\"",
+    "So close to going down! {actor} hangs on with \"{trait}\"",
     "\"{trait}\" to the rescue! {actor} gets back up. Not done yet!",
     "Everyone thought it was over, but {actor} clings on with \"{trait}\""
   ],

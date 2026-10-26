@@ -66,6 +66,8 @@ export function simulateBattle({ cards, tactics, seed }, { config, types, effect
       triggers.push({ side: attacker.side, slot: 'weakness', kind: 'lowHpWeak' });
     }
     let taken = defender.tactic.taken;
+    // surviveOnce cards are also a little thick-skinned all battle (effects.json → taken).
+    if (defender.trait.kind === 'surviveOnce') taken *= defender.trait.taken ?? 1;
     if (last && defender.trait.kind === 'finalRoundGuard') {
       taken *= defender.trait.taken;
       triggers.push({ side: defender.side, slot: 'trait', kind: 'finalRoundGuard' });
@@ -88,7 +90,8 @@ export function simulateBattle({ cards, tactics, seed }, { config, types, effect
     defender.hp -= dmg;
     let saved = false;
     if (defender.hp <= 0 && defender.trait.kind === 'surviveOnce' && !defender.survived) {
-      defender.hp = 1;
+      // Hangs on with a share of max Stamina (effects.json → keep), at least 1.
+      defender.hp = Math.max(1, Math.round(defender.maxHp * (defender.trait.keep ?? 0)));
       defender.survived = true;
       saved = true;
     }
