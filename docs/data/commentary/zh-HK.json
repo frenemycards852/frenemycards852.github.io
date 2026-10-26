@@ -89,65 +89,105 @@
     "{actor}一句抽水打落去，{opponent}扣{dmg}點！",
     "{actor}翻舊賬，{opponent}中招，-{dmg}！",
     "{actor}喺 group 度 tag 晒所有人，{opponent}冇晒面 -{dmg}",
-    "{actor}一個白眼反過去，{opponent}受{dmg}點傷害"
+    "{actor}一個白眼反過去，{opponent}受{dmg}點傷害",
+    "{actor}冷笑一聲，{opponent}即刻 -{dmg}"
   ],
   "attack.crit": [
     "暴擊！{actor}講中{opponent}痛處，-{dmg}！全場「喔～～」",
     "暴擊！{actor}將{opponent}嘅黑歷史 send 晒去公海，-{dmg} 🌊",
-    "暴擊！{actor}呢句太直接，{opponent}即場 -{dmg} 😱"
+    "暴擊！{actor}呢句太直接，{opponent}即場 -{dmg} 😱",
+    "暴擊！{actor}拎出三年前嘅舊事，{opponent} -{dmg}！",
+    "暴擊！{actor}喺成個 group 面前讀出{opponent}嘅舊訊息，-{dmg} 💥"
   ],
   "attack.delayed": [
     "{actor}嘅「{move}」遲咗少少，但終於到咗！{opponent} -{dmg}",
-    "大家都以為冇下文，點知{actor}嘅「{move}」真係返嚟！{opponent} -{dmg}"
+    "大家都以為冇下文，點知{actor}嘅「{move}」真係返嚟！{opponent} -{dmg}",
+    "{actor}嘅「{move}」終於兌現，{opponent}措手不及，-{dmg}",
+    "遲到好過冇到！{actor}嘅「{move}」打中{opponent}，-{dmg}",
+    "全場都唔記得咗，{actor}嘅「{move}」突然殺到！{opponent} -{dmg}"
   ],
   "attack.moveHit": [
     "「{move}」正中{opponent}！-{dmg}",
-    "{opponent}完全頂唔順「{move}」，-{dmg}！"
+    "{opponent}完全頂唔順「{move}」，-{dmg}！",
+    "{actor}嘅「{move}」直擊要害，{opponent} -{dmg}！",
+    "「{move}」一出，{opponent}即刻冇晒反應，-{dmg}",
+    "{opponent}想避都避唔切「{move}」，-{dmg}"
   ],
   "attack.critExtra": [
     "仲要係暴擊！🔥",
-    "暴擊！全場起哄！"
+    "暴擊！全場起哄！",
+    "仲要係暴擊，痛上加痛！💥",
+    "暴擊！呢下一定好痛 😵",
+    "暴擊！{opponent}要坐低唞吓先得"
   ],
   "attack.missed": [
     "{actor}打落去，撲咗個空！{opponent}嘅「{oppMove}」生效 😂",
-    "{actor}周圍搵都搵唔到{opponent}，「{oppMove}」果然好用"
+    "{actor}周圍搵都搵唔到{opponent}，「{oppMove}」果然好用",
+    "{actor}打落去先發現{opponent}早已用咗「{oppMove}」，打空 😅",
+    "「{oppMove}」生效中！{actor}連{opponent}條影都掂唔到",
+    "{actor}出盡力，結果只係打中空氣，多謝「{oppMove}」"
   ],
   "attack.dodgeLuck": [
     "{opponent}啱啱彎低身綁鞋帶，{actor}打空 🤷",
     "好彩！{opponent}啱啱望第二邊，完全冇聽到{actor}講乜",
-    "{actor}出手太慢，{opponent}閃咗！"
+    "{actor}出手太慢，{opponent}閃咗！",
+    "{opponent}突然轉身睇手機，{actor}打咗落空氣",
+    "運氣好！{actor}嗰下差少少就中，{opponent}險過剃頭"
   ],
   "attack.dodgeTrait": [
     "{opponent}發動「{oppTrait}」，{actor}打咗落空氣度！",
-    "「{oppTrait}」！{opponent}好似完全冇收到{actor}嘅訊息 👻"
+    "「{oppTrait}」！{opponent}好似完全冇收到{actor}嘅訊息 👻",
+    "「{oppTrait}」又嚟！{actor}嘅攻擊完全落空",
+    "{opponent}靠住「{oppTrait}」輕鬆避開，{actor}好嬲 😤",
+    "{actor}打唔中！{opponent}嘅「{oppTrait}」真係好用"
   ],
 
   "effective": [
-    "屬性相剋！{type}完全剋制{oppType}，效果拔群！"
+    "屬性相剋！{type}完全剋制{oppType}，效果拔群！",
+    "屬性相剋！{type}食正{oppType}，傷害加重！",
+    "天生相剋！{oppType}遇上{type}，冇得救 😂"
   ],
   "effective.work": [
     "工作狂剋廢青！{actor}凌晨三點仲覆緊 email，{opponent}光係睇到都覺得攰 😩",
-    "工作狂剋廢青！{opponent}被{actor}嗰張 to-do list 嚇親 📋"
+    "工作狂剋廢青！{opponent}被{actor}嗰張 to-do list 嚇親 📋",
+    "工作狂剋廢青！{actor}一張 Excel 表，{opponent}睇到頭暈 📊",
+    "工作狂剋廢青！{actor}九點準時開會，{opponent}仲未起身",
+    "工作狂剋廢青！{actor}一句「跟進吓」，{opponent}即刻想瞓"
   ],
   "effective.slacker": [
     "廢青剋食貨！{actor}一覺瞓到下晝三點，{opponent}個飯局冇人到 😴",
-    "廢青剋食貨！{actor}瞓過咗飯局，{opponent}冇人陪食"
+    "廢青剋食貨！{actor}瞓過咗飯局，{opponent}冇人陪食",
+    "廢青剋食貨！{actor}懶得出街，{opponent}嘅美食團冇人跟",
+    "廢青剋食貨！{actor}只肯叫外賣，{opponent}嘅打卡清單全部泡湯",
+    "廢青剋食貨！{actor}瞓到錯過早午餐，{opponent}一個人食 😢"
   ],
   "effective.foodie": [
     "食貨剋工作狂！{actor}拖咗{opponent}去食放題，deadline 即刻冇咗 🍣",
-    "食貨剋工作狂！{opponent}被{actor}拉咗去排隊食嘢，成晚冇返工"
+    "食貨剋工作狂！{opponent}被{actor}拉咗去排隊食嘢，成晚冇返工",
+    "食貨剋工作狂！{actor}一句「食咗飯先」，{opponent}即刻放低電腦 🍜",
+    "食貨剋工作狂！{actor}帶咗{opponent}去試新餐廳，會都唔開喇",
+    "食貨剋工作狂！{opponent}聞到{actor}手上嘅雞髀，冇心機做嘢"
   ],
   "effective.savage": [
     "毒舌剋戀愛腦！{actor}一句「佢冇咁鍾意你」，{opponent}嘅粉紅泡泡爆晒 💔",
-    "毒舌剋戀愛腦！{actor}講出真相，{opponent}當場清醒"
+    "毒舌剋戀愛腦！{actor}講出真相，{opponent}當場清醒",
+    "毒舌剋戀愛腦！{actor}一句「醒啦」，{opponent}嘅濾鏡即刻碎晒",
+    "毒舌剋戀愛腦！{actor}數晒對方啲 red flag，{opponent}無言以對 🚩",
+    "毒舌剋戀愛腦！{actor}冷冷咁講「佢唔值得」，{opponent}心都碎埋"
   ],
   "effective.love": [
     "戀愛腦剋遲到！{opponent}遲咗兩個鐘，{actor}照樣甜笑：「冇事，我等你」💘",
-    "戀愛腦剋遲到！{actor}等幾耐都唔嬲，{opponent}嘅遲到完全冇殺傷力"
+    "戀愛腦剋遲到！{actor}等幾耐都唔嬲，{opponent}嘅遲到完全冇殺傷力",
+    "戀愛腦剋遲到！{actor}一句「冇所謂，等你」，{opponent}反而內疚到爆",
+    "戀愛腦剋遲到！{actor}等足一個鐘仲送埋飲品，{opponent}無地自容",
+    "戀愛腦剋遲到！{actor}傳咗二十個心心，{opponent}唔好意思再遲 💕"
   ],
   "effective.late": [
     "遲到剋毒舌！{actor}根本未到，{opponent}罵到口都乾都冇人聽 ⏰",
-    "遲到剋毒舌！{opponent}嘅抽水，{actor}一句都冇聽到"
+    "遲到剋毒舌！{opponent}嘅抽水，{actor}一句都冇聽到",
+    "遲到剋毒舌！{opponent}準備好嘅寸人金句，{actor}全部錯過晒",
+    "遲到剋毒舌！{actor}到嘅時候{opponent}已經罵到冇力",
+    "遲到剋毒舌！{actor}一句「塞車呀」，{opponent}寸都寸唔落"
   ],
 
   "trigger.lowHpWeak": [

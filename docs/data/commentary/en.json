@@ -89,65 +89,105 @@
     "{actor} drops a roast. {opponent} takes {dmg}!",
     "{actor} brings up that thing from 2019. {opponent} -{dmg}",
     "{actor} screenshots the evidence. {opponent} loses {dmg}",
-    "{actor} side-eyes {opponent} for {dmg} damage"
+    "{actor} side-eyes {opponent} for {dmg} damage",
+    "{actor} gives one slow eye-roll. {opponent} takes {dmg}"
   ],
   "attack.crit": [
     "CRITICAL! {actor} hits a nerve. {opponent} -{dmg} 😱",
     "CRITICAL! {actor} posts the old photos. {opponent} -{dmg}",
-    "Critical hit! That one was too real. {opponent} -{dmg}"
+    "Critical hit! That one was too real. {opponent} -{dmg}",
+    "Critical! {actor} brings up something from three years ago. {opponent} -{dmg}!",
+    "Critical! {actor} reads {opponent}'s old texts out loud to the group. -{dmg} 💥"
   ],
   "attack.delayed": [
     "{actor}'s \"{move}\" finally lands! {opponent} -{dmg}",
-    "Nobody expected a follow-up, but here it is: \"{move}\". {opponent} -{dmg}"
+    "Nobody expected a follow-up, but here it is: \"{move}\". {opponent} -{dmg}",
+    "{actor}'s \"{move}\" finally arrives. {opponent} wasn't ready: -{dmg}",
+    "Better late than never! {actor}'s \"{move}\" lands on {opponent}, -{dmg}",
+    "Everyone had forgotten, then {actor}'s \"{move}\" shows up! {opponent} -{dmg}"
   ],
   "attack.moveHit": [
     "\"{move}\" hits {opponent} square on! -{dmg}",
-    "{opponent} can't handle \"{move}\". -{dmg}"
+    "{opponent} can't handle \"{move}\". -{dmg}",
+    "{actor}'s \"{move}\" hits right where it hurts. {opponent} -{dmg}!",
+    "\"{move}\"! {opponent} has no comeback. -{dmg}",
+    "{opponent} tried to duck \"{move}\". Too slow. -{dmg}"
   ],
   "attack.critExtra": [
     "And it's a crit! 🔥",
-    "Critical! The crowd goes wild."
+    "Critical! The crowd goes wild.",
+    "And it's a crit. Ouch on top of ouch! 💥",
+    "Critical! That one's going to leave a mark 😵",
+    "Critical! {opponent} needs a minute to sit down"
   ],
   "attack.missed": [
     "{actor} swings... at nothing. {opponent}'s \"{oppMove}\" worked 😂",
-    "{actor} can't find {opponent} anywhere. Classic \"{oppMove}\"."
+    "{actor} can't find {opponent} anywhere. Classic \"{oppMove}\".",
+    "{actor} swings, then realises {opponent} already used \"{oppMove}\". Whiff 😅",
+    "\"{oppMove}\" is working! {actor} can't even find {opponent}'s shadow",
+    "{actor} goes all in and hits pure air. Thanks, \"{oppMove}\""
   ],
   "attack.dodgeLuck": [
     "{opponent} bends down to tie a shoelace. {actor} misses 🤷",
     "Lucky! {opponent} was looking the other way.",
-    "{actor} is too slow. {opponent} dodges!"
+    "{actor} is too slow. {opponent} dodges!",
+    "{opponent} turns to check their phone at just the right moment. {actor} hits nothing",
+    "Lucky! {actor} misses by an inch. {opponent} lives to argue another day"
   ],
   "attack.dodgeTrait": [
     "{opponent} activates \"{oppTrait}\". {actor} is roasting thin air!",
-    "\"{oppTrait}\"! {opponent} leaves {actor} on read 👻"
+    "\"{oppTrait}\"! {opponent} leaves {actor} on read 👻",
+    "\"{oppTrait}\" again! {actor}'s attack goes nowhere",
+    "{opponent} slides out of the way with \"{oppTrait}\". {actor} fumes 😤",
+    "Miss! {opponent}'s \"{oppTrait}\" really is that good"
   ],
 
   "effective": [
-    "Type advantage! {type} beats {oppType}. Super effective!"
+    "Type advantage! {type} beats {oppType}. Super effective!",
+    "Type advantage! {type} hits {oppType} right where it hurts!",
+    "Natural enemies! {oppType} never stood a chance against {type} 😂"
   ],
   "effective.work": [
     "Workaholic beats Slacker! {actor} answers emails at 3am. {opponent} gets tired just watching 😩",
-    "Workaholic beats Slacker! {actor}'s to-do list terrifies {opponent}."
+    "Workaholic beats Slacker! {actor}'s to-do list terrifies {opponent}.",
+    "Workaholic beats Slacker! {actor} opens a spreadsheet and {opponent} gets a headache 📊",
+    "Workaholic beats Slacker! {actor}'s 9 a.m. meeting starts; {opponent} is still asleep",
+    "Workaholic beats Slacker! {actor} says \"quick follow-up\" and {opponent} needs a nap"
   ],
   "effective.slacker": [
     "Slacker beats Foodie! {actor} sleeps through brunch and {opponent} eats alone 😴",
-    "Slacker beats Foodie! Nobody shows up to {opponent}'s dinner plans."
+    "Slacker beats Foodie! Nobody shows up to {opponent}'s dinner plans.",
+    "Slacker beats Foodie! {actor} won't leave the house, so {opponent}'s food tour has no crew",
+    "Slacker beats Foodie! {actor} only does delivery; {opponent}'s must-try list is ruined",
+    "Slacker beats Foodie! {actor} sleeps through brunch and {opponent} eats alone 😢"
   ],
   "effective.foodie": [
     "Foodie beats Workaholic! {actor} drags {opponent} to an all-you-can-eat. Deadline? Gone 🍣",
-    "Foodie beats Workaholic! {opponent} gets lured away by snacks."
+    "Foodie beats Workaholic! {opponent} gets lured away by snacks.",
+    "Foodie beats Workaholic! {actor} says \"lunch first\" and {opponent} closes the laptop 🍜",
+    "Foodie beats Workaholic! {actor} drags {opponent} to a new restaurant. Meeting cancelled",
+    "Foodie beats Workaholic! {opponent} smells {actor}'s fried chicken. Productivity: gone"
   ],
   "effective.savage": [
     "Savage beats Lovestruck! \"They're just not that into you.\" {opponent}'s bubble pops 💔",
-    "Savage beats Lovestruck! {actor} delivers the reality check."
+    "Savage beats Lovestruck! {actor} delivers the reality check.",
+    "Savage beats Lovestruck! {actor} says \"wake up\" and {opponent}'s rose-tinted glasses crack",
+    "Savage beats Lovestruck! {actor} lists every red flag. {opponent} has nothing 🚩",
+    "Savage beats Lovestruck! {actor}: \"They're not worth it.\" {opponent}'s heart sinks"
   ],
   "effective.love": [
     "Lovestruck beats Late! {opponent} is two hours late. {actor}: \"No worries, I'll wait 💘\"",
-    "Lovestruck beats Late! {actor} would wait forever, so being late does nothing."
+    "Lovestruck beats Late! {actor} would wait forever, so being late does nothing.",
+    "Lovestruck beats Late! {actor} says \"no worries, I'll wait\" and {opponent} feels terrible",
+    "Lovestruck beats Late! {actor} waited an hour AND brought drinks. {opponent} is mortified",
+    "Lovestruck beats Late! Twenty heart emojis later, {opponent} can't bring themselves to be late 💕"
   ],
   "effective.late": [
     "Late beats Savage! {actor} isn't even here yet. {opponent} is roasting an empty chair ⏰",
-    "Late beats Savage! {actor} missed every single burn."
+    "Late beats Savage! {actor} missed every single burn.",
+    "Late beats Savage! {opponent} had the perfect roast ready; {actor} missed all of it",
+    "Late beats Savage! By the time {actor} turns up, {opponent} has run out of insults",
+    "Late beats Savage! {actor} says \"traffic\" and {opponent} can't even roast that"
   ],
 
   "trigger.lowHpWeak": [
