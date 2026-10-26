@@ -72,17 +72,23 @@
   "start": [
     "{actor} vs {opponent}. This friendship is about to be tested 🔥",
     "Ladies and gentlemen: {actor} and {opponent} are settling old scores.",
-    "{actor} vs {opponent}. Only one leaves with their dignity."
+    "{actor} vs {opponent}. Only one leaves with their dignity.",
+    "{actor} and {opponent} square up. The friendship hangs in the balance ⚔️",
+    "Ding ding! {actor} vs {opponent}. Who gets roasted into silence?"
   ],
   "round": [
     "Round {n}!",
     "Round {n}. The group chat is watching 👀",
-    "Round {n}. Somebody grab the popcorn 🍿"
+    "Round {n}. Somebody grab the popcorn 🍿",
+    "Round {n}. Neither of them is backing down 🔥",
+    "Round {n}. Someone in the group chat is already taking screenshots"
   ],
   "finalRound": [
     "Final round! Loser, get your wallet ready 💸",
     "Last round. Whoever loses this one takes the penalty.",
-    "Final round. Friendship status: pending."
+    "Final round. Friendship status: pending.",
+    "Final round! The penalty is warming up 😈",
+    "Last round. Whoever loses hears about it for a year"
   ],
 
   "attack.hit": [
@@ -192,93 +198,153 @@
 
   "trigger.lowHpWeak": [
     "{actor}'s weakness \"{weakness}\" kicks in. The punches go soft.",
-    "\"{weakness}\"! {actor} starts to panic."
+    "\"{weakness}\"! {actor} starts to panic.",
+    "Running low, and {actor}'s \"{weakness}\" is kicking in",
+    "\"{weakness}\" takes over. {actor}'s hits go limp",
+    "{actor} remembers \"{weakness}\" and loses half their bite"
   ],
   "trigger.finalRoundGuard": [
     "{actor}'s \"{trait}\" kicks in. Barely a scratch!",
-    "\"{trait}\"! {actor} shrugs most of it off."
+    "\"{trait}\"! {actor} shrugs most of it off.",
+    "Endgame: {actor}'s \"{trait}\" goes full power!",
+    "\"{trait}\" kicks in. {actor} barely feels a thing",
+    "Last round, and {actor} tanks it all with \"{trait}\""
   ],
   "trigger.finalRoundVulnerable": [
     "Final round, and {actor}'s weakness \"{weakness}\" hits hard!",
-    "\"{weakness}\"! {actor} crumbles at the worst moment."
+    "\"{weakness}\"! {actor} crumbles at the worst moment.",
+    "Crunch time, and {actor}'s \"{weakness}\" picks now to show up!",
+    "\"{weakness}\" at the worst possible moment. {actor} takes extra",
+    "{actor} made it to the end, then \"{weakness}\" dragged them down"
   ],
   "trigger.slowerVulnerable": [
     "{actor} is a step behind, and \"{weakness}\" makes it hurt more!",
-    "\"{weakness}\"! {actor} wasn't ready for that."
+    "\"{weakness}\"! {actor} wasn't ready for that.",
+    "{actor} is half a beat behind, and \"{weakness}\" makes it sting more",
+    "Too slow! {actor}'s \"{weakness}\" shows itself",
+    "Before {actor} knows what's happening, \"{weakness}\" hits"
   ],
 
   "skip.stun": [
     "{actor} got hit with \"{oppMove}\" and froze.",
-    "{actor} is still waiting for {opponent} to reply... turn wasted 📱"
+    "{actor} is still waiting for {opponent} to reply... turn wasted 📱",
+    "{actor} is still processing \"{oppMove}\". Total freeze",
+    "\"{oppMove}\" left {actor} dazed. No move this round",
+    "The aftershock of \"{oppMove}\" keeps {actor} frozen"
   ],
   "skip.skipFirstTurn": [
     "{actor}'s weakness \"{weakness}\": not awake yet 😴",
-    "{actor} hasn't booted up. \"{weakness}\" strikes again."
+    "{actor} hasn't booted up. \"{weakness}\" strikes again.",
+    "\"{weakness}\"! {actor} isn't awake yet. Round one: skipped 😴",
+    "{actor} hasn't booted up. \"{weakness}\" made them miss the start",
+    "Round one, and {actor} is still wrestling \"{weakness}\" in bed"
   ],
   "skip.distracted": [
     "\"{weakness}\"! {actor} gets distracted and does nothing.",
-    "{actor} thinks about \"{weakness}\" and zones out."
+    "{actor} thinks about \"{weakness}\" and zones out.",
+    "\"{weakness}\"! {actor} picks up their phone and forgets the fight",
+    "{actor}'s mind wanders off to \"{weakness}\". This round: blank",
+    "\"{weakness}\" again! {actor} stares into the distance"
   ],
 
   "move.heal": [
     "{actor} uses \"{move}\". +{heal} Stamina ✨",
-    "\"{move}\"! {actor} catches a breath. +{heal}"
+    "\"{move}\"! {actor} catches a breath. +{heal}",
+    "{actor} uses \"{move}\" to recharge. +{heal} 🔋",
+    "\"{move}\"! {actor} takes a deep breath: +{heal}",
+    "{actor} quietly goes \"{move}\". Stamina +{heal}"
   ],
   "move.healFull": [
-    "{actor} uses \"{move}\"... at full Stamina. Wasted 😂"
+    "{actor} uses \"{move}\"... at full Stamina. Wasted 😂",
+    "{actor} uses \"{move}\"… at full stamina. Completely wasted 🙃",
+    "\"{move}\"! Shame {actor} didn't need it 😂",
+    "{actor} heals an already full tank with \"{move}\". The crowd goes quiet",
+    "\"{move}\" does nothing. {actor} was full already"
   ],
   "move.gambleHeal.ok": [
     "{actor} uses \"{move}\"... and actually follows through! +{heal} 🎉",
-    "A miracle! \"{move}\" works. {actor} +{heal}"
+    "A miracle! \"{move}\" works. {actor} +{heal}",
+    "\"{move}\" actually happened this time! {actor} +{heal} 😮",
+    "Nobody saw it coming: {actor}'s \"{move}\" pays off. +{heal}",
+    "\"{move}\" worked, just once. {actor} +{heal}, and nobody believes it"
   ],
   "move.gambleHeal.fail": [
     "{actor} uses \"{move}\"! Nobody believes it. Zero effect.",
-    "\"{move}\"? {opponent} has heard that a hundred times."
+    "\"{move}\"? {opponent} has heard that a hundred times.",
+    "{actor}: \"{move}!\" Everyone: \"Sure you will.\" Effect: zero",
+    "\"{move}\" for the hundredth time. {opponent} doesn't even blink",
+    "{actor}'s \"{move}\" falls through again. Nothing happens 🙄"
   ],
   "move.nextMiss": [
     "{actor} uses \"{move}\"! {opponent}'s next attack will miss.",
-    "\"{move}\"! {actor} vanishes from {opponent}'s sight."
+    "\"{move}\"! {actor} vanishes from {opponent}'s sight.",
+    "{actor} uses \"{move}\". {opponent}'s next hit is going nowhere 👻",
+    "\"{move}\"! {actor} blinks out of sight. {opponent} can't find them",
+    "{actor} vanishes with \"{move}\". {opponent} is left swinging"
   ],
   "move.stun": [
     "{actor} uses \"{move}\"! {opponent} freezes and loses a turn.",
-    "\"{move}\"! {opponent} is left waiting."
+    "\"{move}\"! {opponent} is left waiting.",
+    "\"{move}\"! {opponent} freezes on the spot",
+    "{actor} uses \"{move}\". {opponent} will be waiting forever ⏳",
+    "{opponent} is turned to stone by \"{move}\""
   ],
   "move.delayedStrike": [
     "{actor}: \"{move}\"! ...and then nothing happens.",
-    "{actor} uses \"{move}\". Nobody expects a follow-up."
+    "{actor} uses \"{move}\". Nobody expects a follow-up.",
+    "{actor}: \"{move}!\" …and then nothing happens. Yet",
+    "\"{move}\" has been said. When it lands, nobody knows",
+    "{actor} drops a \"{move}\" and everyone ignores it"
   ],
   "move.strike": [
     "{actor} unleashes \"{move}\"!",
-    "{actor} goes all in: \"{move}\"!"
+    "{actor} goes all in: \"{move}\"!",
+    "{actor} shouts \"{move}\" and the room holds its breath!",
+    "Signature move: \"{move}\"! {actor} means it this time",
+    "{actor} winds up and unleashes \"{move}\"!"
   ],
 
   "trait.reflect": [
     "{actor} activates \"{trait}\" and bills {opponent} back: {dmg} damage!",
-    "\"{trait}\"! {actor} fires right back. {opponent} -{dmg}"
+    "\"{trait}\"! {actor} fires right back. {opponent} -{dmg}",
+    "\"{trait}\"! {actor} fires it right back. {opponent} -{dmg}",
+    "{opponent} hits, and {actor} returns it untouched with \"{trait}\". -{dmg}",
+    "{actor}'s \"{trait}\" bounces it back. {opponent} eats {dmg}"
   ],
   "trait.regen": [
     "While nobody's looking, {actor} quietly recovers {heal}.",
     "\"{trait}\" again! {actor} +{heal}. Everyone's used to it by now.",
     "\"{trait}\"! {actor} sneaks back {heal} Stamina.",
-    "{actor}'s \"{trait}\" kicks in. +{heal}"
+    "{actor}'s \"{trait}\" kicks in. +{heal}",
+    "{actor} slowly gets their breath back with \"{trait}\". +{heal}"
   ],
   "trait.surviveOnce": [
     "{actor} should be down, but \"{trait}\" keeps them standing on 1 Stamina!",
-    "No way! \"{trait}\" saves {actor}. Still standing!"
+    "No way! \"{trait}\" saves {actor}. Still standing!",
+    "So close to going down! {actor} hangs on at 1 with \"{trait}\"",
+    "\"{trait}\" to the rescue! {actor} gets back up. Not done yet!",
+    "Everyone thought it was over, but {actor} clings on with \"{trait}\""
   ],
 
   "end.ko": [
     "{opponent} is down! {actor} wins by KO 🏆",
     "KO! {actor} roasts {opponent} into silence.",
-    "{opponent} can't take any more! {actor} wins 🏆"
+    "{opponent} can't take any more! {actor} wins 🏆",
+    "{opponent} is roasted into silence. {actor} wins by K.O. 🏆",
+    "That's the game! {actor} settles it in one blow. {opponent}, accept your fate"
   ],
   "end.points": [
     "Three rounds done. {actor} has more Stamina left and wins 🏆",
     "On points, {actor} takes it. {opponent}, accept your fate.",
-    "{actor} wins! {opponent}, time for the penalty 😏"
+    "{actor} wins! {opponent}, time for the penalty 😏",
+    "Three rounds done and {actor} just edges it! {opponent}, get ready 😏",
+    "On final stamina, {actor} wins by a hair. A win is a win 🏆"
   ],
   "end.draw": [
     "It's a draw! Both take the penalty 🤝",
-    "Dead even! {actor} and {opponent} both pay up."
+    "Dead even! {actor} and {opponent} both pay up.",
+    "A draw! {actor} and {opponent} both do the penalty. Fair's fair 🤝",
+    "Dead even at the end. Penalties for both 😂",
+    "Too close to call! {actor} and {opponent} go down together"
   ]
 }

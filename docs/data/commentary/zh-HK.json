@@ -72,17 +72,23 @@
   "start": [
     "{actor}對{opponent}！友誼嘅小船，今日正式翻沉 🚣",
     "各位觀眾！{actor}同{opponent}終於要清算舊數 🔥",
-    "{actor} VS {opponent}，邊個先係真・損友？開波！"
+    "{actor} VS {opponent}，邊個先係真・損友？開波！",
+    "{actor}同{opponent}正式開戰，友誼嘅存亡就睇今日 ⚔️",
+    "鐘聲響起！{actor} VS {opponent}，邊個會被抽到冇面？"
   ],
   "round": [
     "第{n}回合！",
     "第{n}回合，兩位繼續互相傷害 💥",
-    "第{n}回合，group 入面啲人已經開定爆谷 🍿"
+    "第{n}回合，group 入面啲人已經開定爆谷 🍿",
+    "第{n}回合，兩邊都未肯收手 🔥",
+    "第{n}回合，群組已經有人開始截圖"
   ],
   "finalRound": [
     "最後一回合！輸咗嗰個準備好銀包 💸",
     "最終回合！邊個要受罰，就睇呢下",
-    "最後一回合，友情仲喺唔喺度，就睇呢下 😤"
+    "最後一回合，友情仲喺唔喺度，就睇呢下 😤",
+    "最後一回合！懲罰已經喺度等緊 😈",
+    "最終回合，輸咗嗰個準備好俾人笑一年"
   ],
 
   "attack.hit": [
@@ -192,93 +198,153 @@
 
   "trigger.lowHpWeak": [
     "{actor}嘅弱點「{weakness}」發作，雙手軟晒 😵",
-    "「{weakness}」！{actor}開始慌，攻擊力大跌"
+    "「{weakness}」！{actor}開始慌，攻擊力大跌",
+    "體力唔夠喇，{actor}嘅「{weakness}」開始發作",
+    "「{weakness}」上身，{actor}出手軟晒",
+    "{actor}一諗起「{weakness}」，攻擊力即刻減半"
   ],
   "trigger.finalRoundGuard": [
     "{actor}嘅「{trait}」啟動，傷害大減！",
-    "「{trait}」！{actor}當聽唔到，冇乜感覺"
+    "「{trait}」！{actor}當聽唔到，冇乜感覺",
+    "去到最後，{actor}嘅「{trait}」全開！",
+    "「{trait}」發動，{actor}好似冇感覺咁",
+    "最後一回合，{actor}靠「{trait}」硬食落去"
   ],
   "trigger.finalRoundVulnerable": [
     "最後一回合，{actor}嘅弱點「{weakness}」發作，傷害大增！",
-    "「{weakness}」！{actor}最尾頂唔順"
+    "「{weakness}」！{actor}最尾頂唔順",
+    "最後關頭，{actor}嘅「{weakness}」又嚟搞局！",
+    "「{weakness}」發作喺最唔啱嘅時間，{actor}傷上加傷",
+    "{actor}撐到最後，點知「{weakness}」拖晒後腿"
   ],
   "trigger.slowerVulnerable": [
     "{actor}慢咗一步，「{weakness}」發作，傷害加重！",
-    "「{weakness}」！{actor}未準備好就中招"
+    "「{weakness}」！{actor}未準備好就中招",
+    "{actor}反應慢咗半拍，「{weakness}」令佢更加痛",
+    "慢人一步！{actor}嘅「{weakness}」即刻現形",
+    "{actor}未搞清楚發生咩事，「{weakness}」已經發作"
   ],
 
   "skip.stun": [
     "{actor}中咗「{oppMove}」，成個人停咗機",
-    "{actor}等緊{opponent}覆……等咗成個回合 📱"
+    "{actor}等緊{opponent}覆……等咗成個回合 📱",
+    "{actor}仲喺度消化緊「{oppMove}」，成個人呆咗",
+    "{actor}被「{oppMove}」搞到懵咗，呢回合冇反應",
+    "「{oppMove}」嘅威力未散，{actor}郁都郁唔到"
   ],
   "skip.skipFirstTurn": [
     "{actor}嘅弱點「{weakness}」發作，第一回合仲未開機 😴",
-    "{actor}未醒！「{weakness}」，乜都做唔到"
+    "{actor}未醒！「{weakness}」，乜都做唔到",
+    "「{weakness}」！{actor}仲未瞓醒，第一回合直接跳過 😴",
+    "{actor}未開機，「{weakness}」害佢遲咗出場",
+    "第一回合，{actor}仲喺床上同「{weakness}」搏鬥"
   ],
   "skip.distracted": [
     "「{weakness}」發作！{actor}突然分心，呢回合冇出手",
-    "{actor}一諗起「{weakness}」，即刻失魂"
+    "{actor}一諗起「{weakness}」，即刻失魂",
+    "「{weakness}」！{actor}突然拎起手機，完全唔記得要打",
+    "{actor}嘅心思飛咗去「{weakness}」，呢回合放空",
+    "「{weakness}」又嚟！{actor}望住遠方發呆"
   ],
 
   "move.heal": [
     "{actor}使出「{move}」，回復{heal}點體力 ✨",
-    "「{move}」！{actor}唞返啖氣，+{heal}"
+    "「{move}」！{actor}唞返啖氣，+{heal}",
+    "{actor}用「{move}」叉滿電，+{heal} 🔋",
+    "「{move}」！{actor}深呼吸一啖，回復{heal}點",
+    "{actor}靜靜雞「{move}」，體力 +{heal}"
   ],
   "move.healFull": [
-    "{actor}使出「{move}」……但係體力本身已經滿晒，嘥咗 😂"
+    "{actor}使出「{move}」……但係體力本身已經滿晒，嘥咗 😂",
+    "{actor}使出「{move}」……體力已經滿晒，完全浪費 🙃",
+    "「{move}」！不過{actor}根本唔使補，白做 😂",
+    "{actor}對住滿血嘅自己用「{move}」，全場靜晒",
+    "「{move}」用咗等於冇用，{actor}體力早就滿晒"
   ],
   "move.gambleHeal.ok": [
     "{actor}使出「{move}」……居然真係兌現！+{heal} 🎉",
-    "奇蹟！「{move}」成功，{actor}回復{heal}點"
+    "奇蹟！「{move}」成功，{actor}回復{heal}點",
+    "「{move}」今次竟然講得出做得到！{actor}+{heal} 😮",
+    "冇人估到！{actor}嘅「{move}」真係兌現，回復{heal}點",
+    "「{move}」成功咗一次，{actor}+{heal}，大家都唔信"
   ],
   "move.gambleHeal.fail": [
     "{actor}使出「{move}」！……冇人信，效果係 0",
-    "「{move}」？{opponent}已經聽咗一百次，完全冇效"
+    "「{move}」？{opponent}已經聽咗一百次，完全冇效",
+    "{actor}：「{move}」！全場：「信你就有鬼」，效果 0",
+    "「{move}」講咗第一百次，{opponent}連眼都唔眨",
+    "{actor}嘅「{move}」再次食言，乜都冇發生 🙄"
   ],
   "move.nextMiss": [
     "{actor}使出「{move}」！{opponent}下一下一定撲空",
-    "「{move}」！{actor}突然喺{opponent}眼前消失"
+    "「{move}」！{actor}突然喺{opponent}眼前消失",
+    "{actor}使出「{move}」，{opponent}下一下肯定撲空 👻",
+    "「{move}」！{actor}一閃，{opponent}搵都搵唔到",
+    "{actor}用「{move}」消失咗，{opponent}得個桔"
   ],
   "move.stun": [
     "{actor}使出「{move}」！{opponent}呆咗，下一回合郁唔到",
-    "「{move}」！{opponent}等到傻咗"
+    "「{move}」！{opponent}等到傻咗",
+    "「{move}」！{opponent}當堂定格，郁唔到",
+    "{actor}使出「{move}」，{opponent}要等到天荒地老 ⏳",
+    "{opponent}被「{move}」搞到原地石化"
   ],
   "move.delayedStrike": [
     "{actor}使出「{move}」……講完之後就冇下文",
-    "{actor}：「{move}」！大家都唔信佢會跟進"
+    "{actor}：「{move}」！大家都唔信佢會跟進",
+    "{actor}：「{move}」！……然後就冇然後",
+    "「{move}」講咗出口，幾時兌現就冇人知",
+    "{actor}放低一句「{move}」，大家都當耳邊風"
   ],
   "move.strike": [
     "{actor}使出必殺技「{move}」！",
-    "{actor}終於出絕招：「{move}」！"
+    "{actor}終於出絕招：「{move}」！",
+    "{actor}大叫一聲「{move}」，全場屏息！",
+    "必殺技「{move}」！{actor}今次認真喇",
+    "{actor}儲夠氣，轟出「{move}」！"
   ],
 
   "trait.reflect": [
     "{actor}發動「{trait}」，計返數俾{opponent}，反彈{dmg}點！",
-    "「{trait}」！{actor}寸返轉頭，{opponent} -{dmg}"
+    "「{trait}」！{actor}寸返轉頭，{opponent} -{dmg}",
+    "「{trait}」！{actor}即刻寸返轉頭，{opponent} -{dmg}",
+    "{opponent}打落去，{actor}用「{trait}」原封不動還返，-{dmg}",
+    "{actor}嘅「{trait}」反彈成功，{opponent}自己食返 {dmg} 點"
   ],
   "trait.regen": [
     "{actor}趁冇人留意，靜靜雞補返{heal}點",
     "「{trait}」又嚟！{actor}+{heal}，大家都習慣咗",
     "「{trait}」！{actor}偷偷回復咗{heal}點",
-    "{actor}發動「{trait}」，+{heal}"
+    "{actor}發動「{trait}」，+{heal}",
+    "{actor}靠「{trait}」慢慢回氣，+{heal}"
   ],
   "trait.surviveOnce": [
     "{actor}本來已經倒低，但「{trait}」一出，剩 1 點體力都撐住！",
-    "冇可能！{actor}用「{trait}」頂住，仲未死得！"
+    "冇可能！{actor}用「{trait}」頂住，仲未死得！",
+    "差少少就倒低！{actor}靠「{trait}」死撐住 1 點體力",
+    "「{trait}」救命！{actor}企返起身，仲未輸得！",
+    "全場以為完咗，點知{actor}用「{trait}」吊住最後一口氣"
   ],
 
   "end.ko": [
     "{opponent}瞓低！{actor} KO 勝 🏆",
     "KO！{opponent}被{actor}抽到無言以對",
-    "{opponent}頂唔順喇！{actor}贏 🏆"
+    "{opponent}頂唔順喇！{actor}贏 🏆",
+    "{opponent}被抽到冇晒聲，{actor} KO 勝出 🏆",
+    "完場！{actor}一招定勝負，{opponent}要認命啦"
   ],
   "end.points": [
     "三個回合打完！{actor}剩低嘅體力多啲，勝出 🏆",
     "計分結果：{actor}勝出，{opponent}認命啦！",
-    "{actor}贏！{opponent}準備好受罰 😏"
+    "{actor}贏！{opponent}準備好受罰 😏",
+    "三回合打完，{actor}險勝！{opponent}準備受罰 😏",
+    "計埋最後體力，{actor}贏少少，但贏就係贏 🏆"
   ],
   "end.draw": [
     "打和！兩個一齊受罰 🤝",
-    "完全打和！{actor}同{opponent}一齊受罰"
+    "完全打和！{actor}同{opponent}一齊受罰",
+    "平手！{actor}同{opponent}一齊受罰，公平公正 🤝",
+    "打到最後竟然打和，兩個都要做懲罰 😂",
+    "勢均力敵！{actor}同{opponent}一齊認衰"
   ]
 }
