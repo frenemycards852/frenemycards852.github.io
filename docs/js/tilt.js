@@ -1,7 +1,7 @@
 // Big card you can play with, like a real card fresh out of the pack:
 // - mouse hover tilts it a little and a glare follows the pointer;
-// - a sideways drag (finger or mouse) spins it round to show the card back, and on release
-//   it settles on whichever side is nearer;
+// - a drag in any direction (finger or mouse) turns it round freely, 360° on both axes, and on
+//   release it settles upright on whichever side is facing you;
 // - a tap turns it over;
 // - every few seconds a glint sweeps across the front.
 // Foil cards (SR, SSR) get a rainbow sheen. No phone tilt sensor: iPhone asks for permission
@@ -51,13 +51,25 @@ export function attachTilt(box, { foil = false } = {}) {
   flip.append(front, back);
   box.append(flip);
 
-  let spin = 0; // resting angle: a multiple of 180
-  let drag = null; // { id, x, spinning, at }
+  let spin = 0; // resting turn around the vertical axis: a multiple of 180
+  let spinX = 0; // resting turn around the horizontal axis: a multiple of 360 (always upright)
+  let drag = null; // { id, x, y, spinning, at }
   let frame = 0;
   // Side-on the card catches less light: darker as it turns edge-on, bright again face-on.
-  const setSpin = (deg) => {
+  const setSpin = (deg, degX = spinX) => {
     box.style.setProperty('--spin', `${deg}deg`);
-    box.style.setProperty('--shade', (Math.abs(Math.sin((deg * Math.PI) / 180)) * 0.45).toFixed(3));
+    box.style.setProperty('--spin-x', `${degX}deg`);
+    const facing = Math.cos((deg * Math.PI) / 180) * Math.cos((degX * Math.PI) / 180);
+    box.style.setProperty('--shade', ((1 - Math.abs(facing)) * 0.45).toFixed(3));
+  };
+  // After a free drag, settle upright on whichever side is facing the viewer.
+  const settle = (deg, degX) => {
+    const backFacing = Math.cos((deg * Math.PI) / 180) * Math.cos((degX * Math.PI) / 180) < 0;
+    spinX = Math.round(degX / 360) * 360;
+    let k = Math.round(deg / 180);
+    if ((Math.abs(k) % 2 === 1) !== backFacing) k += deg / 180 > k ? 1 : -1;
+    spin = k * 180;
+    setSpin(spin, spinX);
   };
   // A quick turn (tap) plays the darken-and-brighten as an animation instead.
   const flipBy = (deg) => {
@@ -97,7 +109,8 @@ export function attachTilt(box, { foil = false } = {}) {
 
   box.addEventListener('pointerdown', (e) => {
     box.parentElement?.classList.add('tilt-stage'); // 3D depth; the card is placed on the page after attachTilt
-    drag = { id: e.pointerId, x: e.clientX, spinning: false, at: Date.now() };
+    const r = box.getBoundingClientRect(); // measured before any turn (a turned card looks narrower)
+    drag = { id: e.pointerId, x: e.clientX, y: e.clientY, w: r.width || 1, h: r.height || 1, spinning: false, at: Date.now() };
     box.classList.add('pressed');
     if (e.pointerType === 'mouse') tilt(e);
   });
@@ -105,14 +118,16 @@ export function attachTilt(box, { foil = false } = {}) {
     box.parentElement?.classList.add('tilt-stage');
     if (drag && drag.id === e.pointerId) {
       const dx = e.clientX - drag.x;
-      if (!drag.spinning && Math.abs(dx) > DRAG_START) {
+      const dy = e.clientY - drag.y;
+      if (!drag.spinning && Math.hypot(dx, dy) > DRAG_START) {
         drag.spinning = true;
         try { box.setPointerCapture(e.pointerId); } catch { /* pointer already gone */ }
         untilt();
         box.classList.add('spinning');
       }
       if (drag.spinning) {
-        setSpin(spin + (dx / box.getBoundingClientRect().width) * SPIN_PER_WIDTH);
+        // Any direction: sideways turns around the vertical axis, up/down around the horizontal one.
+        setSpin(spin + (dx / drag.w) * SPIN_PER_WIDTH, spinX - (dy / drag.h) * SPIN_PER_WIDTH);
         return;
       }
     }
@@ -121,9 +136,8 @@ export function attachTilt(box, { foil = false } = {}) {
   const release = (e) => {
     box.classList.remove('pressed');
     if (drag?.spinning) {
-      const now = parseFloat(box.style.getPropertyValue('--spin')) || spin;
-      spin = Math.round(now / 180) * 180;
-      setSpin(spin);
+      const now = (name, fallback) => { const v = parseFloat(box.style.getPropertyValue(name)); return Number.isFinite(v) ? v : fallback; };
+      settle(now('--spin', spin), now('--spin-x', spinX));
       box.classList.remove('spinning');
     } else if (drag && e.type === 'pointerup' && Date.now() - drag.at < TAP_MS) {
       flipBy(180); // a tap turns the card over

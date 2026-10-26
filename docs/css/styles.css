@@ -2473,7 +2473,7 @@ h1 {
   rotate: var(--tilt-ax) var(--tilt-ay) 0 var(--tilt-deg);
   transform-style: preserve-3d;
   transition: rotate 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2);
-  touch-action: pan-y; /* sideways drags spin the card; up and down still scroll the page */
+  touch-action: none; /* drags in every direction turn the card (scroll from outside the card) */
   -webkit-user-select: none;
   user-select: none;
   cursor: grab;
@@ -2490,8 +2490,8 @@ h1 {
 .card-flip {
   position: relative;
   transform-style: preserve-3d;
-  rotate: 0 1 0 var(--spin);
-  transition: rotate 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.15);
+  transform: rotateX(var(--spin-x, 0deg)) rotateY(var(--spin, 0deg));
+  transition: transform 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.15);
 }
 
 .spinning .card-flip {
@@ -2568,9 +2568,13 @@ h1 {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tilt,
-  .card-flip {
+  .tilt {
     rotate: none;
+    transition: none;
+  }
+
+  .card-flip {
+    transform: none;
     transition: none;
   }
 
