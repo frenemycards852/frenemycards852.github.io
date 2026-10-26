@@ -36,7 +36,8 @@ function battleBackdrop() {
     layer = el('div', 'battle-backdrop');
     layer.id = 'battle-backdrop';
     layer.setAttribute('aria-hidden', 'true');
-    layer.append(el('div', 'comic-scene'), el('div', 'comic-tint'));
+    // comic-speed: radial speed lines, shown only during a signature move.
+    layer.append(el('div', 'comic-scene'), el('div', 'comic-tint'), el('div', 'comic-speed'));
     document.body.prepend(layer);
   }
   return layer;
@@ -284,6 +285,71 @@ export async function showComicBattle(container, match, data, {
     node.append(el('div', 'comic-split-grey'), el('div', 'comic-split-slash'));
     stage.append(node);
   };
+  // ---------- signature move: cut-in banner, charge, heavy hit ----------
+  const ultColor = (side) => data.types.types.find((x) => x.id === match.cards[side].type)?.color ?? '#ff5a36';
+  // Close-up of the character's face (or the friend's photo) for the cut-in banner,
+  // using the head position the photo sticker uses.
+  const faceCloseUp = (side) => {
+    const card = match.cards[side];
+    const box = el('div', 'ult-face');
+    const img = el('img');
+    img.alt = '';
+    if (card.photo) {
+      img.src = card.photo;
+      img.className = 'whole';
+    } else {
+      const head = cardScene(data.types, card.type, card.gender, card.scene)?.head;
+      img.addEventListener('load', () => {
+        if (!head) return;
+        const size = box.clientWidth || 120;
+        const w = (size * 0.95) / (2 * head[2]); // the head circle fills the box
+        const h = w * (img.naturalHeight / img.naturalWidth);
+        img.style.width = `${w}px`;
+        img.style.left = `${size / 2 - head[0] * w}px`;
+        img.style.top = `${size / 2 - head[1] * h}px`;
+      }, { once: true });
+      img.src = cardArt(data.types, card.type, card.gender, card.scene) ?? '';
+    }
+    box.append(img);
+    return box;
+  };
+  // Before a signature move: the scene goes dark with speed lines, a slanted banner with the
+  // character's face and the move name sweeps across, then the card charges up.
+  const ultIntro = async (side) => {
+    const color = ultColor(side);
+    for (const node of [arena, pageBackdrop]) node.style.setProperty('--ult', color);
+    pageBackdrop.classList.add('ult');
+    const banner = el('div', `ult-cutin from-${side}`);
+    banner.setAttribute('aria-hidden', 'true');
+    banner.style.setProperty('--ult', color);
+    banner.append(faceCloseUp(side), el('span', 'ult-name', skillName(side, 'move')));
+    section.append(banner);
+    await sleep(pace.ultCutinMs ?? 600);
+    banner.remove();
+    const sparks = el('div', 'ult-particles');
+    for (let i = 0; i < 8; i++) {
+      const dot = el('i');
+      dot.style.setProperty('--i', i);
+      sparks.append(dot);
+    }
+    actors[side].append(sparks);
+    actors[side].classList.add('charging');
+    await sleep(pace.ultChargeMs ?? 350);
+  };
+  const ultEnd = () => {
+    pageBackdrop.classList.remove('ult');
+    section.querySelectorAll('.ult-cutin, .ult-particles, .ult-flash').forEach((n) => n.remove());
+  };
+  // The signature strike lands: white flash, heavy shake, oversized damage and sound effect.
+  const ultImpact = () => {
+    arena.classList.remove('ult-hit');
+    void arena.offsetWidth;
+    arena.classList.add('ult-hit');
+    const flash = el('div', 'ult-flash');
+    flash.setAttribute('aria-hidden', 'true');
+    flash.addEventListener('animationend', () => flash.remove(), { once: true });
+    section.append(flash);
+  };
   // Each type has its own shouts ("shout.<type>"); "shout" is the fallback.
   const shout = (side, i) => {
     const pool = data.lines[`shout.${match.cards[side].type}`] ?? data.lines.shout ?? [];
@@ -294,6 +360,7 @@ export async function showComicBattle(container, match, data, {
     const e = panel.main;
     // New panel: clear the effects (actor animations restart in setPose).
     fx.replaceChildren();
+    arena.classList.remove('ult-hit'); // oversized effects only on the signature strike's own panel
     let scene = panel.kind;
     if (panel.round) fx.append(el('div', 'comic-round', t('comic.round', { n: panel.round })));
 
@@ -306,6 +373,8 @@ export async function showComicBattle(container, match, data, {
       const d = 1 - a;
       scene = `attack-${a}`;
       setPose(a, 'attack', 'lunge');
+      // A signature strike lands with a flash, a heavy shake and oversized effects (ghosted lunge).
+      if (panel.strike && animate && !skipped && !reducedMotion()) { actors[a].classList.add('ult-lunge'); ultImpact(); }
       if (e.missed || e.dodged) {
         setPose(d, null, 'dodge');
         burst(d, e.missed ? t('comic.miss') : t('comic.dodge'), 'miss');
@@ -322,6 +391,7 @@ export async function showComicBattle(container, match, data, {
     } else if (panel.kind === 'move') {
       const a = e.side;
       setPose(a, 'attack', 'power');
+      if (animate && !skipped && !reducedMotion()) actors[a].classList.add('ult-glow');
       setPose(1 - a, null, '');
       bubble(a, skillName(a, 'move'));
       if (e.kind === 'heal' || (e.kind === 'gambleHeal' && e.ok)) burst(a, t('comic.heal', { n: e.heal }), 'heal');
@@ -387,13 +457,21 @@ export async function showComicBattle(container, match, data, {
       stage.classList.remove('frozen');
       if (skipped || !isAlive()) break;
     }
+    // Signature move: cut-in banner and charge first, then the panel itself.
+    const ult = (panel.kind === 'move' || (panel.kind === 'attack' && panel.strike)) && !reducedMotion();
+    if (ult) {
+      await ultIntro(panel.main.side);
+      if (skipped || !isAlive()) { ultEnd(); break; }
+    }
     drawPanel(panel, i);
+    if (ult) setTimeout(ultEnd, 450);
     let ms = pace.panelMs + pace.lineMs * Math.max(0, panel.lines.length - 1);
     if (panel.kind === 'intro') ms = pace.introMs;
     if (panel.kind === 'finish') ms = pace.finishMs;
     await sleep(ms);
   }
   if (!isAlive()) return result;
+  ultEnd();
   if (skipped) drawPanel(panels[panels.length - 1], panels.length - 1);
   setHp(result.hp);
   skip.remove();
