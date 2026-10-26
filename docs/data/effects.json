@@ -38,7 +38,17 @@
     "w2": { "kind": "finalRoundVulnerable", "taken": 1.8 },
     "w3": { "kind": "lowHpWeak", "below": 0.5, "dealt": 0.4 },
     "w4": { "kind": "slowerVulnerable", "taken": 1.5 },
-    "w5": { "kind": "distracted", "chance": 0.2 }
+    "w5": { "kind": "distracted", "chance": 0.2 },
+    "w6": { "kind": "skipFirstTurn", "chance": 0.5 },
+    "w7": { "kind": "lowHpWeak", "below": 0.5, "dealt": 0.4 },
+    "w8": { "kind": "distracted", "chance": 0.2 },
+    "w9": { "kind": "skipFirstTurn", "chance": 0.5 },
+    "w10": { "kind": "finalRoundVulnerable", "taken": 1.6 },
+    "w11": { "kind": "distracted", "chance": 0.19 },
+    "w12": { "kind": "slowerVulnerable", "taken": 1.4 },
+    "w13": { "kind": "slowerVulnerable", "taken": 1.45 },
+    "w14": { "kind": "finalRoundVulnerable", "taken": 1.7 },
+    "w15": { "kind": "lowHpWeak", "below": 0.5, "dealt": 0.4 }
   },
   "custom": {
     "move": [

@@ -38,6 +38,16 @@
     { "id": "w2", "name": "The Bill Arrives", "desc": "Suddenly needs the bathroom" },
     { "id": "w3", "name": "1% Battery", "desc": "Instant panic mode" },
     { "id": "w4", "name": "Queue at the Door", "desc": "Hangry before sitting down" },
-    { "id": "w5", "name": "Boss on WhatsApp", "desc": "Heart rate: maximum" }
+    { "id": "w5", "name": "Boss on WhatsApp", "desc": "Heart rate: maximum" },
+    { "id": "w6", "name": "Snooze Button", "desc": "Hit it ten times, still late" },
+    { "id": "w7", "name": "Hangry", "desc": "Don't talk to them before lunch" },
+    { "id": "w8", "name": "Midnight Snack Radar", "desc": "Smells fries from three streets away" },
+    { "id": "w9", "name": "Gravity of Bed", "desc": "Lying down is a one-way trip" },
+    { "id": "w10", "name": "One More Game", "desc": "Said at 2 a.m., 3 a.m., 4 a.m." },
+    { "id": "w11", "name": "Vacation? What Vacation", "desc": "Laptop on the beach" },
+    { "id": "w12", "name": "Deadline Panic", "desc": "Everything due, nothing done" },
+    { "id": "w13", "name": "Left On Read", "desc": "Refreshes the chat every ten seconds" },
+    { "id": "w14", "name": "\"We Need to Talk\"", "desc": "Four words, total shutdown" },
+    { "id": "w15", "name": "Can't Take It", "desc": "Dishes it out, can't take it back" }
   ]
 }
