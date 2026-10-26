@@ -323,6 +323,7 @@ export async function showComicBattle(container, match, data, {
     banner.setAttribute('aria-hidden', 'true');
     banner.style.setProperty('--ult', color);
     banner.append(faceCloseUp(side), el('span', 'ult-name', skillName(side, 'move')));
+    banner.style.animationDuration = `${pace.ultCutinMs ?? 600}ms`; // sweep in, hold, sweep out over the whole cut-in
     section.append(banner);
     await sleep(pace.ultCutinMs ?? 600);
     banner.remove();
@@ -468,6 +469,7 @@ export async function showComicBattle(container, match, data, {
     let ms = pace.panelMs + pace.lineMs * Math.max(0, panel.lines.length - 1);
     if (panel.kind === 'intro') ms = pace.introMs;
     if (panel.kind === 'finish') ms = pace.finishMs;
+    if (ult) ms = Math.max(ms, pace.ultPanelMs ?? ms); // the signature move lingers
     await sleep(ms);
   }
   if (!isAlive()) return result;

@@ -51,7 +51,7 @@
     "healMoveBelow": 0.7,
     "pace": {
       "lineMs": 1200, "roundMs": 700, "endMs": 900,
-      "comic": { "introMs": 1400, "panelMs": 1150, "lineMs": 450, "finishMs": 1800, "freezeMs": 450, "ultCutinMs": 600, "ultChargeMs": 350 }
+      "comic": { "introMs": 1100, "panelMs": 850, "lineMs": 300, "finishMs": 1800, "freezeMs": 450, "ultCutinMs": 1000, "ultChargeMs": 600, "ultPanelMs": 1400 }
     }
   },
   "rarity": {

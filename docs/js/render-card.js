@@ -520,7 +520,8 @@ function drawSkills(ctx, card, data) {
     ctx.textBaseline = 'middle';
     ctx.fillText(chip.text, x + 14, y + 20);
     ctx.textBaseline = 'alphabetic';
-    const name = fitSingle(ctx, skill.name, { maxWidth: w - chipW - 14, size: 40, minSize: 26, weight: 900 });
+    // Long (custom) names shrink a lot before anything is cut off.
+    const name = fitSingle(ctx, skill.name, { maxWidth: w - chipW - 14, size: 40, minSize: 18, weight: 900 });
     ctx.fillStyle = LIGHT_TEXT;
     ctx.fillText(name.text, x + chipW + 14, y + 33);
     if (skill.desc) {
