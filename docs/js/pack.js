@@ -59,7 +59,11 @@ export function boosterPack({ name, label, icon }) {
   const q = el('span', 'pack-q');
   q.textContent = '?';
   body.append(logo, title, q);
-  front.append(body, sealed, seam, rip, flap);
+  // A white arrow sliding along the dotted line shows which way to swipe.
+  const hint = el('div', 'pack-hint');
+  hint.setAttribute('aria-hidden', 'true');
+  hint.style.top = `${top}%`;
+  front.append(body, sealed, seam, rip, flap, hint);
 
   let state = 'closed'; // closed → tearing → torn
   let resolveTorn;

@@ -2959,3 +2959,50 @@ h1 {
     animation: none;
   }
 }
+
+/* Swipe guide: a white arrow sliding left → right along the tear line, again and again,
+   until the user starts tearing. */
+.pack-hint {
+  position: absolute;
+  left: 8%;
+  z-index: 3;
+  width: 34px;
+  height: 4px;
+  margin-top: -2px;
+  border-radius: 2px;
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+  pointer-events: none;
+  animation: pack-hint 1.6s ease-in-out 0.6s infinite both;
+}
+
+.pack-hint::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -4px;
+  width: 14px;
+  height: 14px;
+  border-top: 4px solid #ffffff;
+  border-right: 4px solid #ffffff;
+  border-radius: 2px;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+@keyframes pack-hint {
+  0% { opacity: 0; translate: 0 0; }
+  15% { opacity: 1; }
+  75% { opacity: 1; translate: 130px 0; }
+  100% { opacity: 0; translate: 140px 0; }
+}
+
+.pack.dragging .pack-hint,
+.pack.torn .pack-hint {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pack-hint {
+    animation: none;
+  }
+}
