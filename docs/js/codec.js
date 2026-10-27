@@ -9,6 +9,8 @@
 //   desc: preset number (d2 → 2) or custom text
 // Old versions must keep decoding forever; add a new version instead of changing v1.
 
+import { inflateRaw } from './inflate.js';
+
 export const CODEC_VERSION = 1;
 
 const SKILL_PREFIX = { move: 'm', trait: 't', weakness: 'w' };
@@ -49,6 +51,23 @@ async function pipe(bytes, stream) {
 }
 
 const canCompress = () => typeof CompressionStream === 'function' && typeof DecompressionStream === 'function';
+
+// Decompress a "z" payload: the browser's own DecompressionStream when it knows deflate-raw,
+// else our own decoder (inflate.js), so older phones can still open links.
+async function inflate(bytes) {
+  if (typeof DecompressionStream === 'function') {
+    try {
+      return await pipe(bytes, new DecompressionStream('deflate-raw'));
+    } catch {
+      // Unknown format on this browser, or broken data: let the JS decoder decide.
+    }
+  }
+  try {
+    return inflateRaw(bytes);
+  } catch {
+    throw new CodecError('corrupt', 'bad compression');
+  }
+}
 
 // ---------- card ⇄ compact array ----------
 
@@ -138,12 +157,7 @@ async function decodeList(payload, currentVersion) {
   const format = payload[1];
   let bytes = fromBase64Url(payload.slice(2));
   if (format === 'z') {
-    if (!canCompress()) throw new CodecError('unsupported', 'no DecompressionStream');
-    try {
-      bytes = await pipe(bytes, new DecompressionStream('deflate-raw'));
-    } catch {
-      throw new CodecError('corrupt', 'bad compression');
-    }
+    bytes = await inflate(bytes);
   } else if (format !== 'j') {
     throw new CodecError('corrupt', 'bad format');
   }

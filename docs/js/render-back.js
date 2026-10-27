@@ -23,6 +23,16 @@ function chamfer(ctx, x, y, w, h, c) {
   ctx.closePath();
 }
 
+// Rounded rectangle path (ctx.roundRect needs iOS 16 / Chrome 99, so draw it by hand).
+function roundRectPath(ctx, x, y, w, h, r) {
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
 function loadImage(src) {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -92,11 +102,11 @@ async function draw() {
     ctx.shadowOffsetY = 10;
     ctx.fillStyle = '#ffffff';
     ctx.beginPath();
-    ctx.roundRect(-s / 2 - 10, -s / 2 - 10, s + 20, s + 20, 36);
+    roundRectPath(ctx, -s / 2 - 10, -s / 2 - 10, s + 20, s + 20, 36);
     ctx.fill();
     ctx.shadowColor = 'transparent';
     ctx.beginPath();
-    ctx.roundRect(-s / 2, -s / 2, s, s, 28);
+    roundRectPath(ctx, -s / 2, -s / 2, s, s, 28);
     ctx.clip();
     ctx.drawImage(icon, -s / 2, -s / 2, s, s);
     ctx.restore();
