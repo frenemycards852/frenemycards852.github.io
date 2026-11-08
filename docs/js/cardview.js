@@ -4,7 +4,7 @@
 import { t, getLang } from './i18n.js';
 import { loadJSON } from './data.js';
 import { decodeCard, CodecError } from './codec.js';
-import { isCardValid } from './card.js';
+import { isCardValid, cardBackArt } from './card.js';
 import { renderCard } from './render-card.js';
 import { createSharePanel } from './share.js';
 import { startNewCard } from './builder.js';
@@ -75,7 +75,7 @@ export async function mountCardView(container, payload) {
   const cardBox = el('div', frame.sparkle ? 'reveal-card holo' : 'reveal-card');
   cardBox.append(canvas);
   if (frame.sparkle) cardBox.append(el('div', 'holo-shine'));
-  attachTilt(cardBox, { foil: Boolean(frame.foil) });
+  attachTilt(cardBox, { foil: Boolean(frame.foil), backArt: cardBackArt(data.types, card) });
 
   // Strike back: start a new card for the person who made this one.
   const strike = el('a', 'btn btn-primary btn-strike', from ? t('view.strike', { from }) : t('view.strikeAnon'));

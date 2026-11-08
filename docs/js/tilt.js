@@ -17,7 +17,7 @@ const DRAG_START = 8; // px before a press becomes a spin
 const TAP_MS = 350; // a press shorter than this, without a drag, turns the card over
 
 // Returns { showBack, turnOver } for scripted turns (nothing with reduced motion).
-export function attachTilt(box, { foil = false } = {}) {
+export function attachTilt(box, { foil = false, backArt = null } = {}) {
   if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
   box.classList.add('tilt');
 
@@ -38,7 +38,7 @@ export function attachTilt(box, { foil = false } = {}) {
   const back = document.createElement('div');
   back.className = 'card-face back';
   back.setAttribute('aria-hidden', 'true');
-  cardBackImage().then((src) => {
+  cardBackImage(backArt).then((src) => {
     const img = document.createElement('img');
     img.src = src;
     img.alt = '';

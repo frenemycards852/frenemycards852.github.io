@@ -70,6 +70,11 @@ export function zodiacAt(types, scene) {
   return z.items[scene - z.firstScene] ?? null;
 }
 
+// Card back art for this card: New Year characters have their own back; null = the normal back.
+export function cardBackArt(types, card) {
+  return zodiacAt(types, card.scene) ? (types.zodiac.back ?? null) : null;
+}
+
 // Whether the New Year characters can be chosen in the builder on this date (local time).
 export function isZodiacOpen(types, now = new Date()) {
   const z = types.zodiac;

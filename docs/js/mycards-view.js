@@ -5,7 +5,7 @@
 
 import { t } from './i18n.js';
 import { loadCardData } from './carddata.js';
-import { isCardValid } from './card.js';
+import { isCardValid, cardBackArt } from './card.js';
 import { renderCard, CARD_W, CARD_H } from './render-card.js';
 import { renderCollection } from './render-collection.js';
 import { listMyCards, cardKey, canStoreCards, removeMyCard, importMyCards } from './mycards.js';
@@ -263,7 +263,7 @@ async function showDetail(container, items, index, data) {
   const cardBox = el('div', frame.sparkle ? 'reveal-card holo' : 'reveal-card');
   cardBox.append(canvas);
   if (frame.sparkle) cardBox.append(el('div', 'holo-shine'));
-  attachTilt(cardBox, { foil: Boolean(frame.foil) });
+  attachTilt(cardBox, { foil: Boolean(frame.foil), backArt: cardBackArt(data.types, card) });
 
   const challenge = link(t('album.challenge'), '#/challenge', 'btn btn-primary');
   challenge.addEventListener('click', () => startChallenge(card));

@@ -20,6 +20,7 @@
     "firstScene": 100,
     "from": "2027-01-15",
     "to": "2027-02-28",
+    "back": "assets/backs/new-year.webp",
     "items": [
       { "id": "rat", "emoji": "🐭", "art": { "boy": { "src": "assets/zodiac/rat-boy.webp", "head": [0.47, 0.16, 0.165, 0] }, "girl": { "src": "assets/zodiac/rat-girl.webp", "head": [0.48, 0.165, 0.16, 0] } } },
       { "id": "ox", "emoji": "🐮", "art": { "boy": { "src": "assets/zodiac/ox-boy.webp", "head": [0.465, 0.13, 0.14, 0] }, "girl": { "src": "assets/zodiac/ox-girl.webp", "head": [0.48, 0.145, 0.15, 0] } } },

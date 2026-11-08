@@ -1,4 +1,4 @@
-// Card back: the same for every card, drawn once per language and reused as an image.
+// Card back: drawn once per language (and per special picture) and reused as an image.
 // Night-blue with rays and dots, the app icon in the middle, the app name below.
 
 import { t, getLang } from './i18n.js';
@@ -42,14 +42,36 @@ function loadImage(src) {
   });
 }
 
-async function draw() {
-  const canvas = document.createElement('canvas');
-  canvas.width = W;
-  canvas.height = H;
-  const ctx = canvas.getContext('2d');
-  const cx = W / 2;
-  const cy = H * 0.44;
+// Special back (e.g. New Year): a picture inside a gold cut-corner frame.
+// The picture has an empty round medallion in the middle for the icon and name.
+function drawArtBase(ctx, img) {
+  chamfer(ctx, 0, 0, W, H, C);
+  const gold = ctx.createLinearGradient(0, 0, W, H);
+  gold.addColorStop(0, '#ffe27a');
+  gold.addColorStop(0.5, '#f5b316');
+  gold.addColorStop(1, '#ffd45a');
+  ctx.fillStyle = gold;
+  ctx.fill();
+  const m = 12;
+  ctx.save();
+  chamfer(ctx, m, m, W - m * 2, H - m * 2, C - 6);
+  ctx.clip();
+  ctx.drawImage(img, m, m, W - m * 2, H - m * 2);
+  ctx.restore();
+  chamfer(ctx, m, m, W - m * 2, H - m * 2, C - 6);
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = '#8a1208';
+  ctx.stroke();
+}
 
+// Where the icon and name go: the normal back, or inside the medallion of an art back.
+const LAYOUT = {
+  normal: { cy: H * 0.44, icon: 220, nameY: H * 0.77, nameSize: 56, nameMax: W - 100, fill: '#ffd23f', stroke: '#0f1223' },
+  art: { cy: 318, icon: 140, nameY: 440, nameSize: 44, nameMax: 200, fill: '#b3121b', stroke: '#fff6dc' },
+};
+
+// Normal back: night-blue with rays and dots, orange frame.
+function drawNormalBase(ctx, cx, cy) {
   // Base and rays
   chamfer(ctx, 0, 0, W, H, C);
   const base = ctx.createRadialGradient(cx, cy, 20, cx, cy, H * 0.75);
@@ -89,11 +111,25 @@ async function draw() {
   ctx.lineWidth = 3;
   ctx.strokeStyle = '#ffd23f';
   ctx.stroke();
+}
+
+async function draw(art) {
+  const canvas = document.createElement('canvas');
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext('2d');
+  // If the special picture fails to load, fall back to the normal back.
+  const artImg = art ? await loadImage(new URL(`../${art}`, import.meta.url).href).catch(() => null) : null;
+  const L = artImg ? LAYOUT.art : LAYOUT.normal;
+  const cx = W / 2;
+  const cy = L.cy;
+  if (artImg) drawArtBase(ctx, artImg);
+  else drawNormalBase(ctx, cx, cy);
 
   // App icon as a tilted sticker
   const icon = await loadImage(new URL('../assets/icons/icon-512.png', import.meta.url).href).catch(() => null);
   if (icon) {
-    const s = 220;
+    const s = L.icon;
     ctx.save();
     ctx.translate(cx, cy);
     ctx.rotate((-8 * Math.PI) / 180);
@@ -115,22 +151,25 @@ async function draw() {
   // App name
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  const name = fitSingle(ctx, t('app.name'), { maxWidth: W - 100, size: 56, minSize: 30, weight: 900 });
+  const name = fitSingle(ctx, t('app.name'), { maxWidth: L.nameMax, size: L.nameSize, minSize: 24, weight: 900 });
   ctx.lineWidth = 10;
   ctx.lineJoin = 'round';
-  ctx.strokeStyle = '#0f1223';
-  ctx.strokeText(name.text, cx, H * 0.77);
-  ctx.fillStyle = '#ffd23f';
-  ctx.fillText(name.text, cx, H * 0.77);
-  setFont(ctx, 20, 700);
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-  ctx.fillText('frenemycards852.github.io', cx, H - 52);
+  ctx.strokeStyle = L.stroke;
+  ctx.strokeText(name.text, cx, L.nameY);
+  ctx.fillStyle = L.fill;
+  ctx.fillText(name.text, cx, L.nameY);
+  if (!artImg) {
+    setFont(ctx, 20, 700);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+    ctx.fillText('frenemycards852.github.io', cx, H - 52);
+  }
   return canvas.toDataURL('image/png');
 }
 
 // Data URL of the card back for the current language.
-export function cardBackImage() {
-  const lang = getLang();
-  if (!cache.has(lang)) cache.set(lang, draw().catch((err) => { cache.delete(lang); throw err; }));
-  return cache.get(lang);
+// art: path of a special back picture (types.json → zodiac.back), or null for the normal back.
+export function cardBackImage(art = null) {
+  const key = `${getLang()}|${art ?? ''}`;
+  if (!cache.has(key)) cache.set(key, draw(art).catch((err) => { cache.delete(key); throw err; }));
+  return cache.get(key);
 }
