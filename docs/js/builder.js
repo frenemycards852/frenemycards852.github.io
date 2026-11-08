@@ -5,29 +5,17 @@ import { loadJSON } from './data.js';
 import {
   SKILL_KINDS, CUSTOM, createDraft, textLength, clipText, isBlocked, isTextOk,
   statTotal, isStatsValid, setStat, randomStats, pickOther, isSkillOk, isDescOk,
-  isGender, cardArt, cardScene, cardScenes, isSceneValid, toCard, isZodiacOpen,
+  isGender, cardArt, cardScene, cardScenes, isSceneValid, toCard,
 } from './card.js';
 import { rollRarity } from './rarity.js';
 import { showReveal } from './reveal.js';
 import { photoEditor } from './photo.js';
 import { typeBadge } from './typebadge.js';
+import { isNewYear } from './newyear.js';
 
 const ALL_STEPS = ['name', 'type', 'look', 'scene', 'photo', 'stats', 'skills', 'desc', 'summary'];
 
-// Testing only: on a local test server (this computer or the home Wi-Fi), adding ?newyear
-// to the address opens the New Year characters on any date. Has no effect on the real site.
-function isTestServer() {
-  const h = location.hostname;
-  return h === 'localhost' || h === '127.0.0.1' || h === '[::1]' || h.endsWith('.localhost')
-    || /^192\.168\./.test(h) || /^10\./.test(h) || /^172\.(1[6-9]|2\d|3[01])\./.test(h);
-}
-
-function zodiacOpen() {
-  try {
-    if (isTestServer() && new URLSearchParams(location.search).has('newyear')) return true;
-  } catch { /* ignore */ }
-  return isZodiacOpen(data.types);
-}
+const zodiacOpen = () => isNewYear(data.types);
 
 // "Choose a character scene" only appears when this type + gender has more than one, or
 // while the New Year characters are open (types.json → zodiac).

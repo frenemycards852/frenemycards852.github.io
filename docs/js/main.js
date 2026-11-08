@@ -2,6 +2,7 @@
 
 import { initI18n, setLang, getLang, applyI18n, t, LANGS } from './i18n.js';
 import { initRouter, render } from './router.js';
+import { applyNewYearTheme } from './newyear.js';
 
 function refreshChrome() {
   applyI18n(document);
@@ -39,6 +40,8 @@ function watchRipples() {
 }
 
 async function start() {
+  // Festive look in the New Year season; the app works the same without it.
+  applyNewYearTheme().catch((err) => console.error(err));
   await initI18n();
   refreshChrome();
   initRouter();

@@ -3322,3 +3322,40 @@ h1 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 6px;
 }
+
+/* ---- New Year season (main.js adds .new-year to <html>; dates in types.json → zodiac) ---- */
+:root.new-year {
+  --bg: #fbe9de;
+  --primary: #d7261e;
+  --border: #5a1410;
+}
+
+.new-year body {
+  /* Red-paper version of the sticker album: gold dots and soft red-gold rays. */
+  background:
+    radial-gradient(rgba(214, 160, 30, 0.26) 1.4px, transparent 1.6px) 0 0 / 22px 22px,
+    repeating-conic-gradient(from 0deg at 50% -120px, rgba(230, 60, 40, 0.13) 0deg 7deg, rgba(255, 200, 80, 0.12) 7deg 14deg) top center / 100% 900px no-repeat,
+    linear-gradient(180deg, #f8d3c0 0, var(--bg) 420px);
+  background-color: var(--bg);
+}
+
+.new-year.scrolled .topbar {
+  background: rgba(251, 222, 206, 0.66);
+  border-bottom-color: rgba(214, 160, 30, 0.45);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .new-year.scrolled .topbar {
+    background: rgba(251, 226, 212, 0.96);
+  }
+}
+
+/* Main buttons: lucky red with a thin gold line inside. */
+.new-year .btn-primary {
+  box-shadow: inset 0 0 0 2px #ffd45a, 0 4px 0 var(--border);
+}
+
+.new-year .home-title {
+  color: #c21a14;
+  text-shadow: 2px 2px 0 #ffd45a;
+}
