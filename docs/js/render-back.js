@@ -64,10 +64,10 @@ function drawArtBase(ctx, img) {
   ctx.stroke();
 }
 
-// Where the icon and name go: the normal back, or inside the medallion of an art back.
+// Where the icon and name go: the normal back, or (icon only, no name) inside the medallion of an art back.
 const LAYOUT = {
-  normal: { cy: H * 0.44, icon: 220, nameY: H * 0.77, nameSize: 56, nameMax: W - 100, fill: '#ffd23f', stroke: '#0f1223' },
-  art: { cy: 318, icon: 140, nameY: 440, nameSize: 44, nameMax: 200, fill: '#b3121b', stroke: '#fff6dc' },
+  normal: { cy: H * 0.44, icon: 220, name: true, nameY: H * 0.77, nameSize: 56, nameMax: W - 100, fill: '#ffd23f', stroke: '#0f1223' },
+  art: { cy: 362, icon: 170, name: false },
 };
 
 // Normal back: night-blue with rays and dots, orange frame.
@@ -148,17 +148,17 @@ async function draw(art) {
     ctx.restore();
   }
 
-  // App name
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  const name = fitSingle(ctx, t('app.name'), { maxWidth: L.nameMax, size: L.nameSize, minSize: 24, weight: 900 });
-  ctx.lineWidth = 10;
-  ctx.lineJoin = 'round';
-  ctx.strokeStyle = L.stroke;
-  ctx.strokeText(name.text, cx, L.nameY);
-  ctx.fillStyle = L.fill;
-  ctx.fillText(name.text, cx, L.nameY);
-  if (!artImg) {
+  // App name and website (normal back only)
+  if (L.name) {
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const name = fitSingle(ctx, t('app.name'), { maxWidth: L.nameMax, size: L.nameSize, minSize: 24, weight: 900 });
+    ctx.lineWidth = 10;
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = L.stroke;
+    ctx.strokeText(name.text, cx, L.nameY);
+    ctx.fillStyle = L.fill;
+    ctx.fillText(name.text, cx, L.nameY);
     setFont(ctx, 20, 700);
     ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
     ctx.fillText('frenemycards852.github.io', cx, H - 52);
