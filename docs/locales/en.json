@@ -18,7 +18,9 @@
     "step1": "Roast a friend in a card",
     "step2": "Send it and wait for the comeback",
     "step3": "Battle it out. Loser pays up",
-    "exampleLabel": "Example card: Sam, Late type, SSR"
+    "exampleLabel": "Example card: Sam, Late type, SSR",
+    "newYearTitle": "🧧 New Year specials are here!",
+    "newYearText": "12 zodiac characters, only until {date}. Make a festive card for a friend!"
   },
   "share": {
     "share": "Share",
