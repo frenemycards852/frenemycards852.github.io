@@ -24,8 +24,8 @@ function el(tag, className) {
   return node;
 }
 
-// newYear: red-and-gold pack for New Year zodiac cards.
-export function boosterPack({ name, label, icon, newYear = false }) {
+// newYear: red-and-gold pack for New Year zodiac cards, with the greeting text instead of the icon and "?".
+export function boosterPack({ name, label, icon, newYear = false, greeting = '' }) {
   const top = STRIP * 100;
 
   const front = el('button', newYear ? 'pack new-year-pack' : 'pack');
@@ -60,7 +60,16 @@ export function boosterPack({ name, label, icon, newYear = false }) {
   title.textContent = name;
   const q = el('span', 'pack-q');
   q.textContent = '?';
-  body.append(logo, title, q);
+  if (newYear && greeting) {
+    // New Year pack: a gold diamond greeting (like a door couplet) in the middle, the name at the bottom.
+    const wish = el('span', 'pack-wish');
+    const words = el('span', 'pack-wish-text');
+    words.textContent = greeting;
+    wish.append(words);
+    body.append(wish, title);
+  } else {
+    body.append(logo, title, q);
+  }
   // A white arrow sliding along the dotted line shows which way to swipe.
   const hint = el('div', 'pack-hint');
   hint.setAttribute('aria-hidden', 'true');

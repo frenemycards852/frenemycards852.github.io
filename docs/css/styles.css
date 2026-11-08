@@ -3507,3 +3507,42 @@ h1 {
 .new-year-pack .pack-logo {
   border-color: #ffd45a;
 }
+
+/* New Year pack: gold-edged red diamond with the greeting (like a door couplet), name at the bottom. */
+.new-year-pack .pack-wish {
+  display: grid;
+  place-items: center;
+  width: 118px;
+  height: 118px;
+  margin-top: -34px;
+  border: 3px solid #ffd45a;
+  border-radius: 6px;
+  background: #d7261e;
+  box-shadow: 0 0 0 3px #8f0f0b, 0 8px 0 rgba(0, 0, 0, 0.25);
+  transform: rotate(45deg);
+}
+
+.new-year-pack .pack-wish-text {
+  color: #ffd45a;
+  font-size: 34px;
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: 0.08em;
+  text-align: center;
+  white-space: pre-line;
+  text-shadow: 0 2px 0 #5a1410;
+  transform: rotate(-45deg);
+}
+
+:lang(en) .new-year-pack .pack-wish-text {
+  font-size: 19px;
+  letter-spacing: 0;
+}
+
+.new-year-pack .pack-name {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 24px;
+  text-align: center;
+}

@@ -51,6 +51,7 @@
   "reveal": {
     "title": "Open the pack!",
     "tap": "Swipe along the dotted line, or tap, to tear it open 👉",
+    "packGreeting": "Gong Hei\nFat Choy!",
     "cardLabel": "{name}'s card, rarity {rarity}",
     "challenge": "⚔️ Challenge a friend with this card",
     "again": "Make another card",

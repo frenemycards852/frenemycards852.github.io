@@ -80,6 +80,7 @@ export function showReveal(container, card, data, { opened = false, returnTo = n
   const { front: pack, torn, listen: listenForTear } = boosterPack({
     name: t('app.name'), label: t('reveal.tap'), icon: 'assets/icons/icon-192.png',
     newYear: Boolean(zodiacAt(data.types, card.scene)),
+    greeting: t('reveal.packGreeting'),
   });
 
   const stage = el('div', 'reveal-stage');
