@@ -5,7 +5,7 @@ import { loadJSON } from './data.js';
 import {
   SKILL_KINDS, CUSTOM, createDraft, textLength, clipText, isBlocked, isTextOk,
   statTotal, isStatsValid, setStat, randomStats, pickOther, isSkillOk, isDescOk,
-  isGender, cardArt, cardScene, cardScenes, isSceneValid, toCard,
+  isGender, cardArt, cardScene, cardScenes, isSceneValid, toCard, isZodiacOpen,
 } from './card.js';
 import { rollRarity } from './rarity.js';
 import { showReveal } from './reveal.js';
@@ -14,9 +14,10 @@ import { typeBadge } from './typebadge.js';
 
 const ALL_STEPS = ['name', 'type', 'look', 'scene', 'photo', 'stats', 'skills', 'desc', 'summary'];
 
-// "Choose a character scene" only appears when this type + gender has more than one.
+// "Choose a character scene" only appears when this type + gender has more than one, or
+// while the New Year characters are open (types.json → zodiac).
 function steps() {
-  const many = cardScenes(data.types, draft.type, draft.gender).length > 1;
+  const many = cardScenes(data.types, draft.type, draft.gender).length > 1 || isZodiacOpen(data.types);
   return ALL_STEPS.filter((s) => s !== 'scene' || many);
 }
 
@@ -242,22 +243,39 @@ const VIEWS = {
     };
   },
 
-  // Which character scene of this type + gender (only shown when there is more than one).
+  // Which character scene of this type + gender (only shown when there is more than one),
+  // plus the New Year characters while they are open.
   scene({ refresh }) {
     const scenes = cardScenes(data.types, draft.type, draft.gender);
-    const buttons = scenes.map((item, i) => h('button', {
-      type: 'button', class: 'look-choice scene-choice', 'aria-pressed': String((draft.scene ?? 0) === i),
-      'aria-label': t('builder.scene.option', { n: i + 1 }),
-      onclick: () => {
-        draft.scene = i;
-        buttons.forEach((b, j) => b.setAttribute('aria-pressed', String(j === i)));
-        refresh();
-      },
-    }, h('img', { class: 'look-art', src: item.src, alt: '' })));
+    const buttons = [];
+    const choice = (scene, src, label) => {
+      const b = h('button', {
+        type: 'button', class: 'look-choice scene-choice', 'aria-pressed': String((draft.scene ?? 0) === scene),
+        'aria-label': label,
+        onclick: () => {
+          draft.scene = scene;
+          buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+          refresh();
+        },
+      }, h('img', { class: 'look-art', src, alt: '' }));
+      buttons.push(b);
+      return b;
+    };
+    const typeRow = scenes.map((item, i) => choice(i, item.src, t('builder.scene.option', { n: i + 1 })));
+    const zodiac = data.types.zodiac;
+    const newYear = isZodiacOpen(data.types)
+      ? [
+        h('p', { class: 'scene-new-year', text: t('builder.scene.newYear') }),
+        h('div', { class: 'look-choices scene-choices zodiac-choices' },
+          ...zodiac.items.map((item, i) => choice(zodiac.firstScene + i, item.art[draft.gender].src,
+            `${item.emoji} ${t(`zodiac.${item.id}`)}`))),
+      ]
+      : [];
     return {
       body: h('div', {},
         h('p', { class: 'hint', text: t('builder.scene.hint') }),
-        h('div', { class: 'look-choices scene-choices' }, ...buttons)),
+        h('div', { class: 'look-choices scene-choices' }, ...typeRow),
+        ...newYear),
       random: () => { draft.scene = Number(pickOther(scenes.map((_, i) => String(i)), String(draft.scene ?? 0))); },
     };
   },

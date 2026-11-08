@@ -67,6 +67,13 @@
 
     const p = (id) => ({ id, name: '', desc: '' });
     const list = types.types.flatMap((type) => ['boy', 'girl'].flatMap((gender) => (type.art?.[gender] ?? []).map((entry, scene) => ({ type, gender, scene, entry, key: `${type.id}-${gender}-${scene + 1}` }))));
+    // New Year characters (any type; drawn here on the first type's card).
+    const zodiac = types.zodiac;
+    if (zodiac) {
+      zodiac.items.forEach((item, i) => ['boy', 'girl'].forEach((gender) => list.push({
+        type: types.types[0], gender, scene: zodiac.firstScene + i, entry: item.art[gender], key: `zodiac-${item.id}-${gender}`,
+      })));
+    }
     const grid = document.getElementById('grid');
     const canvases = new Map();
     const draw = async ({ type, gender, scene, key }) => {
@@ -74,7 +81,10 @@
       await renderCard(canvases.get(key), card, data);
     };
     const showAll = () => {
-      document.getElementById('all').textContent = types.types.map((type) => `"${type.id}": "art": ${JSON.stringify(type.art)}`).join('\n');
+      document.getElementById('all').textContent = [
+        ...types.types.map((type) => `"${type.id}": "art": ${JSON.stringify(type.art)}`),
+        ...(types.zodiac?.items ?? []).map((item) => `zodiac "${item.id}": boy ${JSON.stringify(item.art.boy.head)} girl ${JSON.stringify(item.art.girl.head)}`),
+      ].join('\n');
     };
     for (const item of list) {
       const b = document.createElement('button');

@@ -3310,3 +3310,15 @@ h1 {
 .reveal:not(.revealed) .reveal-actions {
   pointer-events: none;
 }
+
+/* Builder: New Year limited characters (types.json → zodiac), a smaller four-across grid. */
+.scene-new-year {
+  margin: 18px 0 8px;
+  font-weight: 800;
+  color: #c0262d;
+}
+
+.zodiac-choices {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}

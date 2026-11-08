@@ -14,5 +14,25 @@
     "savage": "love",
     "love": "late",
     "late": "savage"
+  },
+  "zodiac": {
+    "note": "New Year limited characters. Cards store scene = firstScene + index (any type); the choice only shows in the builder between from and to (local dates). Cards made earlier stay valid all year.",
+    "firstScene": 100,
+    "from": "2027-01-15",
+    "to": "2027-02-28",
+    "items": [
+      { "id": "rat", "emoji": "🐭", "art": { "boy": { "src": "assets/zodiac/rat-boy.webp", "head": [0.47, 0.16, 0.165, 0] }, "girl": { "src": "assets/zodiac/rat-girl.webp", "head": [0.48, 0.165, 0.16, 0] } } },
+      { "id": "ox", "emoji": "🐮", "art": { "boy": { "src": "assets/zodiac/ox-boy.webp", "head": [0.465, 0.13, 0.14, 0] }, "girl": { "src": "assets/zodiac/ox-girl.webp", "head": [0.48, 0.145, 0.15, 0] } } },
+      { "id": "tiger", "emoji": "🐯", "art": { "boy": { "src": "assets/zodiac/tiger-boy.webp", "head": [0.44, 0.13, 0.145, 0] }, "girl": { "src": "assets/zodiac/tiger-girl.webp", "head": [0.5, 0.17, 0.155, 0] } } },
+      { "id": "rabbit", "emoji": "🐰", "art": { "boy": { "src": "assets/zodiac/rabbit-boy.webp", "head": [0.47, 0.14, 0.145, 0] }, "girl": { "src": "assets/zodiac/rabbit-girl.webp", "head": [0.51, 0.17, 0.155, 0] } } },
+      { "id": "dragon", "emoji": "🐲", "art": { "boy": { "src": "assets/zodiac/dragon-boy.webp", "head": [0.5, 0.2, 0.13, 0] }, "girl": { "src": "assets/zodiac/dragon-girl.webp", "head": [0.52, 0.22, 0.15, 0] } } },
+      { "id": "snake", "emoji": "🐍", "art": { "boy": { "src": "assets/zodiac/snake-boy.webp", "head": [0.39, 0.2, 0.185, 0] }, "girl": { "src": "assets/zodiac/snake-girl.webp", "head": [0.39, 0.205, 0.185, 0] } } },
+      { "id": "horse", "emoji": "🐴", "art": { "boy": { "src": "assets/zodiac/horse-boy.webp", "head": [0.53, 0.21, 0.165, 0] }, "girl": { "src": "assets/zodiac/horse-girl.webp", "head": [0.57, 0.22, 0.165, 0] } } },
+      { "id": "goat", "emoji": "🐐", "art": { "boy": { "src": "assets/zodiac/goat-boy.webp", "head": [0.52, 0.21, 0.18, 0] }, "girl": { "src": "assets/zodiac/goat-girl.webp", "head": [0.52, 0.22, 0.19, 0] } } },
+      { "id": "monkey", "emoji": "🐵", "art": { "boy": { "src": "assets/zodiac/monkey-boy.webp", "head": [0.55, 0.18, 0.19, 0] }, "girl": { "src": "assets/zodiac/monkey-girl.webp", "head": [0.53, 0.195, 0.19, 0] } } },
+      { "id": "rooster", "emoji": "🐔", "art": { "boy": { "src": "assets/zodiac/rooster-boy.webp", "head": [0.58, 0.19, 0.18, 0] }, "girl": { "src": "assets/zodiac/rooster-girl.webp", "head": [0.62, 0.21, 0.19, 0] } } },
+      { "id": "dog", "emoji": "🐶", "art": { "boy": { "src": "assets/zodiac/dog-boy.webp", "head": [0.52, 0.18, 0.19, 0] }, "girl": { "src": "assets/zodiac/dog-girl.webp", "head": [0.53, 0.2, 0.19, 0] } } },
+      { "id": "pig", "emoji": "🐷", "art": { "boy": { "src": "assets/zodiac/pig-boy.webp", "head": [0.57, 0.18, 0.19, 0] }, "girl": { "src": "assets/zodiac/pig-girl.webp", "head": [0.59, 0.21, 0.2, 0] } } }
+    ]
   }
 }

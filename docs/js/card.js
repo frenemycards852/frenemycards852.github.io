@@ -63,8 +63,24 @@ export function isCardValid(card, { config, types, skills, descriptions, blockli
 }
 
 // No scene (old cards) means the first one; otherwise it must exist for this type + gender.
+// New Year limited characters (types.json → zodiac): scene = firstScene + index, for any type.
+export function zodiacAt(types, scene) {
+  const z = types.zodiac;
+  if (!z || !Number.isInteger(scene) || scene < z.firstScene) return null;
+  return z.items[scene - z.firstScene] ?? null;
+}
+
+// Whether the New Year characters can be chosen in the builder on this date (local time).
+export function isZodiacOpen(types, now = new Date()) {
+  const z = types.zodiac;
+  if (!z?.from || !z?.to) return false;
+  const day = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  return day >= z.from && day <= z.to;
+}
+
 export function isSceneValid(types, card) {
   if (card.scene === undefined) return true;
+  if (zodiacAt(types, card.scene)) return true;
   return Number.isInteger(card.scene) && card.scene >= 0
     && card.scene < Math.max(1, cardScenes(types, card.type, card.gender).length);
 }
@@ -81,6 +97,8 @@ export function cardScenes(types, typeId, gender) {
 
 // The scene a card uses (falls back to the first one), or null if none is drawn yet.
 export function cardScene(types, typeId, gender, scene = 0) {
+  const zodiac = zodiacAt(types, scene);
+  if (zodiac) return zodiac.art?.[gender] ?? null;
   const list = cardScenes(types, typeId, gender);
   return list[scene] ?? list[0] ?? null;
 }

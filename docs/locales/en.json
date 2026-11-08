@@ -86,7 +86,8 @@
     "scene": {
       "title": "Choose a character",
       "hint": "Pick a character. The card will use this illustration.",
-      "option": "Character {n}"
+      "option": "Character {n}",
+      "newYear": "🧧 New Year specials"
     },
     "photo": {
       "title": "📷 Add your friend's photo",
@@ -330,6 +331,10 @@
     "introYou": "{name} accepted your challenge! Let's see who won 👀",
     "intro": "{a} vs {b}. Let's see who won 👀",
     "oldRules": "This battle used older rules, so the replay may look a little different."
+  },
+  "zodiac": {
+    "rat": "Rat", "ox": "Ox", "tiger": "Tiger", "rabbit": "Rabbit", "dragon": "Dragon", "snake": "Snake",
+    "horse": "Horse", "goat": "Goat", "monkey": "Monkey", "rooster": "Rooster", "dog": "Dog", "pig": "Pig"
   },
   "nav": {
     "back": "Back to home"

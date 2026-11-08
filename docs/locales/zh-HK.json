@@ -86,7 +86,8 @@
     "scene": {
       "title": "揀角色",
       "hint": "揀一個角色，張卡會用呢張插畫。",
-      "option": "角色 {n}"
+      "option": "角色 {n}",
+      "newYear": "🧧 新年限定角色"
     },
     "photo": {
       "title": "📷 貼朋友張相",
@@ -330,6 +331,10 @@
     "introYou": "{name} 應戰咗你嘅挑戰！睇吓邊個贏 👀",
     "intro": "{a} 對 {b}，睇吓邊個贏 👀",
     "oldRules": "呢場係用舊版規則打嘅，重播可能同當時有啲唔同。"
+  },
+  "zodiac": {
+    "rat": "鼠", "ox": "牛", "tiger": "虎", "rabbit": "兔", "dragon": "龍", "snake": "蛇",
+    "horse": "馬", "goat": "羊", "monkey": "猴", "rooster": "雞", "dog": "狗", "pig": "豬"
   },
   "nav": {
     "back": "返首頁"
