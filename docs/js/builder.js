@@ -14,10 +14,25 @@ import { typeBadge } from './typebadge.js';
 
 const ALL_STEPS = ['name', 'type', 'look', 'scene', 'photo', 'stats', 'skills', 'desc', 'summary'];
 
+// Testing only: on a local test server (this computer or the home Wi-Fi), adding ?newyear
+// to the address opens the New Year characters on any date. Has no effect on the real site.
+function isTestServer() {
+  const h = location.hostname;
+  return h === 'localhost' || h === '127.0.0.1' || h === '[::1]' || h.endsWith('.localhost')
+    || /^192\.168\./.test(h) || /^10\./.test(h) || /^172\.(1[6-9]|2\d|3[01])\./.test(h);
+}
+
+function zodiacOpen() {
+  try {
+    if (isTestServer() && new URLSearchParams(location.search).has('newyear')) return true;
+  } catch { /* ignore */ }
+  return isZodiacOpen(data.types);
+}
+
 // "Choose a character scene" only appears when this type + gender has more than one, or
 // while the New Year characters are open (types.json → zodiac).
 function steps() {
-  const many = cardScenes(data.types, draft.type, draft.gender).length > 1 || isZodiacOpen(data.types);
+  const many = cardScenes(data.types, draft.type, draft.gender).length > 1 || zodiacOpen();
   return ALL_STEPS.filter((s) => s !== 'scene' || many);
 }
 
@@ -263,7 +278,7 @@ const VIEWS = {
     };
     const typeRow = scenes.map((item, i) => choice(i, item.src, t('builder.scene.option', { n: i + 1 })));
     const zodiac = data.types.zodiac;
-    const newYear = isZodiacOpen(data.types)
+    const newYear = zodiacOpen()
       ? [
         h('p', { class: 'scene-new-year', text: t('builder.scene.newYear') }),
         h('div', { class: 'look-choices scene-choices zodiac-choices' },
