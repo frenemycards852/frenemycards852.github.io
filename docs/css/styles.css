@@ -3359,3 +3359,82 @@ h1 {
   color: #c21a14;
   text-shadow: 2px 2px 0 #ffd45a;
 }
+
+/* New Year decorations (newyear.js): behind all content, taps pass through. */
+.ny-decor {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ny-lantern {
+  position: absolute;
+  top: env(safe-area-inset-top);
+  transform-origin: 50% 0;
+  animation: ny-swing 3.2s ease-in-out infinite alternate;
+}
+
+.ny-lantern.left {
+  left: -7px;
+}
+
+.ny-lantern.right {
+  right: -7px;
+  animation-delay: -1.6s;
+}
+
+.ny-lantern svg,
+.ny-fall svg {
+  display: block;
+}
+
+@keyframes ny-swing {
+  from { transform: rotate(-6deg); }
+  to { transform: rotate(6deg); }
+}
+
+.ny-fall {
+  position: absolute;
+  top: 0;
+  left: var(--x);
+  animation: ny-fall var(--d) linear var(--delay) infinite;
+  will-change: transform;
+}
+
+.ny-fall.petal {
+  opacity: 0.85;
+}
+
+.ny-sway {
+  display: block;
+  animation: ny-sway 2.8s ease-in-out infinite alternate;
+}
+
+.ny-sway svg {
+  transform: scale(var(--size));
+}
+
+@keyframes ny-fall {
+  from { transform: translate3d(0, -60px, 0) rotate(0deg); }
+  to { transform: translate3d(0, calc(100vh + 60px), 0) rotate(var(--spin)); }
+}
+
+@keyframes ny-sway {
+  from { transform: translateX(-14px); }
+  to { transform: translateX(14px); }
+}
+
+/* Reduced motion: everything stays still, scattered down the page. */
+@media (prefers-reduced-motion: reduce) {
+  .ny-lantern,
+  .ny-fall,
+  .ny-sway {
+    animation: none;
+  }
+
+  .ny-fall {
+    top: var(--y);
+  }
+}
