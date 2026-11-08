@@ -24,10 +24,11 @@ function el(tag, className) {
   return node;
 }
 
-export function boosterPack({ name, label, icon }) {
+// newYear: red-and-gold pack for New Year zodiac cards.
+export function boosterPack({ name, label, icon, newYear = false }) {
   const top = STRIP * 100;
 
-  const front = el('button', 'pack');
+  const front = el('button', newYear ? 'pack new-year-pack' : 'pack');
   front.type = 'button';
   front.setAttribute('aria-label', label);
 

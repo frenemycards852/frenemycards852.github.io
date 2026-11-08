@@ -4,7 +4,7 @@
 import { t } from './i18n.js';
 import { renderCard } from './render-card.js';
 import { createSharePanel } from './share.js';
-import { clipText, isBlocked, cardBackArt } from './card.js';
+import { clipText, isBlocked, cardBackArt, zodiacAt } from './card.js';
 import { saveMyCard } from './mycards.js';
 import { startChallenge } from './challenge.js';
 import { acceptWithCard } from './accept.js';
@@ -79,6 +79,7 @@ export function showReveal(container, card, data, { opened = false, returnTo = n
 
   const { front: pack, torn, listen: listenForTear } = boosterPack({
     name: t('app.name'), label: t('reveal.tap'), icon: 'assets/icons/icon-192.png',
+    newYear: Boolean(zodiacAt(data.types, card.scene)),
   });
 
   const stage = el('div', 'reveal-stage');

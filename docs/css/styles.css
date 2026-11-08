@@ -3479,3 +3479,31 @@ h1 {
     animation: none;
   }
 }
+
+/* New Year pack (zodiac cards only, pack.js → newYear): red foil with gold dots and shine. */
+.new-year-pack .pack-body,
+.new-year-pack .pack-strip {
+  background:
+    linear-gradient(115deg, transparent 30%, rgba(255, 236, 160, 0.45) 38%, transparent 46%),
+    radial-gradient(rgba(255, 212, 90, 0.55) 1.3px, transparent 1.6px) 0 0 / 14px 14px,
+    linear-gradient(135deg, #8f0f0b, #d7261e 40%, #f0402a 52%, #ff9e3a 60%, #b8140f 72%, #8f0f0b);
+  background-size: 100% 100%, 14px 14px, 100% 308px;
+}
+
+.new-year-pack .pack-body {
+  background-position: 0 0, 0 0, 0 -52px;
+}
+
+.new-year-pack .pack-seam {
+  border-top-color: #fff6dc;
+}
+
+.new-year-pack .pack-name,
+.new-year-pack .pack-q {
+  color: #ffd45a;
+  text-shadow: 0 0 2px #5a1410, 0 0 2px #5a1410, 0 3px 0 #5a1410;
+}
+
+.new-year-pack .pack-logo {
+  border-color: #ffd45a;
+}
