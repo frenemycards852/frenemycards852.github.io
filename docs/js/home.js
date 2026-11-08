@@ -11,7 +11,7 @@ import { startNewCard } from './builder.js';
 // Fan cards are drawn once at full size, then copied down to this width (memory on phones).
 const FAN_W = 432;
 
-// "New Year specials are here!" banner above the buttons; tapping it starts a new card.
+// "New Year specials are here!" banner instead of the make button; tapping it starts a new card.
 function showNewYearBanner(container, types, lang) {
   if (container.querySelector('.ny-banner')) return;
   let date = types.zodiac.to;
@@ -28,8 +28,9 @@ function showNewYearBanner(container, types, lang) {
   text.textContent = t('home.newYearText', { date });
   banner.append(title, text);
   banner.addEventListener('click', () => startNewCard(''));
-  const actions = container.querySelector('.actions');
-  if (actions) actions.before(banner);
+  // It takes the place of the normal "make a card" button (same action).
+  const make = container.querySelector('.actions a[href="#/make"]');
+  if (make) make.replaceWith(banner);
   else container.querySelector('.home')?.append(banner);
 }
 
