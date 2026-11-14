@@ -1,6 +1,4 @@
-      const healed = e.kind === 'heal' || (e.kind === 'gambleHeal' && e.ok);
-      if (healed && e.heal === 0) burst(a, t('comic.move.full'), 'small'); // already at full HP
-      else if (healed) burst(a, t('comic.heal', { n: e.heal }), 'heal');// Comic battle (the default battle screen; "?comic=0" shows the older list version): one big comic panel at a time.
+// Comic battle (the default battle screen; "?comic=0" shows the older list version): one big comic panel at a time.
 // HP bars stay on top, the panel shows the action (lunge, hit, burst, speech bubble,
 // K.O.), and the referee caption below reads the commentary. Same battle and
 // commentary as battleview.js; only the presentation differs.
