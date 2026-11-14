@@ -322,7 +322,8 @@
       "delayedStrike": "⏳ 跟进中……",
       "strike": "💥 必杀！",
       "heal": "✨ 回血",
-      "fail": "🙄 没人信"
+      "fail": "🙄 没人信",
+      "full": "💯 满血，白用了"
     },
     "skip": {
       "stun": "😵 宕机",

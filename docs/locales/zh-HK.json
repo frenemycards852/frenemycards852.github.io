@@ -309,7 +309,7 @@
     "miss": "撲空！",
     "dodge": "閃咗！",
     "crit": "暴擊！",
-    "super": "效果拔群！",
+    "super": "屬性剋制！",
     "survive": "死撐住！",
     "reflect": "反彈 {n}！",
     "ko": "K.O.!!",
@@ -322,7 +322,8 @@
       "delayedStrike": "⏳ 跟進中……",
       "strike": "💥 必殺！",
       "heal": "✨ 回復",
-      "fail": "🙄 冇人信"
+      "fail": "🙄 冇人信",
+      "full": "💯 滿血，嘥咗"
     },
     "skip": {
       "stun": "😵 停機",

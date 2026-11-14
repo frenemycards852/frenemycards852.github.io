@@ -92,7 +92,8 @@ export function commentate(result, ctx, lines, seed) {
       case 'move': {
         let key = `move.${e.kind}`;
         if (e.kind === 'gambleHeal') key = e.ok ? 'move.gambleHeal.ok' : 'move.gambleHeal.fail';
-        if (e.kind === 'heal' && e.heal === 0) key = 'move.healFull';
+        // Healing at full HP (heal, or a gamble that worked) does nothing: say so instead of "+0".
+        if ((e.kind === 'heal' || (e.kind === 'gambleHeal' && e.ok)) && e.heal === 0) key = 'move.healFull';
         say(out, key, e.side, { heal: e.heal });
         break;
       }

@@ -322,7 +322,8 @@
       "delayedStrike": "⏳ Circling back…",
       "strike": "💥 Signature!",
       "heal": "✨ Heal",
-      "fail": "🙄 Nobody buys it"
+      "fail": "🙄 Nobody buys it",
+      "full": "💯 Already full"
     },
     "skip": {
       "stun": "😵 Frozen",

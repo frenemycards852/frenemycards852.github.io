@@ -1,4 +1,6 @@
-// Comic battle (the default battle screen; "?comic=0" shows the older list version): one big comic panel at a time.
+      const healed = e.kind === 'heal' || (e.kind === 'gambleHeal' && e.ok);
+      if (healed && e.heal === 0) burst(a, t('comic.move.full'), 'small'); // already at full HP
+      else if (healed) burst(a, t('comic.heal', { n: e.heal }), 'heal');// Comic battle (the default battle screen; "?comic=0" shows the older list version): one big comic panel at a time.
 // HP bars stay on top, the panel shows the action (lunge, hit, burst, speech bubble,
 // K.O.), and the referee caption below reads the commentary. Same battle and
 // commentary as battleview.js; only the presentation differs.
@@ -395,7 +397,9 @@ export async function showComicBattle(container, match, data, {
       if (animate && !skipped && !reducedMotion()) actors[a].classList.add('ult-glow');
       setPose(1 - a, null, '');
       bubble(a, skillName(a, 'move'));
-      if (e.kind === 'heal' || (e.kind === 'gambleHeal' && e.ok)) burst(a, t('comic.heal', { n: e.heal }), 'heal');
+      const healed = e.kind === 'heal' || (e.kind === 'gambleHeal' && e.ok);
+      if (healed && e.heal === 0) burst(a, t('comic.move.full'), 'small'); // already at full HP
+      else if (healed) burst(a, t('comic.heal', { n: e.heal }), 'heal');
       else burst(a, t(`comic.move.${e.kind === 'gambleHeal' ? 'fail' : e.kind}`), 'small');
     } else if (panel.kind === 'skip') {
       const a = e.side;
