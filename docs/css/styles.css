@@ -3600,3 +3600,44 @@ h1 {
   border-style: dashed;
   font-size: 15px;
 }
+
+/* Home: dark stage behind the title, tagline and example cards, so the bright title picture stands out
+   (night blue like the card back; deep red in the New Year season). */
+.home-stage {
+  margin: -8px -6px 24px;
+  padding: 28px 12px 12px;
+  border: 3px solid var(--border);
+  border-radius: 28px;
+  background:
+    repeating-conic-gradient(from 0deg at 50% 22%, rgba(255, 210, 90, 0.1) 0deg 6deg, transparent 6deg 12deg),
+    radial-gradient(circle at 50% 22%, #4a3fa8, #0f1223 78%);
+  box-shadow: 0 6px 0 var(--border);
+}
+
+.home-stage .home-tagline {
+  color: #efe9ff;
+}
+
+.home-stage .home-fan {
+  margin-bottom: -12px; /* the fan box keeps room below the cards; tighten the stage around them */
+}
+
+/* Text title (shown until the picture loads, or if it cannot load) on the dark stage. */
+.home-stage .home-title {
+  color: #ffd23f;
+  text-shadow: 0 3px 0 #0f1223;
+}
+
+.home-stage .home-logo {
+  filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.6)) drop-shadow(0 10px 18px rgba(0, 0, 0, 0.45));
+}
+
+.new-year .home-stage {
+  background:
+    repeating-conic-gradient(from 0deg at 50% 22%, rgba(255, 212, 90, 0.14) 0deg 6deg, transparent 6deg 12deg),
+    radial-gradient(circle at 50% 22%, #d7261e, #5a0d0a 78%);
+}
+
+.new-year .home-stage .home-tagline {
+  color: #fff1dc;
+}
