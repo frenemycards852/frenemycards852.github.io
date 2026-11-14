@@ -13,7 +13,7 @@
     "default": [60, 60, 60, 60, 60]
   },
   "skills": {
-    "customNameMax": { "zh-HK": 10, "en": 16 },
+    "customNameMax": { "zh-HK": 10, "zh-CN": 10, "en": 16 },
     "customDescMax": 30
   },
   "challenge": {
@@ -28,7 +28,7 @@
   "siteUrl": "frenemycards852.github.io",
   "newYear": { "note": "Festive theme while the New Year characters are open (types.json → zodiac.from/to). theme: false turns it off.", "theme": true, "themeColor": "#fbe3d6", "decor": { "petals": 10, "firecrackers": 5 }, "fan": { "front": "goat", "left": "horse", "right": "monkey" } },
   "cardLayout": {
-    "skillsX": { "zh-HK": 566, "en": 506 }
+    "skillsX": { "zh-HK": 566, "zh-CN": 566, "en": 506 }
   },
   "battle": {
     "version": 2,

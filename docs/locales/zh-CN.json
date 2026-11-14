@@ -1,0 +1,350 @@
+{
+  "app": {
+    "name": "损友图鉴",
+    "shareTagline": "將朋友變成抽水卡牌，再嚟一場對決！"
+  },
+  "lang": {
+    "groupLabel": "语言",
+    "short": { "zh-HK": "繁", "zh-CN": "简", "en": "EN" },
+    "full": { "zh-HK": "繁體中文", "zh-CN": "简体中文", "en": "English" }
+  },
+  "home": {
+    "tagline": "將班朋友變成收藏卡，專抽佢哋啲壞習慣：長期遲到、已讀不回、成日話「下次我請」。",
+    "make": "幫朋友整卡",
+    "album": "我的卡簿",
+    "step1Icon": "✏️",
+    "step2Icon": "📲",
+    "step3Icon": "⚔️",
+    "howTitle": "點玩？",
+    "step1": "幫朋友整卡，抽佢壞習慣",
+    "step2": "send 俾佢，等佢整返張卡反擊",
+    "step3": "揀卡對決，輸咗受罰",
+    "exampleLabel": "示範卡：阿明，遲到系 SSR",
+    "newYearTitle": "🧧 新年限定角色登場！",
+    "newYearText": "十二生肖角色，{date}前限定。快啲幫朋友整張新年卡！"
+  },
+  "share": {
+    "share": "分享",
+    "copy": "複製連結",
+    "save": "儲存圖片",
+    "message": "你張卡出咗 😂 撳入嚟睇：",
+    "forward": "睇吓 {name} 呢張卡 😂",
+    "copied": "已複製連結 ✅ 貼落 WhatsApp 就得",
+    "copiedInstead": "呢部手機分享唔到，已經幫你複製咗連結 ✅",
+    "saved": "圖片已下載 ✅",
+    "failed": "做唔到 😵 試吓長按張卡儲存，或者再試一次",
+    "photoNote": "📸 呢張圖有朋友嘅真人相。send 去群組或者公開之前，問吓佢 OK 唔 OK 先 😉 條連結唔會帶相，對方打開見到嘅係原本插畫。"
+  },
+  "view": {
+    "title": "{from} 幫你整咗張卡 😏",
+    "titleAnon": "你收到一張卡 😏",
+    "strike": "🔄 反擊！幫 {from} 整一張",
+    "strikeAnon": "🔄 反擊！整張卡",
+    "challenge": "⚔️ 挑戰佢",
+    "saved": "📥 已經收入你嘅卡簿",
+    "intro": "損友圖鑑：將朋友變成收藏卡，專抽佢哋啲壞習慣。",
+    "makeOwn": "整自己嘅卡",
+    "badTitle": "呢條連結開唔到 😵",
+    "bad": "連結可能唔完整或者壞咗。叫朋友再 send 一次，或者整自己嘅卡！",
+    "newer": "呢張卡用咗較新嘅版本整，重新整理網頁再試吓。",
+    "unsupported": "你嘅瀏覽器太舊，開唔到呢張卡。試吓用最新嘅 Chrome 或者 Safari。"
+  },
+  "reveal": {
+    "title": "開卡包！",
+    "tap": "沿住虛線向右掃，或者撳一下，撕開卡包 👉",
+    "packGreeting": "恭喜\n發財",
+    "cardLabel": "{name} 嘅卡，稀有度 {rarity}",
+    "challenge": "⚔️ 用呢張卡挑戰朋友",
+    "again": "再整一張",
+    "home": "返首頁",
+    "yourName": "你叫咩名？",
+    "yourNameHint": "朋友反擊你嗰陣會用到，可以唔填",
+    "reaction": {
+      "N": "{name} 竟然係 N 卡 😂",
+      "R": "R 卡！{name} 都算有啲價值",
+      "SR": "SR！{name} 原來咁珍貴？",
+      "SSR": "✨ SSR！！{name} 係傳說級損友 ✨"
+    }
+  },
+  "builder": {
+    "step": "第 {n}/{total} 步",
+    "back": "上一步",
+    "next": "下一步",
+    "random": "🎲 隨機",
+    "count": "{n}/{max}",
+    "reminder": "抽水要有分寸，大家先玩得耐 😉",
+    "blocked": "呢啲字唔太好，換過第二啲啦 🙏",
+    "name": {
+      "title": "幫邊個整卡？",
+      "label": "朋友個名或者花名",
+      "placeholder": "例如：阿明"
+    },
+    "type": {
+      "title": "佢屬於咩系？"
+    },
+    "confirm": {
+      "text": "抽咗稀有度之後，張卡就唔可以再改。確定？",
+      "yes": "確定，抽卡！",
+      "no": "再改吓"
+    },
+    "scene": {
+      "title": "揀角色",
+      "hint": "揀一個角色，張卡會用呢張插畫。",
+      "option": "角色 {n}",
+      "newYear": "🧧 新年限定角色"
+    },
+    "photo": {
+      "title": "📷 貼朋友張相",
+      "hint": "可以唔貼，直接撳「下一步」。張相會貼喺插畫個頭度，好似大頭貼咁。",
+      "pick": "🖼️ 揀相／影相",
+      "fit": "將朋友成個頭（連頭髮）放入圓圈，用手指拖嚟對位。",
+      "zoom": "放大縮細",
+      "rotate": "旋轉",
+      "preview": "張卡會係咁：",
+      "change": "換過張相",
+      "remove": "唔要相",
+      "error": "呢張相開唔到，試吓第二張。",
+      "privacy": "🔒 相片只會留喺你部手機同你 send 出去嘅圖，唔會放入連結。用朋友張相之前，記得問吓佢 😉",
+      "unavailable": "呢個類型暫時唔可以貼相。"
+    },
+    "look": {
+      "title": "佢係男仔定女仔？",
+      "hint": "張卡會用呢個類型嘅插畫",
+      "boy": "男仔",
+      "girl": "女仔"
+    },
+    "stats": {
+      "title": "分配能力值",
+      "hint": "{total} 點任你分，每項最多 {max} 點。準時度俾 0 都得 😏",
+      "remaining": "仲剩 {n} 點",
+      "needAll": "用晒先可以去下一步",
+      "less": "減少{stat}",
+      "more": "增加{stat}"
+    },
+    "skills": {
+      "title": "必殺技、特性、弱點",
+      "move": "必殺技",
+      "trait": "特性",
+      "weakness": "弱點"
+    },
+    "custom": {
+      "option": "✏️ 自己寫",
+      "name": "名稱",
+      "desc": "描述（可以唔寫）"
+    },
+    "desc": {
+      "title": "用一句講晒佢",
+      "label": "你嘅描述"
+    },
+    "summary": {
+      "title": "檢查吓張卡",
+      "edit": "改",
+      "finish": "完成",
+      "restart": "由頭整過",
+      "noPhoto": "冇貼相",
+      "rows": {
+        "name": "名字",
+        "type": "類型",
+        "look": "角色",
+        "photo": "相片",
+        "stats": "能力值",
+        "move": "必殺技",
+        "trait": "特性",
+        "weakness": "弱點",
+        "desc": "描述"
+      }
+    }
+  },
+  "types": {
+    "late": { "name": "遲到系", "idea": "永遠喺「嚟緊」" },
+    "foodie": { "name": "食貨系", "idea": "為食而生" },
+    "slacker": { "name": "廢青系", "idea": "專業躺平" },
+    "work": { "name": "工作狂系", "idea": "「等我覆埋封 email 先」" },
+    "love": { "name": "戀愛腦系", "idea": "「佢唔係咁㗎」" },
+    "savage": { "name": "毒舌系", "idea": "食玻璃大" }
+  },
+  "stats": {
+    "hp": "體力",
+    "atk": "抽水力",
+    "def": "臉皮",
+    "spd": "準時度",
+    "luk": "運氣"
+  },
+  "card": {
+    "move": "必殺技",
+    "trait": "特性",
+    "weakness": "弱點",
+    "artSoon": "插畫準備中",
+    "beats": "剋",
+    "weakTo": "被剋",
+    "quoteOpen": "「",
+    "quoteClose": "」"
+  },
+  "error": {
+    "load": "載入唔到資料，檢查吓網絡再試啦 🙏"
+  },
+  "album": {
+    "title": "我的卡簿",
+    "hint": "朋友卡只存喺呢部手機（最多 {max} 張）。清除瀏覽器資料或者換手機就會冇咗，記得「匯出」備份！",
+    "iosNote": "📱 iPhone 小貼士：Safari 同「加到主畫面」個 app 嘅卡簿係分開嘅。想搬卡，就用下面嘅「匯出卡簿」。",
+    "noStorage": "呢部手機存唔到卡（可能係私密瀏覽模式，或者 app 內置瀏覽器）。其他功能照用，不過卡簿會係空嘅。",
+    "stats": "收集咗 {n}/{max} 張・SSR {ssr} 張",
+    "tapHint": "撳一張卡睇大啲 👀",
+    "empty": "卡簿空空如也……快啲去抽朋友水，幫佢整張卡！或者等朋友 send 卡俾你。",
+    "none": "冇卡符合呢個篩選，揀第啲睇吓？",
+    "made": "你整嘅",
+    "received": "收到嘅",
+    "all": "全部",
+    "allTypes": "所有類型",
+    "allRarity": "所有稀有度",
+    "filterSource": "邊度嚟",
+    "filterType": "類型",
+    "filterRarity": "稀有度",
+    "sort": "排序",
+    "sortNew": "最新",
+    "sortRarity": "稀有度",
+    "sortName": "名字",
+    "collection": "🖼️ 整損友圖鑑",
+    "export": "📤 匯出卡簿（備份／換手機）",
+    "challenge": "⚔️ 用佢挑戰",
+    "delete": "🗑️ 刪除",
+    "deleteConfirm": "確定要刪除 {name}？刪咗就冇得救返。",
+    "deleteYes": "刪除",
+    "deleteNo": "唔刪",
+    "back": "返卡簿"
+  },
+  "collection": {
+    "title": "損友圖鑑",
+    "hint": "揀最多 {max} 張卡，砌成一張圖，send 去 IG Story 或者 WhatsApp。",
+    "picked": "揀咗 {n}/{max} 張",
+    "make": "🖼️ 整圖",
+    "again": "重新揀",
+    "imageTitle": "{name} 嘅損友圖鑑",
+    "imageTitleAnon": "我嘅損友圖鑑",
+    "imageCount": "收集咗 {n} 個損友",
+    "imageCta": "你都想被抽水？",
+    "shareMessage": "睇吓我嘅損友圖鑑 😂 你都整返張："
+  },
+  "export": {
+    "title": "匯出卡簿",
+    "text": "呢條連結入面有你全部 {n} 張卡。喺新手機或者另一個瀏覽器打開，就可以匯入。",
+    "warn": "條連結有晒你嘅卡，send 俾自己就好。",
+    "copy": "複製匯出連結",
+    "share": "分享匯出連結"
+  },
+  "import": {
+    "title": "匯入卡簿",
+    "text": "呢條連結有 {n} 張卡。",
+    "skipped": "有 {n} 張卡壞咗，會略過。",
+    "full": "卡簿最多 {max} 張，滿咗嘅話最舊嘅卡會被擠走。",
+    "already": "呢啲卡全部已經喺你嘅卡簿入面 ✅",
+    "yes": "加入 {n} 張新卡",
+    "done": "加咗 {n} 張新卡 ✅",
+    "open": "去我的卡簿"
+  },
+  "challenge": {
+    "title": "發起挑戰 🥊",
+    "pickCard": "揀一張卡出戰",
+    "noCards": "冇卡點打？先幫朋友整張卡，再嚟落戰書！",
+    "penalty": "輸咗要做乜？",
+    "customPenalty": "✏️ 自己寫",
+    "customLabel": "懲罰內容",
+    "tactic": "你嘅戰術",
+    "tacticHint": "對方唔會知道你揀咗乜 🤫",
+    "create": "🥊 整挑戰",
+    "needPenalty": "寫低懲罰先",
+    "sentTitle": "挑戰準備好！",
+    "sentHint": "send 俾朋友，佢一應戰就開打 😏",
+    "edit": "改吓挑戰",
+    "shareMessage": "我向你挑戰 🥊 輸咗要：{penalty}！撳入嚟應戰：",
+    "imageTitle": "{name} 向你挑戰！🥊",
+    "imageTitleAnon": "有人向你挑戰！🥊",
+    "imageLoser": "輸咗要：",
+    "accept": "⚔️ 應戰"
+  },
+  "tactics": {
+    "attack": { "name": "⚔️ 進攻", "desc": "打得痛啲，但自己都易受傷" },
+    "defend": { "name": "🛡️ 防守", "desc": "受傷少啲，但打得冇咁痛" },
+    "chaos": { "name": "🎲 亂嚟", "desc": "傷害忽高忽低，睇天食飯" }
+  },
+  "accept": {
+    "pickCard": "揀你嘅卡應戰",
+    "noCards": "你部手機仲未有卡，即場整一張應戰啦！",
+    "makeNew": "✏️ 即場整一張卡應戰",
+    "useThis": "⚔️ 用呢張卡應戰",
+    "tacticHint": "對方都揀咗戰術，開打先揭曉 🤫",
+    "fight": "⚔️ 開打！"
+  },
+  "battle": {
+    "title": "對戰中！",
+    "vs": "VS",
+    "you": "你",
+    "opponent": "對方",
+    "hp": "體力 {hp}/{max}",
+    "skip": "跳到結果 ⏭"
+  },
+  "result": {
+    "win": "🏆 你贏咗！",
+    "lose": "💀 你輸咗……",
+    "draw": "🤝 打和！",
+    "winnerIs": "🏆 {name} 勝出！",
+    "youPay": "你要：",
+    "theyPay": "{name} 要：",
+    "bothPay": "兩個一齊要：",
+    "tacticOf": "{who}（{card}）：{tactic}",
+    "tacticOfCard": "{card}：{tactic}",
+    "replay": "🔁 再睇一次",
+    "send": "📤 send 結果俾佢，等佢睇埋重播",
+    "shareMessage": "打完喇！{name} 勝出 🏆 撳入嚟睇重播 📺：",
+    "shareDraw": "打完喇！我哋打和 🤝 撳入嚟睇重播 📺：",
+    "forward": "📤 send 去 group，俾大家睇吓",
+    "rematch": "🔄 再戰！",
+    "locked": "🔒 你已經應戰咗呢個挑戰，結果唔可以改。"
+  },
+  "comic": {
+    "referee": "📣 裁判",
+    "round": "第 {n} 回合",
+    "damage": "-{n} HP",
+    "heal": "+{n} HP",
+    "miss": "撲空！",
+    "dodge": "閃咗！",
+    "crit": "暴擊！",
+    "super": "效果拔群！",
+    "survive": "死撐住！",
+    "reflect": "反彈 {n}！",
+    "ko": "K.O.!!",
+    "timeUp": "⏰ 時間到！",
+    "winStamp": "WINNER!",
+    "loseStamp": "LOSE",
+    "move": {
+      "nextMiss": "👻 消失咗",
+      "stun": "😵 定格！",
+      "delayedStrike": "⏳ 跟進中……",
+      "strike": "💥 必殺！",
+      "heal": "✨ 回復",
+      "fail": "🙄 冇人信"
+    },
+    "skip": {
+      "stun": "😵 停機",
+      "skipFirstTurn": "💤 未開機",
+      "distracted": "📱 分心"
+    }
+  },
+  "replay": {
+    "title": "📺 對戰重播",
+    "introYou": "{name} 應戰咗你嘅挑戰！睇吓邊個贏 👀",
+    "intro": "{a} 對 {b}，睇吓邊個贏 👀",
+    "oldRules": "呢場係用舊版規則打嘅，重播可能同當時有啲唔同。"
+  },
+  "zodiac": {
+    "rat": "鼠", "ox": "牛", "tiger": "虎", "rabbit": "兔", "dragon": "龍", "snake": "蛇",
+    "horse": "馬", "goat": "羊", "monkey": "猴", "rooster": "雞", "dog": "狗", "pig": "豬"
+  },
+  "nav": {
+    "back": "返首頁"
+  },
+  "footer": {
+    "privacy": "所有資料只喺連結同你部手機入面，我哋冇伺服器，乜都唔會儲存。",
+    "disclaimer": "純屬抽水，切勿認真 😂"
+  }
+}

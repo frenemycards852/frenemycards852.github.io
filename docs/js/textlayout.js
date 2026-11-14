@@ -1,10 +1,20 @@
 // Canvas text helpers: wrap and shrink text so it fits a box.
 // Uses only a 2D context (no page DOM). Chinese breaks per character, English per word.
 
-export const FONT_STACK = 'system-ui, -apple-system, "Segoe UI", "PingFang HK", "Microsoft JhengHei", "Noto Sans TC", "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
+const EMOJI = '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
+// Chinese fonts per language, so cards show the right character shapes (i18n.js calls setTextLang).
+const STACKS = {
+  default: `system-ui, -apple-system, "Segoe UI", "PingFang HK", "Microsoft JhengHei", "Noto Sans TC", ${EMOJI}`,
+  'zh-CN': `system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", ${EMOJI}`,
+};
+let fontStack = STACKS.default;
+
+export function setTextLang(lang) {
+  fontStack = STACKS[lang] ?? STACKS.default;
+}
 
 export function setFont(ctx, size, weight = 400) {
-  ctx.font = `${weight} ${size}px ${FONT_STACK}`;
+  ctx.font = `${weight} ${size}px ${fontStack}`;
 }
 
 const CJK = /[⺀-鿿豈-﫿＀-￯　-〿]/u;

@@ -22,7 +22,10 @@
 </head>
 <body>
   <h1>Developer test page</h1>
-  <p>Not linked from the app. Language: <a href="?lang=zh-HK">zh-HK</a> · <a href="?lang=en">en</a></p>
+  <p>Not linked from the app. Language: <a href="?lang=zh-HK">zh-HK</a> · <a href="?lang=zh-CN">zh-CN</a> · <a href="?lang=en">en</a></p>
+
+  <h2>Languages · every language file has the same keys</h2>
+  <div id="langkeys"></div>
 
   <h2>Card links (encode → decode round trip)</h2>
   <div id="codec"></div>
@@ -61,8 +64,31 @@
     import { renderCard } from '../js/render-card.js';
     import { rollRarity } from '../js/rarity.js';
 
-    const lang = new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'zh-HK';
+    const asked = new URLSearchParams(location.search).get('lang');
+    const lang = ['zh-HK', 'zh-CN', 'en'].includes(asked) ? asked : 'zh-HK';
     await setLang(lang, { remember: false });
+
+    // Languages: locale and content files must have the same key paths in every language.
+    {
+      // Objects compare by key; lists of items with an id compare by id; other lists (lines) are one leaf,
+      // since each language may have a different number of lines.
+      const shape = (v, path = '') => {
+        if (Array.isArray(v)) {
+          return v.every((x) => x && typeof x === 'object' && 'id' in x)
+            ? v.map((x) => x.id).sort().flatMap((id) => shape(v.find((x) => x.id === id), `${path}[${id}]`))
+            : [path];
+        }
+        if (v && typeof v === 'object') return Object.keys(v).sort().flatMap((k) => shape(v[k], `${path}.${k}`));
+        return [path];
+      };
+      const files = ['locales/{l}.json', 'data/skills/{l}.json', 'data/descriptions/{l}.json', 'data/penalties/{l}.json', 'data/commentary/{l}.json'];
+      const rows = [];
+      for (const f of files) {
+        const [a, ...others] = await Promise.all(['zh-HK', 'zh-CN', 'en'].map((l) => loadJSON(f.replace('{l}', l)).then((j) => shape(j).join('|'))));
+        rows.push(`<tr><td>${f.replace('{l}', '*')} (zh-HK · zh-CN · en)</td><td>${others.every((o) => o === a) ? '✅' : '❌'}</td></tr>`);
+      }
+      document.getElementById('langkeys').innerHTML = `<table>${rows.join('')}</table>`;
+    }
     const [config, types, skills, descriptions] = await Promise.all([
       loadJSON('data/config.json'), loadJSON('data/types.json'),
       loadJSON(`data/skills/${lang}.json`), loadJSON(`data/descriptions/${lang}.json`),

@@ -1,6 +1,6 @@
 {
   "note": "Example cards: home screen fan = card (front) + rival + more; link preview image = card + rival. Presets are ids, so the text shows in the viewer's language.",
-  "names": { "zh-HK": "阿明", "en": "Sam" },
+  "names": { "zh-HK": "阿明", "zh-CN": "阿明", "en": "Sam" },
   "card": {
     "gender": "boy",
     "type": "late",
@@ -13,7 +13,7 @@
   },
   "more": [
     {
-      "names": { "zh-HK": "阿樂", "en": "Leo" },
+      "names": { "zh-HK": "阿樂", "zh-CN": "阿乐", "en": "Leo" },
       "card": {
         "gender": "boy",
         "type": "foodie",
@@ -27,7 +27,7 @@
     }
   ],
   "rival": {
-    "names": { "zh-HK": "阿欣", "en": "Jess" },
+    "names": { "zh-HK": "阿欣", "zh-CN": "阿欣", "en": "Jess" },
     "card": {
       "gender": "girl",
       "type": "savage",

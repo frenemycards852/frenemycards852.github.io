@@ -4,8 +4,9 @@
     "shareTagline": "Turn your friends into roast cards. Then battle it out."
   },
   "lang": {
-    "switch": "中文",
-    "switchLabel": "切換至中文"
+    "groupLabel": "Language",
+    "short": { "zh-HK": "繁", "zh-CN": "简", "en": "EN" },
+    "full": { "zh-HK": "繁體中文", "zh-CN": "简体中文", "en": "English" }
   },
   "home": {
     "tagline": "Turn your friends into collectible cards that roast their worst habits: always late, never replies, \"next time I'll pay.\"",

@@ -1,12 +1,37 @@
-// App startup: load language, wire the language toggle, start the router.
+// App startup: load language, wire the language switch, start the router.
 
 import { initI18n, setLang, getLang, applyI18n, t, LANGS } from './i18n.js';
 import { initRouter, render } from './router.js';
 import { applyNewYearTheme } from './newyear.js';
 
+// Language switch in the header: one button per language (繁 | 简 | EN), the current one pressed.
+function buildLangSwitch() {
+  const box = document.getElementById('lang-switch');
+  if (!box) return;
+  box.replaceChildren(...LANGS.map((code) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'lang-option';
+    btn.dataset.lang = code;
+    btn.lang = code;
+    btn.addEventListener('click', async () => {
+      if (code === getLang()) return;
+      await setLang(code);
+      refreshChrome();
+      render(); // redraw the current view (e.g. builder presets) in the new language
+    });
+    return btn;
+  }));
+}
+
 function refreshChrome() {
   applyI18n(document);
   document.title = t('app.name');
+  document.querySelectorAll('.lang-option').forEach((btn) => {
+    btn.textContent = t(`lang.short.${btn.dataset.lang}`);
+    btn.setAttribute('aria-label', t(`lang.full.${btn.dataset.lang}`));
+    btn.setAttribute('aria-pressed', String(btn.dataset.lang === getLang()));
+  });
 }
 
 // Fade out the splash once the first view is on screen (or startup failed).
@@ -43,15 +68,9 @@ async function start() {
   // Festive look in the New Year season; the app works the same without it.
   applyNewYearTheme().catch((err) => console.error(err));
   await initI18n();
+  buildLangSwitch();
   refreshChrome();
   initRouter();
-
-  document.getElementById('lang-btn').addEventListener('click', async () => {
-    const next = LANGS.find((code) => code !== getLang());
-    await setLang(next);
-    refreshChrome();
-    render(); // redraw the current view (e.g. builder presets) in the new language
-  });
 }
 
 watchScroll();

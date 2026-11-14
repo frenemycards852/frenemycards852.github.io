@@ -1,6 +1,8 @@
 // UI localization: loads locale JSON, translates keys, remembers the choice.
 
-export const LANGS = ['zh-HK', 'en'];
+import { setTextLang } from './textlayout.js';
+
+export const LANGS = ['zh-HK', 'zh-CN', 'en'];
 const STORAGE_KEY = 'fc.lang';
 
 let lang = 'en';
@@ -25,8 +27,12 @@ function save(value) {
 function detect() {
   const saved = readSaved();
   if (LANGS.includes(saved)) return saved;
-  const nav = (navigator.language || '').toLowerCase();
-  return nav.startsWith('zh') ? 'zh-HK' : 'en';
+  // Phone language: Simplified Chinese (mainland, Singapore, Malaysia, "Hans") → zh-CN;
+  // other Chinese (Hong Kong, Taiwan, "Hant") → zh-HK; anything else → English.
+  const nav = (navigator.languages?.[0] || navigator.language || '').toLowerCase();
+  if (!nav.startsWith('zh')) return 'en';
+  if (/hans|-cn|-sg|-my/.test(nav) || nav === 'zh') return 'zh-CN';
+  return 'zh-HK';
 }
 
 async function load(code) {
@@ -52,6 +58,7 @@ export async function setLang(code, { remember = true } = {}) {
   }
   if (remember) save(lang);
   document.documentElement.lang = lang;
+  setTextLang(lang);
 }
 
 export function getLang() {
