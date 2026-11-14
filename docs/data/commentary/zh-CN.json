@@ -326,6 +326,62 @@
     "全场都以为结束了，没想到{actor}用“{trait}”吊着最后一口气"
   ],
 
+  "block": [
+    "{actor}早有准备，举起防守等{opponent}自己送上门 🛡️",
+    "{actor}摆好防守，{opponent}一头撞了上来",
+    "{actor}：“我就知道你会这么出”🛡️",
+    "{actor}稳稳站着，等{opponent}碰壁",
+    "{opponent}冲上去才发现{actor}早就挡好了"
+  ],
+  "attack.blocked": [
+    "{actor}一句吐槽撞在{opponent}的盾上，只剩{dmg}点",
+    "{actor}使出全力也只擦伤了{opponent}，-{dmg}",
+    "{opponent}挡得很稳，{actor}只打出{dmg}点",
+    "{actor}的攻击被挡掉大半，{opponent}轻伤 -{dmg}",
+    "碰壁了！{actor}只有{dmg}点伤害"
+  ],
+  "attack.counter": [
+    "{actor}挡完立刻还手！{opponent} -{dmg} ↩️",
+    "反击！{actor}怼了回去，{opponent}中招 -{dmg}",
+    "{actor}等这一刻很久了，反手就是一下，-{dmg}",
+    "{opponent}攻击碰壁，{actor}趁机反击 -{dmg}",
+    "以其人之道还治其人之身！{actor}反击，{opponent} -{dmg}"
+  ],
+  "interrupt": [
+    "{opponent}的“{oppMove}”还在蓄力，就被{actor}一下打断 ✋",
+    "{opponent}正想使出“{oppMove}”，{actor}已经冲了上去！",
+    "“{oppMove}”说到一半就被{actor}截住，{opponent}很没面子",
+    "{actor}眼疾手快，{opponent}的“{oppMove}”胎死腹中",
+    "{opponent}摆好姿势准备“{oppMove}”，{actor}：“慢着！”"
+  ],
+  "standoff": [
+    "{actor}和{opponent}都摆好防守，大眼瞪小眼，场面很尴尬 😐",
+    "两边都不肯出手，空气突然安静……",
+    "{actor}看着{opponent}，{opponent}看着{actor}，谁也不动 🙄",
+    "双方都怕吃亏，这回合只是干瞪眼",
+    "全场等了一整个回合，结果什么都没发生 🦗"
+  ],
+  "pierce": [
+    "“{move}”直接贯穿{opponent}的防守！",
+    "{opponent}以为挡得住，没想到“{move}”连盾都打穿了 💥",
+    "防守没用！{actor}的“{move}”照样打中",
+    "{opponent}的盾在“{move}”面前像纸一样",
+    "{actor}早就猜到{opponent}会防守，“{move}”正中下怀"
+  ],
+  "move.shield": [
+    "{actor}使出“{move}”，补完血还多了{shield}点护盾 🛡️",
+    "“{move}”！{actor}体力全满，还有{shield}点护盾傍身",
+    "{actor}用“{move}”充满电，多出来的变成{shield}点护盾",
+    "“{move}”效果超标，{actor}多了{shield}点护盾",
+    "{actor}悄悄来了个“{move}”，加了一层{shield}点护盾"
+  ],
+  "attack.shieldedExtra": [
+    "不过{opponent}的护盾挡下了{shielded}点",
+    "{opponent}的护盾扛住了{shielded}点 🛡️",
+    "幸好{opponent}有护盾，吃掉了{shielded}点",
+    "护盾发威，帮{opponent}挡下{shielded}点",
+    "{opponent}的护盾吸收了{shielded}点伤害"
+  ],
   "end.ko": [
     "{opponent}倒下了！{actor} KO 获胜 🏆",
     "KO！{opponent}被{actor}怼到无言以对",

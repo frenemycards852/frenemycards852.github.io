@@ -326,6 +326,62 @@
     "全場以為完咗，點知{actor}用「{trait}」吊住最後一口氣"
   ],
 
+  "block": [
+    "{actor}早有準備，舉起防守等{opponent}自己送上門 🛡️",
+    "{actor}擺好防守，{opponent}一頭撞埋嚟",
+    "{actor}：「我就知你會咁出」🛡️",
+    "{actor}企定定，等{opponent}撞板",
+    "{opponent}衝埋去先發現{actor}早就擋好晒"
+  ],
+  "attack.blocked": [
+    "{actor}一句抽水撞落{opponent}塊盾度，得返{dmg}點",
+    "{actor}出盡力都只係抓損{opponent}少少，-{dmg}",
+    "{opponent}擋得好穩，{actor}只打到{dmg}點",
+    "{actor}嘅攻擊被擋咗大半，{opponent}輕傷 -{dmg}",
+    "撞板！{actor}得{dmg}點傷害"
+  ],
+  "attack.counter": [
+    "{actor}擋完即刻還擊！{opponent} -{dmg} ↩️",
+    "反擊！{actor}寸返轉頭，{opponent}中招 -{dmg}",
+    "{actor}等呢一刻好耐喇，反手就係一下，-{dmg}",
+    "{opponent}攻擊撞板，{actor}乘機反擊 -{dmg}",
+    "以其人之道還治其人之身！{actor}反擊，{opponent} -{dmg}"
+  ],
+  "interrupt": [
+    "{opponent}嘅「{oppMove}」儲緊氣，就俾{actor}一下打斷 ✋",
+    "{opponent}正想出「{oppMove}」，{actor}已經衝埋去！",
+    "「{oppMove}」講到一半就俾{actor}截住，{opponent}好冇面",
+    "{actor}眼明手快，{opponent}嘅「{oppMove}」胎死腹中",
+    "{opponent}擺定甫士準備「{oppMove}」，{actor}：「慢住！」"
+  ],
+  "standoff": [
+    "{actor}同{opponent}都擺好防守，互相對望，場面好尷尬 😐",
+    "兩邊都唔肯出手，空氣突然安靜……",
+    "{actor}望住{opponent}，{opponent}望住{actor}，冇人郁 🙄",
+    "雙方都怕食虧，呢回合淨係玩大眼瞪細眼",
+    "全場等咗成個回合，結果乜都冇發生 🦗"
+  ],
+  "pierce": [
+    "「{move}」直接貫穿{opponent}嘅防守！",
+    "{opponent}以為擋得住，點知「{move}」連盾都打穿 💥",
+    "防守冇用！{actor}嘅「{move}」照樣打到正",
+    "{opponent}塊盾喺「{move}」面前好似紙咁",
+    "{actor}一早估到{opponent}會防守，「{move}」正中下懷"
+  ],
+  "move.shield": [
+    "{actor}使出「{move}」，補完血仲多咗{shield}點護盾 🛡️",
+    "「{move}」！{actor}體力滿晒，仲有{shield}點護盾傍身",
+    "{actor}用「{move}」叉滿電，多出嚟嘅變成{shield}點護盾",
+    "「{move}」效果超標，{actor}多咗{shield}點護盾",
+    "{actor}靜靜雞「{move}」，起咗一層{shield}點護盾"
+  ],
+  "attack.shieldedExtra": [
+    "不過{opponent}嘅護盾擋咗{shielded}點",
+    "{opponent}嘅護盾頂咗{shielded}點 🛡️",
+    "好彩{opponent}有護盾，食咗{shielded}點",
+    "護盾發威，幫{opponent}擋咗{shielded}點",
+    "{opponent}嘅護盾吸收咗{shielded}點傷害"
+  ],
   "end.ko": [
     "{opponent}瞓低！{actor} KO 勝 🏆",
     "KO！{opponent}被{actor}抽到無言以對",

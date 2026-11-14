@@ -326,6 +326,62 @@
     "Everyone thought it was over, but {actor} clings on with \"{trait}\""
   ],
 
+  "block": [
+    "{actor} saw it coming and put the guard up 🛡️",
+    "{actor} is guarding. {opponent} charges straight into it",
+    "{actor}: \"Knew you'd do that.\" 🛡️",
+    "{actor} just stands there and lets {opponent} hit the wall",
+    "{opponent} rushes in and finds {actor} already braced"
+  ],
+  "attack.blocked": [
+    "{actor}'s roast bounces off {opponent}'s guard. Only {dmg}",
+    "{actor} goes all in and barely scratches {opponent}. -{dmg}",
+    "{opponent} holds firm. {actor} gets just {dmg} through",
+    "Most of it is blocked. {opponent} takes a light -{dmg}",
+    "Brick wall! {actor} only lands {dmg}"
+  ],
+  "attack.counter": [
+    "{actor} blocks and hits straight back! {opponent} -{dmg} ↩️",
+    "Counter! {actor} fires one back. {opponent} -{dmg}",
+    "{actor} has been waiting for this. Backhand! -{dmg}",
+    "{opponent} hits the wall and {actor} punishes it. -{dmg}",
+    "A taste of their own medicine! {actor} counters, {opponent} -{dmg}"
+  ],
+  "interrupt": [
+    "{opponent} was charging \"{oppMove}\" and {actor} cuts it right off ✋",
+    "{opponent} goes for \"{oppMove}\". {actor} is already in their face!",
+    "\"{oppMove}\" gets stopped halfway. Awkward for {opponent}",
+    "{actor} is too quick. {opponent}'s \"{oppMove}\" never happens",
+    "{opponent} strikes a pose for \"{oppMove}\". {actor}: \"Nope.\""
+  ],
+  "standoff": [
+    "{actor} and {opponent} both guard and just… stare at each other 😐",
+    "Nobody makes a move. The silence is loud.",
+    "{actor} looks at {opponent}. {opponent} looks at {actor}. Nothing happens 🙄",
+    "Both too scared to commit. This round is a staring contest",
+    "A whole round of waiting, and absolutely nothing happens 🦗"
+  ],
+  "pierce": [
+    "\"{move}\" smashes right through {opponent}'s guard!",
+    "{opponent} thought the guard would hold. \"{move}\" says no 💥",
+    "Guarding is useless! {actor}'s \"{move}\" lands anyway",
+    "{opponent}'s guard folds like paper against \"{move}\"",
+    "{actor} called the guard, and \"{move}\" goes right through it"
+  ],
+  "move.shield": [
+    "{actor} uses \"{move}\" and tops up with a {shield}-point shield 🛡️",
+    "\"{move}\"! {actor} is back to full with a {shield}-point shield spare",
+    "{actor} overcharges with \"{move}\". The extra becomes a {shield}-point shield",
+    "\"{move}\" overdelivers: {actor} gets a {shield}-point shield",
+    "{actor} quietly pulls off \"{move}\" and wraps up in a {shield}-point shield"
+  ],
+  "attack.shieldedExtra": [
+    "But {opponent}'s shield soaks up {shielded}",
+    "{opponent}'s shield takes {shielded} of it 🛡️",
+    "Lucky {opponent} had a shield. It eats {shielded}",
+    "The shield steps in and blocks {shielded} for {opponent}",
+    "{opponent}'s shield absorbs {shielded} damage"
+  ],
   "end.ko": [
     "{opponent} is down! {actor} wins by KO 🏆",
     "KO! {actor} roasts {opponent} into silence.",

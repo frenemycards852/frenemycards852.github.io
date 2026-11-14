@@ -64,13 +64,21 @@ export function commentate(result, ctx, lines, seed) {
     const target = 1 - e.side;
     if (e.missed) return say(out, 'attack.missed', e.side);
     if (e.dodged) return say(out, e.dodged === 'trait' ? 'attack.dodgeTrait' : 'attack.dodgeLuck', e.side);
-    const extra = { dmg: e.dmg };
-    if (e.via === 'normal') {
+    const extra = { dmg: e.dmg, shielded: e.shielded };
+    if (e.via === 'counter') {
+      // Plan battles: the defender strikes back after a block.
+      say(out, 'attack.counter', e.side, extra);
+      if (e.crit) say(out, 'attack.critExtra', e.side, extra);
+    } else if (e.via === 'normal' && e.blocked) {
+      say(out, 'attack.blocked', e.side, extra);
+    } else if (e.via === 'normal') {
       say(out, e.crit ? 'attack.crit' : 'attack.hit', e.side, extra);
     } else {
+      if (e.pierce) say(out, 'pierce', e.side, extra);
       say(out, e.via === 'delayed' ? 'attack.delayed' : 'attack.moveHit', e.side, extra);
       if (e.crit) say(out, 'attack.critExtra', e.side, extra);
     }
+    if (e.shielded) say(out, 'attack.shieldedExtra', e.side, extra);
     if (e.effective) say(out, [`effective.${ctx.typeIds[e.side]}`, 'effective'], e.side, extra);
     for (const trigger of e.triggers) say(out, `trigger.${trigger.kind}`, trigger.side, extra);
     if (e.saved) say(out, 'trait.surviveOnce', target, extra);
@@ -94,9 +102,21 @@ export function commentate(result, ctx, lines, seed) {
         if (e.kind === 'gambleHeal') key = e.ok ? 'move.gambleHeal.ok' : 'move.gambleHeal.fail';
         // Healing at full HP (heal, or a gamble that worked) does nothing: say so instead of "+0".
         if ((e.kind === 'heal' || (e.kind === 'gambleHeal' && e.ok)) && e.heal === 0) key = 'move.healFull';
-        say(out, key, e.side, { heal: e.heal });
+        // Plan battles: healing past full Stamina became a shield.
+        if (e.shield > 0) key = 'move.shield';
+        say(out, key, e.side, { heal: e.heal, shield: e.shield });
         break;
       }
+      // Plan battles (rules v3).
+      case 'block':
+        say(out, 'block', e.side);
+        break;
+      case 'interrupt':
+        say(out, 'interrupt', e.side);
+        break;
+      case 'standoff':
+        say(out, 'standoff', 0);
+        break;
       case 'attack':
         attackLines(out, e);
         break;

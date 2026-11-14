@@ -477,13 +477,30 @@
           else padd('Matchup', 'neutral', score);
         }
       }
+      // Commentary for plan battles: every event gets a line (traits fold into hits), no {placeholder} left.
+      const planTalkProblems = [];
+      const planTalkKeys = new Set();
+      for (let i = 0; i < 3000; i++) {
+        const cards = [randomCard(), randomCard()];
+        const r = pfight(cards[0], cards[1], pPick(valid), pPick(valid), `pt${i}`);
+        for (const [pool, list, label] of [[talkLines, skills, typeName], [otherLines, otherSkills, (id) => id]]) {
+          const said = commentate(r, { ...talkCtx(cards, list, label), rounds: rules.rounds }, pool, `pt${i}`);
+          said.forEach((ls, j) => {
+            const e = r.events[j];
+            planTalkKeys.add(e.t);
+            if (ls.length === 0 && e.t !== 'trait') planTalkProblems.push(`no line for ${JSON.stringify(e).slice(0, 120)}`);
+            for (const l of ls) if (/[{}]|undefined|NaN/.test(l)) planTalkProblems.push(l);
+          });
+        }
+      }
+      const planTalkHtml = `<table><tr><td>Plan battle commentary: every event has a line, no {placeholder} (3000 battles × 2 languages; events seen: ${[...planTalkKeys].sort().join(', ')})</td><td>${planTalkProblems.length === 0 ? '✅' : `❌ ${esc(planTalkProblems.slice(0, 4).join(' · '))}`}</td></tr></table>`;
       const cell = (v) => `${(v * 100).toFixed(1)}%${v < 0.4 || v > 0.6 ? ' ⚠️' : ''}`;
       const tables = Object.entries(ptally).map(([group, rowsOf]) => `<h3 style="font-size:15px;margin:12px 0 4px">${esc(group)}</h3><table><tr><th>Value</th><th>Battles</th><th>Win rate</th></tr>${Object.entries(rowsOf).sort((x, y) => y[1].w / y[1].n - x[1].w / x[1].n).map(([k, v]) => `<tr><td>${esc(k)}</td><td>${v.n}</td><td>${cell(v.w / v.n)}</td></tr>`).join('')}</table>`).join('');
       document.getElementById('planbalance').innerHTML = `<table>
         <tr><td>Same inputs → same plan battle (200 battles)</td><td>${same ? '✅' : '❌'}</td></tr>
         <tr><td>Invalid plans rejected (two specials, wrong length, unknown action)</td><td>${rejects ? '✅' : '❌'}</td></tr>
         <tr><td>${valid.length} valid plans</td><td>${valid.length === 20 ? '✅' : '❌'}</td></tr></table>
-        <p>${PN} battles. Ends: ${Object.entries(pends).map(([k, v]) => `${k} ${(v / PN * 100).toFixed(1)}%`).join(' · ')}. Per battle: ${Object.entries(roundOutcome).map(([k, v]) => `${k} ${(v / PN).toFixed(2)}`).join(' · ')}</p>${tables}`;
+        ${planTalkHtml}<p>${PN} battles. Ends: ${Object.entries(pends).map(([k, v]) => `${k} ${(v / PN * 100).toFixed(1)}%`).join(' · ')}. Per battle: ${Object.entries(roundOutcome).map(([k, v]) => `${k} ${(v / PN).toFixed(2)}`).join(' · ')}</p>${tables}`;
     }
 
     document.title = `Dev tests · ${t('app.name')}`;
