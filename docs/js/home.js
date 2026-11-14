@@ -11,6 +11,26 @@ import { startNewCard } from './builder.js';
 // Fan cards are drawn once at full size, then copied down to this width (memory on phones).
 const FAN_W = 432;
 
+// Hand-lettered title picture (config.json → titleLogo) in place of the text title, once it has loaded.
+// The picture's alt text is the app name; if it fails, the text title simply stays.
+function showTitleLogo(container, config, lang) {
+  const h1 = container.querySelector('.home-title');
+  const src = config.titleLogo?.[lang];
+  if (!h1 || !src) return;
+  const img = new Image();
+  img.className = 'home-logo';
+  img.alt = t('app.name');
+  img.onload = () => {
+    if (!h1.isConnected) return;
+    img.width = img.naturalWidth;
+    img.height = img.naturalHeight;
+    h1.removeAttribute('data-i18n'); // the language switch redraws the whole home page anyway
+    h1.classList.add('has-logo');
+    h1.replaceChildren(img);
+  };
+  img.src = src;
+}
+
 // "New Year specials are here!" banner instead of the make button; tapping it starts a new card.
 function showNewYearBanner(container, types, lang) {
   if (container.querySelector('.ny-banner')) return;
@@ -47,6 +67,7 @@ export async function mountHome(container) {
       loadJSON(`data/descriptions/${lang}.json`),
       loadJSON('data/sample-card.json'),
     ]);
+    showTitleLogo(container, config, lang);
     const newYear = Boolean(config.newYear?.theme) && isNewYear(types);
     if (newYear) showNewYearBanner(container, types, lang);
     // New Year: each fan card wears a zodiac character (config.json → newYear.fan).

@@ -26,6 +26,7 @@
     "max": 100
   },
   "choices": { "note": "Long lists (skills, descriptions, penalties) show this many at a time, with a Show others button.", "shown": 5 },
+  "titleLogo": { "note": "Home page title picture per language (the text title stays for screen readers and as a fallback).", "zh-HK": "assets/title/title-zh-HK.webp", "zh-CN": "assets/title/title-zh-CN.webp", "en": "assets/title/title-en.webp" },
   "siteUrl": "frenemycards852.github.io",
   "newYear": { "note": "Festive theme while the New Year characters are open (types.json → zodiac.from/to). theme: false turns it off.", "theme": true, "themeColor": "#fbe3d6", "decor": { "petals": 10, "firecrackers": 5 }, "fan": { "front": "goat", "left": "horse", "right": "monkey" } },
   "cardLayout": {
