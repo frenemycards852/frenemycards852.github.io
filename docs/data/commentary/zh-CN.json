@@ -1,350 +1,350 @@
 {
   "shout": [
-    "睇招！",
-    "食我呢句！",
-    "收聲啦你！",
-    "唔好走！",
-    "今次到我！"
+    "看招！",
+    "接我这句！",
+    "你给我闭嘴！",
+    "别跑！",
+    "这回轮到我了！"
   ],
   "shout.late": [
-    "等埋我呀！",
-    "到喇到喇！",
-    "再給我兩分鐘！",
-    "塞車我都唔想㗎！",
-    "出緊門口喇！",
-    "就快到喇！",
-    "唔好開波住！",
-    "等多我一陣啦！"
+    "等等我啊！",
+    "到了到了！",
+    "再给我两分钟！",
+    "堵车我也不想啊！",
+    "我在出门了！",
+    "马上就到！",
+    "先别开始！",
+    "再等我一下嘛！"
   ],
   "shout.foodie": [
-    "未食飽唔准走！",
-    "你阻住我食嘢！",
-    "呢啖係我嘅！",
-    "餓到嬲喇！",
-    "食飽先打！",
-    "相機食先！",
-    "打完去食放題！",
-    "我仲未食甜品！"
+    "没吃饱不许走！",
+    "你挡着我吃饭了！",
+    "这口是我的！",
+    "饿到火大了！",
+    "吃饱了再打！",
+    "手机先吃！",
+    "打完去吃自助！",
+    "我还没吃甜品！"
   ],
   "shout.slacker": [
-    "打完我要瞓！",
-    "好攰呀……",
-    "唔好嘈醒我！",
-    "幫緊你，幫緊你！",
-    "懶得同你嘈！",
-    "聽日先打啦！",
-    "我起唔到身……",
+    "打完我要睡！",
+    "好累啊……",
+    "别吵醒我！",
+    "在弄了，在弄了！",
+    "懒得跟你吵！",
+    "明天再打吧！",
+    "我起不来……",
     "打完叫醒我！"
   ],
   "shout.work": [
-    "呢單我跟進！",
-    "開會前搞掂你！",
-    "你 KPI 唔合格！",
-    "收到，處理緊！",
-    "我仲有 email 覆！",
-    "OT 都要贏！",
-    "Deadline 係今晚！",
-    "已經 cc 你老細！"
+    "这事我来跟进！",
+    "开会前搞定你！",
+    "你的 KPI 不合格！",
+    "收到，处理中！",
+    "我还有邮件要回！",
+    "加班也要赢！",
+    "Deadline 就在今晚！",
+    "已经抄送你老板了！"
   ],
   "shout.love": [
-    "為咗佢我可以改！",
-    "愛情俾我力量！",
-    "佢好似望緊我！",
-    "心心攻擊！",
-    "唔准講佢壞話！",
-    "佢話我好叻！",
-    "等我覆埋佢先！",
-    "為愛衝鋒！"
+    "为了 TA 我可以改！",
+    "爱情给我力量！",
+    "TA 好像在看我！",
+    "比心攻击！",
+    "不许说 TA 坏话！",
+    "TA 夸我好棒！",
+    "等我先回完 TA！",
+    "为爱冲锋！"
   ],
   "shout.savage": [
-    "收聲啦你！",
-    "唔係針對你！",
+    "你给我闭嘴！",
+    "不是针对你！",
     "你好意思？",
-    "寸你又點！",
-    "你都唔得！",
-    "你認真？",
-    "好心你啦！",
-    "我只係講事實！"
+    "怼你又怎样！",
+    "你也不行！",
+    "你认真的？",
+    "求你别说了！",
+    "我只是说实话！"
   ],
-  "sfx.hit": ["嘭！", "啪！", "咚！"],
-  "sfx.crit": ["轟！！", "爆！！"],
-  "sfx.miss": ["咻～"],
+  "sfx.hit": ["砰！", "啪！", "咚！"],
+  "sfx.crit": ["轰！！", "爆！！"],
+  "sfx.miss": ["嗖～"],
   "start": [
-    "{actor}對{opponent}！友誼嘅小船，今日正式翻沉 🚣",
-    "各位觀眾！{actor}同{opponent}終於要清算舊數 🔥",
-    "{actor} VS {opponent}，邊個先係真・損友？開波！",
-    "{actor}同{opponent}正式開戰，友誼嘅存亡就睇今日 ⚔️",
-    "鐘聲響起！{actor} VS {opponent}，邊個會被抽到冇面？"
+    "{actor}对{opponent}！友谊的小船，今天正式翻了 🚣",
+    "各位观众！{actor}和{opponent}终于要算总账了 🔥",
+    "{actor} VS {opponent}，谁才是真・损友？开始！",
+    "{actor}和{opponent}正式开战，友谊能不能保住就看今天 ⚔️",
+    "钟声响起！{actor} VS {opponent}，谁会被怼到没面子？"
   ],
   "round": [
     "第{n}回合！",
-    "第{n}回合，兩位繼續互相傷害 💥",
-    "第{n}回合，group 入面啲人已經開定爆谷 🍿",
-    "第{n}回合，兩邊都未肯收手 🔥",
-    "第{n}回合，群組已經有人開始截圖"
+    "第{n}回合，两位继续互相伤害 💥",
+    "第{n}回合，群里的人已经备好瓜子了 🍉",
+    "第{n}回合，两边都不肯收手 🔥",
+    "第{n}回合，群里已经有人开始截图了"
   ],
   "finalRound": [
-    "最後一回合！輸咗嗰個準備好銀包 💸",
-    "最終回合！邊個要受罰，就睇呢下",
-    "最後一回合，友情仲喺唔喺度，就睇呢下 😤",
-    "最後一回合！懲罰已經喺度等緊 😈",
-    "最終回合，輸咗嗰個準備好俾人笑一年"
+    "最后一回合！输的人准备好钱包 💸",
+    "最终回合！谁要受罚，就看这一下",
+    "最后一回合，友情还在不在，就看这一下 😤",
+    "最后一回合！惩罚已经在等着了 😈",
+    "最终回合，输的人准备好被笑一年"
   ],
 
   "attack.hit": [
-    "{actor}一句抽水打落去，{opponent}扣{dmg}點！",
-    "{actor}翻舊賬，{opponent}中招，-{dmg}！",
-    "{actor}喺 group 度 tag 晒所有人，{opponent}冇晒面 -{dmg}",
-    "{actor}一個白眼反過去，{opponent}受{dmg}點傷害",
-    "{actor}冷笑一聲，{opponent}即刻 -{dmg}"
+    "{actor}一句吐槽砸下去，{opponent}扣{dmg}点！",
+    "{actor}翻旧账，{opponent}中招，-{dmg}！",
+    "{actor}在群里@了所有人，{opponent}脸都丢光了 -{dmg}",
+    "{actor}一个白眼翻过去，{opponent}受到{dmg}点伤害",
+    "{actor}冷笑一声，{opponent}立刻 -{dmg}"
   ],
   "attack.crit": [
-    "暴擊！{actor}講中{opponent}痛處，-{dmg}！全場「喔～～」",
-    "暴擊！{actor}將{opponent}嘅黑歷史 send 晒去公海，-{dmg} 🌊",
-    "暴擊！{actor}呢句太直接，{opponent}即場 -{dmg} 😱",
-    "暴擊！{actor}拎出三年前嘅舊事，{opponent} -{dmg}！",
-    "暴擊！{actor}喺成個 group 面前讀出{opponent}嘅舊訊息，-{dmg} 💥"
+    "暴击！{actor}戳中{opponent}的痛处，-{dmg}！全场“哇哦～～”",
+    "暴击！{actor}把{opponent}的黑历史全发到大群，-{dmg} 🌊",
+    "暴击！{actor}这句太直接，{opponent}当场 -{dmg} 😱",
+    "暴击！{actor}翻出三年前的旧事，{opponent} -{dmg}！",
+    "暴击！{actor}当着全群念出{opponent}的旧聊天记录，-{dmg} 💥"
   ],
   "attack.delayed": [
-    "{actor}嘅「{move}」遲咗少少，但終於到咗！{opponent} -{dmg}",
-    "大家都以為冇下文，點知{actor}嘅「{move}」真係返嚟！{opponent} -{dmg}",
-    "{actor}嘅「{move}」終於兌現，{opponent}措手不及，-{dmg}",
-    "遲到好過冇到！{actor}嘅「{move}」打中{opponent}，-{dmg}",
-    "全場都唔記得咗，{actor}嘅「{move}」突然殺到！{opponent} -{dmg}"
+    "{actor}的“{move}”迟到了一点，但终于来了！{opponent} -{dmg}",
+    "大家都以为没下文了，没想到{actor}的“{move}”真的回来了！{opponent} -{dmg}",
+    "{actor}的“{move}”终于兑现，{opponent}措手不及，-{dmg}",
+    "迟到总比不到好！{actor}的“{move}”打中{opponent}，-{dmg}",
+    "全场都忘了这回事，{actor}的“{move}”突然杀到！{opponent} -{dmg}"
   ],
   "attack.moveHit": [
-    "「{move}」正中{opponent}！-{dmg}",
-    "{opponent}完全頂唔順「{move}」，-{dmg}！",
-    "{actor}嘅「{move}」直擊要害，{opponent} -{dmg}！",
-    "「{move}」一出，{opponent}即刻冇晒反應，-{dmg}",
-    "{opponent}想避都避唔切「{move}」，-{dmg}"
+    "“{move}”正中{opponent}！-{dmg}",
+    "{opponent}完全扛不住“{move}”，-{dmg}！",
+    "{actor}的“{move}”直击要害，{opponent} -{dmg}！",
+    "“{move}”一出，{opponent}当场没了反应，-{dmg}",
+    "{opponent}想躲都躲不开“{move}”，-{dmg}"
   ],
   "attack.critExtra": [
-    "仲要係暴擊！🔥",
-    "暴擊！全場起哄！",
-    "仲要係暴擊，痛上加痛！💥",
-    "暴擊！呢下一定好痛 😵",
-    "暴擊！{opponent}要坐低唞吓先得"
+    "还是暴击！🔥",
+    "暴击！全场起哄！",
+    "还是暴击，痛上加痛！💥",
+    "暴击！这一下肯定很痛 😵",
+    "暴击！{opponent}得先坐下缓一缓"
   ],
   "attack.missed": [
-    "{actor}打落去，撲咗個空！{opponent}嘅「{oppMove}」生效 😂",
-    "{actor}周圍搵都搵唔到{opponent}，「{oppMove}」果然好用",
-    "{actor}打落去先發現{opponent}早已用咗「{oppMove}」，打空 😅",
-    "「{oppMove}」生效中！{actor}連{opponent}條影都掂唔到",
-    "{actor}出盡力，結果只係打中空氣，多謝「{oppMove}」"
+    "{actor}一下打过去，扑了个空！{opponent}的“{oppMove}”生效了 😂",
+    "{actor}到处都找不到{opponent}，“{oppMove}”果然好用",
+    "{actor}打下去才发现{opponent}早就用了“{oppMove}”，打空 😅",
+    "“{oppMove}”生效中！{actor}连{opponent}的影子都碰不到",
+    "{actor}使出全力，结果只打中了空气，多谢“{oppMove}”"
   ],
   "attack.dodgeLuck": [
-    "{opponent}啱啱彎低身綁鞋帶，{actor}打空 🤷",
-    "好彩！{opponent}啱啱望第二邊，完全冇聽到{actor}講乜",
-    "{actor}出手太慢，{opponent}閃咗！",
-    "{opponent}突然轉身睇手機，{actor}打咗落空氣",
-    "運氣好！{actor}嗰下差少少就中，{opponent}險過剃頭"
+    "{opponent}刚好弯腰系鞋带，{actor}打空了 🤷",
+    "运气真好！{opponent}刚好看向别处，完全没听到{actor}说什么",
+    "{actor}出手太慢，{opponent}闪开了！",
+    "{opponent}突然转身看手机，{actor}一拳打在空气上",
+    "运气好！{actor}这下差一点就中，{opponent}险之又险"
   ],
   "attack.dodgeTrait": [
-    "{opponent}發動「{oppTrait}」，{actor}打咗落空氣度！",
-    "「{oppTrait}」！{opponent}好似完全冇收到{actor}嘅訊息 👻",
-    "「{oppTrait}」又嚟！{actor}嘅攻擊完全落空",
-    "{opponent}靠住「{oppTrait}」輕鬆避開，{actor}好嬲 😤",
-    "{actor}打唔中！{opponent}嘅「{oppTrait}」真係好用"
+    "{opponent}发动“{oppTrait}”，{actor}打了个寂寞！",
+    "“{oppTrait}”！{opponent}好像完全没收到{actor}的消息 👻",
+    "“{oppTrait}”又来了！{actor}的攻击完全落空",
+    "{opponent}靠着“{oppTrait}”轻松躲开，{actor}气坏了 😤",
+    "{actor}打不中！{opponent}的“{oppTrait}”真好用"
   ],
 
   "effective": [
-    "屬性相剋！{type}完全剋制{oppType}，效果拔群！",
-    "屬性相剋！{type}食正{oppType}，傷害加重！",
-    "天生相剋！{oppType}遇上{type}，冇得救 😂"
+    "属性克制！{type}完全克制{oppType}，伤害翻倍！",
+    "属性克制！{type}吃定了{oppType}，伤害加重！",
+    "天生相克！{oppType}遇上{type}，没救了 😂"
   ],
   "effective.work": [
-    "工作狂剋廢青！{actor}凌晨三點仲覆緊 email，{opponent}光係睇到都覺得攰 😩",
-    "工作狂剋廢青！{opponent}被{actor}嗰張 to-do list 嚇親 📋",
-    "工作狂剋廢青！{actor}一張 Excel 表，{opponent}睇到頭暈 📊",
-    "工作狂剋廢青！{actor}九點準時開會，{opponent}仲未起身",
-    "工作狂剋廢青！{actor}一句「跟進吓」，{opponent}即刻想瞓"
+    "工作狂克摆烂！{actor}凌晨三点还在回邮件，{opponent}光看着都觉得累 😩",
+    "工作狂克摆烂！{opponent}被{actor}的待办清单吓到了 📋",
+    "工作狂克摆烂！{actor}甩出一张 Excel 表，{opponent}看得头晕 📊",
+    "工作狂克摆烂！{actor}九点准时开会，{opponent}还没起床",
+    "工作狂克摆烂！{actor}一句“跟进一下”，{opponent}立刻想睡"
   ],
   "effective.slacker": [
-    "廢青剋食貨！{actor}一覺瞓到下晝三點，{opponent}個飯局冇人到 😴",
-    "廢青剋食貨！{actor}瞓過咗飯局，{opponent}冇人陪食",
-    "廢青剋食貨！{actor}懶得出街，{opponent}嘅美食團冇人跟",
-    "廢青剋食貨！{actor}只肯叫外賣，{opponent}嘅打卡清單全部泡湯",
-    "廢青剋食貨！{actor}瞓到錯過早午餐，{opponent}一個人食 😢"
+    "摆烂克吃货！{actor}一觉睡到下午三点，{opponent}的饭局没人来 😴",
+    "摆烂克吃货！{actor}睡过了饭局，{opponent}没人陪吃",
+    "摆烂克吃货！{actor}懒得出门，{opponent}的美食团没人跟",
+    "摆烂克吃货！{actor}只肯点外卖，{opponent}的打卡清单全泡汤",
+    "摆烂克吃货！{actor}睡到错过早午餐，{opponent}只能一个人吃 😢"
   ],
   "effective.foodie": [
-    "食貨剋工作狂！{actor}拖咗{opponent}去食放題，deadline 即刻冇咗 🍣",
-    "食貨剋工作狂！{opponent}被{actor}拉咗去排隊食嘢，成晚冇返工",
-    "食貨剋工作狂！{actor}一句「食咗飯先」，{opponent}即刻放低電腦 🍜",
-    "食貨剋工作狂！{actor}帶咗{opponent}去試新餐廳，會都唔開喇",
-    "食貨剋工作狂！{opponent}聞到{actor}手上嘅雞髀，冇心機做嘢"
+    "吃货克工作狂！{actor}把{opponent}拖去吃自助，deadline 直接忘光 🍣",
+    "吃货克工作狂！{opponent}被{actor}拉去排队吃东西，一晚上没干活",
+    "吃货克工作狂！{actor}一句“先吃饭”，{opponent}立刻放下电脑 🍜",
+    "吃货克工作狂！{actor}带{opponent}去试新餐厅，会也不开了",
+    "吃货克工作狂！{opponent}闻到{actor}手里的炸鸡，完全没心思干活"
   ],
   "effective.savage": [
-    "毒舌剋戀愛腦！{actor}一句「佢冇咁鍾意你」，{opponent}嘅粉紅泡泡爆晒 💔",
-    "毒舌剋戀愛腦！{actor}講出真相，{opponent}當場清醒",
-    "毒舌剋戀愛腦！{actor}一句「醒啦」，{opponent}嘅濾鏡即刻碎晒",
-    "毒舌剋戀愛腦！{actor}數晒對方啲 red flag，{opponent}無言以對 🚩",
-    "毒舌剋戀愛腦！{actor}冷冷咁講「佢唔值得」，{opponent}心都碎埋"
+    "毒舌克恋爱脑！{actor}一句“TA 没那么喜欢你”，{opponent}的粉红泡泡全破了 💔",
+    "毒舌克恋爱脑！{actor}说出真相，{opponent}当场清醒",
+    "毒舌克恋爱脑！{actor}一句“醒醒吧”，{opponent}的滤镜碎了一地",
+    "毒舌克恋爱脑！{actor}列出对方所有的 red flag，{opponent}无言以对 🚩",
+    "毒舌克恋爱脑！{actor}冷冷地说“TA 不值得”，{opponent}心都碎了"
   ],
   "effective.love": [
-    "戀愛腦剋遲到！{opponent}遲咗兩個鐘，{actor}照樣甜笑：「冇事，我等你」💘",
-    "戀愛腦剋遲到！{actor}等幾耐都唔嬲，{opponent}嘅遲到完全冇殺傷力",
-    "戀愛腦剋遲到！{actor}一句「冇所謂，等你」，{opponent}反而內疚到爆",
-    "戀愛腦剋遲到！{actor}等足一個鐘仲送埋飲品，{opponent}無地自容",
-    "戀愛腦剋遲到！{actor}傳咗二十個心心，{opponent}唔好意思再遲 💕"
+    "恋爱脑克迟到！{opponent}迟到两小时，{actor}照样甜甜一笑：“没事，我等你”💘",
+    "恋爱脑克迟到！{actor}等多久都不生气，{opponent}的迟到毫无杀伤力",
+    "恋爱脑克迟到！{actor}一句“没关系，我等你”，{opponent}反而愧疚到爆",
+    "恋爱脑克迟到！{actor}等了整整一小时还带了饮料，{opponent}无地自容",
+    "恋爱脑克迟到！{actor}发了二十个爱心，{opponent}不好意思再迟到 💕"
   ],
   "effective.late": [
-    "遲到剋毒舌！{actor}根本未到，{opponent}罵到口都乾都冇人聽 ⏰",
-    "遲到剋毒舌！{opponent}嘅抽水，{actor}一句都冇聽到",
-    "遲到剋毒舌！{opponent}準備好嘅寸人金句，{actor}全部錯過晒",
-    "遲到剋毒舌！{actor}到嘅時候{opponent}已經罵到冇力",
-    "遲到剋毒舌！{actor}一句「塞車呀」，{opponent}寸都寸唔落"
+    "迟到克毒舌！{actor}根本还没到，{opponent}骂到口干舌燥也没人听 ⏰",
+    "迟到克毒舌！{opponent}的吐槽，{actor}一句都没听到",
+    "迟到克毒舌！{opponent}准备好的金句，{actor}全部错过了",
+    "迟到克毒舌！{actor}到的时候{opponent}已经骂到没力气",
+    "迟到克毒舌！{actor}一句“堵车啊”，{opponent}想怼都怼不下去"
   ],
 
   "trigger.lowHpWeak": [
-    "{actor}嘅弱點「{weakness}」發作，雙手軟晒 😵",
-    "「{weakness}」！{actor}開始慌，攻擊力大跌",
-    "體力唔夠喇，{actor}嘅「{weakness}」開始發作",
-    "「{weakness}」上身，{actor}出手軟晒",
-    "{actor}一諗起「{weakness}」，攻擊力即刻減半"
+    "{actor}的弱点“{weakness}”发作，双手发软 😵",
+    "“{weakness}”！{actor}开始慌了，攻击力大跌",
+    "体力不够了，{actor}的“{weakness}”开始发作",
+    "“{weakness}”上身，{actor}出手软绵绵",
+    "{actor}一想起“{weakness}”，攻击力立刻减半"
   ],
   "trigger.finalRoundGuard": [
-    "{actor}嘅「{trait}」啟動，傷害大減！",
-    "「{trait}」！{actor}當聽唔到，冇乜感覺",
-    "去到最後，{actor}嘅「{trait}」全開！",
-    "「{trait}」發動，{actor}好似冇感覺咁",
-    "最後一回合，{actor}靠「{trait}」硬食落去"
+    "{actor}的“{trait}”启动，伤害大减！",
+    "“{trait}”！{actor}装没听见，毫无感觉",
+    "到了最后，{actor}的“{trait}”全开！",
+    "“{trait}”发动，{actor}好像一点感觉都没有",
+    "最后一回合，{actor}靠“{trait}”硬扛下来"
   ],
   "trigger.finalRoundVulnerable": [
-    "最後一回合，{actor}嘅弱點「{weakness}」發作，傷害大增！",
-    "「{weakness}」！{actor}最尾頂唔順",
-    "最後關頭，{actor}嘅「{weakness}」又嚟搞局！",
-    "「{weakness}」發作喺最唔啱嘅時間，{actor}傷上加傷",
-    "{actor}撐到最後，點知「{weakness}」拖晒後腿"
+    "最后一回合，{actor}的弱点“{weakness}”发作，伤害大增！",
+    "“{weakness}”！{actor}最后扛不住了",
+    "关键时刻，{actor}的“{weakness}”又来捣乱！",
+    "“{weakness}”偏偏在最要命的时候发作，{actor}伤上加伤",
+    "{actor}撑到最后，没想到被“{weakness}”拖了后腿"
   ],
   "trigger.slowerVulnerable": [
-    "{actor}慢咗一步，「{weakness}」發作，傷害加重！",
-    "「{weakness}」！{actor}未準備好就中招",
-    "{actor}反應慢咗半拍，「{weakness}」令佢更加痛",
-    "慢人一步！{actor}嘅「{weakness}」即刻現形",
-    "{actor}未搞清楚發生咩事，「{weakness}」已經發作"
+    "{actor}慢了一步，“{weakness}”发作，伤害加重！",
+    "“{weakness}”！{actor}还没准备好就中招了",
+    "{actor}反应慢了半拍，“{weakness}”让他更痛了",
+    "慢人一步！{actor}的“{weakness}”当场现形",
+    "{actor}还没搞清楚发生了什么，“{weakness}”已经发作"
   ],
 
   "skip.stun": [
-    "{actor}中咗「{oppMove}」，成個人停咗機",
-    "{actor}等緊{opponent}覆……等咗成個回合 📱",
-    "{actor}仲喺度消化緊「{oppMove}」，成個人呆咗",
-    "{actor}被「{oppMove}」搞到懵咗，呢回合冇反應",
-    "「{oppMove}」嘅威力未散，{actor}郁都郁唔到"
+    "{actor}中了“{oppMove}”，整个人宕机了",
+    "{actor}在等{opponent}回消息……等了整整一回合 📱",
+    "{actor}还在消化“{oppMove}”，整个人呆住了",
+    "{actor}被“{oppMove}”弄懵了，这回合毫无反应",
+    "“{oppMove}”的威力还没散，{actor}动都动不了"
   ],
   "skip.skipFirstTurn": [
-    "{actor}嘅弱點「{weakness}」發作，第一回合仲未開機 😴",
-    "{actor}未醒！「{weakness}」，乜都做唔到",
-    "「{weakness}」！{actor}仲未瞓醒，第一回合直接跳過 😴",
-    "{actor}未開機，「{weakness}」害佢遲咗出場",
-    "第一回合，{actor}仲喺床上同「{weakness}」搏鬥"
+    "{actor}的弱点“{weakness}”发作，第一回合还没开机 😴",
+    "{actor}还没醒！“{weakness}”，什么都干不了",
+    "“{weakness}”！{actor}还没睡醒，第一回合直接跳过 😴",
+    "{actor}还没开机，“{weakness}”害他出场晚了",
+    "第一回合，{actor}还在床上和“{weakness}”搏斗"
   ],
   "skip.distracted": [
-    "「{weakness}」發作！{actor}突然分心，呢回合冇出手",
-    "{actor}一諗起「{weakness}」，即刻失魂",
-    "「{weakness}」！{actor}突然拎起手機，完全唔記得要打",
-    "{actor}嘅心思飛咗去「{weakness}」，呢回合放空",
-    "「{weakness}」又嚟！{actor}望住遠方發呆"
+    "“{weakness}”发作！{actor}突然走神，这回合没出手",
+    "{actor}一想起“{weakness}”，立刻魂不守舍",
+    "“{weakness}”！{actor}突然拿起手机，完全忘了要打",
+    "{actor}的心思飞到了“{weakness}”上，这回合放空",
+    "“{weakness}”又来了！{actor}望着远方发呆"
   ],
 
   "move.heal": [
-    "{actor}使出「{move}」，回復{heal}點體力 ✨",
-    "「{move}」！{actor}唞返啖氣，+{heal}",
-    "{actor}用「{move}」叉滿電，+{heal} 🔋",
-    "「{move}」！{actor}深呼吸一啖，回復{heal}點",
-    "{actor}靜靜雞「{move}」，體力 +{heal}"
+    "{actor}使出“{move}”，回复{heal}点体力 ✨",
+    "“{move}”！{actor}喘了口气，+{heal}",
+    "{actor}用“{move}”充满电，+{heal} 🔋",
+    "“{move}”！{actor}深呼吸一口，回复{heal}点",
+    "{actor}悄悄来了个“{move}”，体力 +{heal}"
   ],
   "move.healFull": [
-    "{actor}使出「{move}」……但係體力本身已經滿晒，嘥咗 😂",
-    "{actor}使出「{move}」……體力已經滿晒，完全浪費 🙃",
-    "「{move}」！不過{actor}根本唔使補，白做 😂",
-    "{actor}對住滿血嘅自己用「{move}」，全場靜晒",
-    "「{move}」用咗等於冇用，{actor}體力早就滿晒"
+    "{actor}使出“{move}”……但体力本来就是满的，浪费了 😂",
+    "{actor}使出“{move}”……体力早就满了，完全白费 🙃",
+    "“{move}”！不过{actor}根本不用补，白忙一场 😂",
+    "{actor}对着满血的自己用了“{move}”，全场安静",
+    "“{move}”用了等于没用，{actor}体力早就满了"
   ],
   "move.gambleHeal.ok": [
-    "{actor}使出「{move}」……居然真係兌現！+{heal} 🎉",
-    "奇蹟！「{move}」成功，{actor}回復{heal}點",
-    "「{move}」今次竟然講得出做得到！{actor}+{heal} 😮",
-    "冇人估到！{actor}嘅「{move}」真係兌現，回復{heal}點",
-    "「{move}」成功咗一次，{actor}+{heal}，大家都唔信"
+    "{actor}使出“{move}”……居然真的兑现了！+{heal} 🎉",
+    "奇迹！“{move}”成功，{actor}回复{heal}点",
+    "“{move}”这次居然说到做到！{actor}+{heal} 😮",
+    "谁都没想到！{actor}的“{move}”真的兑现了，回复{heal}点",
+    "“{move}”成功了一次，{actor}+{heal}，大家都不敢相信"
   ],
   "move.gambleHeal.fail": [
-    "{actor}使出「{move}」！……冇人信，效果係 0",
-    "「{move}」？{opponent}已經聽咗一百次，完全冇效",
-    "{actor}：「{move}」！全場：「信你就有鬼」，效果 0",
-    "「{move}」講咗第一百次，{opponent}連眼都唔眨",
-    "{actor}嘅「{move}」再次食言，乜都冇發生 🙄"
+    "{actor}使出“{move}”！……没人信，效果为 0",
+    "“{move}”？{opponent}已经听了一百遍，完全无效",
+    "{actor}：“{move}”！全场：“信你才有鬼”，效果为 0",
+    "“{move}”说到第一百遍了，{opponent}眼睛都不眨一下",
+    "{actor}的“{move}”再次食言，什么都没发生 🙄"
   ],
   "move.nextMiss": [
-    "{actor}使出「{move}」！{opponent}下一下一定撲空",
-    "「{move}」！{actor}突然喺{opponent}眼前消失",
-    "{actor}使出「{move}」，{opponent}下一下肯定撲空 👻",
-    "「{move}」！{actor}一閃，{opponent}搵都搵唔到",
-    "{actor}用「{move}」消失咗，{opponent}得個桔"
+    "{actor}使出“{move}”！{opponent}下一下一定扑空",
+    "“{move}”！{actor}突然在{opponent}眼前消失",
+    "{actor}使出“{move}”，{opponent}下一下肯定扑空 👻",
+    "“{move}”！{actor}一闪，{opponent}怎么找都找不到",
+    "{actor}用“{move}”消失了，{opponent}扑了个空"
   ],
   "move.stun": [
-    "{actor}使出「{move}」！{opponent}呆咗，下一回合郁唔到",
-    "「{move}」！{opponent}等到傻咗",
-    "「{move}」！{opponent}當堂定格，郁唔到",
-    "{actor}使出「{move}」，{opponent}要等到天荒地老 ⏳",
-    "{opponent}被「{move}」搞到原地石化"
+    "{actor}使出“{move}”！{opponent}呆住了，下一回合动不了",
+    "“{move}”！{opponent}等到傻眼",
+    "“{move}”！{opponent}当场定格，动弹不得",
+    "{actor}使出“{move}”，{opponent}要等到天荒地老 ⏳",
+    "{opponent}被“{move}”弄得原地石化"
   ],
   "move.delayedStrike": [
-    "{actor}使出「{move}」……講完之後就冇下文",
-    "{actor}：「{move}」！大家都唔信佢會跟進",
-    "{actor}：「{move}」！……然後就冇然後",
-    "「{move}」講咗出口，幾時兌現就冇人知",
-    "{actor}放低一句「{move}」，大家都當耳邊風"
+    "{actor}使出“{move}”……说完之后就没下文了",
+    "{actor}：“{move}”！大家都不信他会跟进",
+    "{actor}：“{move}”！……然后就没有然后了",
+    "“{move}”已经说出口，什么时候兑现没人知道",
+    "{actor}撂下一句“{move}”，大家都当耳旁风"
   ],
   "move.strike": [
-    "{actor}使出必殺技「{move}」！",
-    "{actor}終於出絕招：「{move}」！",
-    "{actor}大叫一聲「{move}」，全場屏息！",
-    "必殺技「{move}」！{actor}今次認真喇",
-    "{actor}儲夠氣，轟出「{move}」！"
+    "{actor}使出必杀技“{move}”！",
+    "{actor}终于放大招：“{move}”！",
+    "{actor}大喊一声“{move}”，全场屏住呼吸！",
+    "必杀技“{move}”！{actor}这次认真了",
+    "{actor}蓄满力量，轰出“{move}”！"
   ],
 
   "trait.reflect": [
-    "{actor}發動「{trait}」，計返數俾{opponent}，反彈{dmg}點！",
-    "「{trait}」！{actor}寸返轉頭，{opponent} -{dmg}",
-    "「{trait}」！{actor}即刻寸返轉頭，{opponent} -{dmg}",
-    "{opponent}打落去，{actor}用「{trait}」原封不動還返，-{dmg}",
-    "{actor}嘅「{trait}」反彈成功，{opponent}自己食返 {dmg} 點"
+    "{actor}发动“{trait}”，跟{opponent}算总账，反弹{dmg}点！",
+    "“{trait}”！{actor}怼了回去，{opponent} -{dmg}",
+    "“{trait}”！{actor}当场怼回去，{opponent} -{dmg}",
+    "{opponent}一下打过来，{actor}用“{trait}”原封不动还回去，-{dmg}",
+    "{actor}的“{trait}”反弹成功，{opponent}自己吃了{dmg}点"
   ],
   "trait.regen": [
-    "{actor}趁冇人留意，靜靜雞補返{heal}點",
-    "「{trait}」又嚟！{actor}+{heal}，大家都習慣咗",
-    "「{trait}」！{actor}偷偷回復咗{heal}點",
-    "{actor}發動「{trait}」，+{heal}",
-    "{actor}靠「{trait}」慢慢回氣，+{heal}"
+    "{actor}趁没人注意，悄悄补回{heal}点",
+    "“{trait}”又来了！{actor}+{heal}，大家都习惯了",
+    "“{trait}”！{actor}偷偷回复了{heal}点",
+    "{actor}发动“{trait}”，+{heal}",
+    "{actor}靠“{trait}”慢慢回血，+{heal}"
   ],
   "trait.surviveOnce": [
-    "{actor}本來已經倒低，但「{trait}」一出，又企返起身！",
-    "冇可能！{actor}用「{trait}」頂住，仲未死得！",
-    "差少少就倒低！{actor}靠「{trait}」死撐落去",
-    "「{trait}」救命！{actor}企返起身，仲未輸得！",
-    "全場以為完咗，點知{actor}用「{trait}」吊住最後一口氣"
+    "{actor}本来已经倒下，但“{trait}”一出，又站起来了！",
+    "不可能！{actor}用“{trait}”扛住了，还没倒下！",
+    "差一点就倒下！{actor}靠“{trait}”硬撑下去",
+    "“{trait}”救命！{actor}站了起来，还没输！",
+    "全场都以为结束了，没想到{actor}用“{trait}”吊着最后一口气"
   ],
 
   "end.ko": [
-    "{opponent}瞓低！{actor} KO 勝 🏆",
-    "KO！{opponent}被{actor}抽到無言以對",
-    "{opponent}頂唔順喇！{actor}贏 🏆",
-    "{opponent}被抽到冇晒聲，{actor} KO 勝出 🏆",
-    "完場！{actor}一招定勝負，{opponent}要認命啦"
+    "{opponent}倒下了！{actor} KO 获胜 🏆",
+    "KO！{opponent}被{actor}怼到无言以对",
+    "{opponent}扛不住了！{actor}赢了 🏆",
+    "{opponent}被怼到哑口无言，{actor} KO 获胜 🏆",
+    "比赛结束！{actor}一招定胜负，{opponent}认命吧"
   ],
   "end.points": [
-    "三個回合打完！{actor}剩低嘅體力多啲，勝出 🏆",
-    "計分結果：{actor}勝出，{opponent}認命啦！",
-    "{actor}贏！{opponent}準備好受罰 😏",
-    "三回合打完，{actor}險勝！{opponent}準備受罰 😏",
-    "計埋最後體力，{actor}贏少少，但贏就係贏 🏆"
+    "三个回合打完！{actor}剩下的体力更多，获胜 🏆",
+    "计分结果：{actor}获胜，{opponent}认命吧！",
+    "{actor}赢了！{opponent}准备好受罚 😏",
+    "三回合打完，{actor}险胜！{opponent}准备受罚 😏",
+    "算上最后的体力，{actor}赢了一点点，但赢就是赢 🏆"
   ],
   "end.draw": [
-    "打和！兩個一齊受罰 🤝",
-    "完全打和！{actor}同{opponent}一齊受罰",
-    "平手！{actor}同{opponent}一齊受罰，公平公正 🤝",
-    "打到最後竟然打和，兩個都要做懲罰 😂",
-    "勢均力敵！{actor}同{opponent}一齊認衰"
+    "平局！两个人一起受罚 🤝",
+    "完全打平！{actor}和{opponent}一起受罚",
+    "平手！{actor}和{opponent}一起受罚，公平公正 🤝",
+    "打到最后居然是平局，两个人都要接受惩罚 😂",
+    "势均力敌！{actor}和{opponent}一起认栽"
   ]
 }
