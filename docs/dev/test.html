@@ -54,6 +54,10 @@
   <h2>Battle · commentary checks (3000 battles, both languages)</h2>
   <div id="talkcheck"></div>
 
+  <h2>Plan battle (rules v3) · checks and balance</h2>
+  <p>Random cards, random valid plans (at most one special). Win rate counts a draw as half a win; outside 40–60% is marked ⚠️.</p>
+  <div id="planbalance"></div>
+
   <h2>Battle · balance (random cards)</h2>
   <p>Win rate counts a draw as half a win. Cells outside 40–60% are marked ⚠️.</p>
   <div id="balance"></div>
@@ -405,6 +409,60 @@
     const groups = Object.entries(tally).map(([group, rowsOf]) => `<h3 style="font-size:15px;margin:12px 0 4px">${esc(group)}</h3><table><tr><th>Value</th><th>Battles</th><th>Win rate</th></tr>${Object.entries(rowsOf).sort().map(([k, v]) => `<tr><td>${esc(k)}</td><td>${v.n}</td><td>${pctCell(v.w / v.n)}</td></tr>`).join('')}</table>`).join('');
     const ends = Object.entries(reasons).map(([k, v]) => `<tr><td>${k}</td><td>${(v / N * 100).toFixed(1)}%</td></tr>`).join('');
     document.getElementById('balance').innerHTML = `<p>${N} battles. How battles end:</p><table>${ends}</table>${groups}<p>Type advantage is meant to sit above 60% — that's the ×1.5 matchup working.</p>`;
+    // Plan battle (rules v3).
+    {
+      const { simulatePlanBattle, isPlanValid, ACTIONS } = await import('../js/battle.js');
+      const rules = config.planBattle;
+      const plans = [];
+      const build = (p) => (p.length === rules.rounds ? plans.push(p) : ACTIONS.forEach((a) => build([...p, a])));
+      build([]);
+      const valid = plans.filter((p) => isPlanValid(p, rules));
+      const pfight = (a, b, pa, pb, seed) => simulatePlanBattle({ cards: [a, b], plans: [pa, pb], seed }, bdata);
+      const pgen = createRng('plan-balance');
+      const pPick = (list) => list[Math.floor(pgen() * list.length)];
+      // Same inputs → same battle; invalid plans rejected.
+      const sample = Array.from({ length: 200 }, (_, i) => [randomCard(), randomCard(), pPick(valid), pPick(valid), `p${i}`]);
+      const same = sample.every((s) => JSON.stringify(pfight(...s)) === JSON.stringify(pfight(...s)));
+      const rejects = [['special', 'special', 'attack'], ['attack', 'defend'], ['attack', 'jump', 'defend'], null].every((p) => !isPlanValid(p, rules));
+      const ptally = {};
+      const padd = (group, key, score) => {
+        ptally[group] ??= {};
+        ptally[group][key] ??= { n: 0, w: 0 };
+        ptally[group][key].n += 1;
+        ptally[group][key].w += score;
+      };
+      const pends = { ko: 0, points: 0, draw: 0 };
+      const roundOutcome = {};
+      const PN = 12000;
+      for (let i = 0; i < PN; i++) {
+        const cards = [randomCard(), randomCard()];
+        const pl = [pPick(valid), pPick(valid)];
+        const r = pfight(cards[0], cards[1], pl[0], pl[1], `pb${i}`);
+        pends[r.reason] += 1;
+        for (const e of r.events) if (['block', 'interrupt', 'standoff'].includes(e.t)) roundOutcome[e.t] = (roundOutcome[e.t] ?? 0) + 1;
+        for (const side of [0, 1]) {
+          const c = cards[side];
+          const o = cards[1 - side];
+          const score = r.winner === null ? 0.5 : (r.winner === side ? 1 : 0);
+          padd('Side', side === 0 ? 'A (challenger)' : 'B', score);
+          padd('Plan', pl[side].map((a) => ({ attack: '⚔️', defend: '🛡️', special: '💥' })[a]).join(''), score);
+          padd('Specials in plan', String(pl[side].filter((a) => a === 'special').length), score);
+          padd('Type', c.type, score);
+          for (const kind of ['move', 'trait', 'weakness']) padd(kind, c[kind].id, score);
+          if (types.beats[c.type] === o.type) padd('Matchup', 'has type advantage', score);
+          else if (types.beats[o.type] === c.type) padd('Matchup', 'has type disadvantage', score);
+          else padd('Matchup', 'neutral', score);
+        }
+      }
+      const cell = (v) => `${(v * 100).toFixed(1)}%${v < 0.4 || v > 0.6 ? ' ⚠️' : ''}`;
+      const tables = Object.entries(ptally).map(([group, rowsOf]) => `<h3 style="font-size:15px;margin:12px 0 4px">${esc(group)}</h3><table><tr><th>Value</th><th>Battles</th><th>Win rate</th></tr>${Object.entries(rowsOf).sort((x, y) => y[1].w / y[1].n - x[1].w / x[1].n).map(([k, v]) => `<tr><td>${esc(k)}</td><td>${v.n}</td><td>${cell(v.w / v.n)}</td></tr>`).join('')}</table>`).join('');
+      document.getElementById('planbalance').innerHTML = `<table>
+        <tr><td>Same inputs → same plan battle (200 battles)</td><td>${same ? '✅' : '❌'}</td></tr>
+        <tr><td>Invalid plans rejected (two specials, wrong length, unknown action)</td><td>${rejects ? '✅' : '❌'}</td></tr>
+        <tr><td>${valid.length} valid plans</td><td>${valid.length === 20 ? '✅' : '❌'}</td></tr></table>
+        <p>${PN} battles. Ends: ${Object.entries(pends).map(([k, v]) => `${k} ${(v / PN * 100).toFixed(1)}%`).join(' · ')}. Per battle: ${Object.entries(roundOutcome).map(([k, v]) => `${k} ${(v / PN).toFixed(2)}`).join(' · ')}</p>${tables}`;
+    }
+
     document.title = `Dev tests · ${t('app.name')}`;
   </script>
 </body>

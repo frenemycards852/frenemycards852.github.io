@@ -57,6 +57,28 @@
       "comic": { "introMs": 1100, "panelMs": 850, "lineMs": 300, "finishMs": 1800, "freezeMs": 450, "ultCutinMs": 1000, "ultChargeMs": 600, "ultPanelMs": 1400 }
     }
   },
+  "planBattle": {
+    "note": "Rules v3 (battle.js → simulatePlanBattle): each player plans attack / defend / special per round. block = attack into a defend (taken: damage share the defender takes; counter: strength of the strike back). interrupt = attack into a special (multiplier on that attack). pierce = damaging special into a defend. special: multiplier on strike / delayed moves, heal: multiplier on heal amounts (healing past full Stamina becomes a shield), lightHit: hit that comes with stun / vanish moves. traitTweaks: rules-v3-only changes to trait and weakness strength (effects.json stays as it is for older replays).",
+    "version": 3,
+    "rounds": 3,
+    "specialMax": 1,
+    "hpBase": 50,
+    "hpScale": 1,
+    "attackBase": 15,
+    "attackScale": 0.22,
+    "defenseReduce": 0.18,
+    "minDamage": 1,
+    "randomRange": [0.85, 1.15],
+    "typeMultiplier": 1.2,
+    "firstStrikeBonus": 1.15,
+    "crit": { "base": 0.05, "lukScale": 0.003, "multiplier": 1.6 },
+    "dodge": { "base": 0.03, "lukScale": 0.002 },
+    "block": { "taken": 0.15, "counter": 1.1 },
+    "interrupt": { "multiplier": 1.1 },
+    "pierce": { "multiplier": 1.0 },
+    "special": { "multiplier": 1.4, "heal": 1.9, "lightHit": 0.8 },
+    "traitTweaks": { "regen": 0.7, "surviveTaken": 0.8, "skipFirstTurn": 0.6, "distracted": 0.75 }
+  },
   "rarity": {
     "order": ["N", "R", "SR", "SSR"],
     "odds": { "N": 50, "R": 30, "SR": 15, "SSR": 5 },
