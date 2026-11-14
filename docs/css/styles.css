@@ -3724,3 +3724,56 @@ h1 {
 .plan-note {
   margin: 4px 0 0;
 }
+
+/* Plan battles (comicbattle.js): each round both picks flip up over the fighters. */
+.plan-reveal {
+  position: absolute;
+  top: 8%;
+  z-index: 4;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  width: 30%;
+  padding: 10px 6px;
+  border: 3px solid var(--border);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 5px 0 var(--border);
+  text-align: center;
+  animation: plan-flip 0.45s cubic-bezier(0.2, 1.4, 0.4, 1) backwards;
+}
+
+.plan-reveal.at-0 { left: 6%; }
+.plan-reveal.at-1 { right: 6%; animation-delay: 0.15s; }
+.plan-reveal.attack { background: #ffe0d6; }
+.plan-reveal.defend { background: #dceaff; }
+.plan-reveal.special { background: #fff1b8; }
+
+.plan-reveal-icon {
+  font-size: clamp(28px, 9vw, 40px);
+  line-height: 1;
+}
+
+.plan-reveal-name {
+  font-size: clamp(12px, 3.6vw, 15px);
+  font-weight: 900;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+@keyframes plan-flip {
+  from { opacity: 0; transform: perspective(400px) rotateY(90deg) scale(0.8); }
+  to { opacity: 1; transform: none; }
+}
+
+/* An interrupted special: its name crossed out. */
+.comic-bubble.cancelled span {
+  text-decoration: line-through 3px #e0261c;
+  opacity: 0.75;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plan-reveal {
+    animation: none;
+  }
+}

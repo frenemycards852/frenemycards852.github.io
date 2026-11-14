@@ -316,6 +316,13 @@
     "timeUp": "⏰ Time's up!",
     "winStamp": "WINNER!",
     "loseStamp": "LOSE",
+    "standoff": "😐 Awkward staring contest…",
+    "block": "🛡️ Blocked!",
+    "counter": "↩️ Counter!",
+    "interrupt": "✋ Cut off!",
+    "pierce": "💥 Smashed through!",
+    "shield": "🛡️ Shield +{n}",
+    "shielded": "🛡️ Shield took {n}",
     "move": {
       "nextMiss": "👻 Vanished",
       "stun": "😵 Frozen!",

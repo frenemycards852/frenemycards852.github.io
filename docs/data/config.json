@@ -54,7 +54,7 @@
     "healMoveBelow": 0.7,
     "pace": {
       "lineMs": 1200, "roundMs": 700, "endMs": 900,
-      "comic": { "introMs": 1100, "panelMs": 850, "lineMs": 300, "finishMs": 1800, "freezeMs": 450, "ultCutinMs": 1000, "ultChargeMs": 600, "ultPanelMs": 1400 }
+      "comic": { "introMs": 1100, "panelMs": 850, "lineMs": 300, "finishMs": 1800, "freezeMs": 450, "ultCutinMs": 1000, "ultChargeMs": 600, "ultPanelMs": 1400, "revealMs": 1300 }
     }
   },
   "planBattle": {

@@ -57,12 +57,16 @@ function posePath(types, card, pose) {
 }
 
 // Group battle events into panels: one per action, with its side effects folded in.
+// Plan battles (rules v3) add a reveal panel at the start of each round (both picks), a standoff
+// panel (both defend), and block / interrupt notes that ride on the hit that follows them.
 function buildPanels(events, said) {
   const panels = [];
   let current = null;
   let pendingRound = null;
+  let carry = { lines: [], interrupt: null }; // block / interrupt, shown with the next panel
   const start = (kind, e, i) => {
-    current = { kind, main: e, events: [e], lines: [...said[i]], round: null };
+    current = { kind, main: e, events: [e], lines: [...carry.lines, ...said[i]], round: null, interrupt: carry.interrupt };
+    carry = { lines: [], interrupt: null };
     if (pendingRound) {
       current.round = pendingRound.round;
       current.lines.unshift(...pendingRound.lines);
@@ -76,7 +80,22 @@ function buildPanels(events, said) {
         start('intro', e, i);
         break;
       case 'round':
-        pendingRound = { round: e.round, lines: said[i] };
+        if (e.plan) {
+          start('reveal', e, i);
+          current.round = e.round;
+        } else {
+          pendingRound = { round: e.round, lines: said[i] };
+        }
+        break;
+      case 'standoff':
+        start('standoff', e, i);
+        break;
+      case 'block':
+        carry.lines.push(...said[i]);
+        break;
+      case 'interrupt':
+        carry.lines.push(...said[i]);
+        carry.interrupt = e;
         break;
       case 'move':
         start('move', e, i);
@@ -369,6 +388,20 @@ export async function showComicBattle(container, match, data, {
       setPose(0, null, 'enter');
       setPose(1, null, 'enter');
       art('vs', t('battle.vs'));
+    } else if (panel.kind === 'reveal') {
+      // Both picks for this round flip up over the fighters.
+      setPose(0, null, 'power');
+      setPose(1, null, 'power');
+      for (const side of [0, 1]) {
+        const pick = e.plan[side];
+        const card = el('div', `plan-reveal ${pick} at-${side}`);
+        card.append(el('span', 'plan-reveal-icon', t(`plan.icon.${pick}`)), el('span', 'plan-reveal-name', pick === 'special' ? skillName(side, 'move') : t(`plan.${pick}`)));
+        fx.append(card);
+      }
+    } else if (panel.kind === 'standoff') {
+      setPose(0, null, 'power');
+      setPose(1, null, 'power');
+      banner(t('comic.standoff'));
     } else if (panel.kind === 'attack') {
       const a = e.side;
       const d = 1 - a;
@@ -387,8 +420,17 @@ export async function showComicBattle(container, match, data, {
         if (e.crit) { tag(t('comic.crit'), 'hot'); scene += ' crit'; shake(); }
         if (e.effective) tag(t('comic.super'), 'hot');
         if (e.saved) tag(t('comic.survive'));
+        if (e.shielded) tag(t('comic.shielded', { n: e.shielded }), 'heal');
       }
-      bubble(a, e.via === 'normal' ? shout(a, index) : skillName(a, 'move'));
+      // Plan battles: how this hit came about.
+      if (panel.interrupt) {
+        tag(t('comic.interrupt'), 'hot');
+        bubble(d, skillName(d, 'move'), 'say cancelled'); // the special they were about to use, crossed out
+      }
+      if (e.blocked) tag(t('comic.block'));
+      if (e.via === 'counter') tag(t('comic.counter'), 'hot');
+      if (e.pierce) tag(t('comic.pierce'), 'hot');
+      bubble(a, e.via === 'normal' || e.via === 'counter' ? shout(a, index) : skillName(a, 'move'));
     } else if (panel.kind === 'move') {
       const a = e.side;
       setPose(a, 'attack', 'power');
@@ -396,7 +438,11 @@ export async function showComicBattle(container, match, data, {
       setPose(1 - a, null, '');
       bubble(a, skillName(a, 'move'));
       const healed = e.kind === 'heal' || (e.kind === 'gambleHeal' && e.ok);
-      if (healed && e.heal === 0) burst(a, t('comic.move.full'), 'small'); // already at full HP
+      if (e.pierce) tag(t('comic.pierce'), 'hot');
+      // Plan battles: healing past full Stamina became a shield.
+      if (healed && e.shield > 0) tag(t('comic.shield', { n: e.shield }), 'heal');
+      if (healed && e.heal === 0 && e.shield > 0) burst(a, t('comic.shield', { n: e.shield }), 'heal');
+      else if (healed && e.heal === 0) burst(a, t('comic.move.full'), 'small'); // already at full HP
       else if (healed) burst(a, t('comic.heal', { n: e.heal }), 'heal');
       else burst(a, t(`comic.move.${e.kind === 'gambleHeal' ? 'fail' : e.kind}`), 'small');
     } else if (panel.kind === 'skip') {
@@ -470,6 +516,7 @@ export async function showComicBattle(container, match, data, {
     if (ult) setTimeout(ultEnd, 450);
     let ms = pace.panelMs + pace.lineMs * Math.max(0, panel.lines.length - 1);
     if (panel.kind === 'intro') ms = pace.introMs;
+    if (panel.kind === 'reveal') ms = pace.revealMs ?? pace.introMs;
     if (panel.kind === 'finish') ms = pace.finishMs;
     if (ult) ms = Math.max(ms, pace.ultPanelMs ?? ms); // the signature move lingers
     await sleep(ms);

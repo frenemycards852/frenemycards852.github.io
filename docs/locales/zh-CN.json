@@ -316,6 +316,13 @@
     "timeUp": "⏰ 时间到！",
     "winStamp": "WINNER!",
     "loseStamp": "LOSE",
+    "standoff": "😐 互相干瞪眼……",
+    "block": "🛡️ 挡住！",
+    "counter": "↩️ 反击！",
+    "interrupt": "✋ 打断！",
+    "pierce": "💥 贯穿！",
+    "shield": "🛡️ 护盾 +{n}",
+    "shielded": "🛡️ 护盾挡下 {n}",
     "move": {
       "nextMiss": "👻 消失了",
       "stun": "😵 定住了！",
