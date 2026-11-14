@@ -25,6 +25,7 @@
   "myCards": {
     "max": 100
   },
+  "choices": { "note": "Long lists (skills, descriptions, penalties) show this many at a time, with a Show others button.", "shown": 5 },
   "siteUrl": "frenemycards852.github.io",
   "newYear": { "note": "Festive theme while the New Year characters are open (types.json → zodiac.from/to). theme: false turns it off.", "theme": true, "themeColor": "#fbe3d6", "decor": { "petals": 10, "firecrackers": 5 }, "fan": { "front": "goat", "left": "horse", "right": "monkey" } },
   "cardLayout": {

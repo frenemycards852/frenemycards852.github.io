@@ -340,6 +340,9 @@
     "rat": "Rat", "ox": "Ox", "tiger": "Tiger", "rabbit": "Rabbit", "dragon": "Dragon", "snake": "Snake",
     "horse": "Horse", "goat": "Goat", "monkey": "Monkey", "rooster": "Rooster", "dog": "Dog", "pig": "Pig"
   },
+  "choices": {
+    "more": "🔄 Show others"
+  },
   "nav": {
     "back": "Back to home"
   },

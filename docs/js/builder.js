@@ -5,7 +5,7 @@ import { loadJSON } from './data.js';
 import {
   SKILL_KINDS, CUSTOM, createDraft, textLength, clipText, isBlocked, isTextOk,
   statTotal, isStatsValid, setStat, randomStats, pickOther, isSkillOk, isDescOk,
-  isGender, cardArt, cardScene, cardScenes, isSceneValid, toCard,
+  isGender, cardArt, cardScene, cardScenes, isSceneValid, toCard, sampleIds,
 } from './card.js';
 import { rollRarity } from './rarity.js';
 import { showReveal } from './reveal.js';
@@ -29,11 +29,13 @@ let data = null;
 let mountToken = 0;
 let pendingName = null; // name to pre-fill on the next new card (e.g. "strike back")
 let pendingReturn = null; // challenge link to go back to after making a card on the spot
+let shown = {}; // which few choices each list shows right now (skills, description), per new card
 
 // Start a fresh card next time the builder opens, optionally with a name filled in.
 // returnTo: a challenge link (#x=...) to answer with the new card.
 export function startNewCard(name = '', returnTo = null) {
   draft = null;
+  shown = {};
   pendingName = name;
   pendingReturn = returnTo;
 }
@@ -206,6 +208,31 @@ function option({ name, value, checked, title, icon, desc, color, onPick }) {
 }
 
 const reminder = () => h('p', { class: 'reminder', text: t('builder.reminder') });
+
+// A long list shows only a few choices (config.json → choices.shown) plus "✏️ write your own";
+// "🔄 Show others" swaps in a new batch. The current pick always stays in the batch.
+// Returns [list, button] (button is null when everything fits).
+function shortList(key, ids, currentId, makeOption, makeCustom) {
+  const n = data.config.choices?.shown ?? ids.length;
+  const keep = currentId();
+  const now = shown[key];
+  if (!now || now.some((id) => !ids.includes(id)) || (ids.includes(keep) && !now.includes(keep))) {
+    shown[key] = sampleIds(ids, n, { keep });
+  }
+  const list = h('div', { class: 'options', role: 'radiogroup' });
+  const fill = () => list.replaceChildren(...shown[key].map(makeOption), makeCustom());
+  fill();
+  const more = ids.length > n
+    ? h('button', {
+      type: 'button', class: 'btn btn-secondary btn-more', text: t('choices.more'),
+      onclick: () => {
+        shown[key] = sampleIds(ids, n, { keep: currentId(), avoid: shown[key] });
+        fill();
+      },
+    })
+    : null;
+  return [list, more];
+}
 
 // Card illustration for the draft's type + a gender, or a placeholder if not drawn yet.
 function artEl(gender, className, scene = 0) {
@@ -404,17 +431,20 @@ const VIEWS = {
         custom.hidden = id !== CUSTOM;
         refresh();
       };
-      const options = data.skills[kind].map((skill) => option({
-        name: kind, value: skill.id, checked: entry.id === skill.id,
-        title: skill.name, desc: skill.desc, onPick: () => pick(skill.id),
-      }));
-      options.push(option({
-        name: kind, value: CUSTOM, checked: entry.id === CUSTOM,
-        title: t('builder.custom.option'), onPick: () => pick(CUSTOM),
-      }));
+      const byId = new Map(data.skills[kind].map((skill) => [skill.id, skill]));
+      const [list, more] = shortList(kind, [...byId.keys()], () => entry.id,
+        (id) => option({
+          name: kind, value: id, checked: entry.id === id,
+          title: byId.get(id).name, desc: byId.get(id).desc, onPick: () => pick(id),
+        }),
+        () => option({
+          name: kind, value: CUSTOM, checked: entry.id === CUSTOM,
+          title: t('builder.custom.option'), onPick: () => pick(CUSTOM),
+        }));
       return h('fieldset', { class: 'group' },
         h('legend', { text: t(`builder.skills.${kind}`) }),
-        h('div', { class: 'options', role: 'radiogroup' }, ...options),
+        list,
+        more,
         custom);
     });
     return {
@@ -441,17 +471,19 @@ const VIEWS = {
       custom.hidden = id !== CUSTOM;
       refresh();
     };
-    const options = data.descriptions.items.map((item) => option({
-      name: 'desc', value: item.id, checked: entry.id === item.id,
-      title: item.text, onPick: () => pick(item.id),
-    }));
-    options.push(option({
-      name: 'desc', value: CUSTOM, checked: entry.id === CUSTOM,
-      title: t('builder.custom.option'), onPick: () => pick(CUSTOM),
-    }));
-    const ids = data.descriptions.items.map((item) => item.id);
+    const byId = new Map(data.descriptions.items.map((item) => [item.id, item]));
+    const ids = [...byId.keys()];
+    const [list, more] = shortList('desc', ids, () => entry.id,
+      (id) => option({
+        name: 'desc', value: id, checked: entry.id === id,
+        title: byId.get(id).text, onPick: () => pick(id),
+      }),
+      () => option({
+        name: 'desc', value: CUSTOM, checked: entry.id === CUSTOM,
+        title: t('builder.custom.option'), onPick: () => pick(CUSTOM),
+      }));
     return {
-      body: h('div', {}, h('div', { class: 'options', role: 'radiogroup' }, ...options), custom),
+      body: h('div', {}, list, more, custom),
       random: () => { entry.id = pickOther(ids, entry.id); },
     };
   },

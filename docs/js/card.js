@@ -188,6 +188,25 @@ export function pickOther(ids, current, rand = Math.random) {
   return choices[Math.floor(rand() * choices.length)];
 }
 
+// A short list of choices to show (config.json → choices.shown): always includes `keep` (the current
+// pick) when it is in the list, prefers ids not in `avoid` (the batch shown before), keeps list order.
+export function sampleIds(ids, n, { keep = null, avoid = [] } = {}, rand = Math.random) {
+  if (ids.length <= n) return [...ids];
+  const shuffle = (list) => {
+    const a = [...list];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(rand() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+  const kept = ids.includes(keep) ? [keep] : [];
+  const rest = ids.filter((id) => id !== keep);
+  const picked = [...kept, ...shuffle(rest.filter((id) => !avoid.includes(id))), ...shuffle(rest.filter((id) => avoid.includes(id)))]
+    .slice(0, n);
+  return ids.filter((id) => picked.includes(id));
+}
+
 export function isSkillOk(entry, terms) {
   if (entry.id !== CUSTOM) return true;
   return isTextOk(entry.name, terms) && !isBlocked(entry.desc, terms);

@@ -3582,3 +3582,13 @@ h1 {
   bottom: 24px;
   text-align: center;
 }
+
+/* "Show others" under a short list of choices (builder skills / description, challenge penalties). */
+.btn-more {
+  width: 100%;
+  min-height: var(--tap);
+  margin-top: 10px;
+  padding: 8px 16px;
+  border-style: dashed;
+  font-size: 15px;
+}

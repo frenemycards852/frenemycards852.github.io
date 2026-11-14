@@ -3,7 +3,7 @@
 
 import { t } from './i18n.js';
 import { loadCardData } from './carddata.js';
-import { CUSTOM, clipText, textLength, isBlocked } from './card.js';
+import { CUSTOM, clipText, textLength, isBlocked, sampleIds } from './card.js';
 import { TACTICS } from './battle.js';
 import { randomSeed } from './rng.js';
 import { isPenaltyValid, penaltyText } from './challenge-model.js';
@@ -111,14 +111,34 @@ function showSetup(container, data, items, token) {
   const penaltyBox = group(t('challenge.penalty'));
   const options = el('div', 'options');
   const max = data.config.challenge.penaltyMax;
-  for (const item of data.penalties.items) {
-    const { label, input } = radio('penalty', item.id, state.penalty.id === item.id, `${item.emoji} ${item.text}`);
-    input.addEventListener('change', () => { state.penalty.id = item.id; update(); });
-    options.append(label);
+  // Only a few penalties at a time (config.json → choices.shown); "🔄 Show others" swaps the batch.
+  const byId = new Map(data.penalties.items.map((item) => [item.id, item]));
+  const ids = [...byId.keys()];
+  const shownMax = data.config.choices?.shown ?? ids.length;
+  const now = state.shownPenalties;
+  if (!now || now.some((id) => !ids.includes(id)) || (ids.includes(state.penalty.id) && !now.includes(state.penalty.id))) {
+    state.shownPenalties = sampleIds(ids, shownMax, { keep: state.penalty.id });
   }
   const custom = radio('penalty', CUSTOM, state.penalty.id === CUSTOM, t('challenge.customPenalty'));
   custom.input.addEventListener('change', () => { state.penalty.id = CUSTOM; update(); textInput.focus(); });
-  options.append(custom.label);
+  const fillPenalties = () => {
+    options.replaceChildren(...state.shownPenalties.map((id) => {
+      const item = byId.get(id);
+      const { label, input } = radio('penalty', id, state.penalty.id === id, `${item.emoji} ${item.text}`);
+      input.addEventListener('change', () => { state.penalty.id = id; update(); });
+      return label;
+    }), custom.label);
+  };
+  fillPenalties();
+  let morePenalties = null;
+  if (ids.length > shownMax) {
+    morePenalties = el('button', 'btn btn-secondary btn-more', t('choices.more'));
+    morePenalties.type = 'button';
+    morePenalties.addEventListener('click', () => {
+      state.shownPenalties = sampleIds(ids, shownMax, { keep: state.penalty.id, avoid: state.shownPenalties });
+      fillPenalties();
+    });
+  }
   const customFields = el('div', 'custom-fields');
   const fieldHead = el('div', 'field-head');
   const inputLabel = el('label', null, t('challenge.customLabel'));
@@ -136,7 +156,7 @@ function showSetup(container, data, items, token) {
     update();
   });
   customFields.append(fieldHead, textInput, error);
-  penaltyBox.append(options, customFields);
+  penaltyBox.append(...[options, morePenalties, customFields].filter(Boolean));
 
   // 3. Tactic (hidden from the opponent)
   const tacticBox = group(t('challenge.tactic'), t('challenge.tacticHint'));
