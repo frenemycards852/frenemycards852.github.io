@@ -447,6 +447,11 @@
       const sample = Array.from({ length: 200 }, (_, i) => [randomCard(), randomCard(), pPick(valid), pPick(valid), `p${i}`]);
       const same = sample.every((s) => JSON.stringify(pfight(...s)) === JSON.stringify(pfight(...s)));
       const rejects = [['special', 'special', 'attack'], ['attack', 'defend'], ['attack', 'jump', 'defend'], null].every((p) => !isPlanValid(p, rules));
+      // Older challenges: tactic → plan, valid and the same every time (chaos depends on the nonce only).
+      const { planFromTactic } = await import('../js/challenge-model.js');
+      const nonces = Array.from({ length: 50 }, (_, i) => `nonce${i}x`);
+      const converts = ['attack', 'defend', 'chaos'].every((tc) => nonces.every((n) => isPlanValid(planFromTactic(tc, n, rules), rules) && planFromTactic(tc, n, rules).join() === planFromTactic(tc, n, rules).join()));
+      const chaosVaries = new Set(nonces.map((n) => planFromTactic('chaos', n, rules).join())).size > 5;
       const ptally = {};
       const padd = (group, key, score) => {
         ptally[group] ??= {};
@@ -499,7 +504,8 @@
       document.getElementById('planbalance').innerHTML = `<table>
         <tr><td>Same inputs → same plan battle (200 battles)</td><td>${same ? '✅' : '❌'}</td></tr>
         <tr><td>Invalid plans rejected (two specials, wrong length, unknown action)</td><td>${rejects ? '✅' : '❌'}</td></tr>
-        <tr><td>${valid.length} valid plans</td><td>${valid.length === 20 ? '✅' : '❌'}</td></tr></table>
+        <tr><td>${valid.length} valid plans</td><td>${valid.length === 20 ? '✅' : '❌'}</td></tr>
+        <tr><td>Older challenges: tactic → valid plan, same every time; chaos varies by challenge</td><td>${converts && chaosVaries ? '✅' : '❌'}</td></tr></table>
         ${planTalkHtml}<p>${PN} battles. Ends: ${Object.entries(pends).map(([k, v]) => `${k} ${(v / PN * 100).toFixed(1)}%`).join(' · ')}. Per battle: ${Object.entries(roundOutcome).map(([k, v]) => `${k} ${(v / PN).toFixed(2)}`).join(' · ')}</p>${tables}`;
     }
 

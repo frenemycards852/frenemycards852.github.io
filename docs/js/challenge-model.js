@@ -1,6 +1,7 @@
 // Challenge rules: checks and display text for challenges. No DOM access.
 
-import { TACTICS, isPlanValid } from './battle.js';
+import { TACTICS, ACTIONS, isPlanValid } from './battle.js';
+import { hashString } from './rng.js';
 import { CUSTOM, isCardValid, isBlocked, textLength } from './card.js';
 import { cardKey } from './mycards.js';
 
@@ -52,4 +53,22 @@ export function penaltyText(penalty, penalties) {
   if (penalty.id === CUSTOM) return `${penalties.customEmoji} ${penalty.text.trim()}`;
   const item = penalties.items.find((x) => x.id === penalty.id);
   return item ? `${item.emoji} ${item.text}` : '';
+}
+
+// An older challenge (tactic, rules v2) answered with plan battles: the challenger's tactic becomes a
+// plan (config.json → planBattle.fromTactic); "chaos" gets one valid plan picked from the challenge's
+// nonce, so every phone converts it the same way.
+export function planFromTactic(tactic, nonce, rules) {
+  const fixed = rules.fromTactic?.[tactic];
+  if (fixed && isPlanValid(fixed, rules)) return [...fixed];
+  const plans = [];
+  const build = (plan) => {
+    if (plan.length === rules.rounds) {
+      if (isPlanValid(plan, rules)) plans.push(plan);
+      return;
+    }
+    for (const action of ACTIONS) build([...plan, action]);
+  };
+  build([]);
+  return plans[hashString(`plan|${nonce}`) % plans.length];
 }

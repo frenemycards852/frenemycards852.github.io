@@ -352,6 +352,7 @@
     "title": "Plan your 3 rounds",
     "hint": "They won't see your plan. It's revealed round by round 🤫",
     "hintAccept": "They've planned theirs too. All revealed once the fight starts 🤫",
+    "convertedHint": "This challenge was made with the old version, so their moves were planned for them. Your turn to plan. All revealed once the fight starts 🤫",
     "rules": "⚔️ breaks 💥 · 🛡️ blocks ⚔️ and hits back · 💥 smashes 🛡️",
     "round": "Round {n}",
     "attack": "Attack",

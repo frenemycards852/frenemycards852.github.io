@@ -6,7 +6,7 @@ import { t } from './i18n.js';
 import { loadCardData } from './carddata.js';
 import { TACTICS, isPlanValid } from './battle.js';
 import { decodeChallenge, CodecError } from './codec.js';
-import { isChallengeValid, penaltyText, battleSeed, strategyText } from './challenge-model.js';
+import { isChallengeValid, penaltyText, battleSeed, strategyText, planFromTactic } from './challenge-model.js';
 import { cardKey, withAlbumPhoto } from './mycards.js';
 import { cardPicker, myValidCards } from './mycards-view.js';
 import { renderCard } from './render-card.js';
@@ -73,6 +73,12 @@ export async function mountChallengeReceived(container, payload) {
   if (state?.payload !== payload) state = { payload, cardKey: null, tactic: 'chaos', plan: [...DEFAULT_PLAN], fought: false, locked: null };
   // Already fought on this phone: show that same fight again, no new picks.
   const locked = lockedFight(challenge.nonce);
+  // An older challenge (tactic) is answered with plan battles — unless this phone already fought it
+  // with a tactic, which keeps the older rules so the result never changes.
+  if (challenge.tactic && data.config.planBattle.enabled && !(locked && locked.tactic)) {
+    challenge = { ...challenge, plan: planFromTactic(challenge.tactic, challenge.nonce, data.config.planBattle), converted: true };
+    delete challenge.tactic;
+  }
   if (locked && isCardValid(locked.card, data)
     && (locked.plan ? isPlanValid(locked.plan, data.config.planBattle) : TACTICS.includes(locked.tactic))) {
     const reopened = !state.fought;
@@ -137,7 +143,7 @@ function showAccept(container, payload, challenge, items, data, isAlive) {
   // Your plan for the 3 rounds (plan challenges, rules v3) or your tactic (older challenges)
   let tacticBox;
   if (challenge.plan) {
-    planBox = planPicker({ plan: state.plan, rules: data.config.planBattle, hint: t('plan.hintAccept') });
+    planBox = planPicker({ plan: state.plan, rules: data.config.planBattle, hint: t(challenge.converted ? 'plan.convertedHint' : 'plan.hintAccept') });
     const chosen = items.find((item) => cardKey(item.card) === state.cardKey);
     if (chosen) planBox.setMoveName(moveName(chosen.card, data));
     tacticBox = planBox.el;
