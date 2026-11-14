@@ -59,6 +59,8 @@
   },
   "planBattle": {
     "note": "Rules v3 (battle.js → simulatePlanBattle): each player plans attack / defend / special per round. block = attack into a defend (taken: damage share the defender takes; counter: strength of the strike back). interrupt = attack into a special (multiplier on that attack). pierce = damaging special into a defend. special: multiplier on strike / delayed moves, heal: multiplier on heal amounts (healing past full Stamina becomes a shield), lightHit: hit that comes with stun / vanish moves. traitTweaks: rules-v3-only changes to trait and weakness strength (effects.json stays as it is for older replays).",
+    "enabled": false,
+    "enabledNote": "true = new challenges use plans (rules v3). Keep false until the battle screen and lines are ready. On a local test server add ?plans to the address to try it.",
     "version": 3,
     "rounds": 3,
     "specialMax": 1,

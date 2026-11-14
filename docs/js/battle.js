@@ -526,3 +526,8 @@ export function simulatePlanBattle({ cards, plans, seed }, { config, types, effe
     events,
   };
 }
+
+// Runs a match with the right rules: plan battle (rules v3) when the match has plans, else tactics (v2).
+export function fightMatch(match, data) {
+  return match.plans ? simulatePlanBattle(match, data) : simulateBattle(match, data);
+}

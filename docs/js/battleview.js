@@ -4,7 +4,7 @@
 
 import { t, getLang } from './i18n.js';
 import { loadJSON } from './data.js';
-import { simulateBattle } from './battle.js';
+import { fightMatch } from './battle.js';
 import { commentate } from './commentary.js';
 import { resolveSkill, SKILL_KINDS } from './card.js';
 import { renderThumb } from './mycards-view.js';
@@ -30,17 +30,24 @@ export async function loadBattleData() {
   return { effects, lines };
 }
 
-// match = { cards: [a, b], tactics: [ta, tb], seed, penalty, people: [nameA, nameB] }
+// match = { cards: [a, b], tactics: [ta, tb] | plans: [pa, pb], seed, penalty, people: [nameA, nameB] }
 export function runBattle(match, data) {
-  const result = simulateBattle(match, data);
+  const result = fightMatch(match, data);
   const ctx = {
     names: match.cards.map((c) => c.name),
     types: match.cards.map((c) => t(`types.${c.type}.name`)),
     typeIds: match.cards.map((c) => c.type),
     skills: match.cards.map((c) => Object.fromEntries(SKILL_KINDS.map((k) => [k, resolveSkill(c[k], data.skills[k]).name]))),
-    rounds: data.config.battle.rounds,
+    rounds: (match.plans ? data.config.planBattle : data.config.battle).rounds,
   };
   return { result, said: commentate(result, ctx, data.lines, match.seed) };
+}
+
+// How a side fights, for the screen: the plan as icons (e.g. ⚔️🛡️💥) or the tactic name.
+export function strategyLabel(match, side) {
+  return match.plans
+    ? match.plans[side].map((a) => t(`plan.icon.${a}`)).join('')
+    : t(`tactics.${match.tactics[side]}.name`);
 }
 
 // How each side is named on screen: "You" for the viewer, else the person's name (or "Them").
@@ -48,7 +55,7 @@ export function whoIs(match, viewer) {
   return (side) => (side === viewer ? t('battle.you') : (match.people[side] || t('battle.opponent')));
 }
 
-function fighterBox(card, who, tactic) {
+function fighterBox(card, who, strategy) {
   const box = el('div', 'fighter');
   const art = el('div', 'fighter-art');
   const hp = el('div', 'hp-bar');
@@ -60,7 +67,7 @@ function fighterBox(card, who, tactic) {
     el('p', 'fighter-who', who === card.name ? '' : who),
     hp,
     el('p', 'hp-text'),
-    el('p', 'fighter-tactic', t(`tactics.${tactic}.name`)),
+    el('p', 'fighter-tactic', strategy),
   );
   return box;
 }
@@ -74,7 +81,7 @@ export async function showBattle(container, match, data, {
   const pace = data.config.battle.pace;
   const who = whoIs(match, viewer);
 
-  const fighters = match.cards.map((card, side) => fighterBox(card, who(side), match.tactics[side]));
+  const fighters = match.cards.map((card, side) => fighterBox(card, who(side), strategyLabel(match, side)));
   const row = el('div', 'fighters');
   row.append(fighters[0], el('span', 'vs', t('battle.vs')), fighters[1]);
   const feed = el('ol', 'battle-feed');
@@ -182,11 +189,11 @@ export function resultSharePanel(match, result, data, { primary = true } = {}) {
   renderResult(canvas, match, result, texts, data).catch((err) => console.error(err));
   const replay = {
     cards: match.cards,
-    tactics: match.tactics,
+    ...(match.plans ? { plans: match.plans } : { tactics: match.tactics }),
     penalty: match.penalty,
     people: match.people,
     nonce: match.nonce,
-    rules: data.config.battle.version,
+    rules: (match.plans ? data.config.planBattle : data.config.battle).version,
   };
   const message = result.winner === null
     ? t('result.shareDraw')
@@ -222,7 +229,7 @@ export function showResult(box, match, result, data, { viewer, who, actions }) {
   const penalty = el('div', 'penalty-box');
   penalty.append(el('p', 'penalty-label', payLabel), el('p', 'penalty-text', penaltyText(match.penalty, data.penalties)));
   const tactics = el('p', 'result-tactics', match.cards
-    .map((card, side) => t(who(side) === card.name ? 'result.tacticOfCard' : 'result.tacticOf', { who: who(side), card: card.name, tactic: t(`tactics.${match.tactics[side]}.name`) }))
+    .map((card, side) => t(who(side) === card.name ? 'result.tacticOfCard' : 'result.tacticOf', { who: who(side), card: card.name, tactic: strategyLabel(match, side) }))
     .join(' · '));
   const score = el('p', 'result-score', match.cards
     .map((card, side) => `${card.name} ${result.hp[side]}/${result.maxHp[side]}`)

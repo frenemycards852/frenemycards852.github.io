@@ -4,15 +4,16 @@
 
 import { t } from './i18n.js';
 import { loadCardData } from './carddata.js';
-import { TACTICS } from './battle.js';
+import { TACTICS, isPlanValid } from './battle.js';
 import { decodeChallenge, CodecError } from './codec.js';
-import { isChallengeValid, penaltyText, battleSeed } from './challenge-model.js';
+import { isChallengeValid, penaltyText, battleSeed, strategyText } from './challenge-model.js';
 import { cardKey, withAlbumPhoto } from './mycards.js';
 import { cardPicker, myValidCards } from './mycards-view.js';
 import { renderCard } from './render-card.js';
 import { showError } from './cardview.js';
 import { startNewCard } from './builder.js';
-import { radio, group, startChallenge } from './challenge.js';
+import { radio, group, startChallenge, moveName } from './challenge.js';
+import { planPicker, DEFAULT_PLAN } from './planpicker.js';
 import { loadBattleData, showBattle, resultSharePanel } from './battleview.js';
 import { lockFight, lockedFight } from './matches.js';
 import { comicMode, showComicBattle } from './comicbattle.js';
@@ -69,10 +70,11 @@ export async function mountChallengeReceived(container, payload) {
   }
   if (token !== mountToken) return;
 
-  if (state?.payload !== payload) state = { payload, cardKey: null, tactic: 'chaos', fought: false, locked: null };
+  if (state?.payload !== payload) state = { payload, cardKey: null, tactic: 'chaos', plan: [...DEFAULT_PLAN], fought: false, locked: null };
   // Already fought on this phone: show that same fight again, no new picks.
   const locked = lockedFight(challenge.nonce);
-  if (locked && isCardValid(locked.card, data) && TACTICS.includes(locked.tactic)) {
+  if (locked && isCardValid(locked.card, data)
+    && (locked.plan ? isPlanValid(locked.plan, data.config.planBattle) : TACTICS.includes(locked.tactic))) {
     const reopened = !state.fought;
     state.fought = true;
     state.locked = locked;
@@ -112,6 +114,7 @@ function showAccept(container, payload, challenge, items, data, isAlive) {
   penalty.append(el('p', 'penalty-label', t('challenge.imageLoser')), el('p', 'penalty-text', penaltyText(challenge.penalty, data.penalties)));
 
   // Your card
+  let planBox = null; // plan picker (plan challenges), shows the picked card's signature move
   const pickBox = group(t('accept.pickCard'));
   const makeNew = el('a', 'btn btn-secondary', t('accept.makeNew'));
   makeNew.href = '#/make';
@@ -121,21 +124,33 @@ function showAccept(container, payload, challenge, items, data, isAlive) {
   } else {
     pickBox.append(cardPicker(items, data, {
       selectedKey: state.cardKey,
-      onPick: (item) => { state.cardKey = cardKey(item.card); update(); },
+      onPick: (item) => {
+        state.cardKey = cardKey(item.card);
+        planBox?.setMoveName(moveName(item.card, data));
+        update();
+      },
       isAlive,
     }));
   }
   pickBox.append(makeNew);
 
-  // Your tactic
-  const tacticBox = group(t('challenge.tactic'), t('accept.tacticHint'));
-  const options = el('div', 'options');
-  for (const id of TACTICS) {
-    const { label, input } = radio('tactic', id, state.tactic === id, t(`tactics.${id}.name`), t(`tactics.${id}.desc`));
-    input.addEventListener('change', () => { state.tactic = id; });
-    options.append(label);
+  // Your plan for the 3 rounds (plan challenges, rules v3) or your tactic (older challenges)
+  let tacticBox;
+  if (challenge.plan) {
+    planBox = planPicker({ plan: state.plan, rules: data.config.planBattle, hint: t('plan.hintAccept') });
+    const chosen = items.find((item) => cardKey(item.card) === state.cardKey);
+    if (chosen) planBox.setMoveName(moveName(chosen.card, data));
+    tacticBox = planBox.el;
+  } else {
+    tacticBox = group(t('challenge.tactic'), t('accept.tacticHint'));
+    const options = el('div', 'options');
+    for (const id of TACTICS) {
+      const { label, input } = radio('tactic', id, state.tactic === id, t(`tactics.${id}.name`), t(`tactics.${id}.desc`));
+      input.addEventListener('change', () => { state.tactic = id; });
+      options.append(label);
+    }
+    tacticBox.append(options);
   }
-  tacticBox.append(options);
 
   const go = el('button', 'btn btn-primary btn-block btn-fight', t('accept.fight'));
   go.type = 'button';
@@ -143,7 +158,8 @@ function showAccept(container, payload, challenge, items, data, isAlive) {
     const mine = items.find((item) => cardKey(item.card) === state.cardKey);
     if (!mine) return;
     state.fought = true;
-    lockFight(challenge.nonce, { card: mine.card, tactic: state.tactic, name: myName().trim() });
+    const how = challenge.plan ? { plan: [...state.plan] } : { tactic: state.tactic };
+    lockFight(challenge.nonce, { card: mine.card, ...how, name: myName().trim() });
     fight(container, challenge, items, data, { animate: true, isAlive });
     window.scrollTo(0, 0);
   });
@@ -156,9 +172,10 @@ function showAccept(container, payload, challenge, items, data, isAlive) {
 
 function fight(container, challenge, items, data, { animate, isAlive, notice = '' }) {
   // The locked fight (if any) wins over the current picks.
+  const how = challenge.plan ? { plan: state.locked?.plan ?? state.plan } : { tactic: state.locked?.tactic ?? state.tactic };
   const mine = state.locked
-    ? { card: state.locked.card, tactic: state.locked.tactic, name: state.locked.name ?? myName() }
-    : { ...items.find((item) => cardKey(item.card) === state.cardKey), tactic: state.tactic, name: myName() };
+    ? { card: state.locked.card, ...how, name: state.locked.name ?? myName() }
+    : { ...items.find((item) => cardKey(item.card) === state.cardKey), ...how, name: myName() };
   if (!mine.card) {
     state.fought = false;
     mountChallengeReceived(container, state.payload);
@@ -166,8 +183,8 @@ function fight(container, challenge, items, data, { animate, isAlive, notice = '
   }
   const match = {
     cards: [withAlbumPhoto(challenge.card), withAlbumPhoto(mine.card)],
-    tactics: [challenge.tactic, mine.tactic],
-    seed: battleSeed(challenge.nonce, mine.card, mine.tactic),
+    ...(challenge.plan ? { plans: [challenge.plan, mine.plan] } : { tactics: [challenge.tactic, mine.tactic] }),
+    seed: battleSeed(challenge.nonce, mine.card, strategyText(mine.tactic, mine.plan)),
     nonce: challenge.nonce,
     penalty: challenge.penalty,
     people: [challenge.name.trim(), (mine.name ?? '').trim()],

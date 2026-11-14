@@ -3,7 +3,7 @@
 
 import { t } from './i18n.js';
 import { loadCardData } from './carddata.js';
-import { CUSTOM, clipText, textLength, isBlocked, sampleIds } from './card.js';
+import { CUSTOM, clipText, textLength, isBlocked, sampleIds, resolveSkill } from './card.js';
 import { TACTICS } from './battle.js';
 import { randomSeed } from './rng.js';
 import { isPenaltyValid, penaltyText } from './challenge-model.js';
@@ -14,6 +14,8 @@ import { renderChallenge } from './render-challenge.js';
 import { createSharePanel, challengeLink } from './share.js';
 import { nameField } from './reveal.js';
 import { startNewCard } from './builder.js';
+import { planPicker, DEFAULT_PLAN } from './planpicker.js';
+import { isTestServer } from './newyear.js';
 
 // Kept in memory while the page is open (survives a language switch).
 let state = null;
@@ -58,8 +60,22 @@ function newState(items) {
   pendingCard = null;
   const penalty = pendingPenalty ? { ...pendingPenalty } : { id: 'p1', text: '' };
   pendingPenalty = null;
-  return { cardKey: first, penalty, tactic: 'chaos', sent: null };
+  return { cardKey: first, penalty, tactic: 'chaos', plan: [...DEFAULT_PLAN], sent: null };
 }
+
+// New challenges use plan battles (rules v3) when config.json → planBattle.enabled is on,
+// or on a local test server with ?plans in the address.
+export function plansOn(config) {
+  if (config.planBattle?.enabled) return true;
+  try {
+    return isTestServer() && new URLSearchParams(location.search).has('plans');
+  } catch {
+    return false;
+  }
+}
+
+// Name of a card's signature move, for the plan picker.
+export const moveName = (card, data) => resolveSkill(card.move, data.skills.move).name;
 
 export async function mountChallenge(container) {
   const token = ++mountToken;
@@ -100,10 +116,15 @@ function showSetup(container, data, items, token) {
     container.replaceChildren(section);
     return;
   }
+  const usePlans = plansOn(data.config);
+  let picker = null;
   if (!items.some((item) => cardKey(item.card) === state.cardKey)) state.cardKey = cardKey(items[0].card);
   cardBox.append(cardPicker(items, data, {
     selectedKey: state.cardKey,
-    onPick: (item) => { state.cardKey = cardKey(item.card); },
+    onPick: (item) => {
+      state.cardKey = cardKey(item.card);
+      picker?.setMoveName(moveName(item.card, data));
+    },
     isAlive: () => token === mountToken,
   }));
 
@@ -158,15 +179,23 @@ function showSetup(container, data, items, token) {
   customFields.append(fieldHead, textInput, error);
   penaltyBox.append(...[options, morePenalties, customFields].filter(Boolean));
 
-  // 3. Tactic (hidden from the opponent)
-  const tacticBox = group(t('challenge.tactic'), t('challenge.tacticHint'));
-  const tactics = el('div', 'options');
-  for (const id of TACTICS) {
-    const { label, input } = radio('tactic', id, state.tactic === id, t(`tactics.${id}.name`), t(`tactics.${id}.desc`));
-    input.addEventListener('change', () => { state.tactic = id; });
-    tactics.append(label);
+  // 3. Plan for the 3 rounds (rules v3), or the older tactic — both hidden from the opponent
+  let tacticBox;
+  if (usePlans) {
+    picker = planPicker({ plan: state.plan, rules: data.config.planBattle, hint: t('plan.hint') });
+    const chosen = items.find((x) => cardKey(x.card) === state.cardKey);
+    if (chosen) picker.setMoveName(moveName(chosen.card, data));
+    tacticBox = picker.el;
+  } else {
+    tacticBox = group(t('challenge.tactic'), t('challenge.tacticHint'));
+    const tactics = el('div', 'options');
+    for (const id of TACTICS) {
+      const { label, input } = radio('tactic', id, state.tactic === id, t(`tactics.${id}.name`), t(`tactics.${id}.desc`));
+      input.addEventListener('change', () => { state.tactic = id; });
+      tactics.append(label);
+    }
+    tacticBox.append(tactics);
   }
-  tacticBox.append(tactics);
 
   // 4. Your name (shown on the challenge)
   const maker = nameField(data);
@@ -179,7 +208,7 @@ function showSetup(container, data, items, token) {
     if (!item || !isPenaltyValid(state.penalty, data)) return;
     state.sent = {
       card: { ...item.card, from: item.card.from ?? '' },
-      tactic: state.tactic,
+      ...(usePlans ? { plan: [...state.plan] } : { tactic: state.tactic }),
       penalty: state.penalty.id === CUSTOM ? { id: CUSTOM, text: state.penalty.text.trim() } : { id: state.penalty.id, text: '' },
       name: maker.value(),
       nonce: randomSeed(10),

@@ -237,6 +237,29 @@
       <tr><td>Payload length</td><td>${rPayload.length} · <a href="../#r=${rPayload}" target="_blank">open</a></td></tr>
       ${rRows.join('')}</table>`;
 
+    // Plan links (challenge v2 / replay v2, rules v3); v1 links still come back with tactics.
+    const planCh = { card: samples[1].card, plan: ['attack', 'defend', 'special'], penalty: { id: 'p2', text: '' }, name: '阿明', nonce: 'plan12345' };
+    const planChBack = await decodeChallenge(await encodeChallenge(planCh));
+    const planRp = { cards: [samples[0].card, samples[3].card], plans: [['special', 'attack', 'attack'], ['defend', 'defend', 'special']], penalty: { id: 'custom', text: '請食飯' }, people: ['阿明', 'Jessica'], nonce: 'plan12345', rules: 3 };
+    const planRpBack = await decodeReplay(await encodeReplay(planRp));
+    const v1Back = await decodeChallenge(await encodeChallenge({ ...planCh, plan: undefined, tactic: 'defend' }));
+    const planBad = [];
+    for (const [label, plan] of [['two specials', 'ssa'], ['unknown letter', 'axd'], ['too short', 'ad']]) {
+      let res;
+      try {
+        const back = await decodeChallenge(await encodeChallenge({ ...planCh, plan: [...plan].map((x) => ({ a: 'attack', d: 'defend', s: 'special', x: 'jump' })[x]) }));
+        res = isChallengeValid(back, cdata) ? '❌ accepted' : '✅ rejected (invalid plan)';
+      } catch (err) {
+        res = err instanceof CodecError ? `✅ rejected (${err.code})` : `❌ crashed: ${esc(err.message)}`;
+      }
+      planBad.push(`<tr><td>Plan challenge, ${esc(label)}</td><td>${res}</td></tr>`);
+    }
+    const planHtml = `<h3 style="font-size:15px;margin:12px 0 4px">Plan links (challenge v2, replay v2)</h3><table>
+      <tr><td>Plan challenge round trip + valid</td><td>${JSON.stringify(planChBack.plan) === JSON.stringify(planCh.plan) && isChallengeValid(planChBack, cdata) ? '✅' : '❌'}</td></tr>
+      <tr><td>Plan replay round trip + valid</td><td>${JSON.stringify(planRpBack.plans) === JSON.stringify(planRp.plans) && isReplayValid(planRpBack, cdata) ? '✅' : '❌'}</td></tr>
+      <tr><td>Tactic challenge still v1, comes back with its tactic</td><td>${v1Back.tactic === 'defend' && !v1Back.plan ? '✅' : '❌'}</td></tr>
+      ${planBad.join('')}</table>`;
+
     // Album export links: round trip, one broken entry is skipped (not fatal).
     const { encodeAlbum, decodeAlbum } = await import('../js/codec.js');
     const albumItems = samples.slice(0, 4).map((s, i) => ({ card: { ...s.card, from: i ? '阿明' : '' }, source: i % 2 ? 'received' : 'made' }));
@@ -248,7 +271,7 @@
       <tr><td>Payload length</td><td>${aPayload.length} · <a href="../#a=${aPayload}" target="_blank">open</a></td></tr>
       <tr><td>Broken entries skipped, good one kept</td><td>${withBroken.items.length === 1 && withBroken.broken === 2 ? '✅' : '❌'}</td></tr></table>`;
 
-    document.getElementById('challenges').innerHTML = albumHtml + `<table><tr><th>Sample</th><th>Round trip</th><th>Valid</th><th>Payload length</th><th>Challenge view</th></tr>${chRows.join('')}</table>
+    document.getElementById('challenges').innerHTML = planHtml + albumHtml + `<table><tr><th>Sample</th><th>Round trip</th><th>Valid</th><th>Payload length</th><th>Challenge view</th></tr>${chRows.join('')}</table>
       <p></p><table><tr><th>Broken case</th><th>Result</th><th>View</th></tr>${xRows.join('')}</table>${replayHtml}`;
 
     const box = document.getElementById('cards');

@@ -341,6 +341,19 @@
     "rat": "鼠", "ox": "牛", "tiger": "虎", "rabbit": "兔", "dragon": "龙", "snake": "蛇",
     "horse": "马", "goat": "羊", "monkey": "猴", "rooster": "鸡", "dog": "狗", "pig": "猪"
   },
+  "plan": {
+    "title": "排好三回合的出招",
+    "hint": "对方不会知道你怎么出，开打后逐回合揭晓 🤫",
+    "hintAccept": "对方也排好了，开打后逐回合揭晓 🤫",
+    "rules": "⚔️ 打断 💥 ｜ 🛡️ 挡住 ⚔️ 还反击 ｜ 💥 贯穿 🛡️",
+    "round": "第 {n} 回合",
+    "attack": "攻击",
+    "defend": "防守",
+    "special": "必杀技",
+    "icon": { "attack": "⚔️", "defend": "🛡️", "special": "💥" },
+    "specialNote": "💥 必杀技是“{move}”，整场只能用一次",
+    "random": "🎲 随机排"
+  },
   "choices": {
     "more": "🔄 换一批"
   },

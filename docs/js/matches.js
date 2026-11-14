@@ -37,13 +37,14 @@ export function wasSent(nonce) {
   return read().sent.includes(nonce);
 }
 
-// fight = { card, tactic, name } chosen by this phone to answer the challenge.
+// fight = { card, tactic | plan, name } chosen by this phone to answer the challenge.
 export function lockFight(nonce, fight) {
   const store = read();
   if (store.fought.some((x) => x.nonce === nonce)) return;
   // The photo stays in the album only (withAlbumPhoto brings it back); this list stays small.
   const { photo, ...card } = fight.card;
-  store.fought.unshift({ nonce, card, tactic: fight.tactic, name: fight.name ?? '', at: Date.now() });
+  const how = fight.plan ? { plan: fight.plan } : { tactic: fight.tactic };
+  store.fought.unshift({ nonce, card, ...how, name: fight.name ?? '', at: Date.now() });
   write(store);
 }
 

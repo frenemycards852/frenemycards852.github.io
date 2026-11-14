@@ -182,39 +182,57 @@ export async function decodeCard(payload) {
 // ---------- public: challenges (#x=) ----------
 //
 // Challenge v1 JSON: [card array (as above), tactic ("a"|"d"|"c"), penalty, challenger name, nonce]
+// Challenge v2 JSON: same, but a 3-round plan instead of the tactic: one letter per round,
+//   "a" attack, "d" defend, "s" special (e.g. "ads"). Plan battles, rules v3.
 //   penalty: preset number (p2 → 2) or custom text
 
-export const CHALLENGE_VERSION = 1;
+export const CHALLENGE_VERSION = 2;
 
 const TACTIC_CODE = { attack: 'a', defend: 'd', chaos: 'c' };
 const TACTIC_FROM_CODE = { a: 'attack', d: 'defend', c: 'chaos' };
+const ACTION_CODE = { attack: 'a', defend: 'd', special: 's' };
+const ACTION_FROM_CODE = { a: 'attack', d: 'defend', s: 'special' };
 
-// challenge = { card, tactic, penalty: { id, text }, name, nonce }
+const packPlan = (plan) => plan.map((a) => ACTION_CODE[a]).join('');
+
+function unpackPlan(value) {
+  if (typeof value !== 'string' || value.length < 1 || value.length > 9) throw new CodecError('corrupt', 'bad plan');
+  const plan = [...value].map((c) => ACTION_FROM_CODE[c]);
+  if (plan.some((a) => !a)) throw new CodecError('corrupt', 'bad plan');
+  return plan;
+}
+
+// challenge = { card, tactic | plan, penalty: { id, text }, name, nonce }
 export async function encodeChallenge(challenge) {
-  const { card, tactic, penalty, name, nonce } = challenge;
+  const { card, tactic, plan, penalty, name, nonce } = challenge;
   const packedPenalty = penalty.id === 'custom' ? penalty.text.trim() : Number(penalty.id.slice(1));
-  return encodeList([pack(card), TACTIC_CODE[tactic], packedPenalty, name ?? '', nonce], CHALLENGE_VERSION);
+  return plan
+    ? encodeList([pack(card), packPlan(plan), packedPenalty, name ?? '', nonce], 2)
+    : encodeList([pack(card), TACTIC_CODE[tactic], packedPenalty, name ?? '', nonce], 1);
 }
 
 export async function decodeChallenge(payload) {
   const list = await decodeList(payload, CHALLENGE_VERSION);
+  const version = Number(payload[0]);
   if (!Array.isArray(list) || list.length < 5) throw new CodecError('corrupt', 'bad shape');
-  const [card, tactic, penalty, name, nonce] = list;
-  if (!(tactic in TACTIC_FROM_CODE)) throw new CodecError('corrupt', 'bad tactic');
+  const [card, how, penalty, name, nonce] = list;
+  if (version === 1 && !(how in TACTIC_FROM_CODE)) throw new CodecError('corrupt', 'bad tactic');
   if (typeof name !== 'string' || typeof nonce !== 'string') throw new CodecError('corrupt', 'bad fields');
   let penaltyEntry;
   if (Number.isInteger(penalty)) penaltyEntry = { id: `p${penalty}`, text: '' };
   else if (typeof penalty === 'string') penaltyEntry = { id: 'custom', text: penalty };
   else throw new CodecError('corrupt', 'bad penalty');
-  return { card: unpack(card), tactic: TACTIC_FROM_CODE[tactic], penalty: penaltyEntry, name, nonce };
+  const strategy = version === 1 ? { tactic: TACTIC_FROM_CODE[how] } : { plan: unpackPlan(how) };
+  return { card: unpack(card), ...strategy, penalty: penaltyEntry, name, nonce };
 }
 
 // ---------- public: replays (#r=) ----------
 //
 // Replay v1 JSON: [card A, card B, tactic A, tactic B, penalty, name A, name B, nonce, battle rules version]
-// The battle seed is rebuilt from the nonce + card B + tactic B, exactly like when it was fought.
+// Replay v2 JSON: same, with plan A and plan B (e.g. "ads") instead of the tactics (plan battles).
+// The battle seed is rebuilt from the nonce + card B + tactic / plan B, exactly like when it was fought.
 
-export const REPLAY_VERSION = 1;
+export const REPLAY_VERSION = 2;
 
 const packPenalty = (penalty) => (penalty.id === 'custom' ? penalty.text.trim() : Number(penalty.id.slice(1)));
 
@@ -224,26 +242,31 @@ function unpackPenalty(value) {
   throw new CodecError('corrupt', 'bad penalty');
 }
 
-// replay = { cards: [a, b], tactics: [ta, tb], penalty, people: [nameA, nameB], nonce, rules }
+// replay = { cards: [a, b], tactics: [ta, tb] | plans: [pa, pb], penalty, people: [nameA, nameB], nonce, rules }
 export async function encodeReplay(replay) {
-  const { cards, tactics, penalty, people, nonce, rules } = replay;
+  const { cards, tactics, plans, penalty, people, nonce, rules } = replay;
+  const how = plans ? plans.map(packPlan) : tactics.map((x) => TACTIC_CODE[x]);
   return encodeList([
-    pack(cards[0]), pack(cards[1]), TACTIC_CODE[tactics[0]], TACTIC_CODE[tactics[1]],
+    pack(cards[0]), pack(cards[1]), how[0], how[1],
     packPenalty(penalty), people[0] ?? '', people[1] ?? '', nonce, rules,
-  ], REPLAY_VERSION);
+  ], plans ? 2 : 1);
 }
 
 export async function decodeReplay(payload) {
   const list = await decodeList(payload, REPLAY_VERSION);
+  const version = Number(payload[0]);
   if (!Array.isArray(list) || list.length < 9) throw new CodecError('corrupt', 'bad shape');
   const [a, b, ta, tb, penalty, nameA, nameB, nonce, rules] = list;
-  if (!(ta in TACTIC_FROM_CODE) || !(tb in TACTIC_FROM_CODE)) throw new CodecError('corrupt', 'bad tactic');
+  if (version === 1 && (!(ta in TACTIC_FROM_CODE) || !(tb in TACTIC_FROM_CODE))) throw new CodecError('corrupt', 'bad tactic');
   if ([nameA, nameB, nonce].some((x) => typeof x !== 'string') || !Number.isInteger(rules)) {
     throw new CodecError('corrupt', 'bad fields');
   }
+  const strategy = version === 1
+    ? { tactics: [TACTIC_FROM_CODE[ta], TACTIC_FROM_CODE[tb]] }
+    : { plans: [unpackPlan(ta), unpackPlan(tb)] };
   return {
     cards: [unpack(a), unpack(b)],
-    tactics: [TACTIC_FROM_CODE[ta], TACTIC_FROM_CODE[tb]],
+    ...strategy,
     penalty: unpackPenalty(penalty),
     people: [nameA, nameB],
     nonce,

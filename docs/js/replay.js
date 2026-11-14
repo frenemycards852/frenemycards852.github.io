@@ -4,7 +4,7 @@
 import { t } from './i18n.js';
 import { loadCardData } from './carddata.js';
 import { decodeReplay, CodecError } from './codec.js';
-import { isReplayValid, battleSeed } from './challenge-model.js';
+import { isReplayValid, battleSeed, strategyText } from './challenge-model.js';
 import { showError } from './cardview.js';
 import { loadBattleData, showBattle, resultSharePanel } from './battleview.js';
 import { resultActions } from './accept.js';
@@ -54,8 +54,8 @@ export async function mountReplay(container, payload) {
 
   const match = {
     cards: replay.cards.map(withAlbumPhoto),
-    tactics: replay.tactics,
-    seed: battleSeed(replay.nonce, replay.cards[1], replay.tactics[1]),
+    ...(replay.plans ? { plans: replay.plans } : { tactics: replay.tactics }),
+    seed: battleSeed(replay.nonce, replay.cards[1], strategyText(replay.tactics?.[1], replay.plans?.[1])),
     nonce: replay.nonce,
     penalty: replay.penalty,
     people: replay.people,
@@ -64,7 +64,7 @@ export async function mountReplay(container, payload) {
   const notices = [viewer === 0
     ? t('replay.introYou', { name: other(1) })
     : t('replay.intro', { a: other(0), b: other(1) })];
-  if (replay.rules !== data.config.battle.version) notices.push(t('replay.oldRules'));
+  if (replay.rules !== (replay.plans ? data.config.planBattle : data.config.battle).version) notices.push(t('replay.oldRules'));
 
   const play = (animate) => {
     watched = payload;

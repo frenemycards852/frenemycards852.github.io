@@ -1,6 +1,6 @@
 // Challenge rules: checks and display text for challenges. No DOM access.
 
-import { TACTICS } from './battle.js';
+import { TACTICS, isPlanValid } from './battle.js';
 import { CUSTOM, isCardValid, isBlocked, textLength } from './card.js';
 import { cardKey } from './mycards.js';
 
@@ -18,7 +18,7 @@ export function isPenaltyValid(penalty, { config, penalties, blocklist }) {
 export function isChallengeValid(challenge, data) {
   const { config, blocklist } = data;
   return isCardValid(challenge.card, data)
-    && TACTICS.includes(challenge.tactic)
+    && (challenge.plan ? isPlanValid(challenge.plan, config.planBattle) : TACTICS.includes(challenge.tactic))
     && isPenaltyValid(challenge.penalty, data)
     && textLength(challenge.name) <= config.card.nameMax
     && !isBlocked(challenge.name, blocklist.terms)
@@ -29,11 +29,16 @@ export function isChallengeValid(challenge, data) {
 export function isReplayValid(replay, data) {
   const { config, blocklist } = data;
   return replay.cards.every((card) => isCardValid(card, data))
-    && replay.tactics.every((tactic) => TACTICS.includes(tactic))
+    && (replay.plans
+      ? replay.plans.length === 2 && replay.plans.every((plan) => isPlanValid(plan, config.planBattle))
+      : replay.tactics.every((tactic) => TACTICS.includes(tactic)))
     && isPenaltyValid(replay.penalty, data)
     && replay.people.every((name) => textLength(name) <= config.card.nameMax && !isBlocked(name, blocklist.terms))
     && NONCE.test(replay.nonce);
 }
+
+// How a side fights, as text: a tactic id (rules v2) or the plan letters joined (rules v3).
+export const strategyText = (tactic, plan) => (plan ? plan.join(',') : tactic);
 
 // Battle seed: the challenger's random nonce + the defender's card and tactic,
 // so the challenger can't know the result before sending. Plain JSON (not the

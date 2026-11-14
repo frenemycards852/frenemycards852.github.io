@@ -3641,3 +3641,86 @@ h1 {
 .new-year .home-stage .home-tagline {
   color: #fff1dc;
 }
+
+/* Plan picker (planpicker.js): one row per round, three big choices each. */
+.plan-rules {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.plan-round {
+  display: grid;
+  grid-template-columns: 4.5em 1fr;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.plan-round-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.plan-choices {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.plan-choice {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  min-height: 56px;
+  padding: 6px 2px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  cursor: pointer;
+  user-select: none;
+}
+
+.plan-choice input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.plan-icon {
+  font-size: 22px;
+  line-height: 1.1;
+}
+
+.plan-name {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.plan-choice:has(input:checked) {
+  background: var(--primary);
+  color: var(--primary-text);
+  box-shadow: 0 3px 0 var(--border);
+  transform: translateY(-2px);
+}
+
+/* :has fallback (older Safari): the checked state still shows through the outline. */
+.plan-choice input:checked + .plan-icon {
+  filter: drop-shadow(0 0 2px #fff);
+}
+
+.plan-choice input:focus-visible ~ .plan-name {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.plan-choice.locked {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.plan-note {
+  margin: 4px 0 0;
+}
